@@ -16,7 +16,7 @@ public class OrderPO {
 			String receiverAddress, String receiverTel, String receiverCell,
 			String goodsInfo, double weight, double size, double cost) {
 		super();
-		this.state = GoodsState.complete;
+		this.state = GoodsState.COMPLETE;
 		this.orderId = orderId;
 		this.wrapWay = wrapWay;
 		this.deliverWay = deliverWay;
