@@ -1,21 +1,26 @@
 package dataservice;
 
+import java.rmi.RemoteException;
 import java.util.List;
 
 import po.LoadPO;
 
 public interface LoadDataService {
     
-    public boolean insert(LoadPO po);
+    public boolean insert(LoadPO po) throws RemoteException;
     
-    public boolean delete(LoadPO po);
+    public boolean delete(LoadPO po) throws RemoteException;
     
-    public boolean update(LoadPO po);
+    public boolean update(LoadPO po) throws RemoteException;
     
-    public LoadPO find(long id);
+    public LoadPO find(long id) throws RemoteException;
     
-    public List<LoadPO> finds(String field, Object value);
+    public List<LoadPO> finds(String field, Object value) throws RemoteException;
     
-    public List<LoadPO> getAll();
+    public List<LoadPO> getAll() throws RemoteException;
+    
+    public void init() throws RemoteException;
+    
+    public void finish() throws RemoteException; 
 
 }
