@@ -5,5 +5,5 @@ import java.util.List;
 
 public interface StatisticsblService {
 
-	public List<LogisticsDocumentPO>  queryStatistics (Date begindate, Date enddate);
+	public List<Object>  queryStatistics (Date begindate, Date enddate);
 }
