@@ -2,9 +2,19 @@ package businesslogicservice;
 
 import systemenum.DocumentState;
 
-public interface LogisticsDocument {
+public abstract class LogisticsDocument {
     
-    public DocumentState documentState = DocumentState.Editing;
+    protected DocumentState documentState = DocumentState.Editing;
     
-    public void execute();
+    public abstract void execute();
+
+    public DocumentState getDocumentState() {
+        return documentState;
+    }
+
+    public void setDocumentState(DocumentState documentState) {
+        this.documentState = documentState;
+    }
+    
+    
 }
