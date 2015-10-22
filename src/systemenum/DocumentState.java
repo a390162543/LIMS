@@ -2,6 +2,6 @@ package systemenum;
 
 public enum DocumentState {
     
-    Editing,Pending,PASS
+    EDITING,PENDING,PASS
     
 }

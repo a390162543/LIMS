@@ -4,7 +4,7 @@ import systemenum.DocumentState;
 
 public abstract class LogisticsDocument {
     
-    protected DocumentState documentState = DocumentState.Editing;
+    protected DocumentState documentState = DocumentState.EDITING;
     
     public abstract void execute();
 
