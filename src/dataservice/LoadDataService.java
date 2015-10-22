@@ -7,11 +7,11 @@ import po.LoadPO;
 
 public interface LoadDataService {
     
-    public boolean insert(LoadPO po) throws RemoteException;
+    public void insert(LoadPO po) throws RemoteException;
     
-    public boolean delete(LoadPO po) throws RemoteException;
+    public void delete(LoadPO po) throws RemoteException;
     
-    public boolean update(LoadPO po) throws RemoteException;
+    public void update(LoadPO po) throws RemoteException;
     
     public LoadPO find(long id) throws RemoteException;
     

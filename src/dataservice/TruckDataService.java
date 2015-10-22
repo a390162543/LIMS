@@ -7,11 +7,11 @@ import po.TruckPO;
 
 public interface TruckDataService {
     
-    public boolean insert(TruckPO po) throws RemoteException;
+    public void insert(TruckPO po) throws RemoteException;
     
-    public boolean delete(TruckPO po) throws RemoteException;
+    public void delete(TruckPO po) throws RemoteException;
     
-    public boolean update(TruckPO po) throws RemoteException;
+    public void update(TruckPO po) throws RemoteException;
     
     public TruckPO find(long id) throws RemoteException;
     

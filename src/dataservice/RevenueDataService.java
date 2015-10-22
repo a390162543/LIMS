@@ -7,11 +7,11 @@ import po.RevenuePO;
 
 public interface RevenueDataService {
     
-    public boolean insert(RevenuePO po) throws RemoteException;
+    public void insert(RevenuePO po) throws RemoteException;
     
-    public boolean delete(RevenuePO po) throws RemoteException;
+    public void delete(RevenuePO po) throws RemoteException;
     
-    public boolean update(RevenuePO po) throws RemoteException;
+    public void update(RevenuePO po) throws RemoteException;
     
     public RevenuePO find(long id) throws RemoteException;
     

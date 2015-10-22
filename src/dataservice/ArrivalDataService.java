@@ -7,11 +7,11 @@ import po.ArrivalPO;
 
 public interface ArrivalDataService {
     
-    public boolean insert(ArrivalPO po) throws RemoteException;
+    public void insert(ArrivalPO po) throws RemoteException;
     
-    public boolean delete(ArrivalPO po) throws RemoteException;
+    public void delete(ArrivalPO po) throws RemoteException;
     
-    public boolean update(ArrivalPO po) throws RemoteException;
+    public void update(ArrivalPO po) throws RemoteException;
     
     public ArrivalPO find(long id) throws RemoteException;
     

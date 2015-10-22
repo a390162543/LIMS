@@ -7,11 +7,11 @@ import po.DeliverPO;
 
 public interface DeliverDataService {
     
-    public boolean insert(DeliverPO po) throws RemoteException;
+    public void insert(DeliverPO po) throws RemoteException;
     
-    public boolean delete(DeliverPO po) throws RemoteException;
+    public void delete(DeliverPO po) throws RemoteException;
     
-    public boolean update(DeliverPO po) throws RemoteException;
+    public void update(DeliverPO po) throws RemoteException;
     
     public DeliverPO find(long id) throws RemoteException;
     
