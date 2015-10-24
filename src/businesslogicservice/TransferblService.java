@@ -1,17 +1,17 @@
 package businesslogicservice;
 
-import java.util.Date;
 import java.util.List;
 
 import po.TransferPO;
+import vo.TransferVO;
 
 public interface TransferblService {
-	public TransferPO createTransferPO(Date loadDate, long transferID, 
-			long flightNumber, String depart, String destination,long containerId,
-			String loadMan, List<Long> orderId, double expenses);
+	public TransferPO createTransferPO(TransferVO vo);
 	
 	
-	public double getCost(String depart, String destination);
+	public double getCost(TransferVO vo);
 	
-	public List<TransferPO> getTransferPO();
+	public List<TransferVO> getTransferPO();
+	
+	public boolean execute(TransferVO vo);
 }

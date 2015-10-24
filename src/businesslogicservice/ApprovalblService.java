@@ -4,9 +4,11 @@ import java.util.List;
 import po.ApprovalPO;
 public interface ApprovalblService {
 	
-	public boolean add(LogisticsDocument LD);
+	public boolean add(Object o);
 	
 	public List<ApprovalPO>  getApprovalPO();
 		
-	public boolean approve(LogisticsDocument LD);
+	public boolean approve();
+	
+	public boolean modifyDocument(Object o);
 }

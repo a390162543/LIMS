@@ -4,19 +4,18 @@ import java.util.List;
 
 import po.UserPO;
 import systemenum.Power;
+import vo.UserVO;
 
 public interface UserblService {
-	public UserPO creatUserPO(long id, String password, Power power);
+	public UserPO creatUserPO(UserVO vo);
 	
-	public boolean deleteUserPO();
+	public boolean deleteUserPO(UserVO vo);
 	
-	public boolean queryUserPO();
+	public boolean queryUserPO(UserVO vo);
 	
-	public boolean initialize();
+	public boolean initialize(UserVO vo);
 	
-	public boolean modifyPower(Power power);
-	
-	public boolean setFocuedUserPO(int index);
-	
-	public List<UserPO> getUserPO();
+	public boolean modifyPower(UserVO vo);
+	 
+	public List<UserVO> getUserPO();
 }

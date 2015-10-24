@@ -4,23 +4,20 @@ import java.util.List;
 
 import po.EmployeePO;
 import systemenum.Position;
+import vo.EmployeeVO;
 
 public interface EmployeeblService {
-	public EmployeePO creatEmloyeePO(long id, String name, String organization,
-			Position  position );
+	public EmployeeVO creatEmloyeePO(EmployeeVO vo);
 	
-	public boolean deleteEmloyeePO ();
+	public boolean deleteEmloyeePO (EmployeeVO vo);
 	
-	public boolean modifyEmloyeePO (long id, String name, String organization,
-			Position position);
+	public boolean modifyEmloyeePO (EmployeeVO vo);
 	
-	public boolean queryEmployeePO();
+	public boolean setFocusedEmployeePO(EmployeeVO vo);
 	
-	public boolean setFocusedEmployeePO(int index);
+	public List< EmployeeVO > getEmployeePO();
 	
-	public List< EmployeePO > getEmployeePO();
+	public boolean isExist(EmployeeVO vo);
 	
-	public boolean isExist(String name);
-	
-	public List< EmployeePO> getSamePositionEmp(Position postion);
+	public List< EmployeeVO> getSamePositionEmp(EmployeeVO vo);
 }

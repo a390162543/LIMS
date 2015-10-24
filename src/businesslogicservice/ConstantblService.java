@@ -1,11 +1,13 @@
 package businesslogicservice;
 
+import vo.ConstantVO;
+
 public interface ConstantblService {
-	public boolean priceModify(double price);
+	public boolean priceModify(ConstantVO vo);
 	
 	public double getPrice();
 	
-	public boolean distanceModify(String city1,String city2,double distance);
+	public boolean distanceModify(ConstantVO vo);
 	
-	public double getDistance(String location1 ,String location2);
+	public double getDistance(ConstantVO vo);
 }

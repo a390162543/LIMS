@@ -3,17 +3,18 @@ package businesslogicservice;
 import java.util.List;
 
 import po.OrganizationPO;
+import vo.OrganizationVO;
 
 public interface OrganizationblService {
-	public OrganizationPO CreatOrganizationPO(long id, String name, String city); 
+	public OrganizationPO CreatOrganizationPO(OrganizationVO vo); 
 	
-	public boolean deleteOrganizationPO ();
+	public boolean deleteOrganizationPO (OrganizationVO vo);
 	
-	public boolean queryTruckPO ();
+	public boolean queryTruckPO (OrganizationVO vo);
 	
-	public boolean setFocusedOrganizationPO(int index);
+	public boolean setFocusedOrganizationPO(OrganizationVO vo);
 	
-	public List<OrganizationPO>  getOrganizationPO();
+	public List<OrganizationVO>  getOrganizationPO();
 	
-	public boolean isExist(String name);
+	public boolean isExist(OrganizationVO vo);
 }

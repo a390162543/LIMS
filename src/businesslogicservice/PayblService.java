@@ -11,5 +11,5 @@ public interface PayblService {
 	
 	public double getMonthlyPay(EmployeePO e);
 	
-	public PayPO createPay(Position p);
+	 
 }

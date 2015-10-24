@@ -6,11 +6,11 @@ import java.util.List;
 import po.ApprovalPO;
 
 public interface ApprovalDataService {
-	public void insert(ApprovalPO po) throws RemoteException;
+	public void insert(Object o) throws RemoteException;
 	    
-	public void delete(ApprovalPO po) throws RemoteException;
+	public void delete(Object o) throws RemoteException;
 	    
-	public void update(ApprovalPO po) throws RemoteException;
+	public void update(Object o) throws RemoteException;
 	    
 	public ApprovalPO find(long id) throws RemoteException;
 		    
