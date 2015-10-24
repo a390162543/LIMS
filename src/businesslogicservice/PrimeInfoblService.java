@@ -1,8 +1,9 @@
 package businesslogicservice;
 
-import po.PrimeInfoPO;
+
+import vo.PrimeInfoVO;
 
 public interface PrimeInfoblService {
 
-	public PrimeInfoPO createPrimeInfoPO ();
+	public boolean createPrimeInfoVO ();
 }

@@ -4,10 +4,12 @@ import java.util.List;
 import java.sql.Date;
 
 import po.LogPO;
+import vo.LogVO;
 
 public interface LogblService {
 	
-	public List<LogPO>  queryLogPO (Date date);
+	public boolean createLogVO (LogVO vo);
 	
-	public boolean addOperation (String operation,Date date);
+	public List<LogVO>  queryLogVO (Date date);
+	
 }

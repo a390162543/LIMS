@@ -1,15 +1,16 @@
 package businesslogicservice;
 
-import po.AccountPO;
+import java.util.List;
+
+import vo.AccountVO;
 
 public interface AccountblService {
-	public  AccountPO createAccountPO(long name, double money);
+	public boolean createAccountVO(AccountVO vo);
 	
-	public  boolean deleteAccountPO();
+	public boolean deleteAccountVO(AccountVO vo);
 	
-	public boolean modifyAccountPO();
+	public boolean modifyAccountVO(AccountVO vo);
 	
-	public boolean queryAccountPO(AccountPO account);
+	public List<AccountVO> getAccountVO();
 	
-	public boolean setFocusedAccountPO(int index);
 }
