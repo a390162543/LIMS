@@ -1,13 +1,11 @@
 package businesslogicservice;
 
-import java.util.Date;
-import java.util.List;
-
-import po.RevenuePO;
+import vo.RevenueVO;
 
 public interface RevenueblService {
     
-    public RevenuePO createRevenuePO(Date RevenueDate,long courierID,
-            double revenue,List<Long> orderID);
+    public boolean createRevenuePO(RevenueVO vo);
+    
+    public boolean execute(RevenueVO vo);
     
 }

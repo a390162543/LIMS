@@ -1,16 +1,14 @@
 package businesslogicservice;
 
-import java.util.Date;
-import java.util.List;
 
-import po.LoadPO;
+import vo.LoadVO;
 
 public interface LoadblService {
     
-    public LoadPO createLoadPO(Date loadingDate,long transportId,
-            String arrive,long truckId,String loadMan,String transMan,
-            List<Long> OrderId);
+    public boolean createLoadPO(LoadVO vo);
     
     public double getCost(String depart,String arrive);
-
+    
+    public boolean execute(LoadVO vo);
+    
 }

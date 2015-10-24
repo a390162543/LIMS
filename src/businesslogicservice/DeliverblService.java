@@ -1,12 +1,11 @@
 package businesslogicservice;
 
-import java.util.Date;
-
-import po.DeliverPO;
+import vo.DeliverVO;
 
 public interface DeliverblService {
 
-    public DeliverPO createDeliverPO(Date DeliverDate,long orderID,
-            long courierID);
+    public boolean createDeliverPO(DeliverVO vo);
+    
+    public boolean execute(DeliverVO vo);
     
 }

@@ -1,15 +1,11 @@
 package businesslogicservice;
 
-import java.util.Date;
-
-import po.ArrivalPO;
-import systemenum.GoodsState;
-
-
+import vo.ArrivalVO;
 
 public interface ArrivalblService {
     
-    public ArrivalPO createArrivalPO(Date arrivalDate,long transferID,
-            String depart,GoodsState gs);
+    public boolean createArrivalPO(ArrivalVO vo);
+    
+    public boolean execute(ArrivalVO vo);
     
 }
