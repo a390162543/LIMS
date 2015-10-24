@@ -10,14 +10,14 @@ import systemenum.GoodsState;
 public class OrderPO {
 	
 	
-	public OrderPO(long orderId, WrapWay wrapWay, DeliveryWay deliverWay,
+	public OrderPO(long id, WrapWay wrapWay, DeliveryWay deliverWay,
 			String senderName, String senderAddress,
 			String senderTel, String senderCell, String receiverName,
 			String receiverAddress, String receiverTel, String receiverCell,
 			String goodsInfo, double weight, double size, double cost) {
 		super();
 		this.state = GoodsState.COMPLETE;
-		this.orderId = orderId;
+		this.id = id;
 		this.wrapWay = wrapWay;
 		this.deliverWay = deliverWay;
 		this.senderName = senderName;
@@ -35,7 +35,7 @@ public class OrderPO {
 	}
 	
 	
-	private long orderId;
+	private long id;
 	
 	WrapWay wrapWay;
     DeliveryWay deliverWay;
@@ -71,7 +71,7 @@ public class OrderPO {
    	
    	
     public long getOrderId() {
-		return orderId;
+		return id;
 	}
 	
 	public String getSenderName() {

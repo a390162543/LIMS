@@ -1,15 +1,14 @@
 package businesslogicservice;
 
-import java.util.Date;
-import java.util.List;
-
-import po.StoreinPO;
+import vo.StoreinCreateVO;
 
 public interface StoreinblService {
 	
 	
-	public StoreinPO createStoreinPO (List<Long> orderId,Date date,List<String> destination,
-			List<Integer> areaNum,List<Integer> rowNum,List<Integer> frameNum, List<Integer> item);
+	public boolean createStoreinPO (StoreinCreateVO vo);
+	
+	public boolean excute (StoreinCreateVO vo);
+	
 	
 	
 	

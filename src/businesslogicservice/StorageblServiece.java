@@ -3,17 +3,18 @@ package businesslogicservice;
 import java.util.Date;
 import java.util.List;
 
-import po.StoragePO;
-import po.StoreinPO;
-import po.StoreoutPO;
+import vo.StorageCheckVO;
+import vo.StorageSetAreaVO;
+import vo.StoreinCreateVO;
+import vo.StoreoutCreateVO;
 
 public interface StorageblServiece {
 	
 	
-	public boolean setArea(int airCapacity, int trainCapacity, int carCapacity, int motorCapacity);
+	public boolean setArea(StorageSetAreaVO vo);
 	
 	
-	public List<StoragePO> storeCheck(Date date);
+	public List<StorageCheckVO> storeCheck(Date date);
 	
 	
 	public double computeRatio();
@@ -25,8 +26,8 @@ public interface StorageblServiece {
 	public boolean setAlarm(double alarm);
 	
 	
-	public List<StoreoutPO> storeoutQuery(Date fromDate,Date toDate);
-	public List<StoreinPO> storeinQuery(Date fromDate,Date toDate);
+	public List<StoreoutCreateVO> storeoutQuery(Date fromDate,Date toDate);
+	public List<StoreinCreateVO> storeinQuery(Date fromDate,Date toDate);
 	
 
 }

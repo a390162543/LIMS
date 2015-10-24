@@ -1,29 +1,29 @@
 package businesslogicservice;
 
-import java.util.Date;
-
-import po.OrderPO;
 import systemenum.DeliveryWay;
 import systemenum.WrapWay;
+import vo.OrderCreateVO;
+import vo.OrderQueryVO;
+import vo.OrderSignVO;
 
 public interface OrderblService {
 	
 	
-	public OrderPO createOrderPO(String senderName,String senderAddress, String senderTel,
-			String senderCell, String receiverName, String receiverAddress, String receiverTel,
-			String receiverCell, String goodsInfo, double weight, double size, WrapWay wrapWay, DeliveryWay deliverWay);
+	public boolean createOrderPO(OrderCreateVO vo);
 	
 	
-	public boolean signOrder(long orderId,String signName,Date date);
+	public boolean signOrder(OrderSignVO vo);
 	
 	
 	//return the information of the order delivery
-	public OrderPO returnOrderPO(long orderId);
+	public OrderQueryVO returnOrderQueryVO(long orderId);
 	
 	
 	//compute the total expense of the current order
 	public double getTotal(String senderAddress ,String receiverAddress,double weight,
 			double size, WrapWay wrapWay, DeliveryWay deliverWay);
 	
+	
+	public boolean excute(OrderCreateVO vo);
 	
 }

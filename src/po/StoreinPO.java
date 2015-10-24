@@ -6,10 +6,11 @@ import java.util.List;
 public class StoreinPO {
 	
 		
-	public StoreinPO(List<Long> orderId, Date inDate, List<String> destination,
+	public StoreinPO(long id,List<Long> orderId, Date inDate, List<String> destination,
 			List<Integer> areaNum, List<Integer> rowNum,
 			List<Integer> frameNum, List<Integer> item) {
 		super();
+		this.id = id;
 		this.orderId = orderId;
 		this.inDate = inDate;
 		this.destination = destination;
@@ -19,6 +20,7 @@ public class StoreinPO {
 		this.item = item;
 	}
 
+	private long id;
 	private List<Long> orderId;
 	private Date inDate;
 	private List<String> destination; 
@@ -27,6 +29,10 @@ public class StoreinPO {
 	private List<Integer> frameNum;
 	private List<Integer> item;
 	
+	
+	public long getStoreinId() {
+		return id;
+	}
 	
 	public List<Long> getOrderId() {
 		return orderId;
