@@ -9,18 +9,14 @@ public interface ArrivalDataService {
     
     public void insert(ArrivalPO po) throws RemoteException;
     
-    public void delete(ArrivalPO po) throws RemoteException;
-    
     public void update(ArrivalPO po) throws RemoteException;
     
     public ArrivalPO find(long id) throws RemoteException;
-    
+       
     public List<ArrivalPO> finds(String field, Object value) throws RemoteException;
-    
-    public List<ArrivalPO> getAll() throws RemoteException;
     
     public void init() throws RemoteException;
     
     public void finish() throws RemoteException; 
-
+    
 }

@@ -6,6 +6,8 @@ public interface RevenueblService {
     
     public boolean createRevenuePO(RevenueVO vo);
     
+    public boolean modifyRevenuePO(RevenueVO vo);
+    
     public boolean execute(RevenueVO vo);
     
 }

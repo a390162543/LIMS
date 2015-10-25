@@ -3,6 +3,8 @@ package po;
 import java.util.Date;
 import java.util.List;
 
+import systemenum.DocumentState;
+
 public class RevenuePO {
     
     private long id;
@@ -10,6 +12,7 @@ public class RevenuePO {
     private long courierID;
     private double revenue;
     private List<Long> orderID;
+    private DocumentState documentState;
     
     public RevenuePO(long id, Date revenueDate, long courierID, double revenue,
             List<Long> orderID) {
@@ -18,6 +21,7 @@ public class RevenuePO {
         this.courierID = courierID;
         this.revenue = revenue;
         this.orderID = orderID;
+        this.documentState = DocumentState.PENDING;
     }
 
     public double getRevenue() {
@@ -42,6 +46,14 @@ public class RevenuePO {
 
     public List<Long> getOrderID() {
         return orderID;
+    }
+
+    public DocumentState getDocumentState() {
+        return documentState;
+    }
+
+    public void setDocumentState(DocumentState documentState) {
+        this.documentState = documentState;
     }
 
 }

@@ -2,6 +2,7 @@ package po;
 
 import java.util.Date;
 
+import systemenum.DocumentState;
 import systemenum.GoodsState;
 
 public class ArrivalPO {
@@ -11,6 +12,7 @@ public class ArrivalPO {
     private long transferId;
     private String depart;
     private GoodsState gs;
+    private DocumentState documentState;
     
     public ArrivalPO(Long id, Date arrivalDate, long transferId,
             String depart, GoodsState gs){
@@ -19,6 +21,7 @@ public class ArrivalPO {
         this.transferId = transferId;
         this.depart = depart;
         this.gs = gs;
+        this.documentState = DocumentState.PENDING;
     }
 
     public long getId() {
@@ -39,6 +42,14 @@ public class ArrivalPO {
 
     public GoodsState getGs() {
         return gs;
+    }
+
+    public DocumentState getDocumentState() {
+        return documentState;
+    }
+
+    public void setDocumentState(DocumentState documentState) {
+        this.documentState = documentState;
     }
 
 }

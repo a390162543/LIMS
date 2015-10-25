@@ -3,6 +3,8 @@ package po;
 import java.util.Date;
 import java.util.List;
 
+import systemenum.DocumentState;
+
 public class LoadPO {
     
     private long id;
@@ -14,6 +16,7 @@ public class LoadPO {
     private String transman;
     private List<Long> OrderId;
     private double cost;
+    private DocumentState documentState;
     
     public LoadPO(long id, Date loadingDate, long transportId, String arrive,
             long truckId, String loadMan, String transman, List<Long> orderId,
@@ -28,6 +31,7 @@ public class LoadPO {
         this.transman = transman;
         OrderId = orderId;
         this.cost = cost;
+        this.documentState = DocumentState.PENDING;
     }
 
     public long getId() {
@@ -64,6 +68,14 @@ public class LoadPO {
 
     public double getCost() {
         return cost;
+    }
+
+    public DocumentState getDocumentState() {
+        return documentState;
+    }
+
+    public void setDocumentState(DocumentState documentState) {
+        this.documentState = documentState;
     }
     
     

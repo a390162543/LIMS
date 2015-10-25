@@ -4,6 +4,8 @@ import java.util.Date;
 
 import javax.swing.ImageIcon;
 
+import systemenum.DocumentState;
+
 public class TruckPO {
     
     private long id;
@@ -12,6 +14,7 @@ public class TruckPO {
     private String chassisNumber;
     private Date purchaseDate;
     private ImageIcon truckImage;
+    private DocumentState documentState;
     
     public TruckPO(long id, String engineNumber, String truckNumber,
             String chassisNumber, Date purchaseDate, ImageIcon truckImage) {
@@ -21,6 +24,7 @@ public class TruckPO {
         this.chassisNumber = chassisNumber;
         this.purchaseDate = purchaseDate;
         this.truckImage = truckImage;
+        this.documentState = DocumentState.PENDING;
     }
 
     public long getId() {
@@ -65,6 +69,14 @@ public class TruckPO {
 
     public void setTruckImage(ImageIcon truckImage) {
         this.truckImage = truckImage;
+    }
+
+    public DocumentState getDocumentState() {
+        return documentState;
+    }
+
+    public void setDocumentState(DocumentState documentState) {
+        this.documentState = documentState;
     }
 
 
