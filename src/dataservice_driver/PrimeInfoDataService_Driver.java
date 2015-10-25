@@ -21,7 +21,7 @@ public class PrimeInfoDataService_Driver {
 		List<OrganizationPO> organizationPOList= new ArrayList<OrganizationPO>();
 		organizationPOList.add(new OrganizationPO(new Long("025001"), "南京市鼓楼区营业厅", "南京市"));
 		List<EmployeePO> employeePOList= new ArrayList<EmployeePO>();
-		employeePOList.add(new EmployeePO(new Long("025001002"), "zhangSan", "南京市鼓楼区营业厅", Position.SELLINGBUSINESSMAN, new PayPO(20.00, 2.00, 2, 2.00, 2.00)));
+		employeePOList.add(new EmployeePO(new Long("025001002"), "zhangSan", "南京市鼓楼区营业厅", Position.SELLINGBUSINESSMAN));
 		List<TruckPO> truckPOList= new ArrayList<TruckPO>();
 		truckPOList.add(new TruckPO(new Long("025001014"), "sdda", "苏A88888", "daffd", new Date(), null));
 		List<StoragePO> storagePOList= new ArrayList<StoragePO>();

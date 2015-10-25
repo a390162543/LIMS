@@ -1,7 +1,7 @@
 package businesslogicservice;
 
 import java.util.List;
-import java.sql.Date;
+import java.util.Date;
 
 import po.LogPO;
 import vo.LogVO;
