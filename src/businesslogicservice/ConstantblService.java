@@ -3,7 +3,7 @@ package businesslogicservice;
 import vo.ConstantVO;
 
 public interface ConstantblService {
-	public boolean priceModify(ConstantVO vo);
+	public boolean priceModify(double price);
 	
 	public double getPrice();
 	

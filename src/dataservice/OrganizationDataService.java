@@ -18,8 +18,6 @@ public interface OrganizationDataService {
 	    
 	    public List<OrganizationPO> getAll() throws RemoteException;
 	    
-	    public void init() throws RemoteException;
-	    
 	    public void finish() throws RemoteException; 
 
 }

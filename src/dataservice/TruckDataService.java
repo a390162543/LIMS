@@ -19,7 +19,7 @@ public interface TruckDataService {
     
     public List<TruckPO> getAll() throws RemoteException;
     
-    public void init() throws RemoteException;
+     
     
     public void finish() throws RemoteException; 
 

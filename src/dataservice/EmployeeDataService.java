@@ -18,8 +18,6 @@ public interface EmployeeDataService {
 	    
 	 public List<EmployeePO> getAll() throws RemoteException;
 	    
-	 public void init() throws RemoteException;
-	    
 	 public void finish() throws RemoteException; 
-
+	 
 }

@@ -12,9 +12,9 @@ public interface OrganizationblService {
 	
 	public boolean queryTruckPO (OrganizationVO vo);
 	
-	public boolean setFocusedOrganizationPO(OrganizationVO vo);
+	 
 	
 	public List<OrganizationVO>  getOrganizationPO();
 	
-	public boolean isExist(OrganizationVO vo);
+	 
 }

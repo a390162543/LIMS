@@ -14,8 +14,6 @@ public interface UserDataService {
 	    
 	    public UserPO find(long id) throws RemoteException;
 	    
-	    public List<UserPO> finds(String field, Object value) throws RemoteException;
-	    
 	    public List<UserPO> getAll() throws RemoteException;
 	    
 	    public void init() throws RemoteException;

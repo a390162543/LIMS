@@ -1,16 +1,27 @@
 package businesslogicservice;
 
+import java.util.Date;
 import java.util.List;
 
-import vo.TruckVO;
+import javax.swing.ImageIcon;
+
+import po.TruckPO;
 
 public interface TruckblService {
     
-    public boolean createTruckPO(TruckVO vo);
+    public TruckPO createTruckPO(long truckID,String engineNumber,
+            String truckNumber,String chassisNumber,Date purchaseDate,
+            ImageIcon truckImage);
     
-    public boolean deleteTruckPO(TruckVO vo);
+    public boolean deleteTruckPO();
     
-    public boolean modifyTruckPO(TruckVO vo);
+    public TruckPO modifyTruckPO(long truckID,String engineNumber,
+            String truckNumber,String chassisNumber,Date purchaseDate,
+            ImageIcon truckImage);
+
+    public TruckPO queryTruckPO();
     
-    public List<TruckVO> getTruckVO();
+    public boolean setFocusedTruckPO(int index);
+    
+    public List<TruckPO> getTruckPO();
 }
