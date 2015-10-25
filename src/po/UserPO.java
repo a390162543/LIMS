@@ -7,10 +7,10 @@ public class UserPO {
 	private String password;
 	private Power power;
 	
-	public UserPO(long id, String password, Power power){
+	public UserPO(long id, String password ){
 		this.id = id;
 		this.password = password;
-		this.power = power;
+	 
 	}
 
 	public long getId() {

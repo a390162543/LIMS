@@ -9,4 +9,12 @@ public class EmployeeVO {
 	private String organization;
 	private Position position;
 	private PayPO pay;
+	
+	public EmployeeVO(long i, String n, String o, Position p ){
+		id= i;
+		name = n;
+		organization = o;
+		position = p;
+		 	
+	}
 }

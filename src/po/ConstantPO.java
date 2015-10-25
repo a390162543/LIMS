@@ -7,10 +7,7 @@ public class ConstantPO {
 	private double price;
 	Map<String,Double> map = new HashMap<String,Double>();
 	
-	public ConstantPO(double price){
-		this.price = price;
-	}
-	
+	 
 	
 	public double getPrice() {
 		return price;

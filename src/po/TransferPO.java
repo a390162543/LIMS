@@ -3,6 +3,8 @@ package po;
 import java.util.Date;
 import java.util.List;
 
+import systemenum.DocumentState;
+
 public class TransferPO {
 	private long id;
 	private Date loadDate;
@@ -13,9 +15,11 @@ public class TransferPO {
 	private String loadMan;
 	private List<Long> orderId;
 	private double expenses;
+	private DocumentState documentState;
 
 	public TransferPO(long id, Date date, long flightNum, String depart,
-			String destination, long coutainId, String loadMan, List<Long> orderId, double expenses, long containerId){
+			String destination, long containerId, String loadMan, List<Long> orderId, 
+			double expenses ){
 		this.id = id;
 		this.loadDate = date;
 		this.flightNumbe = flightNum;
@@ -25,9 +29,20 @@ public class TransferPO {
 		this.loadMan = loadMan;
 		this.orderId = orderId;
 		this.expenses = expenses;
+	 
 	}
 
 	
+	public DocumentState getDocumentState() {
+		return documentState;
+	}
+
+
+	public void setDocumentState(DocumentState documentState) {
+		this.documentState = documentState;
+	}
+
+
 	public long getId() {
 		return id;
 	}

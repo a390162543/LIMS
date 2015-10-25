@@ -14,14 +14,17 @@ public class EmployeePO {
 	
 	
 	public EmployeePO
-	(long id,String name,String organization,Position position,PayPO pay){
+	(long id,String name,String organization,Position position ){
 		this.id = id;
 		this.name = name;
 		this.organization = organization;
-		this.position = position;
-		this.pay = pay;
+		this.position = position;	 
 	}
 	
+	 
+	public void initPayPO(){
+		
+	}
 	
 	public PayPO getPay() {
 		return pay;

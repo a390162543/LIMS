@@ -1,5 +1,7 @@
 package po;
 
+import systemenum.Position;
+
 public class PayPO {
 	private double basePay;
 	private double payByCount;
@@ -8,13 +10,14 @@ public class PayPO {
 	private double monthPay;
 	
 	public PayPO(double basePay, double payByCount, int count, 
-			double salesCommission,double mothPay){
+			double salesCommission ){
 		this.basePay = basePay;
 		this.payByCount = payByCount;
 		this.count = count;
 		this.salesCommission = salesCommission;
-		this.monthPay = mothPay;
+		 
 	}
+	
 	
 	
 	public double getBasepay() {

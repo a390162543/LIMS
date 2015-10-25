@@ -11,6 +11,8 @@ public interface TransferblService {
 	
 	public double getCost(TransferVO vo);
 	
+	public boolean modify(TransferVO vo);
+	
 	public List<TransferVO> getTransferPO();
 	
 	public boolean execute(TransferVO vo);
