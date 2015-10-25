@@ -11,7 +11,7 @@ import businesslogicservice.SettlementblService;
 
 public class SettlementblService_Driver {
 
-	public void driver(SettlementblService settlementblService){
+	public void drive(SettlementblService settlementblService){
 		List<Long> list=new ArrayList<Long>();
 		list.add(new Long("1008356612"));
 		list.add(new Long("1008356614"));

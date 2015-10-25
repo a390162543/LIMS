@@ -9,7 +9,7 @@ import businesslogicservice.LogblService;
 
 public class LogblService_Driver {
 
-	public void driver(LogblService logblService){
+	public void drive(LogblService logblService){
 	
 		boolean result=logblService.createLogVO(new LogVO("createAccountVO by zhang ", new Date()));
 		if(result==true)

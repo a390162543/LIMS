@@ -7,7 +7,7 @@ import businesslogicservice.PrimeInfoblService;
 
 public class PrimeInfoblService_Driver {
 
-	public void driver(PrimeInfoblService primeInfoblService){
+	public void drive(PrimeInfoblService primeInfoblService){
 	
 		boolean result=primeInfoblService.createPrimeInfoVO();
 		if(result==true)

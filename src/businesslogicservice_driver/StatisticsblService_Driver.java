@@ -10,7 +10,7 @@ import businesslogicservice.StatisticsblService;
 
 public class StatisticsblService_Driver {
 
-	public void driver(StatisticsblService statisticsblService){
+	public void drive(StatisticsblService statisticsblService){
 		List<RevenueVO> vos1 = statisticsblService.queryRevenueVO(new Date(2015,9,1), new Date());
 	    System.out.println("get "+vos1.size()+" RevenueVO!");
 
