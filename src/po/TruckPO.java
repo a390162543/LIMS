@@ -1,13 +1,19 @@
 package po;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.swing.ImageIcon;
 
 import systemenum.DocumentState;
+import vo.TruckVO;
 
-public class TruckPO {
+public class TruckPO implements Serializable{
     
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -566328842327604370L;
     private long id;
     private String engineNumber;
     private String truckNumber;
@@ -79,7 +85,9 @@ public class TruckPO {
         this.documentState = documentState;
     }
 
-
+    public TruckVO getTruckVO(){
+        return new TruckVO(this.id, this.engineNumber, this.truckNumber, this.chassisNumber, this.purchaseDate, this.truckImage);
+    }
 
     
 }

@@ -4,6 +4,8 @@ import java.util.Date;
 
 import javax.swing.ImageIcon;
 
+import po.TruckPO;
+
 public class TruckVO {
     
     private long id;
@@ -67,7 +69,9 @@ public class TruckVO {
         this.truckImage = truckImage;
     }
 
-
+    public TruckPO getTruckPO(){
+        return new TruckPO(this.id, this.engineNumber, this.truckNumber, this.chassisNumber, this.purchaseDate, this.truckImage);
+    }
 
     
 }
