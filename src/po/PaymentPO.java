@@ -2,6 +2,7 @@ package po;
 
 import java.util.Date;
 
+import systemenum.DocumentState;
 import systemenum.Entry;
 
 public class PaymentPO {
@@ -13,6 +14,7 @@ public class PaymentPO {
 	private long accountId;
 	private Entry entry ;
 	private String remarks;
+	private DocumentState documentState;
 	
 	public PaymentPO(long id,Date date,double money,String name,long accountId,Entry entry,String remarks){
 		this.id=id;
@@ -22,6 +24,7 @@ public class PaymentPO {
 		this.accountId=accountId;
 		this.entry=entry;
 		this.remarks=remarks;
+		this.documentState=DocumentState.PENDING;
 	}
 	
 	public long getId(){
@@ -50,6 +53,14 @@ public class PaymentPO {
 	
 	public String getRemarks(){
 		return remarks;
+	}
+
+	public DocumentState getDocumentState() {
+		return documentState;
+	}
+
+	public void setDocumentState(DocumentState documentState) {
+		this.documentState = documentState;
 	}
 
 }

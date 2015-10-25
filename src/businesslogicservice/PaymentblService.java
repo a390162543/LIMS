@@ -7,5 +7,7 @@ public interface PaymentblService {
 
 	public boolean createPaymentVO(PaymentVO vo);
 	
-	public boolean execute(PaymentVO payment);
+	public boolean modifyPaymentVO(PaymentVO vo);
+	
+	public boolean execute(PaymentVO vo);
 }
