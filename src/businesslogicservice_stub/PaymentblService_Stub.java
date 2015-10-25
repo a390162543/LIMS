@@ -11,7 +11,7 @@ public class PaymentblService_Stub implements PaymentblService{
 	}
 
 	public boolean modifyPaymentVO(PaymentVO vo) {
-		return false;
+		return true;
 	}
 
 	public boolean execute(PaymentVO payment) {
