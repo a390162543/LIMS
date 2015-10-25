@@ -8,9 +8,7 @@ import po.OrderPO;
 public interface OrderDataService {
 	
 	public void insert(OrderPO po) throws RemoteException;
-    
-    public void delete(OrderPO po) throws RemoteException;
-    
+    	
     public void update(OrderPO po) throws RemoteException;
     
     public OrderPO find(long id) throws RemoteException;

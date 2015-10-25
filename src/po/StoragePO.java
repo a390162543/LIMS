@@ -1,11 +1,8 @@
 package po;
 
-import java.util.List;
-
 public class StoragePO {
 	
-	private long id;
-	private List<OrderPO>  StorageOrderPoList;
+	
 	private int airCapacity;
 	private int motorCapacity;
 	private int carCapacity;
@@ -15,10 +12,9 @@ public class StoragePO {
 	private double alarm;
 	
 	
-	public StoragePO(long id,int airCapacity, int motorCapacity, int carCapacity,
+	public StoragePO(int airCapacity, int motorCapacity, int carCapacity,
 			int trainCapacity, int allCapacity, int nowCapacity, double alarm) {
 		super();
-		this.id=id;
 		this.airCapacity = airCapacity;
 		this.motorCapacity = motorCapacity;
 		this.carCapacity = carCapacity;
@@ -28,22 +24,12 @@ public class StoragePO {
 		this.alarm = alarm;
 	}
 	
-	public long getStorageId() {
-		return id;
-	}
 	
 	public int getAllCapacity() {
 		return allCapacity;
 	}
 	public void setAllCapacity(int allCapacity) {
 		this.allCapacity=allCapacity;
-	}
-	
-	public List<OrderPO> getStorageOrderPoList() {
-		return StorageOrderPoList;
-	}
-	public void setStorageOrderPoList(List<OrderPO> storageOrderPoList) {
-		StorageOrderPoList = storageOrderPoList;
 	}
 	
 	public int getAirCapacity() {

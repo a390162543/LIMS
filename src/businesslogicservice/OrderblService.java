@@ -14,6 +14,8 @@ public interface OrderblService {
 	
 	public boolean signOrder(OrderSignVO vo);
 	
+	public boolean modifyOrder(OrderCreateVO vo);
+	
 	
 	//return the information of the order delivery
 	public OrderQueryVO returnOrderQueryVO(long orderId);

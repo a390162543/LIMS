@@ -8,7 +8,7 @@ import vo.StorageSetAreaVO;
 import vo.StoreinCreateVO;
 import vo.StoreoutCreateVO;
 
-public interface StorageblServiece {
+public interface StorageblService {
 	
 	
 	public boolean setArea(StorageSetAreaVO vo);

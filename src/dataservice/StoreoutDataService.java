@@ -8,9 +8,7 @@ import po.StoreoutPO;
 public interface StoreoutDataService {
 	
 	public void insert(StoreoutPO po) throws RemoteException;
-    
-    public void delete(StoreoutPO po) throws RemoteException;
-    
+       
     public void update(StoreoutPO po) throws RemoteException;
     
     public StoreoutPO find(long id) throws RemoteException;

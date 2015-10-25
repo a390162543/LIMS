@@ -9,8 +9,6 @@ public interface StoreinDataService {
 	
 	public void insert(StoreinPO po) throws RemoteException;
     
-    public void delete(StoreinPO po) throws RemoteException;
-    
     public void update(StoreinPO po) throws RemoteException;
     
     public StoreinPO find(long id) throws RemoteException;
@@ -22,4 +20,6 @@ public interface StoreinDataService {
     public void init() throws RemoteException;
     
     public void finish() throws RemoteException; 
+    
+  
 }

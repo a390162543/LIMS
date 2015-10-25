@@ -3,6 +3,8 @@ package po;
 import java.util.Date;
 import java.util.List;
 
+import systemenum.DocumentState;
+
 public class StoreinPO {
 	
 		
@@ -18,9 +20,12 @@ public class StoreinPO {
 		this.rowNum = rowNum;
 		this.frameNum = frameNum;
 		this.item = item;
+		this.documentState = DocumentState.PENDING;
 	}
 
+
 	private long id;
+	private DocumentState documentState;
 	private List<Long> orderId;
 	private Date inDate;
 	private List<String> destination; 
@@ -29,6 +34,15 @@ public class StoreinPO {
 	private List<Integer> frameNum;
 	private List<Integer> item;
 	
+	
+	
+	public DocumentState getDocumentState() {
+		return documentState;
+	}
+
+	public void setDocumentState(DocumentState documentState) {
+		this.documentState = documentState;
+	}
 	
 	public long getStoreinId() {
 		return id;

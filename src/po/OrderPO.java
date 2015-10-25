@@ -3,6 +3,7 @@ package po;
 import java.util.Date;
 
 import systemenum.DeliveryWay;
+import systemenum.DocumentState;
 import systemenum.ShipForm;
 import systemenum.WrapWay;
 import systemenum.GoodsState;
@@ -32,16 +33,19 @@ public class OrderPO {
 		this.weight = weight;
 		this.size = size;
 		this.cost = cost;
+		this.documentState = DocumentState.PENDING;
 	}
 	
 	
 	private long id;
 	
-	WrapWay wrapWay;
-    DeliveryWay deliverWay;
-    GoodsState state;
-   	ShipForm shipForm;
-   	
+	private DocumentState documentState;
+	
+	private WrapWay wrapWay;
+    private DeliveryWay deliverWay;
+    private GoodsState state;
+   	private ShipForm shipForm;
+
 	private String nowLocation;
 	private String nextLocation;
 	
@@ -69,8 +73,27 @@ public class OrderPO {
    	private int frameNum;
    	private int item; 
    	
+   	private Date inDate;
    	
-    public long getOrderId() {
+   	
+   	public DocumentState getDocumentState() {
+		return documentState;
+	}
+
+	public void setDocumentState(DocumentState documentState) {
+		this.documentState = documentState;
+	}
+   	
+   	
+    public Date getInDate() {
+		return inDate;
+	}
+
+	public void setInDate(Date inDate) {
+		this.inDate = inDate;
+	}
+
+	public long getOrderId() {
 		return id;
 	}
 	
@@ -187,5 +210,28 @@ public class OrderPO {
 		this.item = item;
 	}
 	
+	public GoodsState getState() {
+		return state;
+	}
+
+	public void setState(GoodsState state) {
+		this.state = state;
+	}
+
+	public ShipForm getShipForm() {
+		return shipForm;
+	}
+
+	public void setShipForm(ShipForm shipForm) {
+		this.shipForm = shipForm;
+	}
+
+	public WrapWay getWrapWay() {
+		return wrapWay;
+	}
+
+	public DeliveryWay getDeliverWay() {
+		return deliverWay;
+	}
 	
 }
