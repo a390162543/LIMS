@@ -17,8 +17,9 @@ public interface TransferDataService {
 	    public List<TransferPO> finds(String field, Object value) throws RemoteException;
 	    
 	    public List<TransferPO> getAll() throws RemoteException;
+	    public void init() throws RemoteException ;
+	 	   
 	    
-	    public void init() throws RemoteException;
 	    
 	    public void finish() throws RemoteException; 
 

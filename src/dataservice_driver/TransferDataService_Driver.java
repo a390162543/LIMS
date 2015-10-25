@@ -24,6 +24,7 @@ public class TransferDataService_Driver {
 			transferdataservice.getAll();
 			transferdataservice.insert(po);
 			transferdataservice.update(po);
+			transferdataservice.init();
 			transferdataservice.finish();
 			} catch (RemoteException e) {
 			// TODO Auto-generated catch block

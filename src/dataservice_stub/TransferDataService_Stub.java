@@ -63,7 +63,10 @@ public class TransferDataService_Stub implements TransferDataService{
 		return t;
 
 	}
-
+	
+   public void init() throws RemoteException{
+	   System.out.println("Init Succeed");
+   }
 	@Override
 	public void finish() throws RemoteException {
 		// TODO Auto-generated method stub
