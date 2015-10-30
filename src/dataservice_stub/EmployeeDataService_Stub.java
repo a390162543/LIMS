@@ -2,10 +2,12 @@ package dataservice_stub;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import po.EmployeePO;
 import systemenum.Position;
+import systemenum.Sex;
 import dataservice.EmployeeDataService;
 
 public class EmployeeDataService_Stub implements EmployeeDataService{
@@ -32,7 +34,8 @@ public class EmployeeDataService_Stub implements EmployeeDataService{
 	public EmployeePO find(long id) throws RemoteException {
 		// TODO Auto-generated method stub
 		System.out.println("Find Succeed");
-		return new EmployeePO(1024, "Ähri", "Nanjin edu", Position.COURIER);
+		return new EmployeePO(1024, "Ahri", "Nanjin edu", Position.COURIER,new Long("18355555555"),
+				new Date(), new Long("350232230230230230"), Sex.FAMALE);
 	}
 
 	@Override
@@ -41,7 +44,9 @@ public class EmployeeDataService_Stub implements EmployeeDataService{
 		// TODO Auto-generated method stub
 		System.out.println("Finds Succeed");
 		List<EmployeePO> e = new ArrayList<EmployeePO>();
-		e.add(new EmployeePO(1024, "Ahri", "Nanjin edu", Position.COURIER));
+		e.add(new EmployeePO(1024, "Ahri", "Nanjin edu", Position.COURIER,
+				new Long("18355555555"),
+				new Date(), new Long("350232230230230230"), Sex.FAMALE));
 		return e;
 	}
 
@@ -50,7 +55,9 @@ public class EmployeeDataService_Stub implements EmployeeDataService{
 		// TODO Auto-generated method stub
 		System.out.println("GetAll Succeed");
 		List<EmployeePO> e = new ArrayList<EmployeePO>();
-		e.add(new EmployeePO(1024, "Ahri", "Nanjin edu", Position.COURIER));
+		e.add(new EmployeePO(1024, "Ahri", "Nanjin edu", Position.COURIER,
+				new Long("18355555555"),
+				new Date(), new Long("350232230230230230"), Sex.FAMALE));
 		return e;
 	}
 
