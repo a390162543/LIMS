@@ -29,4 +29,9 @@ public class StatisticsblService_Stub implements StatisticsblService {
 		return list;
 	}
 
+	public boolean gainExcel() {
+		
+		return true;
+	}
+
 }
