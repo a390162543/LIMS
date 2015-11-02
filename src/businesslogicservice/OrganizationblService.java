@@ -11,10 +11,8 @@ public interface OrganizationblService {
 	public boolean deleteOrganizationPO (OrganizationVO vo);
 	
 	public boolean queryTruckPO (OrganizationVO vo);
-	
-	 
-	
-	public List<OrganizationVO>  getOrganizationPO();
+ 
+	public List<OrganizationVO>  getOrganizationVO();
 	
 	 
 }

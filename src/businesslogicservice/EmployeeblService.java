@@ -13,7 +13,7 @@ public interface EmployeeblService {
 	
 	public boolean modifyEmloyeePO (EmployeeVO vo);
 	
-	public List< EmployeeVO > getEmployeePO();
+	public List<EmployeeVO> getEmployeeVO();
 	
-	public List< EmployeeVO> getSamePositionEmp(EmployeeVO vo);
+	public List<EmployeeVO> getSamePositionEmp(EmployeeVO vo);
 }

@@ -51,7 +51,7 @@ public class EmployeeblService_Stub implements EmployeeblService{
 	}
 
 	@Override
-	public List<EmployeeVO> getEmployeePO() {
+	public List<EmployeeVO> getEmployeeVO() {
 		// TODO Auto-generated method stub
 		List<EmployeeVO> employeeVO = new ArrayList<EmployeeVO>();
 		employeeVO.add(new EmployeeVO(id,name,organization,position,

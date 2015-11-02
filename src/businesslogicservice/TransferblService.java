@@ -13,7 +13,7 @@ public interface TransferblService {
 	
 	public boolean modify(TransferVO vo);
 	
-	public List<TransferVO> getTransferPO();
+	public List<TransferVO> getTransferVO();
 	
 	public boolean execute(TransferVO vo);
 }

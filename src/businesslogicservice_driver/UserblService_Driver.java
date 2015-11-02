@@ -13,7 +13,7 @@ public class UserblService_Driver {
 	userblservice.initialize(vo);
 	userblservice.modifyPower(vo);
 	userblservice.queryUserPO(vo);
-	userblservice.getUserPO();
+	userblservice.getUserVO();
 	
 	}
 }	

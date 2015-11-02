@@ -17,7 +17,7 @@ public class EmployeeDataService_Driver {
 		try {
 			employeedataservice.delete(po);
 			employeedataservice.find(new Long("025110"));
-			employeedataservice.finds("Position", Position.DRVER);
+			employeedataservice.finds("Position", Position.DRIVER);
 			employeedataservice.getAll();
 			employeedataservice.insert(po);
 			employeedataservice.update(po);

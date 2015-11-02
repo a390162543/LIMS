@@ -55,7 +55,7 @@ public class TransferblService_Stub implements TransferblService{
 	}
 
 	@Override
-	public List<TransferVO> getTransferPO() {
+	public List<TransferVO> getTransferVO() {
 		// TODO Auto-generated method stub
 		 List<TransferVO> transfervo= new ArrayList<TransferVO>();
 		 transfervo.add(new TransferVO(id,loadDate,flightNumbe,depart,destination,

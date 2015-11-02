@@ -17,5 +17,5 @@ public interface UserblService {
 	
 	public boolean modifyPower(UserVO vo);
 	 
-	public List<UserVO> getUserPO();
+	public List<UserVO> getUserVO();
 }

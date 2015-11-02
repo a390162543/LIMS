@@ -14,124 +14,132 @@ import po.RevenuePO;
 import po.StoreinPO;
 import po.StoreoutPO;
 import po.TransferPO;
+import vo.ArrivalVO;
+import vo.DeliverVO;
+import vo.LoadVO;
+import vo.OrderCreateVO;
+import vo.PaymentVO;
+import vo.RevenueVO;
+import vo.StoreinCreateVO;
+import vo.StoreoutCreateVO;
+import vo.TransferVO;
 
 public class ApprovalblService_Stub implements ApprovalblService{
-	OrderPO orderpo;
-	DeliverPO deliverpo;
-	LoadPO loadpo;
-	PaymentPO paymentpo;
-	RevenuePO revenuepo;
-	StoreinPO storeinpo;
-	StoreoutPO storeoutpo;
-	TransferPO transferpo;
-	ArrivalPO arrivalpo;
+	OrderCreateVO ordercreatevo;
+	DeliverVO delivervo;
+	LoadVO loadVo;
+	PaymentVO paymentVo;
+	RevenueVO revenueVo;
+	StoreinCreateVO storeinVo;
+	StoreoutCreateVO storeoutVo;
+	TransferVO transferVo;
+	ArrivalVO arrivalVo;
 	
 	
 	
-	public ApprovalblService_Stub(OrderPO orderpo, DeliverPO deliverpo,
-			LoadPO loadpo, PaymentPO paymentpo, RevenuePO revenuepo,
-			StoreinPO storeinpo, StoreoutPO storeoutpo, TransferPO transferpo,
-			ArrivalPO arrivalpo) {
+	public ApprovalblService_Stub(OrderCreateVO ordervo, DeliverVO delivervo,
+			LoadVO loadvo, PaymentVO paymentvo, RevenueVO revenuevo,
+			StoreinCreateVO storeinvo, StoreoutCreateVO storeoutvo, TransferVO transfervo,
+			ArrivalVO arrivalvo) {
 		super();
-		this.orderpo = orderpo;
-		this.deliverpo = deliverpo;
-		this.loadpo = loadpo;
-		this.paymentpo = paymentpo;
-		this.revenuepo = revenuepo;
-		this.storeinpo = storeinpo;
-		this.storeoutpo = storeoutpo;
-		this.transferpo = transferpo;
-		this.arrivalpo = arrivalpo;
+		this.ordercreatevo = ordervo;
+		this.delivervo = delivervo;
+		this.loadVo = loadvo;
+		this.paymentVo = paymentvo;
+		this.revenueVo = revenuevo;
+		this.storeinVo = storeinvo;
+		this.storeoutVo = storeoutvo;
+		this.transferVo = transfervo;
+		this.arrivalVo = arrivalvo;
 	}
 	 
 
 	@Override
-	public List<OrderPO> getOrderPO() {
+	public List<OrderCreateVO> getOrderVO() {
 		// TODO Auto-generated method stub
-		List<OrderPO> o = new ArrayList<OrderPO>();
-		o.add(orderpo);
+		List<OrderCreateVO> o = new ArrayList<OrderCreateVO>();
+		o.add(ordercreatevo);
 		return o;
 	}
 
 	@Override
-	public List<DeliverPO> getDeliverPO() {
+	public List<DeliverVO> getDeliverVO() {
 		// TODO Auto-generated method stub
-		List<DeliverPO> d = new ArrayList<DeliverPO>();
-		d.add(deliverpo);
+		List<DeliverVO> d = new ArrayList<DeliverVO>();
+		d.add(delivervo);
 		return d;
 	}
 
 	@Override
-	public List<LoadPO> getLoadPO() {
+	public List<LoadVO> getLoadVO() {
 		// TODO Auto-generated method stub
-		List<LoadPO> l = new ArrayList<LoadPO>();
-		l.add(loadpo);
+		List<LoadVO> l = new ArrayList<LoadVO>();
+		l.add(loadVo);
 		return l;
 	}
 
 	@Override
-	public List<PaymentPO> getPaymentPO() {
+	public List<PaymentVO> getPaymentVO() {
 		// TODO Auto-generated method stub
-		List<PaymentPO> o = new ArrayList<PaymentPO>();
-		o.add(paymentpo);
+		List<PaymentVO> o = new ArrayList<PaymentVO>();
+		o.add(paymentVo);
 		return o;
 	}
 
 	@Override
-	public List<RevenuePO> getRevenuePO() {
+	public List<RevenueVO> getRevenueVO() {
 		// TODO Auto-generated method stub
-		List<RevenuePO> o = new ArrayList<RevenuePO>();
-		o.add(revenuepo);
+		List<RevenueVO> o = new ArrayList<RevenueVO>();
+		o.add(revenueVo);
 		return o;
 	}
 
 	@Override
-	public List<StoreinPO> getStoreinPO() {
+	public List<StoreinCreateVO> getStoreinVO() {
 		// TODO Auto-generated method stub
-		List<StoreinPO> o = new ArrayList<StoreinPO>();
-		o.add(storeinpo);
+		List<StoreinCreateVO> o = new ArrayList<StoreinCreateVO>();
+		o.add(storeinVo);
 		return o;
 	}
 
 	@Override
-	public List<StoreoutPO> getStoreoutPO() {
+	public List<StoreoutCreateVO> getStoreoutVO() {
 		// TODO Auto-generated method stub
-		List<StoreoutPO> o = new ArrayList<StoreoutPO>();
-		o.add(storeoutpo);
+		List<StoreoutCreateVO> o = new ArrayList<StoreoutCreateVO>();
+		o.add(storeoutVo);
 		return o;
 	}
 
 	@Override
-	public List<TransferPO> getTransferPO() {
+	public List<TransferVO> getTransferVO() {
 		// TODO Auto-generated method stub
-		List<TransferPO> o = new ArrayList<TransferPO>();
-		o.add(transferpo);
+		List<TransferVO> o = new ArrayList<TransferVO>();
+		o.add(transferVo);
 		return o;
 	}
 
 	@Override
-	public List<ArrivalPO> getArrivalPO() {
+	public List<ArrivalVO> getArrivalVO() {
 		// TODO Auto-generated method stub
-		List<ArrivalPO> o = new ArrayList<ArrivalPO>();
-		o.add(arrivalpo);
+		List<ArrivalVO> o = new ArrayList<ArrivalVO>();
+		o.add(arrivalVo);
 		return o;
 		}
-
-
 
 
 	@Override
 	public boolean approve(Object o) {
 		// TODO Auto-generated method stub
-		return true;
+		return false;
 	}
-
-
 
 
 	@Override
 	public boolean modify(Object o) {
 		// TODO Auto-generated method stub
-		return true;
+		return false;
 	}
+
 }
+
+ 

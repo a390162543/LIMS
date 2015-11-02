@@ -44,7 +44,7 @@ public class OrganizationblService_Stub implements OrganizationblService {
 
 	 
 	@Override
-	public List<OrganizationVO> getOrganizationPO() {
+	public List<OrganizationVO> getOrganizationVO() {
 		// TODO Auto-generated method stub
 		List<OrganizationVO> organizationvo = new ArrayList<OrganizationVO>();
 		organizationvo.add(new OrganizationVO(id,name,city));

@@ -12,7 +12,7 @@ public class OrganizationblService_Driver {
 		organizationblservice .CreatOrganizationPO(vo);
 		organizationblservice.deleteOrganizationPO(vo);
 		organizationblservice.queryTruckPO(vo);
-		organizationblservice.getOrganizationPO();
+		organizationblservice.getOrganizationVO();
 				
 	}
 }

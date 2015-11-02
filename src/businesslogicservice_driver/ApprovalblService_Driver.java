@@ -16,15 +16,15 @@ public class ApprovalblService_Driver {
 				"上海市浦东新区中转中心" ,
 				new Long("1025"), "李华", l, 300.0);
 		approvalblService.approve(po);
-		approvalblService.getArrivalPO();
-		approvalblService.getDeliverPO();
-		approvalblService.getLoadPO();
-		approvalblService.getOrderPO();
-		approvalblService.getPaymentPO();
-		approvalblService.getRevenuePO();
-		approvalblService.getStoreoutPO();
-		approvalblService.getStoreinPO();
-		approvalblService.getTransferPO();
+		approvalblService.getArrivalVO();
+		approvalblService.getDeliverVO();
+		approvalblService.getLoadVO();
+		approvalblService.getOrderVO();
+		approvalblService.getPaymentVO();
+		approvalblService.getRevenueVO();
+		approvalblService.getStoreinVO();
+		approvalblService.getStoreoutVO();
+		approvalblService.getTransferVO();
 		approvalblService.modify(po);
 	}
 }

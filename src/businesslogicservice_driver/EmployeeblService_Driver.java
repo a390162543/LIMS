@@ -17,7 +17,7 @@ public class EmployeeblService_Driver {
 		
 		employeeblservice.creatEmloyeePO(vo);
 		employeeblservice.deleteEmloyeePO(vo);
-		employeeblservice.getEmployeePO();
+		employeeblservice.getEmployeeVO();
 		employeeblservice.getSamePositionEmp(vo);
 		employeeblservice.modifyEmloyeePO(vo);
 		
