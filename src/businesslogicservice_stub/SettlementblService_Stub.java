@@ -21,12 +21,8 @@ public class SettlementblService_Stub implements SettlementblService{
 		return list;
 	
 	}
-
-	public boolean deposit(long accountId, RevenueVO vo) {
-		return true;
-	}
-
-	public boolean execute(RevenueVO vo) {
+	
+	public boolean setAccountId(RevenueVO vo) {
 		return true;
 	}
 
