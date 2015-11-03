@@ -5,7 +5,7 @@ import businesslogicservice.PrimeInfoblService;
 public class PrimeInfoblService_Stub implements PrimeInfoblService{
 
 
-	public boolean createPrimeInfoVO() {
+	public boolean createPrimeInfoPO() {
 		return true;
 	}
 

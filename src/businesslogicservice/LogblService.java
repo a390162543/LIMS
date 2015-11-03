@@ -8,7 +8,7 @@ import vo.LogVO;
 
 public interface LogblService {
 	
-	public boolean createLogVO (LogVO vo);
+	public boolean createLogPO (LogVO vo);
 	
 	public List<LogVO>  queryLogVO (Date date);
 	

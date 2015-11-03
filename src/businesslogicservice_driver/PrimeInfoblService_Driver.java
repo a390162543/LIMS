@@ -9,7 +9,7 @@ public class PrimeInfoblService_Driver {
 
 	public void drive(PrimeInfoblService primeInfoblService){
 	
-		boolean result=primeInfoblService.createPrimeInfoVO();
+		boolean result=primeInfoblService.createPrimeInfoPO();
 		if(result==true)
 			System.out.println("Create succeed\n");
 	}

@@ -6,11 +6,11 @@ import businesslogicservice.PaymentblService;
 public class PaymentblService_Stub implements PaymentblService{
 	
    
-	public boolean createPaymentVO(PaymentVO vo) {
+	public boolean createPaymentPO(PaymentVO vo) {
 		return true;
 	}
 
-	public boolean modifyPaymentVO(PaymentVO vo) {
+	public boolean modifyPaymentPO(PaymentVO vo) {
 		return true;
 	}
 

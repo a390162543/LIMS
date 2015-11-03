@@ -14,15 +14,15 @@ public class AccountblService_Stub implements AccountblService {
 		this.vo=vo;
 	}
 	
-	public boolean createAccountVO(AccountVO vo) {
+	public boolean createAccountPO(AccountVO vo) {
 		return true;
 	}
 
-	public boolean deleteAccountVO(AccountVO vo) {
+	public boolean deleteAccountPO(AccountVO vo) {
 		return true;
 	}
 
-	public boolean modifyAccountVO(AccountVO vo) {
+	public boolean modifyAccountPO(AccountVO vo) {
 		return true;
 	}
 

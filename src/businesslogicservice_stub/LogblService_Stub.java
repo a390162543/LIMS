@@ -14,7 +14,7 @@ public class LogblService_Stub implements LogblService{
 		this.vo=vo;
 	}
 
-	public boolean createLogVO(LogVO vo) {
+	public boolean createLogPO(LogVO vo) {
 		return true;
 	}
 
@@ -23,5 +23,6 @@ public class LogblService_Stub implements LogblService{
 		list.add(vo);
 		return list;
 	}
-	
+
+
 }

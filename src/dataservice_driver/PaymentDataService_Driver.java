@@ -6,6 +6,7 @@ import java.util.List;
 
 import businesslogicservice.PaymentblService;
 import businesslogicservice_driver.PaymentblService_Driver;
+import po.AccountPO;
 import po.LogPO;
 import po.PaymentPO;
 import systemenum.Entry;
@@ -17,7 +18,7 @@ import dataservice_stub.PaymentDataService_Stub;
 public class PaymentDataService_Driver {
 
 	public void drive(PaymentDataService paymentDataService){
-		PaymentPO po=new PaymentPO(new Long("00021160112000001"),new Date() , 30.00, "zhang", 1000000000000000000L, Entry.AWARDS, "yes");
+		PaymentPO po=new PaymentPO(new Long("00021160112000001"),new Date() , 30.00, "zhang", 1000000000000000000L, Entry.AWARDS, "yes",new AccountPO(new Long("2000000000000000000"), 50.00));
 		try {
 			paymentDataService.init();
 			paymentDataService.insert(po);

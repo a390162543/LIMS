@@ -9,6 +9,7 @@ import vo.RevenueVO;
 public interface StatisticsblService {
 
 	public List<PaymentVO>  queryPaymentVO(Date begindate, Date enddate);
+	
 	public List<RevenueVO>  queryRevenueVO(Date begindate, Date enddate);
 	
 	public boolean gainExcel();

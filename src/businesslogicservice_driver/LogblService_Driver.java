@@ -11,7 +11,7 @@ public class LogblService_Driver {
 
 	public void drive(LogblService logblService){
 	
-		boolean result=logblService.createLogVO(new LogVO("createAccountVO by zhang ", new Date()));
+		boolean result=logblService.createLogPO(new LogVO("createAccountVO by zhang ", new Date()));
 		if(result==true)
 			System.out.println("Create succeed\n");
 		

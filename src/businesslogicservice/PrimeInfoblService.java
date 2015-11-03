@@ -5,5 +5,5 @@ import vo.PrimeInfoVO;
 
 public interface PrimeInfoblService {
 
-	public boolean createPrimeInfoVO ();
+	public boolean createPrimeInfoPO ();
 }
