@@ -33,5 +33,20 @@ public class StatisticsblService_Stub implements StatisticsblService {
 		
 		return true;
 	}
+	
+	public double getTotalIncome(List<RevenueVO> revenuelist) {
+
+		return 2.0;
+	}
+
+	public double getTotalExpenditure(List<PaymentVO> paymentlist) {
+		return 2.0;
+	}
+	
+	public double getTotalProfit(List<RevenueVO> revenuelist,
+			List<PaymentVO> paymentlist) {
+	
+		return 2.0;
+	}
 
 }

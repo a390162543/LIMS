@@ -13,4 +13,10 @@ public interface StatisticsblService {
 	public List<RevenueVO>  queryRevenueVO(Date begindate, Date enddate);
 	
 	public boolean gainExcel();
+	
+	public double getTotalIncome(List< RevenueVO>  revenuelist);
+	
+	public double getTotalExpenditure (List< PaymentVO>  paymentlist);
+	
+	public double getTotalProfit(List< RevenueVO>  revenuelist   ,  List< PaymentVO>  paymentlist);
 }
