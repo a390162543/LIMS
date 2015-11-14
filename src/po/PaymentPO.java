@@ -14,10 +14,10 @@ public class PaymentPO {
 	private long accountId;
 	private Entry entry ;
 	private String remarks;
-	private AccountPO po;
+	private long payeeAccountId;
 	private DocumentState documentState;
 	
-	public PaymentPO(long id,Date date,double money,String name,long accountId,Entry entry,String remarks,AccountPO po){
+	public PaymentPO(long id,Date date,double money,String name,long accountId,Entry entry,String remarks,long payeeAccountId){
 		this.id=id;
 		this.date=date;
 		this.money=money;
@@ -25,7 +25,7 @@ public class PaymentPO {
 		this.accountId=accountId;
 		this.entry=entry;
 		this.remarks=remarks;
-		this.po=po;
+		this.payeeAccountId=payeeAccountId;
 		this.documentState=DocumentState.PENDING;
 	}
 	
@@ -57,8 +57,8 @@ public class PaymentPO {
 		return remarks;
 	}
 
-	public AccountPO getAccountPO(){
-		return po;
+	public long getPayeeAccountId(){
+		return payeeAccountId;
 	}
 	public DocumentState getDocumentState() {
 		return documentState;

@@ -11,9 +11,10 @@ public class PaymentVO {
 	private String name;
 	private long accountId;
 	private Entry entry ;
+	private long payeeAccountId;
 	private String remarks;
 	
-	public PaymentVO(long id,Date date,double money,String name,long accountId,Entry entry,String remarks){
+	public PaymentVO(long id,Date date,double money,String name,long accountId,Entry entry,String remarks,long payeeAccountId){
 		this.id=id;
 		this.date=date;
 		this.money=money;
@@ -21,6 +22,7 @@ public class PaymentVO {
 		this.accountId=accountId;
 		this.entry=entry;
 		this.remarks=remarks;
+		this.payeeAccountId=payeeAccountId;
 	}
 	
 	public long getId(){
@@ -46,9 +48,15 @@ public class PaymentVO {
 	public Entry getEntry(){
 		return entry;
 	}
+		
+	public long getPayeeAccountId(){
+		return payeeAccountId;
+	}
 	
 	public String getRemarks(){
 		return remarks;
 	}
+	
+
 
 }
