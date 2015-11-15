@@ -10,23 +10,25 @@ public class GoodsVO {
 	}
 
 
-	public GoodsVO(long id,double weight)  {
-		this.id = id;
-		this.weight = weight;
-	}
-	
-	
-	public double getWeight() {
-		return weight;
-	}
-	public void setWeight(double weight) {
-		this.weight = weight;
-	}
-	public long getId() {
-		return id;
-	}
-	public void setId(long id) {
-		this.id = id;
-	}
-	
+    }
+    public GoodsVO(long id,double weight) {
+        super();
+        this.weight = weight;
+        this.id = id;
+    }
+    
+    
+    public double getWeight() {
+        return weight;
+    }
+    public void setWeight(double weight) {
+        this.weight = weight;
+    }
+    public long getId() {
+        return id;
+    }
+    public void setId(long id) {
+        this.id = id;
+    }
+    
 }

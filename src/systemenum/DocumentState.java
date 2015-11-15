@@ -2,6 +2,6 @@ package systemenum;
 
 public enum DocumentState {
     
-    PENDING,PASS
+    PENDING,PASS,UNCOMMITTED
     
 }
