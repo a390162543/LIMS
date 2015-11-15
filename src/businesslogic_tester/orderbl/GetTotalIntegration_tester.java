@@ -1,4 +1,4 @@
-package businesslogicservice_tester.orderbl;
+package businesslogic_tester.orderbl;
 
 import static org.junit.Assert.*;
 

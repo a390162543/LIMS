@@ -1,4 +1,4 @@
-package businesslogicservice_tester.storeinbl;
+package businesslogic_tester.storeinbl;
 
 import businesslogic.storagebl.Storage;
 

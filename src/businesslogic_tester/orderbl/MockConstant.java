@@ -1,6 +1,6 @@
-package businesslogicservice_tester.orderbl;
+package businesslogic_tester.orderbl;
 
-import businesslogicservice_tester.Constant;
+import businesslogic.constantbl.Constant;
 
 public class MockConstant extends Constant{
 	
