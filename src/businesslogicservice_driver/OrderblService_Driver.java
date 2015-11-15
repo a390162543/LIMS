@@ -29,7 +29,7 @@ public class OrderblService_Driver {
 		OrderQueryVO orderQueryVO = orderblService.returnOrderQueryVO(orderId);
 		System.out.println(orderQueryVO.getId()==orderId);
 		
-		double cost = orderblService.getTotal("张三", "南京市南京大学仙林校区", 3.56, 3.45, WrapWay.BAG, DeliveryWay.FAST);
+		double cost = orderblService.getTotal(orderCreateVO);
 		System.out.println(cost);
 		
 		boolean excuteResult = orderblService.excute(orderCreateVO);

@@ -1,7 +1,10 @@
 package po;
 
+import java.util.Date;
+
 public class StoragePO {
 	
+	private long storageId;
 	
 	private int airCapacity;
 	private int motorCapacity;
@@ -10,10 +13,12 @@ public class StoragePO {
 	private int allCapacity;	
 	private int nowCapacity;
 	private double alarm;
+	private Date checkDate;
 	
 	
 	public StoragePO(int airCapacity, int motorCapacity, int carCapacity,
-			int trainCapacity, int allCapacity, int nowCapacity, double alarm) {
+			int trainCapacity, int allCapacity, int nowCapacity, double alarm,
+			Date checkDate,long storageId) {
 		super();
 		this.airCapacity = airCapacity;
 		this.motorCapacity = motorCapacity;
@@ -22,6 +27,8 @@ public class StoragePO {
 		this.allCapacity = allCapacity;
 		this.nowCapacity = nowCapacity;
 		this.alarm = alarm;
+		this.checkDate = checkDate;
+		this.storageId = storageId;
 	}
 	
 	
@@ -73,9 +80,19 @@ public class StoragePO {
 	public void setAlarm(double alarm) {
 		this.alarm = alarm;
 	}
+
+
+	public Date getCheckDate() {
+		return checkDate;
+	}
+	public void setCheckDate(Date checkDate) {
+		this.checkDate = checkDate;
+	}
 	
 	
-	
+	public long getStorageId(){
+		return storageId;
+	}
 
 
 }

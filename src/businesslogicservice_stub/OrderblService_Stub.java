@@ -46,8 +46,7 @@ public class OrderblService_Stub implements OrderblService {
 	}
 
 	@Override
-	public double getTotal(String senderAddress, String receiverAddress,
-			double weight, double size, WrapWay wrapWay, DeliveryWay deliverWay) {
+	public double getTotal(OrderCreateVO vo) {
 		return total;
 	}
 
@@ -59,6 +58,13 @@ public class OrderblService_Stub implements OrderblService {
 	@Override
 	public boolean modifyOrder(OrderCreateVO vo) {
 		return true;
+	}
+
+
+	@Override
+	public int getEximatedTime(OrderCreateVO vo) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

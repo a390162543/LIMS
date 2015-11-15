@@ -94,8 +94,8 @@ public class StorageblService_Stub implements StorageblService {
 	}
 
 	@Override
-	public double computeRatio() {
-		return alarm;
+	public boolean isExceeded() {
+		return false;
 	}
 
 	@Override
@@ -120,6 +120,22 @@ public class StorageblService_Stub implements StorageblService {
 		List<StoreinCreateVO> storeinCreateVOs = new ArrayList<StoreinCreateVO>();
 		storeinCreateVOs.add(new StoreinCreateVO(storeinId, storeinOrderId, storeinDate, storeindestination, areaNum, rowNum, frameNum, item));
 		return storeinCreateVOs;
+	}
+
+
+
+	@Override
+	public int getTotalStorein(List<StoreinCreateVO> storeinList) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
+
+	@Override
+	public int getTotalStoreout(List<StoreoutCreateVO> storeoutList) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

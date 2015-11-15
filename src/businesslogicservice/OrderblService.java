@@ -22,8 +22,11 @@ public interface OrderblService {
 	
 	
 	//compute the total expense of the current order
-	public double getTotal(String senderAddress ,String receiverAddress,double weight,
-			double size, WrapWay wrapWay, DeliveryWay deliverWay);
+	public double getTotal(OrderCreateVO vo);
+	
+	
+	//compute the estimated time
+	public int getEximatedTime(OrderCreateVO vo);
 	
 	
 	public boolean excute(OrderCreateVO vo);

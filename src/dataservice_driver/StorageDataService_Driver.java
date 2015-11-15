@@ -1,6 +1,7 @@
 package dataservice_driver;
 
 import java.rmi.RemoteException;
+import java.util.Date;
 
 import po.OrderPO;
 import po.StoragePO;
@@ -10,7 +11,7 @@ public class StorageDataService_Driver {
 	
 	public void drive(StorageDataService storageDataService){
 		
-		StoragePO storagePO = new StoragePO(10, 50, 90, 50, 2000000, 1000000, 0.85);
+		StoragePO storagePO = new StoragePO(10, 50, 90, 50, 2000000, 1000000, 0.85, new Date(2015, 10, 29, 13, 50));
 		
 		try {
 			storageDataService.update(storagePO);

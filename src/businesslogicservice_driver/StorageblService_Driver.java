@@ -25,8 +25,8 @@ public class StorageblService_Driver {
 				System.out.println(false);
 		}
 		
-		double alarm = storageblService.computeRatio();
-		System.out.println(alarm);
+		boolean alarmResult = storageblService.isExceeded();
+		System.out.println(alarmResult);
 		
 		System.out.println(storageblService.gainExcel());
 		
