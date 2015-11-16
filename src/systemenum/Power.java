@@ -9,5 +9,5 @@ public enum Power {
 	SENIORFINANCIALSTAFF,//高级财务人员
 	FINANCIALSTAFF, //财务人员
 	SYSTEMMANAGER, //管理员
-	DRVER //司机
+	DRIVER //司机
 }
