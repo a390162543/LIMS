@@ -21,7 +21,7 @@ public class TransferblService_Driver {
 		transferblservice.createTransferPO(vo);
 		transferblservice.execute(vo);
 		transferblservice.getCost(vo);
-		transferblservice.getTransferPO();
+		transferblservice.getTransferVO();
 		transferblservice.modify(vo);
 	}
 }
