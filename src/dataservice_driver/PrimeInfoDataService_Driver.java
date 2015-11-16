@@ -28,7 +28,7 @@ public class PrimeInfoDataService_Driver {
 		List<TruckPO> truckPOList= new ArrayList<TruckPO>();
 		truckPOList.add(new TruckPO(new Long("025001014"), "sdda", "À’A88888", "daffd", new Date(), null));
 		List<StoragePO> storagePOList= new ArrayList<StoragePO>();
-		storagePOList.add(new StoragePO(5, 50,50, 50, 50, 50, 50.00));
+		storagePOList.add(new StoragePO(5, 50,50, 50, 50, 50, 50.00,new Date(),new Long("00021160112000001")));
 		List<AccountPO> accountPOList= new ArrayList<AccountPO>();
 		accountPOList.add(new AccountPO(new Long("2000000000002345678"), 100.00));
 		
