@@ -10,7 +10,7 @@ public class GoodsVO {
 	}
 
 
-    }
+    
     public GoodsVO(long id,double weight) {
         super();
         this.weight = weight;
