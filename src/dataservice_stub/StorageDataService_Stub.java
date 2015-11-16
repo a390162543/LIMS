@@ -1,12 +1,14 @@
 package dataservice_stub;
 
 import java.rmi.RemoteException;
+import java.util.Date;
 
 import po.StoragePO;
 import dataservice.StorageDataService;
 
 public class StorageDataService_Stub implements StorageDataService{
 
+	long storageId;
 	int airCapacity;
 	int motorCapacity;
 	int carCapacity;
@@ -14,12 +16,14 @@ public class StorageDataService_Stub implements StorageDataService{
 	int allCapacity;	
 	int nowCapacity;
 	double alarm;
+	Date checkDate;
 	
 	
-	public StorageDataService_Stub(int airCapacity, int motorCapacity,
+	public StorageDataService_Stub(Long storageId,int airCapacity, int motorCapacity,
 			int carCapacity, int trainCapacity, int allCapacity,
-			int nowCapacity, double alarm) {
+			int nowCapacity, double alarm,Date checkDate) {
 		super();
+		this.storageId = storageId;
 		this.airCapacity = airCapacity;
 		this.motorCapacity = motorCapacity;
 		this.carCapacity = carCapacity;
@@ -27,6 +31,7 @@ public class StorageDataService_Stub implements StorageDataService{
 		this.allCapacity = allCapacity;
 		this.nowCapacity = nowCapacity;
 		this.alarm = alarm;
+		this.checkDate = checkDate;
 	}
 
 	@Override
@@ -36,7 +41,8 @@ public class StorageDataService_Stub implements StorageDataService{
 
 	@Override
 	public StoragePO find(long id) throws RemoteException {
-		StoragePO po = new StoragePO(airCapacity, motorCapacity, carCapacity, trainCapacity, allCapacity, nowCapacity,alarm);
+		StoragePO po = new StoragePO(airCapacity, motorCapacity, carCapacity, 
+				trainCapacity, allCapacity, nowCapacity,alarm,checkDate,storageId);
 		return po;
 	}
 
