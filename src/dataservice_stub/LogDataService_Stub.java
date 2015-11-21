@@ -4,9 +4,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
-import po.AccountPO;
 import po.LogPO;
-import dataservice.AccountDataService;
 import dataservice.LogDataService;
 
 public class LogDataService_Stub implements LogDataService {

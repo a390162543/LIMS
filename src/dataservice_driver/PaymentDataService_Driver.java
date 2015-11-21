@@ -4,26 +4,22 @@ import java.rmi.RemoteException;
 import java.util.Date;
 import java.util.List;
 
-import businesslogicservice.PaymentblService;
-import businesslogicservice_driver.PaymentblService_Driver;
-import po.AccountPO;
-import po.LogPO;
+import dataservice.PaymentDataService;
 import po.PaymentPO;
 import systemenum.Entry;
-import dataservice.LogDataService;
-import dataservice.PaymentDataService;
-import dataservice_stub.LogDataService_Stub;
-import dataservice_stub.PaymentDataService_Stub;
+
+
 
 public class PaymentDataService_Driver {
 
 	public void drive(PaymentDataService paymentDataService){
-		PaymentPO po=new PaymentPO(new Long("00021160112000001"),new Date() , 30.00, "zhang", 1000000000000000000L, Entry.AWARDS, "yes", new Long("00021160112000001"));
+		PaymentPO po=new PaymentPO("0002116"
+				+ "0112000001",new Date() , 30.00, "zhang", "1000000000000000000","1000000000000000000", Entry.AWARDS, "yes");
 		try {
 			paymentDataService.init();
 			paymentDataService.insert(po);
 			paymentDataService.update(po);
-			PaymentPO poFound =paymentDataService.find(new Long("00021160112000001"));
+			PaymentPO poFound =paymentDataService.find("00021160112000001");
 	        if(poFound != null)
 	            System.out.println("find succeed!");
 	       

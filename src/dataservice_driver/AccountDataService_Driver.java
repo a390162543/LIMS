@@ -8,12 +8,12 @@ import po.AccountPO;
 
 public class AccountDataService_Driver {
 	public void drive(AccountDataService accountDataService){
-		AccountPO po=new AccountPO(new Long("2000000000000000000"), 50.00);
+		AccountPO po=new AccountPO("2000000000000000000",  "1000000000000000000",50.00);
 		try {
 			accountDataService.init();
 			accountDataService.insert(po);
 			accountDataService.update(po);
-			AccountPO poFound =accountDataService.find(new Long("100000000000000001"));
+			AccountPO poFound =accountDataService.find("100000000000000001");
 	        if(poFound != null)
 	            System.out.println("find succeed!");
 	        accountDataService.delete(poFound);

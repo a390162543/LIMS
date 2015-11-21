@@ -1,35 +1,42 @@
 package po;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import systemenum.DocumentState;
 import systemenum.Entry;
+import vo.PaymentVO;
 
-public class PaymentPO {
+public class PaymentPO implements Serializable{
 	
-	private long id;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7585418107787136611L;
+	private String id;
 	private Date date;
 	private double money ;
 	private String name;
-	private long accountId;
+	private String accountId;
+	private String payeeAccountId;
 	private Entry entry ;
 	private String remarks;
-	private long payeeAccountId;
+	
 	private DocumentState documentState;
 	
-	public PaymentPO(long id,Date date,double money,String name,long accountId,Entry entry,String remarks,long payeeAccountId){
+	public PaymentPO(String id,Date date,double money,String name,String accountId,String payeeAccountId,Entry entry,String remarks){
 		this.id=id;
 		this.date=date;
 		this.money=money;
 		this.name=name;
 		this.accountId=accountId;
+		this.payeeAccountId=payeeAccountId;
 		this.entry=entry;
 		this.remarks=remarks;
-		this.payeeAccountId=payeeAccountId;
 		this.documentState=DocumentState.PENDING;
 	}
 	
-	public long getId(){
+	public String getId(){
 		return id;
 	}
 	
@@ -45,7 +52,7 @@ public class PaymentPO {
 		return name;
 	}
 
-	public long getAccountId(){
+	public String getAccountId(){
 		return accountId;
 	}
 	
@@ -57,7 +64,7 @@ public class PaymentPO {
 		return remarks;
 	}
 
-	public long getPayeeAccountId(){
+	public String getPayeeAccountId(){
 		return payeeAccountId;
 	}
 	public DocumentState getDocumentState() {
@@ -68,4 +75,20 @@ public class PaymentPO {
 		this.documentState = documentState;
 	}
 
+	public PaymentVO getPaymentVO(){
+		PaymentVO vo = new PaymentVO(id, date , money , name , accountId , payeeAccountId , entry , remarks );
+		return vo;
+	}
+
+
+	public void update(PaymentVO vo){
+		this.id = vo.getId();
+		this.date = vo.getDate();
+		this.money = vo.getMoney();
+		this.name = vo.getName();
+		this.payeeAccountId = vo.getPayeeAccountId();
+		this.accountId = vo.getAccountId();
+		this.entry = vo.getEntry();
+		this.remarks = vo.getRemarks();
+	}
 }

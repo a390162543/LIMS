@@ -2,6 +2,8 @@ package vo;
 
 import java.util.Date;
 
+import po.LogPO;
+
 public class LogVO {
 
 	private String operation;
@@ -19,5 +21,10 @@ public class LogVO {
 	
 	public Date getDate(){
 		return date;
+	}
+	
+	public LogPO getLogPO(){
+		LogPO po = new LogPO(operation , date );
+		return po;
 	}
 }

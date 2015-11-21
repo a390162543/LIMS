@@ -26,7 +26,7 @@ public class AccountDataService_Stub implements AccountDataService{
 	public void update(AccountPO po) throws RemoteException {
 		System.out.println("Update Succeed!\n");
 	}
-	public AccountPO find(long id) throws RemoteException {
+	public AccountPO find(String id) throws RemoteException {
 		System.out.println("find Succeed!\n");
 		return po;
 	}

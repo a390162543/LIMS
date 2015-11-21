@@ -1,12 +1,11 @@
 package dataservice;
 
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
-
-import po.AccountPO;
 import po.LogPO;
 
-public interface LogDataService {
+public interface LogDataService  extends Remote{
 	
 	public void insert(LogPO po) throws RemoteException;
 	

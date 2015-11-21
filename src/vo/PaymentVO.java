@@ -2,30 +2,31 @@ package vo;
 
 import java.util.Date;
 
+import po.PaymentPO;
 import systemenum.Entry;
 
 public class PaymentVO {
-	private long id;
+	private String id;
 	private Date date;
 	private double money ;
 	private String name;
-	private long accountId;
-	private Entry entry ;
-	private long payeeAccountId;
+	private String accountId;
+	private String payeeAccountId;
+	private Entry entry ;	
 	private String remarks;
 	
-	public PaymentVO(long id,Date date,double money,String name,long accountId,Entry entry,String remarks,long payeeAccountId){
+	public PaymentVO(String id,Date date,double money,String name,String accountId,String payeeAccountId,Entry entry,String remarks){
 		this.id=id;
 		this.date=date;
 		this.money=money;
 		this.name=name;
 		this.accountId=accountId;
-		this.entry=entry;
-		this.remarks=remarks;
 		this.payeeAccountId=payeeAccountId;
+		this.entry=entry;
+		this.remarks=remarks;		
 	}
 	
-	public long getId(){
+	public String getId(){
 		return id;
 	}
 	
@@ -41,7 +42,7 @@ public class PaymentVO {
 		return name;
 	}
 
-	public long getAccountId(){
+	public String getAccountId(){
 		return accountId;
 	}
 	
@@ -49,7 +50,7 @@ public class PaymentVO {
 		return entry;
 	}
 		
-	public long getPayeeAccountId(){
+	public String getPayeeAccountId(){
 		return payeeAccountId;
 	}
 	
@@ -57,6 +58,9 @@ public class PaymentVO {
 		return remarks;
 	}
 	
-
+	public PaymentPO getPaymentPO(){
+		PaymentPO po = new PaymentPO(id, date , money , name , accountId , payeeAccountId , entry , remarks );
+		return po;
+	}
 
 }

@@ -1,20 +1,33 @@
 package vo;
 
+import po.AccountPO;
+
 public class AccountVO {
 
-	private long id;
+	private String id;
+	private String name;
 	private double money;
     
-	public AccountVO(long id,double money){
-		this.id=id;
-		this.money=money;
+	public AccountVO(String id, String name,double money){
+		this.id = id;
+		this.name = name;
+		this.money = money;
 	}
 	
-	public long getId(){
+	public String getId(){
 		return id;
+	}
+	
+	public String getName(){
+		return name;
 	}
 	
 	public double getMoney(){
 		return money;
 	}
+	public AccountPO getAccountPO(){
+		AccountPO po = new AccountPO(id ,name,money);
+		return po;	
+	}
+
 }

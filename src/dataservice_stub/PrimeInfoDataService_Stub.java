@@ -4,9 +4,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
-import po.AccountPO;
 import po.PrimeInfoPO;
-import dataservice.AccountDataService;
 import dataservice.PrimeInfoDataService;
 
 public class PrimeInfoDataService_Stub implements PrimeInfoDataService{

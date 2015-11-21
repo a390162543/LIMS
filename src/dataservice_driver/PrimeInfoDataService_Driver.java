@@ -30,7 +30,7 @@ public class PrimeInfoDataService_Driver {
 		List<StoragePO> storagePOList= new ArrayList<StoragePO>();
 		storagePOList.add(new StoragePO(5, 50,50, 50, 50, 50, 50.00,new Date(),new Long("00021160112000001")));
 		List<AccountPO> accountPOList= new ArrayList<AccountPO>();
-		accountPOList.add(new AccountPO(new Long("2000000000002345678"), 100.00));
+		accountPOList.add(new AccountPO("2000000000002345678", "2000000000002345678",100.00));
 		
 		PrimeInfoPO po=new PrimeInfoPO(organizationPOList, employeePOList, truckPOList,storagePOList, accountPOList);
 		try {

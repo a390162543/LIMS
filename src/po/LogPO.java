@@ -1,8 +1,11 @@
 package po;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class LogPO {
+import vo.LogVO;
+
+public class LogPO implements Serializable{
 	
 	private String operation;
 	private Date date;
@@ -19,6 +22,11 @@ public class LogPO {
 	
 	public Date getDate(){
 		return date;
+	}
+	
+	public LogVO getLogVO(){
+		LogVO vo = new LogVO(operation , date );
+		return vo;
 	}
 
 }

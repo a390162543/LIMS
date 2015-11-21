@@ -4,10 +4,8 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
-import po.AccountPO;
-import po.ApprovalPO;
+
 import po.PaymentPO;
-import dataservice.AccountDataService;
 import dataservice.PaymentDataService;
 
 public class PaymentDataService_Stub implements PaymentDataService{
@@ -26,7 +24,7 @@ public class PaymentDataService_Stub implements PaymentDataService{
 		System.out.println("Update Succeed!\n");
 	}
 
-	public PaymentPO find(long id) throws RemoteException {
+	public PaymentPO find(String id) throws RemoteException {
 		System.out.println("find Succeed!\n");
 		return po;
 	}

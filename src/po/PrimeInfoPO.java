@@ -1,8 +1,11 @@
 package po;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class PrimeInfoPO {
+import vo.PrimeInfoVO;
+
+public class PrimeInfoPO implements Serializable{
 
 	private List<OrganizationPO>  organization;
 	private List<EmployeePO>  employee;
@@ -38,4 +41,9 @@ public class PrimeInfoPO {
 		return account;
 	}
 	
+//	public PrimeInfoVO getPrimeInfoVO(){
+//		List<OrganizationVO> organizationVOs =new 
+//		PrimeInfoVO vo = new PrimeInfoVO(organization, employee , truck , storage , account);
+//		return vo;
+//	}
 }
