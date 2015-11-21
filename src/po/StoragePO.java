@@ -1,10 +1,23 @@
 package po;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class StoragePO {
+import vo.StorageSetAreaVO;
+
+public class StoragePO implements Serializable {
 	
-	private long storageId;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1677320272855633799L;
+
+	/**
+	 * 
+	 */
+	
+
+	private String storageId;
 	
 	private int airCapacity;
 	private int motorCapacity;
@@ -18,7 +31,7 @@ public class StoragePO {
 	
 	public StoragePO(int airCapacity, int motorCapacity, int carCapacity,
 			int trainCapacity, int allCapacity, int nowCapacity, double alarm,
-			Date checkDate,long storageId) {
+			Date checkDate,String storageId) {
 		super();
 		this.airCapacity = airCapacity;
 		this.motorCapacity = motorCapacity;
@@ -90,9 +103,20 @@ public class StoragePO {
 	}
 	
 	
-	public long getStorageId(){
+	public String getStorageId(){
 		return storageId;
 	}
 
+	public StorageSetAreaVO getStorageSetAreaVO(){
+		return new StorageSetAreaVO(storageId, airCapacity, motorCapacity, carCapacity, trainCapacity, alarm);
+	}
 
+	public StoragePO getUpdateStoragePO(StorageSetAreaVO vo){
+		setAirCapacity(vo.getAirCapacity());
+		setMotorCapacity(vo.getMotorCapacity());
+		setCarCapacity(vo.getCarCapacity());
+		setTrainCapacity(vo.getTrainCapacity());
+		setAlarm(vo.getAlarm());
+		return this;
+	}
 }

@@ -13,7 +13,7 @@ public class StorageblService_Driver {
 	
 	public void drive(StorageblService storageblService){
 		
-		StorageSetAreaVO storageSetAreaVO = new StorageSetAreaVO(10, 50, 90, 50);
+		StorageSetAreaVO storageSetAreaVO = new StorageSetAreaVO(new String("0250"),10, 50, 90, 50,0.8);
 		boolean storageSetAreaResult = storageblService.setArea(storageSetAreaVO);
 		System.out.println(storageSetAreaResult);
 		

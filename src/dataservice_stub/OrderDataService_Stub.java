@@ -15,7 +15,7 @@ import dataservice.OrderDataService;
 
 public class OrderDataService_Stub implements OrderDataService {
 
-	long id;
+	String id;
 	
 	DocumentState documentState;
 	
@@ -55,7 +55,7 @@ public class OrderDataService_Stub implements OrderDataService {
    	
    	
 
-	public OrderDataService_Stub(long id,
+	public OrderDataService_Stub(String id,
 			WrapWay wrapWay, DeliveryWay deliverWay,
 			ShipForm shipForm, String nowLocation, String nextLocation,
 			String senderName, String senderAddress, String senderTel,
@@ -107,7 +107,7 @@ public class OrderDataService_Stub implements OrderDataService {
 	}
 
 	@Override
-	public OrderPO find(long id) throws RemoteException {
+	public OrderPO find(String id) throws RemoteException {
 		System.out.println("Find Succeed!\n");
 		OrderPO po = new OrderPO(this.id, wrapWay, deliverWay, senderName, senderAddress, senderTel, senderCell,
 				receiverName, receiverAddress, receiverTel, receiverCell, goodsInfo, this.weight, this.size, this.cost);		

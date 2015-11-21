@@ -11,11 +11,11 @@ import dataservice.StoreinDataService;
 
 public class StoreinDataService_Stub implements StoreinDataService {
 	
-	long id;
+	String id;
 	DocumentState documentState;
-	List<Long> orderId;
+	List<String> orderId;
 	Date inDate;
-	List<String> destination; 
+	String destination; 
 	List<Integer> areaNum;
 	List<Integer> rowNum;
 	List<Integer> frameNum;
@@ -23,8 +23,8 @@ public class StoreinDataService_Stub implements StoreinDataService {
 	
 	
 
-	public StoreinDataService_Stub(long id,
-			List<Long> orderId, Date inDate, List<String> destination,
+	public StoreinDataService_Stub(String id,
+			List<String> orderId, Date inDate, String destination,
 			List<Integer> areaNum, List<Integer> rowNum,
 			List<Integer> frameNum, List<Integer> item) {
 		super();
@@ -51,7 +51,7 @@ public class StoreinDataService_Stub implements StoreinDataService {
 	}
 
 	@Override
-	public StoreinPO find(long id) throws RemoteException {
+	public StoreinPO find(String id) throws RemoteException {
 		StoreinPO po = new StoreinPO(this.id, orderId, inDate, destination, areaNum, rowNum, frameNum, item);
 		return po;
 	}

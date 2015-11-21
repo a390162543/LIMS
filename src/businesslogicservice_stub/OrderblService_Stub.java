@@ -1,8 +1,7 @@
 package businesslogicservice_stub;
 
-import systemenum.DeliveryWay;
+
 import systemenum.GoodsState;
-import systemenum.WrapWay;
 import vo.OrderCreateVO;
 import vo.OrderQueryVO;
 import vo.OrderSignVO;
@@ -11,14 +10,14 @@ import businesslogicservice.OrderblService;
 public class OrderblService_Stub implements OrderblService {
 	
 	double total;
-	long id;
+	String id;
 	GoodsState state;
 	String deliverInfo;
 	String nowLocation;
 	String nextLocation;
 	
 	
-	public OrderblService_Stub(double total, long id, GoodsState state,
+	public OrderblService_Stub(double total, String id, GoodsState state,
 			String deliverInfo, String nowLocation, String nextLocation) {
 		super();
 		this.total = total;
@@ -41,7 +40,7 @@ public class OrderblService_Stub implements OrderblService {
 	}
 
 	@Override
-	public OrderQueryVO returnOrderQueryVO(long orderId) {
+	public OrderQueryVO returnOrderQueryVO(String orderId) {
 		return new OrderQueryVO(orderId, state, deliverInfo, nowLocation, nextLocation);
 	}
 

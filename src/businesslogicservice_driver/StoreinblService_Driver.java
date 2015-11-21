@@ -11,15 +11,15 @@ public class StoreinblService_Driver {
 	
 	public void drive(StoreinblService storeinblService){
 		
-		long storeinId = new Long("0250151025000001");
-		List<Long> orderId= new ArrayList<Long>();
-		List<String> destination = new ArrayList<String>();
+		String storeinId = new String("0250151025000001");
+		List<String> orderId= new ArrayList<String>();
+		String destination;
 		List<Integer> areaNum= new ArrayList<Integer>();
 		List<Integer> rowNum= new ArrayList<Integer>();
 		List<Integer> frameNum= new ArrayList<Integer>();
 		List<Integer> item= new ArrayList<Integer>();
-		orderId.add(new Long("1025000001"));
-		destination.add("南京市栖霞区中转中心");
+		orderId.add(new String("1025000001"));
+		destination = "南京市栖霞区中转中心";
 		areaNum.add(10);
 		rowNum.add(20);
 		frameNum.add(30);

@@ -3,20 +3,22 @@ package vo;
 import java.util.Date;
 import java.util.List;
 
+import po.StoreoutPO;
 import systemenum.ShipForm;
 
 public class StoreoutCreateVO {
 	
-	private long id;
-	private List<Long> orderId;
+	private String id;
+	private List<String> orderId;
 	private Date date;
-	private List<String> destination;
-	private List<ShipForm> shipForm;
-	private long transferId;
+	private String destination;
+	private ShipForm shipForm;
+	private String transferId;
+	private String organization;
 	
 	
-	public StoreoutCreateVO(long id, List<Long> orderId, Date date,
-			List<String> destination, List<ShipForm> shipForm, long transferId) {
+	public StoreoutCreateVO(String id, List<String> orderId, Date date,
+			String destination, ShipForm shipForm, String transferId) {
 		super();
 		this.id = id;
 		this.orderId = orderId;
@@ -25,13 +27,44 @@ public class StoreoutCreateVO {
 		this.shipForm = shipForm;
 		this.transferId = transferId;
 	}
+	
+	
 
 
-	public long getId() {
+	public StoreoutCreateVO(String id, List<String> orderId, Date date,
+			String destination, ShipForm shipForm, String transferId,
+			String organization) {
+		super();
+		this.id = id;
+		this.orderId = orderId;
+		this.date = date;
+		this.destination = destination;
+		this.shipForm = shipForm;
+		this.transferId = transferId;
+		this.organization = organization;
+	}
+
+
+
+	
+
+	public String getOrganization() {
+		return organization;
+	}
+
+
+	public void setOrganization(String organization) {
+		this.organization = organization;
+	}
+
+
+
+
+	public String getId() {
 		return id;
 	}
 
-	public List<Long> getOrderId() {
+	public List<String> getOrderId() {
 		return orderId;
 	}
 
@@ -39,19 +72,21 @@ public class StoreoutCreateVO {
 		return date;
 	}
 
-	public List<String> getDestination() {
+	public String getDestination() {
 		return destination;
 	}
 
-	public List<ShipForm> getShipForm() {
+	public ShipForm getShipForm() {
 		return shipForm;
 	}
 
-	public long getTransferId() {
+	public String getTransferId() {
 		return transferId;
 	}
 	
-	
+	public StoreoutPO getStoreoutPO(){
+		return new StoreoutPO(id, orderId, date, destination, shipForm, transferId, organization);
+	}
 	
 	
 }

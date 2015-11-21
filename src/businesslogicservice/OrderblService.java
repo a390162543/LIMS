@@ -1,7 +1,5 @@
 package businesslogicservice;
 
-import systemenum.DeliveryWay;
-import systemenum.WrapWay;
 import vo.OrderCreateVO;
 import vo.OrderQueryVO;
 import vo.OrderSignVO;
@@ -18,7 +16,7 @@ public interface OrderblService {
 	
 	
 	//return the information of the order delivery
-	public OrderQueryVO returnOrderQueryVO(long orderId);
+	public OrderQueryVO returnOrderQueryVO(String orderId);
 	
 	
 	//compute the total expense of the current order

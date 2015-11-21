@@ -4,13 +4,13 @@ import systemenum.GoodsState;
 
 public class OrderQueryVO {
 	
-	 private long id;
+	 private String id;
 	 private GoodsState state;
 	 private String deliverInfo;
 	 private String nowLocation;
 	 private String nextLocation;
 	 
-	 public OrderQueryVO(long id, GoodsState state, String deliverInfo,
+	 public OrderQueryVO(String id, GoodsState state, String deliverInfo,
 			String nowLocation, String nextLocation) {
 		super();
 		this.id = id;
@@ -21,7 +21,7 @@ public class OrderQueryVO {
 	}
 
 	 
-	public long getId() {
+	public String getId() {
 		return id;
 	}
 

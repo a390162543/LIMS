@@ -5,7 +5,7 @@ import java.util.Date;
 
 public class StorageCheckVO {
 	
-	private long id;
+	private String id;
 	private Date inDate;
 	private String nextLocation;
 	
@@ -15,7 +15,7 @@ public class StorageCheckVO {
    	private int item;
    	
    	
-	public StorageCheckVO(long id, Date inDate, String nextLocation,
+	public StorageCheckVO(String id, Date inDate, String nextLocation,
 			int areaNum, int rowNum, int frameNum, int item) {
 		super();
 		this.id = id;
@@ -28,7 +28,7 @@ public class StorageCheckVO {
 	}
 
 
-	public long getId() {
+	public String getId() {
 		return id;
 	}
 

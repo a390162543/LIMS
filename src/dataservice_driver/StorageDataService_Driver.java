@@ -12,7 +12,7 @@ public class StorageDataService_Driver {
 	public void drive(StorageDataService storageDataService){
 		
 		StoragePO storagePO = new StoragePO(10, 50, 90, 50, 2000000, 1000000, 0.85, 
-				new Date(2015, 10, 29, 13, 50),new Long("0011503480"));
+				new Date(2015, 10, 29, 13, 50),new String("0011503480"));
 		
 		try {
 			storageDataService.update(storagePO);
@@ -23,7 +23,7 @@ public class StorageDataService_Driver {
 		}
 		
 		try {
-			long findId = new Long("0250");
+			String findId = new String("0250");
 			StoragePO StorageFindPO = storageDataService.find(findId);
 			System.out.println("Succeed");
 		} catch (RemoteException e) {

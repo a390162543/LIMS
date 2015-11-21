@@ -1,5 +1,6 @@
 package po;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import systemenum.DeliveryWay;
@@ -7,11 +8,22 @@ import systemenum.DocumentState;
 import systemenum.ShipForm;
 import systemenum.WrapWay;
 import systemenum.GoodsState;
+import vo.OrderQueryVO;
+import vo.OrderSignVO;
+import vo.InOrderCheckResultVO;
+import vo.OutOrderCheckResultVO;
 
-public class OrderPO {
+public class OrderPO implements Serializable{
 	
 	
-	public OrderPO(long id, WrapWay wrapWay, DeliveryWay deliverWay,
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4266123865786848909L;
+
+
+
+	public OrderPO(String id, WrapWay wrapWay, DeliveryWay deliverWay,
 			String senderName, String senderAddress,
 			String senderTel, String senderCell, String receiverName,
 			String receiverAddress, String receiverTel, String receiverCell,
@@ -37,7 +49,7 @@ public class OrderPO {
 	}
 	
 	
-	private long id;
+	private String id;
 	
 	private DocumentState documentState;
 	
@@ -93,7 +105,7 @@ public class OrderPO {
 		this.inDate = inDate;
 	}
 
-	public long getOrderId() {
+	public String getOrderId() {
 		return id;
 	}
 	
@@ -234,4 +246,21 @@ public class OrderPO {
 		return deliverWay;
 	}
 	
+	public OrderPO updateSignInfo(OrderSignVO vo){
+		setSignName(vo.getSignName());
+		setSignData(vo.getSignData());
+		return this;
+	}
+	
+	public OrderQueryVO getOrderQueryVO(){
+		return new OrderQueryVO(id, state, deliverInfo, nowLocation, nextLocation);
+	}
+	
+	public OutOrderCheckResultVO getOutOrderCheckResultVO(){
+		return new OutOrderCheckResultVO(id, areaNum, rowNum, frameNum, item, weight, size);
+	}
+	
+	public InOrderCheckResultVO getInOrderCheckResultVO() {
+		return new InOrderCheckResultVO(id, areaNum, rowNum, frameNum, item, weight, size);
+	}
 }

@@ -1,17 +1,18 @@
 package dataservice;
 
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
 
 import po.StoreinPO;
 
-public interface StoreinDataService {
+public interface StoreinDataService extends Remote{
 	
 	public void insert(StoreinPO po) throws RemoteException;
     
     public void update(StoreinPO po) throws RemoteException;
     
-    public StoreinPO find(long id) throws RemoteException;
+    public StoreinPO find(String id) throws RemoteException;
     
     public List<StoreinPO> finds(String field, Object value) throws RemoteException;
     

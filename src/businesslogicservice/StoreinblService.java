@@ -1,5 +1,9 @@
 package businesslogicservice;
 
+import java.util.List;
+
+import vo.StoreinCheckResultVO;
+import vo.StoreinCheckVo;
 import vo.StoreinCreateVO;
 
 public interface StoreinblService {

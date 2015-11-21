@@ -1,11 +1,12 @@
 package vo;
 
+import po.OrderPO;
 import systemenum.DeliveryWay;
 import systemenum.WrapWay;
 
 public class OrderCreateVO {
 	
-	private long id;
+	private String id;
 	
 	private String senderName;
 	private String senderAddress;
@@ -26,7 +27,7 @@ public class OrderCreateVO {
     private DeliveryWay deliverWay;
     
     
-	public OrderCreateVO(long id, String senderName, String senderAddress,
+	public OrderCreateVO(String id, String senderName, String senderAddress,
 			String senderTel, String senderCell, String receiverName,
 			String receiverAddress, String receiverTel, String receiverCell,
 			String goodsInfo, double weight, double size, double cost,
@@ -50,7 +51,7 @@ public class OrderCreateVO {
 	}
 
 
-	public long getId() {
+	public String getId() {
 		return id;
 	}
 
@@ -124,6 +125,11 @@ public class OrderCreateVO {
 		return deliverWay;
 	}
     
-    
+    public OrderPO getOrderPO(){
+    	return new OrderPO(id, wrapWay, deliverWay, senderName, senderAddress, senderTel,
+    			senderCell, receiverName, receiverAddress, receiverTel, receiverCell,
+    			goodsInfo, weight, size, cost);
+    }
+	
 
 }

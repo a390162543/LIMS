@@ -8,7 +8,7 @@ import dataservice.StorageDataService;
 
 public class StorageDataService_Stub implements StorageDataService{
 
-	long storageId;
+	String storageId;
 	int airCapacity;
 	int motorCapacity;
 	int carCapacity;
@@ -19,7 +19,7 @@ public class StorageDataService_Stub implements StorageDataService{
 	Date checkDate;
 	
 	
-	public StorageDataService_Stub(Long storageId,int airCapacity, int motorCapacity,
+	public StorageDataService_Stub(String storageId,int airCapacity, int motorCapacity,
 			int carCapacity, int trainCapacity, int allCapacity,
 			int nowCapacity, double alarm,Date checkDate) {
 		super();
@@ -40,7 +40,7 @@ public class StorageDataService_Stub implements StorageDataService{
 	}
 
 	@Override
-	public StoragePO find(long id) throws RemoteException {
+	public StoragePO find(String id) throws RemoteException {
 		StoragePO po = new StoragePO(airCapacity, motorCapacity, carCapacity, 
 				trainCapacity, allCapacity, nowCapacity,alarm,checkDate,storageId);
 		return po;

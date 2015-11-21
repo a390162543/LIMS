@@ -13,14 +13,14 @@ public class StoreoutDataService_Driver {
 	
 	public void drive(StoreoutDataService storeoutDateService){
 		
-		long storeinId = new Long("0250151025000001");
-		long transferId = new Long("02501510250000001");
-		List<Long> orderId= new ArrayList<Long>();
-		List<String> destination = new ArrayList<String>();
-		List<ShipForm> shipForm = new ArrayList<ShipForm>();
-		orderId.add(new Long("1025000001"));
-		destination.add("南京市栖霞区中转中心");
-		shipForm.add(ShipForm.CAR);
+		String storeinId = new String("0250151025000001");
+		String transferId = new String("02501510250000001");
+		List<String> orderId= new ArrayList<String>();
+		String destination;
+		ShipForm shipForm;
+		orderId.add(new String("1025000001"));
+		destination = "南京市栖霞区中转中心";
+		shipForm = ShipForm.CAR;
 		
 		StoreoutPO storeoutPO = new StoreoutPO(storeinId, orderId, new Date(), destination,shipForm,transferId);
 		
@@ -53,7 +53,7 @@ public class StoreoutDataService_Driver {
 			boolean result = true;
 			List<StoreoutPO> StoreoutPOs = storeoutDateService.finds("destination", destination);
 			for(int i=0;i<StoreoutPOs.size();i++){
-				if(StoreoutPOs.get(i).getDestination().get(i).equals(destination.get(i)))
+				if(StoreoutPOs.get(i).getDestination().equals(destination))
 					result = false;		
 			}
 			System.out.println(result);

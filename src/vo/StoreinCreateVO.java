@@ -3,20 +3,23 @@ package vo;
 import java.util.Date;
 import java.util.List;
 
+import po.StoreinPO;
+
 public class StoreinCreateVO {
 	
-	private long id;
-	private List<Long> orderId;
+	private String id;
+	private List<String> orderId;
 	private Date inDate;
-	private List<String> destination; 
+	private String destination; 
 	private List<Integer> areaNum;
 	private List<Integer> rowNum;
 	private List<Integer> frameNum;
 	private List<Integer> item;
+	private String organization;
 	
 	
-	public StoreinCreateVO(long id, List<Long> orderId, Date inDate,
-			List<String> destination, List<Integer> areaNum,
+	public StoreinCreateVO(String id, List<String> orderId, Date inDate,
+			 String destination,List<Integer> areaNum,
 			List<Integer> rowNum, List<Integer> frameNum, List<Integer> item) {
 		super();
 		this.id = id;
@@ -29,12 +32,31 @@ public class StoreinCreateVO {
 		this.item = item;
 	}
 
+	
 
-	public long getId() {
+	public StoreinCreateVO(String id, List<String> orderId, Date inDate,
+			String destination, List<Integer> areaNum, List<Integer> rowNum,
+			List<Integer> frameNum, List<Integer> item, String organization) {
+		super();
+		this.id = id;
+		this.orderId = orderId;
+		this.inDate = inDate;
+		this.destination = destination;
+		this.areaNum = areaNum;
+		this.rowNum = rowNum;
+		this.frameNum = frameNum;
+		this.item = item;
+		this.organization = organization;
+	}
+
+
+	
+
+	public String getId() {
 		return id;
 	}
 
-	public List<Long> getOrderId() {
+	public List<String> getOrderId() {
 		return orderId;
 	}
 
@@ -42,7 +64,7 @@ public class StoreinCreateVO {
 		return inDate;
 	}
 
-	public List<String> getDestination() {
+	public String getDestination(){
 		return destination;
 	}
 
@@ -62,6 +84,8 @@ public class StoreinCreateVO {
 		return item;
 	}
 	
-	
+	public StoreinPO getStoreinPO(){
+		return new StoreinPO(id, orderId, inDate, destination, areaNum, rowNum, frameNum, item, organization);
+	}
 
 }

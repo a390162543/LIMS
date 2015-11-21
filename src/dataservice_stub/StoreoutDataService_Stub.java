@@ -12,18 +12,18 @@ import dataservice.StoreoutDataService;
 
 public class StoreoutDataService_Stub implements StoreoutDataService {
 	
-	long id;
+	String id;
 	DocumentState documentState;
-	List<Long> orderId;
+	List<String> orderId;
 	Date date;
-	List<String> destination;
-	List<ShipForm> shipForm;
-	long transferId;
+	String destination;
+	ShipForm shipForm;
+	String transferId;
 	
 	
 	
-	public StoreoutDataService_Stub(long id, List<Long> orderId, Date date,
-			List<String> destination, List<ShipForm> shipForm, long transferId) {
+	public StoreoutDataService_Stub(String id, List<String> orderId, Date date,
+			String destination, ShipForm shipForm, String transferId) {
 		super();
 		this.documentState = DocumentState.PENDING;
 		this.id = id;
@@ -46,7 +46,7 @@ public class StoreoutDataService_Stub implements StoreoutDataService {
 	}
 
 	@Override
-	public StoreoutPO find(long id) throws RemoteException {
+	public StoreoutPO find(String id) throws RemoteException {
 		StoreoutPO po = new StoreoutPO(this.id, orderId, date, destination, shipForm, transferId);
 		return po;
 	}
