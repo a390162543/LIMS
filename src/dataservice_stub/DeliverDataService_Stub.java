@@ -26,7 +26,7 @@ public class DeliverDataService_Stub implements DeliverDataService{
     }
 
     @Override
-    public DeliverPO find(long id) throws RemoteException {
+    public DeliverPO find(String id) throws RemoteException {
         System.out.println("find succeed!");
         return po;
     }

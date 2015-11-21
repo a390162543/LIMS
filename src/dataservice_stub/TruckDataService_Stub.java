@@ -31,7 +31,7 @@ public class TruckDataService_Stub implements TruckDataService{
     }
 
     @Override
-    public TruckPO find(long id) throws RemoteException {
+    public TruckPO find(String id) throws RemoteException {
         System.out.println("find succeed!");
         return po;
     }

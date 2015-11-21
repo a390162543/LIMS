@@ -1,40 +1,86 @@
 package po;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import systemenum.DocumentState;
+import vo.LoadVO;
 
-public class LoadPO {
+public class LoadPO implements Serializable{
     
-    private long id;
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -2926597235162544784L;
+    
+    private String id;
     private Date loadingDate;
-    private long transportId;
-    private String arrive;
-    private long truckId;
+    private String transportId;
+    private String depart;
+    private String destination;
+    private String truckId;
     private String loadMan;
     private String transman;
-    private List<Long> OrderId;
+    private List<String> orderId;
     private double cost;
     private DocumentState documentState;
     
-    public LoadPO(long id, Date loadingDate, long transportId, String arrive,
-            long truckId, String loadMan, String transman, List<Long> orderId,
+    public LoadPO(String id, Date loadingDate, String transportId, String arrive,
+            String truckId, String loadMan, String transman, List<String> orderId,
             double cost) {
         super();
         this.id = id;
         this.loadingDate = loadingDate;
         this.transportId = transportId;
-        this.arrive = arrive;
+        this.destination = arrive;
         this.truckId = truckId;
         this.loadMan = loadMan;
         this.transman = transman;
-        OrderId = orderId;
+        this.orderId = orderId;
+        this.cost = cost;
+        this.documentState = DocumentState.PENDING;
+    }
+    
+    public LoadPO(String id, Date loadingDate, String transportId, String depart,
+            String destination, String truckId, String loadMan, String transman,
+            List<String> orderId, double cost) {
+        super();
+        this.id = id;
+        this.loadingDate = loadingDate;
+        this.transportId = transportId;
+        this.depart = depart;
+        this.destination = destination;
+        this.truckId = truckId;
+        this.loadMan = loadMan;
+        this.transman = transman;
+        this.orderId = orderId;
         this.cost = cost;
         this.documentState = DocumentState.PENDING;
     }
 
-    public long getId() {
+    public String getIdString(){
+        return String.format("%018d", id);
+    }
+    
+    public String getTransportIdString(){
+        return String.format("%010d", transportId);
+    }
+    
+    public String getTruckIdString(){
+        return String.format("%09d", truckId);
+    }
+    
+    public List<String> getOrderIdStringList(){
+        List<String> orderIdStrings = new ArrayList<String>();
+        for(String id : orderId){
+            orderIdStrings.add(String.format("%010d", id));
+        }
+        return orderIdStrings;
+    }
+    
+    public String getId() {
         return id;
     }
 
@@ -42,15 +88,19 @@ public class LoadPO {
         return loadingDate;
     }
 
-    public long getTransportId() {
+    public String getTransportId() {
         return transportId;
     }
 
-    public String getArrive() {
-        return arrive;
+    public String getDepart() {
+        return depart;
+    }
+    
+    public String getDestination() {
+        return destination;
     }
 
-    public long getTruckId() {
+    public String getTruckId() {
         return truckId;
     }
 
@@ -62,14 +112,14 @@ public class LoadPO {
         return transman;
     }
 
-    public List<Long> getOrderId() {
-        return OrderId;
+    public List<String> getOrderId() {
+        return orderId;
     }
 
     public double getCost() {
         return cost;
     }
-
+    
     public DocumentState getDocumentState() {
         return documentState;
     }
@@ -77,6 +127,22 @@ public class LoadPO {
     public void setDocumentState(DocumentState documentState) {
         this.documentState = documentState;
     }
+
+    public void update(LoadVO vo) {
+        this.id = vo.getId();
+        this.loadingDate = vo.getLoadingDate();
+        this.transportId = vo.getTransportId();
+        this.depart = vo.getDepart();
+        this.destination = vo.getDestination();
+        this.truckId = vo.getTruckId();
+        this.loadMan = vo.getLoadMan();
+        this.transman = vo.getTransman();
+        this.orderId = vo.getOrderId();
+        this.cost = vo.getCost();
+    }
+
+
+
     
     
 

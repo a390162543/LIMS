@@ -26,7 +26,7 @@ public class LoadDataService_Stub implements LoadDataService{
     }
 
     @Override
-    public LoadPO find(long id) throws RemoteException {
+    public LoadPO find(String id) throws RemoteException {
         System.out.println("find succeed!");
         return po;
     }

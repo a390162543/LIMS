@@ -7,7 +7,7 @@ import businesslogicservice.DeliverblService;
 
 public class DeliverblService_Driver {
     public void drive(DeliverblService deliverblService){
-        DeliverVO vo = new DeliverVO(new Long("025001150118000001"), new Date(), new Long("1008000010"), new Long("025001001"));
+        DeliverVO vo = new DeliverVO(new String("025001150118000001"), new Date(), new String("1008000010"), new String("025001001"));
         
         boolean createResult = deliverblService.createDeliverPO(vo);
         if(createResult == true)

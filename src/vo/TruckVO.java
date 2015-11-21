@@ -8,14 +8,14 @@ import po.TruckPO;
 
 public class TruckVO {
     
-    private long id;
+    private String id;
     private String engineNumber;
     private String truckNumber;
     private String chassisNumber;
     private Date purchaseDate;
     private ImageIcon truckImage;
     
-    public TruckVO(long id, String engineNumber, String truckNumber,
+    public TruckVO(String id, String engineNumber, String truckNumber,
             String chassisNumber, Date purchaseDate, ImageIcon truckImage) {
         this.id = id;
         this.engineNumber = engineNumber;
@@ -25,7 +25,11 @@ public class TruckVO {
         this.truckImage = truckImage;
     }
 
-    public long getId() {
+    public String getIdString(){
+        return String.format("%09d", id);
+    }
+    
+    public String getId() {
         return id;
     }
     

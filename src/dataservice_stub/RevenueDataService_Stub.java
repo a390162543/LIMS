@@ -26,7 +26,7 @@ public class RevenueDataService_Stub implements RevenueDataService{
     }
 
     @Override
-    public RevenuePO find(long id) throws RemoteException {
+    public RevenuePO find(String id) throws RemoteException {
         System.out.println("find succeed!");
         return po;
     }

@@ -9,12 +9,12 @@ import systemenum.DocumentState;
 import vo.TruckVO;
 
 public class TruckPO implements Serializable{
-    
     /**
      * 
      */
-    private static final long serialVersionUID = -566328842327604370L;
-    private long id;
+    private static final long serialVersionUID = -8088793281653513357L;
+    
+    private String id;
     private String engineNumber;
     private String truckNumber;
     private String chassisNumber;
@@ -22,7 +22,7 @@ public class TruckPO implements Serializable{
     private ImageIcon truckImage;
     private DocumentState documentState;
     
-    public TruckPO(long id, String engineNumber, String truckNumber,
+    public TruckPO(String id, String engineNumber, String truckNumber,
             String chassisNumber, Date purchaseDate, ImageIcon truckImage) {
         this.id = id;
         this.engineNumber = engineNumber;
@@ -33,7 +33,11 @@ public class TruckPO implements Serializable{
         this.documentState = DocumentState.PENDING;
     }
 
-    public long getId() {
+    public String getIdString(){
+        return String.format("%09d", id);
+    }
+    
+    public String getId() {
         return id;
     }
     
@@ -88,6 +92,14 @@ public class TruckPO implements Serializable{
     public TruckVO getTruckVO(){
         return new TruckVO(this.id, this.engineNumber, this.truckNumber, this.chassisNumber, this.purchaseDate, this.truckImage);
     }
-
+    
+    public void update(TruckVO vo){
+        this.id = vo.getId();
+        this.engineNumber = vo.getEngineNumber();
+        this.truckNumber = vo.getTruckNumber();
+        this.chassisNumber = vo.getChassisNumber();
+        this.purchaseDate = vo.getPurchaseDate();
+        this.truckImage = vo.getTruckImage();
+    }
     
 }

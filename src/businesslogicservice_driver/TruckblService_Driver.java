@@ -8,7 +8,7 @@ import businesslogicservice.TruckblService;
 
 public class TruckblService_Driver {
     public void drive(TruckblService truckblService){
-        TruckVO vo = new TruckVO(new Long("025001014"), "EA043247", "À’A°§88888", "EA162736", new Date(), null);
+        TruckVO vo = new TruckVO(new String("025001014"), "EA043247", "À’A°§88888", "EA162736", new Date(), null);
        
         boolean createResult = truckblService.createTruckPO(vo);
         if(createResult == true)

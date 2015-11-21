@@ -1,25 +1,61 @@
 package vo;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import po.RevenuePO;
+import systemenum.DocumentState;
+
 public class RevenueVO {
     
-    private long id;
-    private Date RevenueDate;
-    private long courierID;
+    private String id;
+    private Date revenueDate;
+    private String courierId;
     private double revenue;
-    private List<Long> orderID;
+    private List<String> orderId;
+    private String accountId;
+    private String organization;
     
-    public RevenueVO(long id, Date revenueDate, long courierID, double revenue,
-            List<Long> orderID) {
+    public RevenueVO(String id, Date revenueDate, String courierId, double revenue,
+            List<String> orderId) {
         this.id = id;
-        RevenueDate = revenueDate;
-        this.courierID = courierID;
+        this.revenueDate = revenueDate;
+        this.courierId = courierId;
         this.revenue = revenue;
-        this.orderID = orderID;
+        this.orderId = orderId;
+    }
+    
+    public RevenueVO(String id, Date revenueDate, String courierId, double revenue,
+            List<String> orderId,String organization) {
+        this.id = id;
+        this.revenueDate = revenueDate;
+        this.courierId = courierId;
+        this.revenue = revenue;
+        this.orderId = orderId;
+        this.organization = organization;
     }
 
+    public String getIdString(){
+        return String.format("%018d", id);
+    }
+    
+    public String getAccountIdString(){
+        return String.format("%019d", accountId);
+    }
+    
+    public String getcourierIdString(){
+        return String.format("%09d", courierId);
+    }
+    
+    public List<String> getOrderIdStringList(){
+        List<String> orderIdStrings = new ArrayList<String>();
+        for(String id : orderId){
+            orderIdStrings.add(String.format("%010d", id));
+        }
+        return orderIdStrings;
+    }
+    
     public double getRevenue() {
         return revenue;
     }
@@ -28,20 +64,38 @@ public class RevenueVO {
         this.revenue = revenue;
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
     public Date getRevenueDate() {
-        return RevenueDate;
+        return revenueDate;
     }
 
-    public long getCourierID() {
-        return courierID;
+    public String getCourierId() {
+        return courierId;
     }
 
-    public List<Long> getOrderID() {
-        return orderID;
+    public List<String> getOrderId() {
+        return orderId;
     }
+    
+    public String getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(String accountId) {
+        this.accountId = accountId;
+    }
+    
+    public String getOrganization() {
+        return organization;
+    }
+    
+    public RevenuePO getRevenuePO() {
+        return new RevenuePO(id, revenueDate, courierId, revenue, orderId, organization);
+    }
+
+
 
 }

@@ -9,9 +9,9 @@ import businesslogicservice.LoadblService;
 
 public class LoadblService_Driver {
     public void drive(LoadblService loadblService){
-        List<Long> orderList = new ArrayList<Long>();
-        orderList.add(new Long("1010000101"));
-        LoadVO vo = new LoadVO(new Long("025001150118000001"), new Date(), new Long("02500115101000000"), "南京市栖霞区中转中心", new Long("025001014"), "张三", "李四", orderList, 2.98);
+        List<String> orderList = new ArrayList<String>();
+        orderList.add(new String("1010000101"));
+        LoadVO vo = new LoadVO(new String("025001150118000001"), new Date(), new String("02500115101000000"), "南京市栖霞区中转中心", new String("025001014"), "张三", "李四", orderList, 2.98);
         
         boolean createResult = loadblService.createLoadPO(vo);
         if(createResult == true)

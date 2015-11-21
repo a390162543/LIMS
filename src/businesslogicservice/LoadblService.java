@@ -9,7 +9,11 @@ public interface LoadblService {
     
     public boolean modifyLoadPO(LoadVO vo);
     
-    public double getCost(String depart,String arrive);
+    public boolean addGoods(long id);
+    
+    public boolean deleteGoods(long id);
+    
+    public double getCost(LoadVO vo);
     
     public boolean execute(LoadVO vo);
     

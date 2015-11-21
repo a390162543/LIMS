@@ -14,7 +14,7 @@ public interface TruckDataService extends Remote{
     
     public void update(TruckPO po) throws RemoteException;
     
-    public TruckPO find(long id) throws RemoteException;
+    public TruckPO find(String id) throws RemoteException;
 
     public List<TruckPO> finds(String field, Object value) throws RemoteException;
 

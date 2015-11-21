@@ -8,7 +8,7 @@ import businesslogicservice.ArrivalblService;
 
 public class ArrivalblService_Driver {
     public void drive(ArrivalblService arrivalblService){
-        ArrivalVO vo = new ArrivalVO(new Long("025001150118000001"), new Date(), new Long("02501601120000001"), "南京市栖霞区中转中心", GoodsState.COMPLETE);
+        ArrivalVO vo = new ArrivalVO(new String("025001150118000001"), new Date(), new String("02501601120000001"), "南京市栖霞区中转中心", GoodsState.COMPLETE);
         
         boolean createResult = arrivalblService.createArrivalPO(vo);
         if(createResult == true)

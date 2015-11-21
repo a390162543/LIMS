@@ -26,7 +26,7 @@ public class ArrivalDataService_Stub implements ArrivalDataService{
     }
 
     @Override
-    public ArrivalPO find(long id) throws RemoteException {
+    public ArrivalPO find(String id) throws RemoteException {
         System.out.println("find succeed!");
         return po;
     }

@@ -9,15 +9,15 @@ import dataservice.DeliverDataService;
 
 public class DeliverDataService_Driver {
     public void drive(DeliverDataService deliverDataService){
-        DeliverPO po = new DeliverPO(new Long("025001150118000001"), new Date(), new Long("1008000010"), new Long("025001001"));
+        DeliverPO po = new DeliverPO("025001150118000001", new Date(), "1008000010", "025001001");
         try {
             deliverDataService.init();
             deliverDataService.insert(po);
             deliverDataService.update(po);
-            DeliverPO poFound =deliverDataService.find(new Long("025001150118000001"));
+            DeliverPO poFound =deliverDataService.find(new String("025001150118000001"));
             if(poFound != null)
                 System.out.println("find succeed!");
-            List<DeliverPO> pos = deliverDataService.finds("id", new Long("025001150118000001"));
+            List<DeliverPO> pos = deliverDataService.finds("id", new String("025001150118000001"));
             System.out.println("get "+pos.size()+" DeliverPO!");
             deliverDataService.finish();
         } catch (RemoteException e) {

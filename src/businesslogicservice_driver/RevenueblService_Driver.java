@@ -9,9 +9,9 @@ import businesslogicservice.RevenueblService;
 
 public class RevenueblService_Driver {
     public void drive(RevenueblService revenueblService){
-        List<Long> orderList = new ArrayList<Long>();
-        orderList.add(new Long("1010000101"));
-        RevenueVO vo = new RevenueVO(new Long("025001150118000001"), new Date(), new Long("025001001"), 18.8, orderList);
+        List<String> orderList = new ArrayList<String>();
+        orderList.add(new String("1010000101"));
+        RevenueVO vo = new RevenueVO(new String("025001150118000001"), new Date(), new String("025001001"), 18.8, orderList);
         
         boolean createResult = revenueblService.createRevenuePO(vo);
         if(createResult == true)
