@@ -10,5 +10,5 @@ public interface SettlementblService {
 
 	public List<RevenueVO> queryRevenueVO (Date date ,String organization);
 	
-	public boolean setAccountId(RevenueVO vo,String accountID);
+	public boolean setAccountId(RevenueVO vo,String accountId);
 }
