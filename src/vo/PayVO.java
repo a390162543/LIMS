@@ -15,4 +15,5 @@ public class PayVO {
 		this.salesCommission = salesCommission;
 		this.monthPay = mothPay;
 	}
+	
 }

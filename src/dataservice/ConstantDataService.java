@@ -1,11 +1,10 @@
 package dataservice;
 
+import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.util.List;
-
 import po.ConstantPO;
 
-public interface ConstantDataService {
+public interface ConstantDataService extends Remote{
 	 public void insert(ConstantPO po) throws RemoteException;
 	    
 	 public void delete(ConstantPO po) throws RemoteException;
@@ -15,5 +14,7 @@ public interface ConstantDataService {
 	 public ConstantPO getConstantPO() throws RemoteException;
 	        
 	 public void finish() throws RemoteException; 
+	 
+	 public void init() throws RemoteException;
 
 }

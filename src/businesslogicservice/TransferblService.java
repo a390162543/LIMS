@@ -6,7 +6,7 @@ import po.TransferPO;
 import vo.TransferVO;
 
 public interface TransferblService {
-	public TransferPO createTransferPO(TransferVO vo);
+	public boolean createTransferPO(TransferVO vo);
 	
 	
 	public double getCost(TransferVO vo);

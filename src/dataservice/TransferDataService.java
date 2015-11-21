@@ -1,18 +1,19 @@
 package dataservice;
 
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
 
 import po.TransferPO;
 
-public interface TransferDataService {
+public interface TransferDataService extends Remote{
 	 public void insert(TransferPO po) throws RemoteException;
 	    
 	    public void delete(TransferPO po) throws RemoteException;
 	    
 	    public void update(TransferPO po) throws RemoteException;
 	    
-	    public TransferPO find(long id) throws RemoteException;
+	    public TransferPO find(String id) throws RemoteException;
 	    
 	    public List<TransferPO> finds(String field, Object value) throws RemoteException;
 	    

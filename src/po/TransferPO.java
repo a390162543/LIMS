@@ -1,24 +1,30 @@
 package po;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 import systemenum.DocumentState;
+import vo.TransferVO;
 
-public class TransferPO {
-	private long id;
+public class TransferPO implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 208815852313880249L;
+	private String id;
 	private Date loadDate;
-	private long flightNumbe;
+	private String flightNumbe;
 	private String depart;
 	private String destination;
-	private long containerId;
+	private String containerId;
 	private String loadMan;
-	private List<Long> orderId;
+	private List<String> orderId;
 	private double expenses;
 	private DocumentState documentState;
 
-	public TransferPO(long id, Date date, long flightNum, String depart,
-			String destination, long containerId, String loadMan, List<Long> orderId, 
+	public TransferPO(String id, Date date, String flightNum, String depart,
+			String destination, String containerId, String loadMan, List<String> orderId, 
 			double expenses ){
 		this.id = id;
 		this.loadDate = date;
@@ -29,10 +35,13 @@ public class TransferPO {
 		this.loadMan = loadMan;
 		this.orderId = orderId;
 		this.expenses = expenses;
-	 
+		documentState = DocumentState.PENDING;
 	}
 
-	
+	public TransferVO getTransferVO(){
+		return new TransferVO(id, loadDate, flightNumbe, depart,
+				destination, containerId, loadMan, orderId, expenses);
+	}
 	public DocumentState getDocumentState() {
 		return documentState;
 	}
@@ -43,7 +52,7 @@ public class TransferPO {
 	}
 
 
-	public long getId() {
+	public String getId() {
 		return id;
 	}
 
@@ -51,7 +60,7 @@ public class TransferPO {
 		return loadDate;
 	}
 	
-	public long getFlightNumbe() {
+	public String getFlightNumbe() {
 		return flightNumbe;
 	}
 
@@ -63,7 +72,7 @@ public class TransferPO {
 		return destination;
 	}
 
-	public long getContainerId() {
+	public String getContainerId() {
 		return containerId;
 	}
 
@@ -71,7 +80,7 @@ public class TransferPO {
 		return loadMan;
 	}
 
-	public List<Long> getOrderId() {
+	public List<String> getOrderId() {
 		return orderId;
 	}
 

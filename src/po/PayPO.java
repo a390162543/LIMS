@@ -1,31 +1,44 @@
 package po;
 
-import systemenum.Position;
+import java.io.Serializable;
 
-public class PayPO {
+ 
+
+public class PayPO implements Serializable{
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3189394023247206404L;
 	private double basePay;
 	private double payByCount;
 	private int count;
 	private double salesCommission;
-	private double monthPay;
+	private double rate;
 	
 	public PayPO(double basePay, double payByCount, int count, 
-			double salesCommission ){
+			double salesCommission,double rate ){
 		this.basePay = basePay;
 		this.payByCount = payByCount;
 		this.count = count;
 		this.salesCommission = salesCommission;
-		 
+		this.rate = rate;
 	}
 	
 	
-	
-	public double getBasepay() {
-		return basePay;
+	public String getPayString(){
+		String payStr = "";
+		if(basePay == 0)
+			payStr = payByCount + " /次";
+		else{
+			if(rate == 0)
+				payStr = "基础工资: " + basePay + "\n" + "提成率： " + salesCommission;
+			else
+				payStr = "月薪: " + basePay;
+		}
+		return payStr;
 	}
-	public void setBasepay(double basepay) {
-		this.basePay = basepay;
-	}
+	 
 	public double getPayByCount() {
 		return payByCount;
 	}
@@ -41,15 +54,34 @@ public class PayPO {
 	public double getSalesCommission() {
 		return salesCommission;
 	}
+	public double getBasePay() {
+		return basePay;
+	}
+
+
+
+	public void setBasePay(double basePay) {
+		this.basePay = basePay;
+	}
+
+
+
+	public double getRate() {
+		return rate;
+	}
+
+
+
+	public void setRate(double rate) {
+		this.rate = rate;
+	}
+
+
+
 	public void setSalesCommission(double salesCommission) {
 		this.salesCommission = salesCommission;
 	}
-	public double getMonthPay() {
-		return monthPay;
-	}
-	public void setMonthPay(double monthPay) {
-		this.monthPay = monthPay;
-	}
+	 
 	
 
 }

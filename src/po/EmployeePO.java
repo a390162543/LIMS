@@ -1,32 +1,36 @@
 package po;
 
-import java.util.Date;
+import java.io.Serializable;
 
-import javax.xml.crypto.Data;
+import java.util.Date;
 
 import systemenum.Position;
 import systemenum.Sex;
+import vo.EmployeeVO;
 
  
 
  
-public class EmployeePO {
-	private long id;
+public class EmployeePO implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long  serialVersionUID = 5922672707662548075L;
+	private String id;
 	private String name;
 	private String organization;
 	private Position position;
-	private long telephone;
+	private String telephone;
 	private Date birthday;
-	private long identityCardNum;
+	private String identityCardNum;
 	private Sex sex;
 	private Date driverLDDL;
 	private String truck;
 	private PayPO pay;
 	 
-	public EmployeePO(long id, String name, String organization,
-			Position position, long telephone, Date birthday,
-			long identityCardNum, Sex sex, Date driverLDDL, String truck
-			 ) {
+	public EmployeePO(String id, String name, String organization,
+			Position position, String telephone, Date birthday,
+			String identityCardNum, Sex sex,	PayPO pay  ,Date driverLDDL, String truck) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -36,27 +40,13 @@ public class EmployeePO {
 		this.birthday = birthday;
 		this.identityCardNum = identityCardNum;
 		this.sex = sex;
+		this.pay = pay;
 		this.driverLDDL = driverLDDL;
-		this.truck = truck;
-		 
+		this.truck = truck;		
 	}
 
-	
-	public EmployeePO(long id, String name, String organization,
-			Position position, long telephone, Date birthday,
-			long identityCardNum, Sex sex  ) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.organization = organization;
-		this.position = position;
-		this.telephone = telephone;
-		this.birthday = birthday;
-		this.identityCardNum = identityCardNum;
-		this.sex = sex;
-		this.driverLDDL = null;
-		this.truck = null;
-		 
+	public EmployeeVO getEmployeeVO(){
+		return new EmployeeVO(id, name, organization, position, telephone, birthday, identityCardNum, sex, pay);
 	}
 	public String getTruck() {
 		return truck;
@@ -66,11 +56,11 @@ public class EmployeePO {
 		this.truck = truck;
 	}
 
-	public long getTelephone() {
+	public String getTelephone() {
 		return telephone;
 	}
 
-	public void setTelephone(long telephone) {
+	public void setTelephone(String telephone) {
 		this.telephone = telephone;
 	}
 
@@ -82,11 +72,11 @@ public class EmployeePO {
 		this.birthday = birthday;
 	}
 
-	public long getIdentityCardNum() {
+	public String getIdentityCardNum() {
 		return identityCardNum;
 	}
 
-	public void setIdentityCardNum(long identityCardNum) {
+	public void setIdentityCardNum(String identityCardNum) {
 		this.identityCardNum = identityCardNum;
 	}
 
@@ -116,10 +106,10 @@ public class EmployeePO {
 	public void setPay(PayPO pay) {
 		this.pay = pay;
 	}
-	public long getId() {
+	public String getId() {
 		return id;
 	}
-	public void setId(long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	public String getName() {

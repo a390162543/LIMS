@@ -2,25 +2,26 @@ package vo;
 
 import java.util.Date;
 
+import po.EmployeePO;
 import po.PayPO;
 import systemenum.Position;
 import systemenum.Sex;
 
 public class EmployeeVO {
-	private long id;
+	private String id;
 	private String name;
 	private String organization;
 	private Position position;
-	private long telephone;
+	private String telephone;
 	private Date birthday;
-	private long identityCardNum;
+	private String identityCardNum;
 	private Sex sex;
 	private PayPO pay;
 	
 	
-	public EmployeeVO(long id, String name, String organization,
-			Position position, long telephone, Date birthday,
-			long identityCardNum, Sex sex) {
+	public EmployeeVO(String id, String name, String organization,
+			Position position, String telephone, Date birthday,
+			String identityCardNum, Sex sex,PayPO pay) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -30,7 +31,85 @@ public class EmployeeVO {
 		this.birthday = birthday;
 		this.identityCardNum = identityCardNum;
 		this.sex = sex;
+		this.pay = pay;
 	}
 	
+	 public EmployeePO getEmployeePO(){
+		 return new EmployeePO(id, name, organization, position, 
+				 telephone, birthday, identityCardNum, sex, pay, null, null);
+	 }
 	 
+	 
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getOrganization() {
+		return organization;
+	}
+
+	public void setOrganization(String organization) {
+		this.organization = organization;
+	}
+
+	public Position getPosition() {
+		return position;
+	}
+
+	public void setPosition(Position position) {
+		this.position = position;
+	}
+
+	public String getTelephone() {
+		return telephone;
+	}
+
+	public void setTelephone(String telephone) {
+		this.telephone = telephone;
+	}
+
+	public Date getBirthday() {
+		return birthday;
+	}
+
+	public void setBirthday(Date birthday) {
+		this.birthday = birthday;
+	}
+
+	public String getIdentityCardNum() {
+		return identityCardNum;
+	}
+
+	public void setIdentityCardNum(String identityCardNum) {
+		this.identityCardNum = identityCardNum;
+	}
+
+	public Sex getSex() {
+		return sex;
+	}
+
+	public void setSex(Sex sex) {
+		this.sex = sex;
+	}
+
+	public PayPO getPay() {
+		return pay;
+	}
+
+	public void setPay(PayPO pay) {
+		this.pay = pay;
+	}
 }
