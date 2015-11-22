@@ -20,15 +20,16 @@ public class PrimeInfoDataService_Driver {
 	
 	public void drive(PrimeInfoDataService primeInfoDataService){
 		List<OrganizationPO> organizationPOList= new ArrayList<OrganizationPO>();
-		organizationPOList.add(new OrganizationPO(new Long("025001"), "南京市鼓楼区营业厅", "南京市"));
+		organizationPOList.add(new OrganizationPO("025001", "南京市鼓楼区营业厅", "南京市"));
 		List<EmployeePO> employeePOList= new ArrayList<EmployeePO>();
-		employeePOList.add(new EmployeePO(new Long("025001001"), "李华",
-				"南京市栖霞区中转中心", Position.COURIER, new Long("18355555555"),
-				new Date(), new Long("350232230230230230"), Sex.FAMALE));
+		employeePOList.add(new EmployeePO("025001001", "李华",
+				"南京市栖霞区中转中心", Position.COURIER, "18355555555",
+				new Date(), "350232230230230230", Sex.FAMALE, new PayPO(1.0,1.0,1,11.0,1.0), new Date(),"aasf"));
 		List<TruckPO> truckPOList= new ArrayList<TruckPO>();
-		truckPOList.add(new TruckPO(new Long("025001014"), "sdda", "苏A88888", "daffd", new Date(), null));
+		truckPOList.add(new TruckPO(new String("025001014"), "EA043247", "苏A·88888", "EA162736", new Date(), null));
 		List<StoragePO> storagePOList= new ArrayList<StoragePO>();
-		storagePOList.add(new StoragePO(5, 50,50, 50, 50, 50, 50.00,new Date(),new Long("00021160112000001")));
+		storagePOList.add(new StoragePO(10, 50, 90, 50, 2000000, 1000000, 0.85, 
+				new Date(2015, 10, 29, 13, 50),new String("0011503480")));
 		List<AccountPO> accountPOList= new ArrayList<AccountPO>();
 		accountPOList.add(new AccountPO("2000000000002345678", "2000000000002345678",100.00));
 		

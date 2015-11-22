@@ -1,10 +1,7 @@
 package presentation.financeui;
 
-
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
-
-
 
 public class FinanceUI extends JFrame{
 /**
@@ -12,11 +9,6 @@ public class FinanceUI extends JFrame{
 	 */
 	private static final long serialVersionUID = 8711406243212445031L;
 
-	//	public static void main(String[] args){
-//		LogData l = new LogData();
-//		l.init();
-//		JFrame ui = new FinanceUI();		
-//	}
 	public FinanceUI() {
 		this.setSize(800+10, 540+40);
 		this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);

@@ -12,11 +12,11 @@ import businesslogicservice.SettlementblService;
 public class SettlementblService_Driver {
 
 	public void drive(SettlementblService settlementblService){
-		List<Long> list=new ArrayList<Long>();
-		list.add(new Long("1008356612"));
-		list.add(new Long("1008356614"));
+		List<String> list=new ArrayList<String>();
+		list.add("1008356612");
+		list.add("1008356614");
 		
-		boolean result2=settlementblService.setAccountId(new RevenueVO(new Long("025001150118000001"), new Date(),new Long(025001001) , 30.00,list));
+		boolean result2=settlementblService.setAccountId(new RevenueVO("025001150118000001", new Date(),"025001150118000001" , 30.00,list,"南京市鼓楼区营业厅"),"025001150118000001");
 		if(result2==true)
 			System.out.println("set succeed\n");
 		

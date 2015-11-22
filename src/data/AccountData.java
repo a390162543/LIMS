@@ -9,12 +9,9 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JFrame;
-
-import org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper;
 
 import po.AccountPO;
-import presentation.financeui.FinanceUI;
+
 import dataservice.AccountDataService;
 
 public class AccountData extends UnicastRemoteObject implements AccountDataService {
@@ -95,43 +92,6 @@ public class AccountData extends UnicastRemoteObject implements AccountDataServi
 		// TODO Auto-generated method stub
 		
 	}
-	public static void main(String[] args){
-		LogData l;
-		try {
-			l = new LogData();
-			l.init();
-		} catch (RemoteException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		PaymentData p;
-		try {
-			p = new PaymentData();
-			p.init();
-		} catch (RemoteException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		AccountData a;
-		try {
-			a = new AccountData();
-			a.init();
-		} catch (RemoteException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		  try
-		    {
-		                BeautyEyeLNFHelper.frameBorderStyle = BeautyEyeLNFHelper.FrameBorderStyle.generalNoTranslucencyShadow;
-		        org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper.launchBeautyEyeLNF();
-		    }
-		    catch(Exception e)
-		    {
-		        //TODO exception
-		    }
 
-		JFrame ui = new FinanceUI();
-		ui.setTitle("财务人员主界面");
-	}
 
 }

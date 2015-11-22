@@ -21,8 +21,9 @@ public class SettlementblService_Stub implements SettlementblService{
 		return list;
 	
 	}
-	
-	public boolean setAccountId(RevenueVO vo) {
+
+	public boolean setAccountId(RevenueVO vo, String accountId) {
+		
 		return true;
 	}
 
