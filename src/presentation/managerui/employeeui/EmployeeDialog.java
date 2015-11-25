@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.sql.Date;
+import java.util.List;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -14,7 +15,9 @@ import javax.swing.JLabel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
+import businesslogic.organizationbl.Organization;
 import businesslogic.userbl.User;
+import businesslogicservice.OrganizationblService;
 import businesslogicservice.UserblService;
 import po.PayPO;
 import systemenum.Position;
@@ -68,10 +71,11 @@ public class EmployeeDialog {
 
 	 
 	public void init(){
-
+		OrganizationblService organizationblService = new Organization();
 		positions = new String[]{"总经理","营业厅业务员","中转中心业务员","快递员",
 				 "中转中心仓库管理员","高级财务人员","财务人员","管理员","司机"};
-		organizationStr = new String[]{"总部","南京市中转中心","南京市栖霞区营业厅"};
+		List<String> nameLise = organizationblService.getAllOrganizationName();
+		organizationStr =    nameLise.toArray(new String[nameLise.size()]);
 		year = new Integer[]{1996,1997};
 		month = new Integer[]{1,2,3,4,5,6,7,8,9,10,11,12};
 		day = new Integer[]{1,2,3,4,5,6,7,8,9,10};
@@ -110,7 +114,7 @@ public class EmployeeDialog {
 		sureButton = new JButton("确认");
 		
 		employeeDialog = new JDialog();
-		employeeDialog.setBounds(0, 0, 380, 430);		 			 
+		employeeDialog.setBounds(0, 0, 380, 460);		 			 
 		infoLabel.setBounds(90, 16, 170, 34);	 
 		nameLabel.setBounds(4, 60, 100, 24);	 
 		nameField.setBounds(100, 60, 60, 20);
@@ -124,7 +128,7 @@ public class EmployeeDialog {
 		organizationLabel.setBounds(0, 150, 100, 24);	 
 		organizationBox.setBounds(100, 150, 180, 20);	 
 		positionLabel.setBounds(0, 180, 100, 24);	 
-		positionBox.setBounds(100, 180, 86, 20);	 
+		positionBox.setBounds(100, 180, 180, 20);	 
 		phoneLabel.setBounds(0, 210, 180, 20);
 		phoneField.setBounds(100, 210, 180, 20);	 
 		idCardLabel.setBounds(0, 245, 100, 20);	 
@@ -218,12 +222,8 @@ public class EmployeeDialog {
 	
 	public void update(boolean isNew,int modelRow){
 
-		  String id ;
-		  if(isNew)
-			 id = "001";
-		  else 
-			id = new String(idCardField.getText());
-		
+		  
+		  String id = idCardField.getText();		
 		  String name = nameField.getText();
 		  String organization = organizationBox.getSelectedItem().toString();
 		  String phone = phoneField.getText();	
@@ -323,7 +323,7 @@ public class EmployeeDialog {
 			  @Override
 			  public void actionPerformed(ActionEvent e){
 				  update(true,0);
-				  
+				  employeeDialog.dispose();
 			  }
 		});
 		
@@ -336,7 +336,9 @@ public class EmployeeDialog {
 		this.tableModel = em;
 		EmployeeVO vo = tableModel.getEmployeeVO(modelRow);
 		nameField.setText(vo.getName());
-		idCardField.setText(""+vo.getId());
+		idField.setText(""+vo.getId());
+		idField.setEnabled(false);
+		organizationBox.setSelectedItem(vo.getOrganization());
 		if(vo.getSex().equals(Sex.MALE))
 			maleRadioButton.setSelected(true);
 		else 
@@ -378,7 +380,7 @@ public class EmployeeDialog {
 					percentageLabel1.setVisible(true);
 					percentageLabel2.setVisible(true);
 					basePayField.setText(""+vo.getPay().getBasePay());
-					percentageField.setText(""+vo.getPay().getRate());
+					percentageField.setText(""+vo.getPay().getRate()*100);
 					employeeDialog.add(percentageLabel1);
 					employeeDialog.add(percentageLabel2);
 					employeeDialog.add(percentageField);
@@ -436,6 +438,7 @@ public class EmployeeDialog {
 
 					// TODO Auto-generated method stub
 					update(false,modelRow);
+					employeeDialog.dispose();
 				}
 			});
 		}

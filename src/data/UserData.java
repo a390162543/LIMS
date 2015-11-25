@@ -1,7 +1,6 @@
 package data;
 
 import java.io.File;
-
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
@@ -9,21 +8,22 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
-import data.DataUtil;
+
 import po.UserPO;
 import dataservice.UserDataService;
 
 public class UserData extends UnicastRemoteObject implements UserDataService{
 
+	protected UserData() throws RemoteException {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 5740039002234436612L;
-
-	protected UserData(int port) throws RemoteException {
-		super(port);
-		// TODO Auto-generated constructor stub
-	}
+ 
 
 	@Override
 	public void insert(UserPO po) throws RemoteException {

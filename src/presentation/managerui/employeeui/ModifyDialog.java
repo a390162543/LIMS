@@ -6,7 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.beans.beancontext.BeanContext;
 import java.sql.Date;
 
 import javax.swing.ButtonGroup;
@@ -24,19 +23,24 @@ import systemenum.Position;
 import systemenum.Sex;
 import vo.EmployeeVO;
 
-public class ModifyDialog {
-	JDialog createDialog ;
+public class ModifyDialog extends JDialog{
+	 
 	
-	public static void main(String[] args) {
-		ModifyDialog m = new ModifyDialog();
-		//m.show(); 
-	}
+	 
+	 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6765753553698083265L;
+
 	@SuppressWarnings("deprecation")
-	public void show(EmployeeVO vo){
+	public ModifyDialog(EmployeeVO vo) {
+		 
+	 
 		 
 		EmployeeblService employeeblService = new Employee();
-		createDialog = new JDialog();
-		createDialog.setBounds(0, 0, 380, 430);
+		 
+		this.setBounds(0, 0, 380, 430);
 		String positions[] = {"总经理","营业厅业务员","中转中心业务员","快递员",
 				 "中转中心仓库管理员","高级财务人员","财务人员","管理员","司机"};
 		String organizationStr[] = {"总部","南京市中转中心","南京市栖霞区营业厅"};
@@ -159,9 +163,9 @@ public class ModifyDialog {
 					percentageLabel2.setVisible(true);
 					basePayField.setText(""+vo.getPay().getBasePay());
 					percentageField.setText(""+vo.getPay().getRate());
-					createDialog.add(percentageLabel1);
-					createDialog.add(percentageLabel2);
-					createDialog.add(percentageField);
+					ModifyDialog.this.add(percentageLabel1);
+					ModifyDialog.this.add(percentageLabel2);
+					ModifyDialog.this.add(percentageField);
 										
 				}
 				else if(positionBox.getSelectedItem().toString().equals("司机")){
@@ -194,7 +198,7 @@ public class ModifyDialog {
 	
 			  @Override
 			  public void actionPerformed(ActionEvent e){
-				  createDialog.dispose();
+				  ModifyDialog.this.dispose();
 			  }
 		});
 		
@@ -204,12 +208,12 @@ public class ModifyDialog {
 			
 			  @Override
 			  public void actionPerformed(ActionEvent e){
-				  long id = new Long(idCardField.getText());
+				  String id = idField.getText();
 				  String name = nameField.getText();
 				  String organization = organizationBox.getSelectedItem().toString();
-				  long phone = new Long(phoneField.getText());	
-				  long identityCardNum = new Long(idCardField.getText());
-					@SuppressWarnings("deprecation")
+				  String phone =phoneField.getText();	
+				  String identityCardNum = idCardField.getText();
+				 
 				 Date birth = new Date((int)yearBox.getSelectedItem(), 
 							   (int)monthBox.getSelectedItem(),(int)dayBox.getSelectedItem());
 					//long idCardNum = new Long(idCardField.getText());
@@ -277,43 +281,43 @@ public class ModifyDialog {
 					}	
 					 EmployeeVO vo1 = new EmployeeVO(id, name, organization,
 							 p, phone, birth, identityCardNum, sex1, paypo);
-					 employeeblService.modifyEmloyeePO(vo1);
+					 employeeblService.modifyEmployeePO(vo1);
 			  }
 		});
 		
-		createDialog.add(infoLabel);
-		createDialog.add(nameField);
-		createDialog.add(nameLabel);
-		createDialog.add(sexLabel);
-		createDialog.add(femaleRadioButton);
-		createDialog.add(maleRadioButton);	
-		createDialog.add(idField);
-		createDialog.add(idLabel);
-		createDialog.add(organizationLabel);
-		createDialog.add(organizationBox);
-		createDialog.add(positionLabel);
-		createDialog.add(positionBox);
-		createDialog.add(phoneField);
-		createDialog.add(phoneLabel);
-		createDialog.add(idCardLabel);
-		createDialog.add(idCardField);
-		createDialog.add(birthLabel);
-		createDialog.add(yearBox);
-		createDialog.add(yearLabel);
-		createDialog.add(monthBox);
-		createDialog.add(monthLabel);
-		createDialog.add(dayBox);
-		createDialog.add(dayLabel);
-		createDialog.add(cancleButton);
-		createDialog.add(sureButton);
-		createDialog.add(payLabel);
-		createDialog.add(basePayLabel);
-		createDialog.add(basePayField);
-		createDialog.add(unitLabel);
+		this.add(infoLabel);
+		this.add(nameField);
+		this.add(nameLabel);
+		this.add(sexLabel);
+		this.add(femaleRadioButton);
+		this.add(maleRadioButton);	
+		this.add(idField);
+		this.add(idLabel);
+		this.add(organizationLabel);
+		this.add(organizationBox);
+		this.add(positionLabel);
+		this.add(positionBox);
+		this.add(phoneField);
+		this.add(phoneLabel);
+		this.add(idCardLabel);
+		this.add(idCardField);
+		this.add(birthLabel);
+		this.add(yearBox);
+		this.add(yearLabel);
+		this.add(monthBox);
+		this.add(monthLabel);
+		this.add(dayBox);
+		this.add(dayLabel);
+		this.add(cancleButton);
+		this.add(sureButton);
+		this.add(payLabel);
+		this.add(basePayLabel);
+		this.add(basePayField);
+		this.add(unitLabel);
 		
 		
-		createDialog.setLayout(null);
-		createDialog.setVisible(true);
+		this.setLayout(null);
+		this.setVisible(true);
 	}
 }
 

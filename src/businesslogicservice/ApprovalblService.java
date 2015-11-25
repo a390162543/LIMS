@@ -1,26 +1,6 @@
 package businesslogicservice;
+
 import java.util.List;
-
-
- 
-
-
-
-
-
-
-
-
-
-import po.ArrivalPO;
-import po.DeliverPO;
-import po.LoadPO;
-import po.OrderPO;
-import po.PaymentPO;
-import po.RevenuePO;
-import po.StoreinPO;
-import po.StoreoutPO;
-import po.TransferPO;
 import vo.ArrivalVO;
 import vo.DeliverVO;
 import vo.LoadVO;
@@ -33,9 +13,43 @@ import vo.TransferVO;
 public interface ApprovalblService {
 	
  
-	public boolean approve(Object o);
+	public boolean approveOrderVO(OrderCreateVO vo);
 	
-	public boolean modify(Object o);
+	public boolean approveDeliverVO(DeliverVO vo);
+	
+	public boolean approveLoadVO(LoadVO vo);
+	
+	public boolean apprivePaymentVO(PaymentVO vo);
+	
+	public boolean approveRevenueVO(RevenueVO vo);
+	
+	public boolean approveStoreinVO(StoreinCreateVO vo);
+	
+	public boolean approveStoreoutVO(StoreoutCreateVO vo);
+	
+	public boolean approveTransferVO(TransferVO vo);
+	
+	public boolean approveArrivalVO(ArrivalVO vo);
+	
+	
+	public boolean modifyOrderVO(OrderCreateVO vo);
+	
+	public boolean modifyDeliverVO(DeliverVO vo);
+	
+	public boolean modifyLoadVO(LoadVO vo);
+	
+	public boolean modifyPaymentVO(PaymentVO vo);
+	
+	public boolean modifyRevenueVO(RevenueVO vo);
+	
+	public boolean modifyStoreinVO(StoreinCreateVO vo);
+	
+	public boolean modifyStoreoutVO(StoreoutCreateVO vo);
+	
+	public boolean modifyTransferVO(TransferVO vo);
+	
+	public boolean modifyArrivalVO(ArrivalVO vo);
+	
  
 	public List<OrderCreateVO>  getOrderVO();
 	

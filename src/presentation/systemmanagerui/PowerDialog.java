@@ -40,7 +40,7 @@ public class PowerDialog extends JDialog{
 		JLabel powerLabel = new JLabel("х╗оч");
 		powerLabel.setBounds(50, 137, 100, 25);
 		JComboBox<String> powerBox = new JComboBox<String>(powerStr);
-		powerBox.setBounds(145, 137, 60, 20);
+		powerBox.setBounds(145, 137, 120, 20);
 		sureButton.addActionListener(new ActionListener() {
 			
 			@Override
@@ -85,6 +85,18 @@ public class PowerDialog extends JDialog{
 				}
 			}
 		});
+		
+		this.setBounds(200, 200, 380, 240);
+		this.add(infoLabel);
+		this.add(idLabel);
+		this.add(idField);
+		this.add(powerLabel);
+		this.add(powerBox);
+		this.add(saveButton);
+		this.add(cancelButton);
+		this.add(sureButton);
+		this.setLayout(null);
+		this.setVisible(true);
 		
 	}
 }

@@ -9,7 +9,6 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import ademo.DataUtil;
 import po.CityPO;
 import dataservice.CityDataService;
  

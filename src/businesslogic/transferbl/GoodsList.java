@@ -12,6 +12,10 @@ public class GoodsList {
 		goodsList.add(vo);
 	}
 	
+	public void delete(GoodsVO vo){
+		goodsList.remove(vo);
+	}
+	
 	public double getWeight(){
 		double weight = 0;
 		for(GoodsVO vo : goodsList)

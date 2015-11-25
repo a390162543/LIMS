@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import po.EmployeePO;
+import systemenum.Position;
 import dataservice.EmployeeDataService;
  
 import vo.EmployeeVO;
@@ -15,19 +16,31 @@ import businesslogicservice.EmployeeblService;
 
 public class Employee implements EmployeeblService{
 
-	@Override
-	public boolean creatEmployeePO(EmployeeVO vo) {
-		// TODO Auto-generated method stub
-		
-         try { 
-        	EmployeeDataService eds = (EmployeeDataService) Naming.lookup("rmi://localhost/EmployeeData");
-			eds.insert(vo.getEmployeePO());
+	private EmployeeDataService employeeDataService;
+	 public Employee() {
+		// TODO Auto-generated constructor stub
+
+        try { 
+        	employeeDataService = (EmployeeDataService) Naming.lookup("rmi://localhost/EmployeeData");			 
 			} catch (MalformedURLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (NotBoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();		
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	@Override
+	public boolean creatEmployeePO(EmployeeVO vo) {
+		// TODO Auto-generated method stub
+		
+         try { 
+        	 
+			employeeDataService.insert(vo.getEmployeePO());
+			 
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -39,39 +52,24 @@ public class Employee implements EmployeeblService{
 	public boolean deleteEmployeePO(EmployeeVO vo) {
 		// TODO Auto-generated method stub
 		 try {
-			 EmployeeDataService eds = (EmployeeDataService) Naming.lookup("rmi://localhost/EmployeeData");
-			 eds.delete(vo.getEmployeePO());
-	           
-	        } catch (MalformedURLException e) {
+			 
+			 employeeDataService.delete(vo.getEmployeePO());
+			 } catch (RemoteException e) {
 	            // TODO Auto-generated catch block
 	            e.printStackTrace();
-	        } catch (RemoteException e) {
-	            // TODO Auto-generated catch block
-	            e.printStackTrace();
-	        } catch (NotBoundException e) {
-	            // TODO Auto-generated catch block
-	            e.printStackTrace();
-	        }
+	        }  
 		return true;
 	}
 
 	@Override
 	public boolean modifyEmployeePO(EmployeeVO vo) {
 		// TODO Auto-generated method stub
-		 try {
-			 EmployeeDataService eds = (EmployeeDataService) Naming.lookup("rmi://localhost/EmployeeData");
-			 eds.update(vo.getEmployeePO());
-	           
-	        } catch (MalformedURLException e) {
-	            // TODO Auto-generated catch block
-	            e.printStackTrace();
+		 try {		  
+			 employeeDataService.update(vo.getEmployeePO());  	        
 	        } catch (RemoteException e) {
 	            // TODO Auto-generated catch block
 	            e.printStackTrace();
-	        } catch (NotBoundException e) {
-	            // TODO Auto-generated catch block
-	            e.printStackTrace();
-	        }
+	        }  
 		return true;
 	}
 
@@ -80,23 +78,16 @@ public class Employee implements EmployeeblService{
 		// TODO Auto-generated method stub
 		List<EmployeeVO> vos =  new ArrayList<EmployeeVO>();
 		 try {
-			 EmployeeDataService eds = (EmployeeDataService) Naming.lookup("rmi://localhost/EmployeeData");
-			 List<EmployeePO> pos= eds.getAll();
+			 
+			 List<EmployeePO> pos= employeeDataService.getAll();
 			 for(EmployeePO po : pos){
 				 vos.add(po.getEmployeeVO());
 			 }
-	           
-	        } catch (MalformedURLException e) {
-	            // TODO Auto-generated catch block
-	            e.printStackTrace();
+	           	         
 	        } catch (RemoteException e) {
 	            // TODO Auto-generated catch block
 	            e.printStackTrace();
-	        } catch (NotBoundException e) {
-	            // TODO Auto-generated catch block
-	        	 
-	            e.printStackTrace();
-	        }
+	        }  
 		return vos;
 	}
 	 
@@ -104,31 +95,38 @@ public class Employee implements EmployeeblService{
 	@Override
 	public List<EmployeeVO> getDriverVO(String organiztion) {
 		// TODO Auto-generated method stub
-		return null;
+		List<EmployeeVO> vos = new ArrayList<EmployeeVO>();
+		try {
+			 
+			 List<EmployeePO> pos= employeeDataService.finds("organiztion", organiztion);
+			 for(EmployeePO po : pos){
+				 if(po.getPosition().equals(Position.DRIVER))
+					 vos.add(po.getEmployeeVO());
+			 }
+	           	         
+	        } catch (RemoteException e) {
+	            // TODO Auto-generated catch block
+	            e.printStackTrace();
+	        }  
+		return vos;
 	}
 
 	@Override
 	public EmployeeVO find(String id) {
 		// TODO Auto-generated method stub
 		try {
-			 EmployeeDataService eds = (EmployeeDataService) Naming.lookup("rmi://localhost/EmployeeData");
-			 if(eds.find(id).equals(null))
+			 
+			 if(employeeDataService.find(id).equals(null))
 				 return null;
 			 else {
-				 EmployeeVO vo = eds.find(id).getEmployeeVO();
+				 EmployeeVO vo = employeeDataService.find(id).getEmployeeVO();
 	             return vo; 
 			}
 			
-	        } catch (MalformedURLException e) {
-	            // TODO Auto-generated catch block
-	            e.printStackTrace();
 	        } catch (RemoteException e) {
 	            // TODO Auto-generated catch block
 	            e.printStackTrace();
-	        } catch (NotBoundException e) {
-	            // TODO Auto-generated catch block
-	            e.printStackTrace();
-	        }
+	        } 
 		return null;
 	}
 

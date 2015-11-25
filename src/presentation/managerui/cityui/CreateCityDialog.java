@@ -177,6 +177,7 @@ public class CreateCityDialog extends JDialog{
 							}
 						}
 					}
+					distance.put(name, 0.0);
 					CityVO vo = new CityVO(name, id, distance);
 					cityblService.createCityPO(vo);
 				}

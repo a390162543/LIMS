@@ -9,7 +9,6 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import ademo.DataUtil;
  
 import po.TransferPO;
  
@@ -61,10 +60,28 @@ public class TransferData extends UnicastRemoteObject implements TransferDataSer
 	}
 
 	@Override
-	public List<TransferPO> finds(String field, Object value)
-			throws RemoteException {
+	public List<TransferPO> finds(String field, Object value)throws RemoteException {
 		// TODO Auto-generated method stub
-		return null;
+		String path = "c:/LIMS/database/"+this.getClass().getSimpleName();
+        List<TransferPO> pos = new ArrayList<TransferPO>();
+        try{
+            File[] files = DataUtil.getAll(path);
+            for(File f : files){
+                TransferPO po = (TransferPO) DataUtil.readObject(f.getAbsolutePath());
+                switch (field) {
+                case "documentState": 
+                	if(po.getDocumentState().equals(value))
+                		pos.add(po);
+                	break;
+                	
+                }
+                
+            }
+        }catch(NullPointerException e){
+            return pos;
+        }
+        return pos;
+		 
 	}
 
 	@Override

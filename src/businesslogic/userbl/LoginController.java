@@ -2,10 +2,17 @@ package businesslogic.userbl;
 
 import java.util.List;
 
+
+ 
+
+
+
 import businesslogic.employeebl.Employee;
+import businesslogic.organizationbl.Organization;
 import businesslogicservice.EmployeeblService;
 import businesslogicservice.OrganizationblService;
 import businesslogicservice.UserblService;
+import systemenum.Position;
 import vo.EmployeeVO;
 import vo.OrganizationVO;
 import vo.UserVO;
@@ -25,6 +32,7 @@ public class LoginController {
 		userblService = new User();
 		employeeblService = new Employee();
 		UserVO vo = userblService.find(id);
+		organizationblService = new Organization();
 		if(vo.equals(null))
 			return false;
 		else{
@@ -39,6 +47,9 @@ public class LoginController {
 			return vo.getPassword().equals(password);
 		}
 		 
+	}
+	public static  Position getPosition(){
+		return employeeVO.getPosition();
 	}
 	
 	public static String getEmployeeName(){

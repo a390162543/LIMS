@@ -87,7 +87,7 @@ public class QueryDistanceDialog extends JDialog{
 				// TODO Auto-generated method stub
 				if(!distanceField.getText().equals("")){
 					cityvo1.getDistance().remove((String)city2Box.getSelectedItem());
-					cityvo2.getDistance().put((String) city2Box.getSelectedItem(),
+					cityvo1.getDistance().put((String) city2Box.getSelectedItem(),
 							new Double(distanceField.getText()));
 					cityvo2.getDistance().remove((String)city1Box.getSelectedItem());
 					cityvo2.getDistance().put((String) city1Box.getSelectedItem(),
@@ -97,7 +97,7 @@ public class QueryDistanceDialog extends JDialog{
 				}
 			}
 		});
-		
+		this.setBounds(300, 200, 380, 300);
 		this.add(infoLabel);
 		this.add(city1Label);
 		this.add(city2Label);
@@ -116,7 +116,7 @@ public class QueryDistanceDialog extends JDialog{
 		List<CityVO> vos = cityblService.getAll();
 		for(CityVO vo:vos){
 			if(vo.getName().equals(city1Box.getSelectedItem())){
-				cityvo1 = vo;
+				cityvo1 = vo;			 
 				distanceField.setText(""+vo.getDistance().get(city2Box.getSelectedItem()));	
 			}	
 			if(vo.getName().equals(city2Box.getSelectedItem()))

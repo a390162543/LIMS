@@ -1,7 +1,6 @@
 package data;
 
 import java.io.File;
-
 import java.net.MalformedURLException;
 import java.rmi.Naming;
  
@@ -11,7 +10,6 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import ademo.DataUtil;
  
 import po.EmployeePO;
 import dataservice.EmployeeDataService;
@@ -70,20 +68,38 @@ public class EmployeeData extends UnicastRemoteObject implements EmployeeDataSer
 	}
 
 	@Override
-	public List<EmployeePO> finds(String field, Object value)
-			throws RemoteException {
+	public List<EmployeePO> finds(String field, Object value)throws RemoteException {
 		// TODO Auto-generated method stub
-		return null;
+		String path = "c:/LIMS/database/"+this.getClass().getSimpleName();
+	    List<EmployeePO> pos = new ArrayList<EmployeePO>();
+	    try{
+	    	File[] files = DataUtil.getAll(path);
+	           for(File f : files){
+	        	   EmployeePO po = (EmployeePO) DataUtil.readObject(f.getAbsolutePath());
+	        	   switch(field){
+	        	   case "organization":
+	        		   if(po.getOrganization().equals(value))
+	        			    pos.add(po);
+	        		   break;
+	        	  
+	        	   }
+	               
+	            }
+	        }catch(NullPointerException e){
+	            return pos;
+	        }
+	        return pos;
+	 
 	}
 
 	@Override
 	public List<EmployeePO> getAll() throws RemoteException {
-		 String path = "c:/LIMS/database/"+this.getClass().getSimpleName();
-	        List<EmployeePO> pos = new ArrayList<EmployeePO>();
-	        try{
-	            File[] files = DataUtil.getAll(path);
-	            for(File f : files){
-	                EmployeePO po = (EmployeePO) DataUtil.readObject(f.getAbsolutePath());
+		String path = "c:/LIMS/database/"+this.getClass().getSimpleName();
+	    List<EmployeePO> pos = new ArrayList<EmployeePO>();
+	    try{
+	    	File[] files = DataUtil.getAll(path);
+	           for(File f : files){
+	        	   EmployeePO po = (EmployeePO) DataUtil.readObject(f.getAbsolutePath());
 	                pos.add(po);
 	            }
 	        }catch(NullPointerException e){

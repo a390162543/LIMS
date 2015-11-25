@@ -16,13 +16,13 @@ public class TransferVO {
 	private  List<String> orderId;
 	private double expenses;
 	  
-	public TransferVO(String id, Date loadDate, String flightNumbe, String depart,
+	public TransferVO(String id, Date loadDate, String flightNum, String depart,
 			String destination, String containerId, String loadMan,
 			List<String> orderId, double expenses) {
 		super();
 		this.id = id;
 		this.date = loadDate;
-		this.flightNum = flightNumbe;
+		this.flightNum = flightNum;
 		this.depart = depart;
 		this.destination = destination;
 		this.containerId = containerId;

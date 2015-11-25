@@ -7,11 +7,17 @@ import java.awt.event.ActionListener;
 
 
 
+
+
+
 import javax.swing.JButton;
  
 import javax.swing.JPanel;
 
+import presentation.managerui.approvalui.ApprovalPanel;
+import presentation.managerui.cityui.CreateCityDialog;
 import presentation.managerui.cityui.QueryDistanceDialog;
+import presentation.managerui.constantui.PriceDialog;
 import presentation.managerui.employeeui.EmployeePanel;
 import presentation.managerui.organizationui.OrganizationPanel;
 
@@ -36,10 +42,24 @@ public class ManagerPanel  extends JPanel{
 	
 	public ManagerPanel() {
 		// TODO Auto-generated constructor stub
-		 
+		JPanel mainPanel = new JPanel();
+		mainPanel.setBounds(200, 50, 560, 470);
+		mainPanel.setLayout(null);
 		this.setSize(800, 600);
 		int buttonWidth = 150;
 		int buttonHeight = 40;	
+		
+		JButton addCityButton = new JButton("新增城市");
+		addCityButton.setBounds(30, 130, buttonWidth, buttonHeight);
+		addCityButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				new CreateCityDialog();
+			}
+		});
+		
 		querypriceButotn = new JButton("查询价格");
 		querypriceButotn.setBounds(30, 250, buttonWidth, buttonHeight);
 		querypriceButotn.addActionListener(new ActionListener(){
@@ -47,7 +67,8 @@ public class ManagerPanel  extends JPanel{
 			
 			  @Override
 			  public void actionPerformed(ActionEvent e){
-				  
+				  new PriceDialog();
+				  ManagerPanel.this.repaint();
 			  }
 		});
 		
@@ -59,7 +80,9 @@ public class ManagerPanel  extends JPanel{
 			
 			  @Override
 			  public void actionPerformed(ActionEvent e){
+				   
 				  new QueryDistanceDialog();
+				  ManagerPanel.this.repaint();
 			  }
 		});
 		
@@ -70,7 +93,9 @@ public class ManagerPanel  extends JPanel{
 			
 			  @Override
 			  public void actionPerformed(ActionEvent e){
-				  
+				 mainPanel.removeAll();
+				 mainPanel.add(new ApprovalPanel());
+				 mainPanel.repaint();
 			  }
 		});
 		
@@ -82,7 +107,9 @@ public class ManagerPanel  extends JPanel{
 			
 			  @Override
 			  public void actionPerformed(ActionEvent e){
-				 ManagerPanel.this.add(new EmployeePanel());
+				 mainPanel.removeAll();
+				 mainPanel.add(new EmployeePanel());
+				 mainPanel.repaint();
 			  }
 		});
 		
@@ -92,16 +119,20 @@ public class ManagerPanel  extends JPanel{
 		organizationButton.addActionListener(new ActionListener(){		
 			  @Override
 			  public void actionPerformed(ActionEvent e){
-				 ManagerPanel.this.add(new OrganizationPanel());
+				 mainPanel.removeAll();
+				 mainPanel.add(new OrganizationPanel());
+				 mainPanel.repaint();
 			  }
 		});
 		
-		
+		this.setLayout(null);
+		this.add(addCityButton);
 		this.add(querypriceButotn);
 		this.add(queryDistanceButton);
 		this.add(approvalButton);
 		this.add(employeeButton);
 		this.add(organizationButton);
+		this.add(mainPanel);
 	}
 	 
 	 
