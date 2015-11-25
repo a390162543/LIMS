@@ -1,4 +1,4 @@
-package presentation.businesshallui.arrivalui;
+package presentation.managerui.approvalui.arrivalui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,26 +12,26 @@ import javax.swing.JLabel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
-import businesslogic.arrivalbl.Arrival;
-import businesslogicservice.ArrivalblService;
 import systemenum.GoodsState;
 import vo.ArrivalVO;
 
-public class ArrivalDialog extends JDialog{
-
-    /**
+public class ArrivalPendingDialog extends JDialog {
+	
+	/**
      * 
      */
-    private static final long serialVersionUID = 6468749815012470915L;
+    private static final long serialVersionUID = 4875938402353589894L;
+
     private static final String[] LABEL_NAMES = {"到达单编号","中转单编号","出发地","到达地","到达日期","到达状况"};
     
-    private ArrivalblService arrivalblService;
-    private JTextField[] textFields;
+    private ArrivalPendingTableModel tableModel;
     
-    public ArrivalDialog(){
+      
+    @SuppressWarnings("deprecation")
+    public ArrivalPendingDialog(ArrivalPendingTableModel tm, int modelRow, boolean isEditable) {
         
-        arrivalblService = new Arrival();
-        
+        this.tableModel = tm;
+
         JLabel[] labels = new JLabel[5];
         for(int i=0;i<labels.length;i++){
             labels[i] = new JLabel();
@@ -39,7 +39,7 @@ public class ArrivalDialog extends JDialog{
             labels[i].setBounds(20, 10+35*i, 100, 25);
             this.add(labels[i]);
         }
-        
+        JTextField textFields[];
         textFields = new JTextField[2];
         for(int i=0;i<textFields.length;i++){
             textFields[i] = new JTextField();
@@ -90,8 +90,20 @@ public class ArrivalDialog extends JDialog{
             buttonGroup.add(jRadioButtons[i]);
             this.add(jRadioButtons[i]);
         }
+        
+        ArrivalVO vo = tableModel.getArrivalVO(modelRow);
+        textFields[0].setText(vo.getId());
+        textFields[1].setText(vo.getTransferId());
+        departComboBox.setSelectedItem(vo.getDepart());
+        destinationComboBox.setSelectedItem(vo.getDepart());
+        yearComboBox.setSelectedItem(vo.getArrivalDate().getYear());
+        monthComboBox.setSelectedItem(vo.getArrivalDate().getMonth());
+        dayComboBox.setSelectedItem(vo.getArrivalDate().getDate());
+        jRadioButtons[0].setSelected(true);
 
-
+        
+        // 如果textfield的编号和表格列号一一对应，上述代码也可以用for循环 
+        // textFields[i].setText((String) tableModel.getValueAt(modelRow, i));
         
         JButton confirmButton = new JButton("确认");
         confirmButton.setBounds(230, 240, 80, 30);
@@ -99,29 +111,36 @@ public class ArrivalDialog extends JDialog{
             
             @Override
             public void actionPerformed(ActionEvent e) {
+                if(!isEditable){
+                    ArrivalPendingDialog.this.dispose();
+                    return;
+                }
                 ArrivalVO vo = new ArrivalVO(textFields[0].getText(), new Date(), textFields[1].getText(), (String)departComboBox.getSelectedItem(), (String)destinationComboBox.getSelectedItem(), GoodsState.COMPLETE);
-                arrivalblService.createArrivalPO(vo);
-                ArrivalDialog.this.dispose();
+                tableModel.modify(modelRow, vo);
+                System.out.println("you've clicked confirm button..");
+                ArrivalPendingDialog.this.dispose();
+                
             }
         });
-        JButton cancleButton = new JButton("取消");
-        cancleButton.setBounds(140, 240, 80, 30);
-        cancleButton.addActionListener(new ActionListener() {
-            
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                ArrivalDialog.this.dispose();
-            }
-        });
-        
+        if(isEditable){
+            JButton cancleButton = new JButton("取消");
+            cancleButton.setBounds(140, 240, 80, 30);
+            cancleButton.addActionListener(new ActionListener() {
+                
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    ArrivalPendingDialog.this.dispose();
+                }
+            });
+            this.add(cancleButton);
+        }
         this.add(confirmButton);
-        this.add(cancleButton);
-        
-        this.setTitle("到达单");
+
         this.setSize(340, 320);
         this.setLayout(null);
         this.setLocationRelativeTo(null);
         this.setModalityType(ModalityType.APPLICATION_MODAL);
         this.setVisible(true);
     }
+
 }

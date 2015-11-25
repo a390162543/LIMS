@@ -41,6 +41,7 @@ public class RevenuePO implements Serializable{
         this.courierId = courierId;
         this.revenue = revenue;
         this.orderId = orderId;
+        this.accountId = "";
         this.organization = organization;
         this.documentState = DocumentState.UNCOMMITTED;
     }
@@ -117,10 +118,13 @@ public class RevenuePO implements Serializable{
         this.courierId = vo.getCourierId();
         this.revenue = vo.getRevenue();
         this.orderId = vo.getOrderId();
+        this.accountId = vo.getAccountId();
         this.organization = vo.getOrganization();
     }
 
-
+    public RevenueVO getRevenueVO(){
+        return new RevenueVO(id, revenueDate, courierId, revenue, orderId, accountId, organization);
+    }
 
 
 }

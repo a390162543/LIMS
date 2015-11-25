@@ -141,7 +141,9 @@ public class LoadPO implements Serializable{
         this.cost = vo.getCost();
     }
 
-
+    public LoadVO getLoadVO(){
+        return new LoadVO(id, loadingDate, transportId, depart, destination, truckId, loadMan, transman, orderId, cost);
+    }
 
     
     

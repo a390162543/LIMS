@@ -6,6 +6,7 @@ import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.List;
 
 import po.ArrivalPO;
@@ -53,8 +54,23 @@ public class ArrivalData extends UnicastRemoteObject implements ArrivalDataServi
     @Override
     public List<ArrivalPO> finds(String field, Object value)
             throws RemoteException {
-        // TODO Auto-generated method stub
-        return null;
+        String path = "c:/LIMS/database/"+this.getClass().getSimpleName();
+        List<ArrivalPO> arrivalPOs = new ArrayList<ArrivalPO>();
+        
+        File[] files = DataUtil.getAll(path);
+        for(File f : files){
+            ArrivalPO po = (ArrivalPO)DataUtil.readObject(f.getAbsolutePath());
+            switch (field) {
+            case "documentState":
+                if(po.getDocumentState().equals(value)){
+                    arrivalPOs.add(po);
+                }
+                break;
+            default:
+            }
+        }
+            
+        return arrivalPOs;
     }
 
 

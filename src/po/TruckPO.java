@@ -20,6 +20,7 @@ public class TruckPO implements Serializable{
     private String chassisNumber;
     private Date purchaseDate;
     private ImageIcon truckImage;
+    private String organization;
     private DocumentState documentState;
     
     public TruckPO(String id, String engineNumber, String truckNumber,
@@ -79,6 +80,14 @@ public class TruckPO implements Serializable{
 
     public void setTruckImage(ImageIcon truckImage) {
         this.truckImage = truckImage;
+    }
+
+    public String getOrganization() {
+        return organization;
+    }
+
+    public void setOrganization(String organization) {
+        this.organization = organization;
     }
 
     public DocumentState getDocumentState() {

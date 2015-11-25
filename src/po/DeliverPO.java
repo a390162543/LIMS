@@ -70,5 +70,8 @@ public class DeliverPO implements Serializable{
         this.orderId = vo.getOrderId();
         this.courierId = vo.getCourierId();
     }
-
+    
+    public DeliverVO getDeliverVO(){
+        return new DeliverVO(id, deliverDate, orderId, courierId);
+    }
 }

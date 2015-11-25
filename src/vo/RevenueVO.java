@@ -33,6 +33,18 @@ public class RevenueVO {
         this.courierId = courierId;
         this.revenue = revenue;
         this.orderId = orderId;
+        this.accountId = "";
+        this.organization = organization;
+    }
+    
+    public RevenueVO(String id, Date revenueDate, String courierId, double revenue,
+            List<String> orderId, String accountId, String organization) {
+        this.id = id;
+        this.revenueDate = revenueDate;
+        this.courierId = courierId;
+        this.revenue = revenue;
+        this.orderId = orderId;
+        this.accountId = accountId;
         this.organization = organization;
     }
 

@@ -99,6 +99,8 @@ public class ArrivalPO implements Serializable{
         this.goodsState = vo.getGoodsState();
     }
 
-
+    public ArrivalVO getArrivalVO(){
+        return new ArrivalVO(id, arrivalDate, transferId, depart, destination, goodsState);
+    }
 
 }

@@ -1,4 +1,4 @@
-package presentation.businesshallui.loadui;
+package presentation.managerui.approvalui.loadui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,24 +15,24 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import vo.LoadVO;
-import businesslogic.loadbl.Load;
-import businesslogicservice.LoadblService;
 
-public class LoadDialog extends JDialog{
-
-    /**
+public class LoadPendingDialog extends JDialog {
+	
+	/**
      * 
      */
-    private static final long serialVersionUID = 6468749815012470915L;
+    private static final long serialVersionUID = 4875938402353589894L;
+
     private static final String[] LABEL_NAMES = {"装车单编号","汽运编号","车辆代号","出发地","目的地","装车日期"};
     
-    private LoadblService loadblService;
-    private JTextField[] textFields;
+    private LoadPendingTableModel tableModel;
     
-    public LoadDialog(){
+      
+    @SuppressWarnings("deprecation")
+    public LoadPendingDialog(LoadPendingTableModel tm, int modelRow, boolean isEditable) {
         
-        loadblService = new Load();
-        
+        this.tableModel = tm;
+
         JLabel[] labels = new JLabel[6];
         for(int i=0;i<labels.length;i++){
             labels[i] = new JLabel();
@@ -40,7 +40,7 @@ public class LoadDialog extends JDialog{
             labels[i].setBounds(20, 10+35*i, 100, 25);
             this.add(labels[i]);
         }
-        
+        JTextField textFields[];
         textFields = new JTextField[3];
         for(int i=0;i<textFields.length;i++){
             textFields[i] = new JTextField();
@@ -105,37 +105,57 @@ public class LoadDialog extends JDialog{
         costTextField.setBounds(100, 20+35*9, 60, 25);
         this.add(costTextField);
         
+        LoadVO vo = tableModel.getLoadVO(modelRow);
+        textFields[0].setText(vo.getId());
+        textFields[1].setText(vo.getTransportId());
+        textFields[2].setText(vo.getTruckId());
+        departComboBox.setSelectedItem(vo.getDepart());
+        destinationComboBox.setSelectedItem(vo.getDestination());
+        yearComboBox.setSelectedItem(vo.getLoadingDate().getYear());
+        monthComboBox.setSelectedItem(vo.getLoadingDate().getMonth());
+        dayComboBox.setSelectedItem(vo.getLoadingDate().getDay());
+        
+        // 如果textfield的编号和表格列号一一对应，上述代码也可以用for循环 
+        // textFields[i].setText((String) tableModel.getValueAt(modelRow, i));
+        
         JButton confirmButton = new JButton("确认");
         confirmButton.setBounds(230, 380, 80, 30);
         confirmButton.addActionListener(new ActionListener() {
             
             @Override
             public void actionPerformed(ActionEvent e) {
+                if(!isEditable){
+                    LoadPendingDialog.this.dispose();
+                    return;
+                }
                 List<String> orderIdList = new ArrayList<String>();
                 orderIdList.add(orderTextArea.getText());
                 LoadVO vo = new LoadVO(textFields[0].getText(), new Date(), textFields[1].getText(), (String)departComboBox.getSelectedItem(), (String)destinationComboBox.getSelectedItem(), textFields[2].getText(), personTextFields[0].getText(), personTextFields[1].getText(), orderIdList, new Double(costTextField.getText()));
-                loadblService.createLoadPO(vo);
-                LoadDialog.this.dispose();
+                tableModel.modify(modelRow, vo);
+                System.out.println("you've clicked confirm button..");
+                LoadPendingDialog.this.dispose();
+                
             }
         });
-        JButton cancleButton = new JButton("取消");
-        cancleButton.setBounds(140, 380, 80, 30);
-        cancleButton.addActionListener(new ActionListener() {
-            
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                LoadDialog.this.dispose();
-            }
-        });
-        
+        if(isEditable){
+            JButton cancleButton = new JButton("取消");
+            cancleButton.setBounds(140, 380, 80, 30);
+            cancleButton.addActionListener(new ActionListener() {
+                
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    LoadPendingDialog.this.dispose();
+                }
+            });
+            this.add(cancleButton);
+        }
         this.add(confirmButton);
-        this.add(cancleButton);
-        
-        this.setTitle("装车单");
+
         this.setSize(340, 470);
         this.setLayout(null);
         this.setLocationRelativeTo(null);
         this.setModalityType(ModalityType.APPLICATION_MODAL);
         this.setVisible(true);
     }
+
 }

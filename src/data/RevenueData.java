@@ -73,9 +73,9 @@ public class RevenueData extends UnicastRemoteObject implements RevenueDataServi
                 }
                 break;
             case "date" :
-	        	if(po.getRevenueDate().after((Date)value)||po.getRevenueDate().equals((Date)value))
-	        		revenuePOs.add(po);
-	        	break;
+                if(po.getRevenueDate().after((Date)value)||po.getRevenueDate().equals((Date)value))
+                    revenuePOs.add(po);
+                break;
             default:
             }
         }

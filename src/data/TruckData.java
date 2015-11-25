@@ -61,8 +61,22 @@ public class TruckData extends UnicastRemoteObject implements TruckDataService {
     @Override
     public List<TruckPO> finds(String field, Object value)
             throws RemoteException {
-        // TODO Auto-generated method stub
-        return null;
+        String path = "c:/LIMS/database/"+this.getClass().getSimpleName();
+        List<TruckPO> truckPOs = new ArrayList<TruckPO>();
+        
+        File[] files = DataUtil.getAll(path);
+        for(File f : files){
+            TruckPO po = (TruckPO)DataUtil.readObject(f.getAbsolutePath());
+            switch (field) {
+            case "organization":
+                if(po.getOrganization().equals(value)){
+                    truckPOs.add(po);
+                }
+                break;
+            default:
+            }
+        }
+        return truckPOs;
     }
 
     @Override

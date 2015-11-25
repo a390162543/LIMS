@@ -6,6 +6,7 @@ import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.List;
 
 import po.LoadPO;
@@ -53,8 +54,23 @@ public class LoadData extends UnicastRemoteObject implements LoadDataService {
     @Override
     public List<LoadPO> finds(String field, Object value)
             throws RemoteException {
-        // TODO Auto-generated method stub
-        return null;
+        String path = "c:/LIMS/database/"+this.getClass().getSimpleName();
+        List<LoadPO> loadPOs = new ArrayList<LoadPO>();
+        
+        File[] files = DataUtil.getAll(path);
+        for(File f : files){
+            LoadPO po = (LoadPO)DataUtil.readObject(f.getAbsolutePath());
+            switch (field) {
+            case "documentState":
+                if(po.getDocumentState().equals(value)){
+                    loadPOs.add(po);
+                }
+                break;
+            default:
+            }
+        }
+            
+        return loadPOs;
     }
 
 

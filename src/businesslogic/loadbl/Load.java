@@ -4,8 +4,11 @@ import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.List;
 
 import po.LoadPO;
+import systemenum.DocumentState;
 import dataservice.LoadDataService;
 import vo.LoadVO;
 import businesslogicservice.LoadblService;
@@ -77,6 +80,19 @@ public class Load implements LoadblService{
         return false;
     }
 
-
+    public List<LoadVO> getPendingLoadVO(){
+        List<LoadPO> pos = null;
+        List<LoadVO> vos = new ArrayList<LoadVO>();
+        try {
+            pos = loadDataService.finds("documentState", DocumentState.PENDING);
+        } catch (RemoteException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        for(LoadPO po:pos){
+            vos.add(po.getLoadVO());
+        }
+        return vos;
+    }
 
 }
