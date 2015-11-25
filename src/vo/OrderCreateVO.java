@@ -2,6 +2,8 @@ package vo;
 
 import po.OrderPO;
 import systemenum.DeliveryWay;
+import systemenum.DocumentState;
+import systemenum.GoodsState;
 import systemenum.WrapWay;
 
 public class OrderCreateVO {
@@ -25,6 +27,9 @@ public class OrderCreateVO {
     
     private WrapWay wrapWay;
     private DeliveryWay deliverWay;
+   
+    private int totalTime;
+    private GoodsState goodsState;
     
     
 	public OrderCreateVO(String id, String senderName, String senderAddress,
@@ -32,6 +37,30 @@ public class OrderCreateVO {
 			String receiverAddress, String receiverTel, String receiverCell,
 			String goodsInfo, double weight, double size, double cost,
 			WrapWay wrapWay, DeliveryWay deliverWay) {
+		super();
+		this.id = id;//
+		this.senderName = senderName;
+		this.senderAddress = senderAddress;//
+		this.senderTel = senderTel;
+		this.senderCell = senderCell;
+		this.receiverName = receiverName;
+		this.receiverAddress = receiverAddress;//
+		this.receiverTel = receiverTel;
+		this.receiverCell = receiverCell;
+		this.goodsInfo = goodsInfo;//
+		this.weight = weight;//
+		this.size = size;//
+		this.cost = cost;//
+		this.wrapWay = wrapWay;//
+		this.deliverWay = deliverWay;//
+	}
+	
+	//add total time
+	public OrderCreateVO(String id, String senderName, String senderAddress,
+			String senderTel, String senderCell, String receiverName,
+			String receiverAddress, String receiverTel, String receiverCell,
+			String goodsInfo, double weight, double size, double cost,
+			WrapWay wrapWay, DeliveryWay deliverWay, int totalTime) {
 		super();
 		this.id = id;
 		this.senderName = senderName;
@@ -48,8 +77,23 @@ public class OrderCreateVO {
 		this.cost = cost;
 		this.wrapWay = wrapWay;
 		this.deliverWay = deliverWay;
+		this.totalTime = totalTime;
 	}
 
+
+	
+	
+	public GoodsState getGoodsState() {
+		return goodsState;
+	}
+
+	public void setGoodsState(GoodsState goodsState) {
+		this.goodsState = goodsState;
+	}
+
+	public int getTotalTime() {
+		return totalTime;
+	}
 
 	public String getId() {
 		return id;

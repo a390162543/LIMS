@@ -62,6 +62,7 @@ public class StoreoutGoodsDialog extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				String[] data = {goodsIdTextField.getText()};
 				tableModel.addRow(data);
+				
 			}
 		});
 		

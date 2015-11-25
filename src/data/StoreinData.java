@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 import po.StoreinPO;
+import systemenum.DocumentState;
 import dataservice.StoreinDataService;
 
 public class StoreinData extends UnicastRemoteObject implements StoreinDataService{
@@ -41,14 +42,17 @@ public class StoreinData extends UnicastRemoteObject implements StoreinDataServi
 
 	@Override
 	public void update(StoreinPO po) throws RemoteException {
-		// TODO Auto-generated method stub
-		
+		String fileName = po.getStoreinId();
+		String path = "c:/LIMS/database/"+this.getClass().getSimpleName()+"/"+fileName+".ser";
+		DataUtil.writeObject(po, path);	
 	}
 
 	@Override
 	public StoreinPO find(String id) throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
+		String fileName = id;
+		String path = "c:/LIMS/database/"+this.getClass().getSimpleName()+"/"+fileName+".ser";
+		StoreinPO po = (StoreinPO) DataUtil.readObject(path);
+		return po;
 	}
 
 	@Override
@@ -66,9 +70,6 @@ public class StoreinData extends UnicastRemoteObject implements StoreinDataServi
 					
 					break;
 					
-				case "documentState":
-					
-					break;
 					
 				case "date":
 				{
@@ -90,6 +91,11 @@ public class StoreinData extends UnicastRemoteObject implements StoreinDataServi
 					}
 					
 					break;
+					
+				case "documentState":
+					if (po.getDocumentState().equals((DocumentState)value)) {
+						storeinPOs.add(po);
+					}
 				default:
 					break;
 				}

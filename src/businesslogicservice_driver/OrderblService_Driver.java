@@ -32,7 +32,7 @@ public class OrderblService_Driver {
 		double cost = orderblService.getTotal(orderCreateVO);
 		System.out.println(cost);
 		
-		boolean excuteResult = orderblService.excute(orderCreateVO);
+		boolean excuteResult = orderblService.execute(orderCreateVO);
 		System.out.println(excuteResult);
 		
 		

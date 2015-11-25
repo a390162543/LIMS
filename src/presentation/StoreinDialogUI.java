@@ -6,6 +6,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.CellEditor;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -18,6 +19,7 @@ import businesslogic.storeinbl.Storein;
 import businesslogicservice.StoreinblService;
 import po.StoreinPO;
 import vo.StoreinCreateVO;
+import vo.StoreinOrderVO;
 
 public class StoreinDialogUI extends JDialog{
 	
@@ -142,10 +144,19 @@ public class StoreinDialogUI extends JDialog{
 		deleteButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				  int row = goodsInfoTable.getSelectedRow();
-	              if(row == -1)
+				  int selectedRow = goodsInfoTable.getSelectedRow();
+	              if(selectedRow == -1)
 	            	  return;
-	              tableModel.removeRow(row);
+	              
+	              String orderId = (String) tableModel.getValueAt(selectedRow, 0);
+	              int areaNum = Integer.parseInt((String)tableModel.getValueAt(selectedRow, 1));
+	              int rowNum = Integer.parseInt((String)tableModel.getValueAt(selectedRow, 2));
+	              int frameNum = Integer.parseInt((String)tableModel.getValueAt(selectedRow, 3));
+	              int item = Integer.parseInt((String)tableModel.getValueAt(selectedRow, 4));
+	              StoreinOrderVO vo = new StoreinOrderVO(orderId, areaNum, rowNum, frameNum, item);
+	              StoreinblService storeinblService = new Storein();
+	              storeinblService.restoreLocationState(vo);   
+	              tableModel.removeRow(selectedRow); 
 			}
 		});
 		
@@ -181,6 +192,27 @@ public class StoreinDialogUI extends JDialog{
 				StoreinCreateVO vo = new StoreinCreateVO(new String("2015112000000000"), orderId, inDate, destination, areaNum, rowNum, frameNum, item, organization);
 				StoreinblService storeinblService = new Storein();
 				storeinblService.createStoreinPO(vo);	
+			}
+		});
+		
+		cancleButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int totalRow = goodsInfoTable.getRowCount(); //ÐÐ
+				//int totalColumn = goodsInfoTable.getColumnCount();  //ÁÐ
+				
+				for(int i=0;i<totalRow;i++){
+					String orderId = (String) tableModel.getValueAt(i, 0);
+		              int areaNum = Integer.parseInt((String)tableModel.getValueAt(i, 1));
+		              int rowNum = Integer.parseInt((String)tableModel.getValueAt(i, 2));
+		              int frameNum = Integer.parseInt((String)tableModel.getValueAt(i, 3));
+		              int item = Integer.parseInt((String)tableModel.getValueAt(i, 4));
+		              StoreinOrderVO vo = new StoreinOrderVO(orderId, areaNum, rowNum, frameNum, item);
+		              StoreinblService storeinblService = new Storein();
+		              storeinblService.restoreLocationState(vo); 
+				}
+			
 			}
 		});
 	}

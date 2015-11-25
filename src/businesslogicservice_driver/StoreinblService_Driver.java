@@ -33,7 +33,7 @@ public class StoreinblService_Driver {
 		boolean modifyStoreinResult = storeinblService.modifyStorein(storeinCreateVO);
 		System.out.println(modifyStoreinResult);
 		
-		boolean excuteStoreinResult = storeinblService.excute(storeinCreateVO);
+		boolean excuteStoreinResult = storeinblService.execute(storeinCreateVO);
 		System.out.println(excuteStoreinResult);
 		
 	}

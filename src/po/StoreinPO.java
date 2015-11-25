@@ -7,6 +7,7 @@ import java.util.List;
 
 import systemenum.DocumentState;
 import vo.StoreinCheckResultVO;
+import vo.StoreinCreateVO;
 import vo.StoreinQueryVO;
 
 public class StoreinPO implements Serializable{
@@ -46,7 +47,7 @@ public class StoreinPO implements Serializable{
 	private List<Integer> rowNum;
 	private List<Integer> frameNum;
 	private List<Integer> item;
-	private String organization;
+	private String organization;  //1.区分是哪个区的存储到相应的位置（字段查找）2.对应于入库单的出发地
 	
 	
 	
@@ -125,5 +126,9 @@ public class StoreinPO implements Serializable{
 
 	public StoreinQueryVO getStoreinQueryVOs() {
 		return new StoreinQueryVO(orderId, areaNum, rowNum, frameNum, item, date, destination);
+	}
+	
+	public StoreinCreateVO getStoreinCreateVO() {
+		return new StoreinCreateVO(id, orderId, date, destination, areaNum, rowNum, frameNum, item, organization);
 	}
 }

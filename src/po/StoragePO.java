@@ -3,6 +3,8 @@ package po;
 import java.io.Serializable;
 import java.util.Date;
 
+import businesslogic.storagebl.StorageHelper;
+import systemenum.StorageState;
 import vo.StorageSetAreaVO;
 
 public class StoragePO implements Serializable {
@@ -28,7 +30,10 @@ public class StoragePO implements Serializable {
 	private double alarm;
 	private Date checkDate;
 	
+	private StorageHelper[][][][] storageHelper = new StorageHelper[4][50][100][100];
 	
+	
+	//0代表航空区，1代表火车区，2代表汽车区，3代表机动区.
 	public StoragePO(int airCapacity, int motorCapacity, int carCapacity,
 			int trainCapacity, int allCapacity, int nowCapacity, double alarm,
 			Date checkDate,String storageId) {
@@ -42,6 +47,46 @@ public class StoragePO implements Serializable {
 		this.alarm = alarm;
 		this.checkDate = checkDate;
 		this.storageId = storageId;
+		
+		for (int i = 0; i < airCapacity; i++) {
+			for (int j = 0; j < 100; j++) {
+				for (int j2 = 0; j2 < 100; j2++) {
+					storageHelper[0][i][j][j2] = new StorageHelper();
+					storageHelper[0][i][j][j2].setState(StorageState.ISAVAILABLE);
+				}
+			}
+			
+		}
+		
+		for (int i = 0; i < trainCapacity; i++) {
+			for (int j = 0; j < storageHelper.length; j++) {
+				for (int j2 = 0; j2 < storageHelper.length; j2++) {
+					storageHelper[1][i][j][j2] = new StorageHelper();
+					storageHelper[1][i][j][j2].setState(StorageState.ISAVAILABLE);
+				}
+			}
+			
+		}
+		
+		for (int i = 0; i < carCapacity; i++) {
+			for (int j = 0; j < storageHelper.length; j++) {
+				for (int j2 = 0; j2 < storageHelper.length; j2++) {
+					storageHelper[2][i][j][j2] = new StorageHelper();
+					storageHelper[2][i][j][j2].setState(StorageState.ISAVAILABLE);
+				}
+			}
+			
+		}
+		
+		for (int i = 0; i < motorCapacity; i++) {
+			for (int j = 0; j < storageHelper.length; j++) {
+				for (int j2 = 0; j2 < storageHelper.length; j2++) {
+					storageHelper[3][i][j][j2] = new StorageHelper();
+					storageHelper[3][i][j][j2].setState(StorageState.ISAVAILABLE);
+				}
+			}
+			
+		}
 	}
 	
 	
@@ -118,5 +163,9 @@ public class StoragePO implements Serializable {
 		setTrainCapacity(vo.getTrainCapacity());
 		setAlarm(vo.getAlarm());
 		return this;
+	}
+	
+	public StorageHelper[][][][] getStorageHelperData() {
+		return storageHelper;
 	}
 }

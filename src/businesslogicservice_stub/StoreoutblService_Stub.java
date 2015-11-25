@@ -11,7 +11,7 @@ public class StoreoutblService_Stub implements StoreoutblService {
 	}
 
 	@Override
-	public boolean excute(StoreoutCreateVO vo) {
+	public boolean execute(StoreoutCreateVO vo) {
 		return true;
 	}
 

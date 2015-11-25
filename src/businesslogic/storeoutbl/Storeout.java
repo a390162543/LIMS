@@ -12,11 +12,13 @@ import org.omg.PortableServer.ID_ASSIGNMENT_POLICY_ID;
 
 import po.StoreinPO;
 import po.StoreoutPO;
+import systemenum.DocumentState;
 import dataservice.OrderDataService;
 import dataservice.StoreinDataService;
 import dataservice.StoreoutDataService;
 import vo.StoreinCheckResultVO;
 import vo.StoreinCheckVo;
+import vo.StoreinCreateVO;
 import vo.StoreoutCheckResultVO;
 import vo.StoreoutCreateVO;
 import vo.StoreoutQueryVO;
@@ -30,7 +32,9 @@ public class Storeout implements StoreoutblService{
 	public boolean createStoreoutPO(StoreoutCreateVO vo) {
 		try {
 			StoreoutDataService storeoutDataService = (StoreoutDataService) Naming.lookup("rmi://localhost/StoreoutData");
-			storeoutDataService.insert(vo.getStoreoutPO());
+			StoreoutPO po = vo.getStoreoutPO();
+			po.setDocumentState(DocumentState.PENDING);
+			storeoutDataService.insert(po);
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -52,8 +56,22 @@ public class Storeout implements StoreoutblService{
 	}
 
 	@Override
-	public boolean excute(StoreoutCreateVO vo) {
-		// TODO Auto-generated method stub
+	public boolean execute(StoreoutCreateVO vo) {
+		try {
+			StoreoutDataService storeoutDataService = (StoreoutDataService) Naming.lookup("rmi://localhost/StoreoutData");
+			StoreoutPO storeoutPO = storeoutDataService.find(vo.getId());
+			storeoutPO.setDocumentState(DocumentState.PASS);
+			storeoutDataService.update(storeoutPO);
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NotBoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return false;
 	}
 
@@ -115,5 +133,26 @@ public class Storeout implements StoreoutblService{
 		return storeoutQueryVOs;
 		
 	}
-
+	
+	public List<StoreoutCreateVO> getPendingStoreoutCreateVO () {
+		List<StoreoutCreateVO> storeoutPendingVOs = new ArrayList<StoreoutCreateVO>();
+		List<StoreoutPO> pendingStoreoutPOs = null;
+		try {
+			StoreoutDataService storeoutDataService =  (StoreoutDataService) Naming.lookup("rmi://localhost/StoreoutData");
+			pendingStoreoutPOs = storeoutDataService.finds("documentState", DocumentState.PENDING);
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NotBoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		for (StoreoutPO po : pendingStoreoutPOs) {
+			storeoutPendingVOs.add(po.getStoreoutCreateVO());
+		}
+		return storeoutPendingVOs;
+	}
 }

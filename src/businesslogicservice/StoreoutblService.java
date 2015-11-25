@@ -15,7 +15,7 @@ public interface StoreoutblService {
 	
 	public boolean modifyStoreout (StoreoutCreateVO vo);
 	
-	public boolean excute (StoreoutCreateVO vo);
+	public boolean execute (StoreoutCreateVO vo);
 		
 	
 

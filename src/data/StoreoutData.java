@@ -12,6 +12,7 @@ import java.util.List;
 
 import po.StoreinPO;
 import po.StoreoutPO;
+import systemenum.DocumentState;
 import dataservice.StoreinDataService;
 import dataservice.StoreoutDataService;
 
@@ -38,14 +39,17 @@ public class StoreoutData extends UnicastRemoteObject implements StoreoutDataSer
 
 	@Override
 	public void update(StoreoutPO po) throws RemoteException {
-		// TODO Auto-generated method stub
-		
+		String fileName = po.getStoreoutId();
+		String path = "c:/LIMS/database/"+this.getClass().getSimpleName()+"/"+fileName+".ser";
+		DataUtil.writeObject(po, path);
 	}
 
 	@Override
 	public StoreoutPO find(String id) throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
+		String fileName = id;
+		String path = "c:/LIMS/database/"+this.getClass().getSimpleName()+"/"+fileName+".ser";
+		StoreoutPO po = (StoreoutPO) DataUtil.readObject(path);
+		return po;
 	}
 
 	@Override
@@ -64,7 +68,9 @@ public class StoreoutData extends UnicastRemoteObject implements StoreoutDataSer
 					break;
 					
 				case "documentState":
-					
+					if (po.getDocumentState().equals((DocumentState)value)) {
+						storeoutPOs.add(po);
+					}
 					break;
 					
 				case "date":

@@ -49,21 +49,28 @@ public class OrderblService_Stub implements OrderblService {
 		return total;
 	}
 
-	@Override
-	public boolean excute(OrderCreateVO vo) {	
-		return true;
-	}
-
-	@Override
-	public boolean modifyOrder(OrderCreateVO vo) {
-		return true;
-	}
+	
 
 
 	@Override
 	public int getEximatedTime(OrderCreateVO vo) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+
+
+	@Override
+	public boolean modifyOrder(OrderCreateVO vo) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+	@Override
+	public boolean execute(OrderCreateVO vo) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

@@ -37,7 +37,7 @@ public class StorageData extends UnicastRemoteObject implements StorageDataServi
 
 	@Override
 	public StoragePO find(String id) throws RemoteException {
-		String fileName = String.format("%04d", id);
+		String fileName = id;
 		String path = "c:/LIMS/database/"+this.getClass().getSimpleName()+"/"+fileName+".ser";
 		File file = new File(path);
 		if (file.exists()) {

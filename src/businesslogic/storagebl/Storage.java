@@ -10,12 +10,14 @@ import java.util.Date;
 import java.util.List;
 
 import po.StoragePO;
+import systemenum.StorageState;
 import dataservice.StorageDataService;
 import vo.StorageCheckVO;
 import vo.StorageQueryResultVO;
 import vo.StorageSetAreaVO;
 import vo.StoreinCheckVo;
 import vo.StoreinCreateVO;
+import vo.StoreinOrderVO;
 import vo.StoreinQueryVO;
 import vo.StoreoutCreateVO;
 import vo.StoreoutQueryVO;
@@ -37,7 +39,6 @@ public class Storage implements StorageblService{
 			}
 			StoragePO updatePo = po.getUpdateStoragePO(vo);
 			storageDataService.update(updatePo);
-			
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -183,6 +184,68 @@ public class Storage implements StorageblService{
 		}
 		
 		return storageQueryResultVOs;
+	}
+	
+	public boolean changeStorageState (StoreinOrderVO vo) {
+		try {
+			StorageDataService storageDataService = (StorageDataService) Naming.lookup("rmi://localhost/StorageData");
+			StoragePO po = storageDataService.find("0250");
+			StorageHelper helper = po.getStorageHelperData()[vo.getAreaNum()][vo.getRowNum()][vo.getFrameNum()][vo.getItem()];
+			helper.setState(StorageState.ISSTORING);
+			storageDataService.update(po);
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NotBoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return true;
+	}
+	
+	public boolean restoreStorageState (StoreinOrderVO vo) {
+		try {
+			StorageDataService storageDataService = (StorageDataService) Naming.lookup("rmi://localhost/StorageData");
+			StoragePO po = storageDataService.find("0250");
+			StorageHelper helper = po.getStorageHelperData()[vo.getAreaNum()][vo.getRowNum()][vo.getFrameNum()][vo.getItem()];
+			helper.setState(StorageState.ISAVAILABLE);
+			storageDataService.update(po);
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NotBoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return true;
+	}
+	
+	public boolean setStorageState (StoreinOrderVO vo) {
+		try {
+			StorageDataService storageDataService = (StorageDataService) Naming.lookup("rmi://localhost/StorageData");
+			StoragePO po = storageDataService.find("0250");
+			StorageHelper helper = po.getStorageHelperData()[vo.getAreaNum()][vo.getRowNum()][vo.getFrameNum()][vo.getItem()];
+			helper.setState(StorageState.ISSTORED);
+			storageDataService.update(po);
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NotBoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return true;
 	}
 
 }

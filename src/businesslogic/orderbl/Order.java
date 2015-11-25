@@ -4,14 +4,18 @@ import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.List;
 
 import po.OrderPO;
+import systemenum.DocumentState;
 import dataservice.OrderDataService;
 import vo.OrderCreateVO;
 import vo.OrderQueryVO;
 import vo.OrderSignVO;
 import vo.InOrderCheckResultVO;
 import vo.OutOrderCheckResultVO;
+import vo.StoreinOrderVO;
 import businesslogicservice.OrderblService;
 
 public class Order implements OrderblService{
@@ -56,8 +60,22 @@ public class Order implements OrderblService{
 
 	
 	public boolean modifyOrder(OrderCreateVO vo) {
-		
-		return false;
+		try {
+			OrderDataService ods = (OrderDataService) Naming.lookup("rmi://localhost/OrderData");
+			OrderPO po = ods.find(vo.getId());
+			ods.update(po.updateModifyInfo(vo));
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NotBoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return true;
+	
 	}
 
 
@@ -138,10 +156,65 @@ public class Order implements OrderblService{
 	}
 
 	
-	public boolean excute(OrderCreateVO vo) {
+	public boolean execute(OrderCreateVO vo) {
 		
-		return false;
+		try {
+			OrderDataService ods = (OrderDataService) Naming.lookup("rmi://localhost/OrderData");
+			OrderPO po = ods.find(vo.getId());
+			po.setDocumentState(DocumentState.PASS);
+			ods.update(po);
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NotBoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return true;
 	}
 	
+	public List<OrderCreateVO> getPendingOrderCreateVO() {
+		List<OrderCreateVO> orderPendingVOs = new ArrayList<OrderCreateVO>();
+		List<OrderPO> pendingOrderPOs = null;
+		try {
+			OrderDataService ods = (OrderDataService) Naming.lookup("rmi://localhost/OrderData");
+			pendingOrderPOs = ods.finds("documentState", DocumentState.PENDING);
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NotBoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		for (OrderPO po : pendingOrderPOs) {
+			orderPendingVOs.add(po.getOrderPendingVO());
+		}
+		return orderPendingVOs;
+	}
+	
+	public StoreinOrderVO getStorageOrderVO(String orderId) {
+		StoreinOrderVO storeinOrderVO = null;
+		try {
+			OrderDataService ods = (OrderDataService) Naming.lookup("rmi://localhost/OrderData");
+			OrderPO po = ods.find(orderId);
+			storeinOrderVO = po.getStorageOrderVO();
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NotBoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return storeinOrderVO;
+	}
 	
 }

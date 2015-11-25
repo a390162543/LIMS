@@ -27,6 +27,6 @@ public interface OrderblService {
 	public int getEximatedTime(OrderCreateVO vo);
 	
 	
-	public boolean excute(OrderCreateVO vo);
+	public boolean execute(OrderCreateVO vo);
 	
 }

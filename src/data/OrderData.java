@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import po.OrderPO;
+import systemenum.DocumentState;
 import dataservice.OrderDataService;
 
 public class OrderData extends UnicastRemoteObject implements OrderDataService{
@@ -54,8 +55,28 @@ public class OrderData extends UnicastRemoteObject implements OrderDataService{
 	
 	public List<OrderPO> finds(String field, Object value)
 			throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
+		String path = "c:/LIMS/database/"+this.getClass().getSimpleName();
+		List<OrderPO> orderPOs = new ArrayList<OrderPO>();
+		try {
+			File[] files = DataUtil.getAll(path);
+			for (File f : files) {
+				OrderPO orderPO = (OrderPO) DataUtil.readObject(f.getAbsolutePath());
+				switch (field) {
+				case "documentState":
+					if (orderPO.getDocumentState().equals(value)) {
+						orderPOs.add(orderPO);
+					}
+					break;
+				default:
+					break;
+				}
+			}
+			
+			
+		} catch (NullPointerException e) {
+			return orderPOs;
+		}
+		return orderPOs;
 	}
 
 	

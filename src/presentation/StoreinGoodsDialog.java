@@ -3,6 +3,7 @@ package presentation;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.CellEditor;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -10,6 +11,7 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import vo.StoreinCreateVO;
+import vo.StoreinOrderVO;
 import businesslogic.storeinbl.Storein;
 import businesslogicservice.StoreinblService;
 
@@ -100,13 +102,20 @@ public class StoreinGoodsDialog extends JDialog{
 				String[] data = {orderIdTextField.getText(),areaNUmTextField.getText(),
 						rowNumTextField.getText(),frameNumTextField.getText(),
 						itemTextField.getText()};
+				
+				StoreinOrderVO vo = new StoreinOrderVO(orderIdTextField.getText(), Integer.parseInt(areaNUmTextField.getText()),
+						Integer.parseInt(rowNumTextField.getText()), Integer.parseInt(frameNumTextField.getText()), Integer.parseInt(itemTextField.getText()));
+				StoreinblService storeinblService = new Storein();
+				storeinblService.changeLocationState(vo);		
 				tableModel.addRow(data);
+							
 			}
 		});
 		
 		cancleButton.addActionListener(new ActionListener() {	
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				
 				
 				
 			}

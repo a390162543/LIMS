@@ -8,10 +8,12 @@ import systemenum.DocumentState;
 import systemenum.ShipForm;
 import systemenum.WrapWay;
 import systemenum.GoodsState;
+import vo.OrderCreateVO;
 import vo.OrderQueryVO;
 import vo.OrderSignVO;
 import vo.InOrderCheckResultVO;
 import vo.OutOrderCheckResultVO;
+import vo.StoreinOrderVO;
 
 public class OrderPO implements Serializable{
 	
@@ -48,6 +50,33 @@ public class OrderPO implements Serializable{
 		this.documentState = DocumentState.PENDING;
 	}
 	
+	//add the total time to deliver
+	public OrderPO(String id, WrapWay wrapWay, DeliveryWay deliverWay,
+			String senderName, String senderAddress,
+			String senderTel, String senderCell, String receiverName,
+			String receiverAddress, String receiverTel, String receiverCell,
+			String goodsInfo, double weight, double size, double cost, int totalTime) {
+		super();
+		this.state = GoodsState.COMPLETE;
+		this.id = id;
+		this.wrapWay = wrapWay;
+		this.deliverWay = deliverWay;
+		this.senderName = senderName;
+		this.senderAddress = senderAddress;
+		this.senderTel = senderTel;
+		this.senderCell = senderCell;
+		this.receiverName = receiverName;
+		this.receiverAddress = receiverAddress;
+		this.receiverTel = receiverTel;
+		this.receiverCell = receiverCell;
+		this.goodsInfo = goodsInfo;
+		this.weight = weight;
+		this.size = size;
+		this.cost = cost;
+		this.totalTime = totalTime;
+		this.documentState = DocumentState.PENDING;
+	}
+	
 	
 	private String id;
 	
@@ -80,15 +109,22 @@ public class OrderPO implements Serializable{
     private String deliverInfo;
    	private Date signData;
    	
-   	private int areaNum;
-   	private int rowNum;
-   	private int frameNum;
-   	private int item; 
+   	private int areaNum;  //ÇøºÅ
+   	private int rowNum;    //ÅÅºÅ
+   	private int frameNum;   //¼ÜºÅ
+   	private int item;      //Î»ºÅ
    	
    	private Date inDate;
    	
+   	private int totalTime;
    	
-   	public DocumentState getDocumentState() {
+   	
+   	
+   	public int getTotalTime() {
+		return totalTime;
+	}
+
+	public DocumentState getDocumentState() {
 		return documentState;
 	}
 
@@ -157,6 +193,9 @@ public class OrderPO implements Serializable{
 		return cost;
 	}
 	
+	public void setCost(double cost) {
+		this.cost = cost;
+	}
 	
 	
 	public String getNowLocation() {
@@ -246,6 +285,11 @@ public class OrderPO implements Serializable{
 		return deliverWay;
 	}
 	
+	public OrderPO updateModifyInfo(OrderCreateVO vo) {
+		setCost(vo.getCost());	
+		return this;
+	}
+	
 	public OrderPO updateSignInfo(OrderSignVO vo){
 		setSignName(vo.getSignName());
 		setSignData(vo.getSignData());
@@ -262,5 +306,15 @@ public class OrderPO implements Serializable{
 	
 	public InOrderCheckResultVO getInOrderCheckResultVO() {
 		return new InOrderCheckResultVO(id, areaNum, rowNum, frameNum, item, weight, size);
+	}
+	
+	public OrderCreateVO getOrderPendingVO() {
+		return new OrderCreateVO(id, senderName, senderAddress, senderTel, senderCell, receiverName,
+				receiverAddress, receiverTel, receiverCell, goodsInfo, weight, size, cost, wrapWay, deliverWay,
+				totalTime);
+	}
+	
+	public StoreinOrderVO getStorageOrderVO() {
+		return new StoreinOrderVO(id, areaNum, rowNum, frameNum, item);
 	}
 }

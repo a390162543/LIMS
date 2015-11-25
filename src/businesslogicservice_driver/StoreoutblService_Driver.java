@@ -30,7 +30,7 @@ public class StoreoutblService_Driver {
 		boolean modifyStoreoutResult = storeoutblService.modifyStoreout(storeoutCreateVO);
 		System.out.println(modifyStoreoutResult);
 		
-		boolean excuteStoreoutResult = storeoutblService.excute(storeoutCreateVO);
+		boolean excuteStoreoutResult = storeoutblService.execute(storeoutCreateVO);
 		System.out.println(excuteStoreoutResult);
 		
 	}

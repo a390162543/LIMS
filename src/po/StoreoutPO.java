@@ -7,8 +7,8 @@ import java.util.List;
 
 import systemenum.DocumentState;
 import systemenum.ShipForm;
-import vo.StoreinCheckResultVO;
 import vo.StoreoutCheckResultVO;
+import vo.StoreoutCreateVO;
 import vo.StoreoutQueryVO;
 
 public class StoreoutPO implements Serializable {
@@ -110,6 +110,9 @@ public class StoreoutPO implements Serializable {
 		return storeoutCheckResultVOs;
 	}
 
+	public StoreoutCreateVO getStoreoutCreateVO() {
+		return new StoreoutCreateVO(id, orderId, date, destination, shipForm, transferId, organization);
+	}
 
 	public StoreoutQueryVO getStoreoutQueryVO() {
 		return new StoreoutQueryVO(orderId);

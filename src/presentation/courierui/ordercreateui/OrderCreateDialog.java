@@ -13,6 +13,7 @@ import javax.swing.JTextField;
 import businesslogic.orderbl.Order;
 import businesslogicservice.OrderblService;
 import systemenum.DeliveryWay;
+import systemenum.GoodsState;
 import systemenum.WrapWay;
 import vo.OrderCreateVO;
 
@@ -70,6 +71,9 @@ public class OrderCreateDialog extends JDialog{
 	private JTextField senderCellTextField;
 	private JLabel senderAddressLabel;
 	private JTextField senderAdressTextField;
+	
+	private JLabel totalTimeLabel;
+	private JTextField totalTimeTextField;
 	
 	private JButton confirmButton;
 	private JButton cancleButton;
@@ -150,9 +154,15 @@ public class OrderCreateDialog extends JDialog{
 		deliveryWayButtonGroup.add(standardDeliveryButton);
 		deliveryWayButtonGroup.add(fastDeliveryButton);
 		totalExpenseLabel = new JLabel("总费用");
-		totalExpenseLabel.setBounds(235, 283, 60, 22);
+		totalExpenseLabel.setBounds(235, 675, 60, 22);
 		totalExpenseTextField = new JTextField();
-		totalExpenseTextField.setBounds(300, 283, 60, 22);
+		totalExpenseTextField.setBounds(300, 675, 60, 22);
+		totalTimeLabel = new JLabel("预估时间");
+		totalTimeLabel.setBounds(85, 675, 80, 22);
+		totalTimeTextField = new JTextField();
+		totalTimeTextField.setBounds(170, 675, 60, 22);
+		this.add(totalTimeLabel);
+		this.add(totalTimeTextField);
 		this.add(totalExpenseTextField);
 		this.add(totalExpenseLabel);
 		this.add(fastDeliveryButton);
@@ -179,23 +189,23 @@ public class OrderCreateDialog extends JDialog{
 	
 	public void recipientInfoInit(){
 		recipientInfoLabel = new JLabel("收件人信息");
-		recipientInfoLabel.setBounds(10, 333, 100, 22);
+		recipientInfoLabel.setBounds(10, 293, 100, 22);
 		recipientNameLabel = new JLabel("姓名");
-		recipientNameLabel.setBounds(39, 373, 40, 22);
+		recipientNameLabel.setBounds(39, 333, 40, 22);
 		recipientNameTextField = new JTextField();
-		recipientNameTextField.setBounds(89, 370, 60, 22);
+		recipientNameTextField.setBounds(89, 330, 60, 22);
 		recipientTelLabel = new JLabel("电话");
-		recipientTelLabel.setBounds(39, 404, 40, 22);
+		recipientTelLabel.setBounds(39, 364, 40, 22);
 		recipientTeltTextField = new JTextField();
-		recipientTeltTextField.setBounds(89, 402, 180, 22);
+		recipientTeltTextField.setBounds(89, 362, 180, 22);
 		recipientCellLabel = new JLabel("手机");
-		recipientCellLabel.setBounds(39, 436, 40, 22);
+		recipientCellLabel.setBounds(39, 396, 40, 22);
 		recipientCellTextField = new JTextField();
-		recipientCellTextField.setBounds(89, 436, 180, 22);
+		recipientCellTextField.setBounds(89, 396, 180, 22);
 		recipientAddressLabel = new JLabel("地址");
-		recipientAddressLabel.setBounds(39, 469, 40, 22);
+		recipientAddressLabel.setBounds(39, 439, 40, 22);
 		recipientAdressTextField = new JTextField();
-		recipientAdressTextField.setBounds(89, 469, 180, 22);
+		recipientAdressTextField.setBounds(89, 439, 180, 22);
 		this.add(recipientAdressTextField);
 		this.add(recipientAddressLabel);
 		this.add(recipientCellTextField); 
@@ -210,23 +220,23 @@ public class OrderCreateDialog extends JDialog{
 	
 	public void senderInfoinit(){
 		senderInfoLabel = new JLabel("寄件人信息");
-		senderInfoLabel.setBounds(10, 538, 100, 22);
+		senderInfoLabel.setBounds(10, 488, 100, 22);
 		senderNameLabel = new JLabel("姓名");
-		senderNameLabel.setBounds(39, 581, 40, 22);
+		senderNameLabel.setBounds(39, 531, 40, 22);
 		senderNameTextField = new JTextField();
-		senderNameTextField.setBounds(89, 581, 60, 22);
+		senderNameTextField.setBounds(89, 531, 60, 22);
 		senderTelLabel = new JLabel("电话");
-		senderTelLabel.setBounds(39, 616, 40, 22);
+		senderTelLabel.setBounds(39, 566, 40, 22);
 		senderTeltTextField = new JTextField();
-		senderTeltTextField.setBounds(89, 616, 180, 22);
+		senderTeltTextField.setBounds(89, 566, 180, 22);
 		senderCellLabel = new JLabel("手机");
-		senderCellLabel.setBounds(39, 650, 40, 22);
+		senderCellLabel.setBounds(39, 600, 40, 22);
 		senderCellTextField = new JTextField();
-		senderCellTextField.setBounds(89, 650, 180, 22);
+		senderCellTextField.setBounds(89, 600, 180, 22);
 		senderAddressLabel = new JLabel("地址");
-		senderAddressLabel.setBounds(39, 681, 40, 22);
+		senderAddressLabel.setBounds(39, 631, 40, 22);
 		senderAdressTextField = new JTextField();
-		senderAdressTextField.setBounds(89, 681, 180, 22);
+		senderAdressTextField.setBounds(89, 631, 180, 22);
 		this.add(senderAdressTextField);
 		this.add(senderAddressLabel);
 		this.add(senderCellTextField); 
@@ -245,7 +255,8 @@ public class OrderCreateDialog extends JDialog{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				double tempcost =20;
+				double tempcost = Double.parseDouble(totalExpenseTextField.getText());
+				int temptme = Integer.parseInt(totalTimeTextField.getText());
 				
 				WrapWay wrapWay;
 				if(woodenWrapButton.isSelected())
@@ -270,8 +281,8 @@ public class OrderCreateDialog extends JDialog{
 						recipientTeltTextField.getText(), recipientCellTextField.getText(), 
 						goodsInfoTextField.getText(), Double.parseDouble(weighTextField.getText()),
 						Double.parseDouble(volumeTextField.getText()), tempcost, wrapWay,
-						deliverWay);
-				
+						deliverWay, temptme);
+				orderCreateVO.setGoodsState(GoodsState.COMPLETE);
 				OrderblService orderblService = new Order();
 				orderblService.createOrderPO(orderCreateVO);
 			}

@@ -52,6 +52,18 @@ public class StoreinCreateVO {
 
 	
 
+	public String getOrganization() {
+		return organization;
+	}
+
+
+
+	public void setOrganization(String organization) {
+		this.organization = organization;
+	}
+
+
+
 	public String getId() {
 		return id;
 	}
