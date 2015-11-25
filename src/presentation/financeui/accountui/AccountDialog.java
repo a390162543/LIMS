@@ -35,8 +35,11 @@ public class AccountDialog extends JDialog{
 	        
 	        textFields = new JTextField[3];
 	        for(int i=0;i<textFields.length;i++){
-	            textFields[i] = new JTextField();
-	            textFields[i].setBounds(140, 40+40*i, 180, 25);
+	            textFields[i] = new JTextField();           
+	            if(i==2)
+	            	textFields[i].setBounds(140, 40+40*i, 90, 25);
+	            else
+	            	textFields[i].setBounds(140, 40+40*i, 180, 25);
 	            this.add(textFields[i]);
 	        }
 	        
@@ -90,7 +93,10 @@ public class AccountDialog extends JDialog{
 	        for(int i=0;i<textFields.length;i++){
 	  
 	            textFields[i] = new JTextField();
-	            textFields[i].setBounds(140, 40+40*i, 180, 25);
+	            if(i==2)
+	            	textFields[i].setBounds(140, 40+40*i, 90, 25);
+	            else
+	            	textFields[i].setBounds(140, 40+40*i, 180, 25);
 	            textFields[i].setEditable(isEditable);
 	            if(i==0)
 		      		textFields[i].setEditable(false);	
@@ -101,10 +107,7 @@ public class AccountDialog extends JDialog{
 	        textFields[0].setText(vo.getId());
 	        textFields[1].setText(vo.getName());
 	        textFields[2].setText(vo.getMoney()+"");
-	        
-	        // 如果textfield的编号和表格列号一一对应，上述代码也可以用for循环 
-	        // textFields[i].setText((String) tableModel.getValueAt(modelRow, i));
-	        
+       
 	        JButton confirmButton = new JButton("确认");
 	        confirmButton.setBounds(250, 170, 70, 30);
 	        confirmButton.addActionListener(new ActionListener() {

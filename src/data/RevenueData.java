@@ -7,6 +7,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import po.RevenuePO;
@@ -54,8 +55,32 @@ public class RevenueData extends UnicastRemoteObject implements RevenueDataServi
     @Override
     public List<RevenuePO> finds(String field, Object value)
             throws RemoteException {
-        // TODO Auto-generated method stub
-        return null;
+        String path = "c:/LIMS/database/"+this.getClass().getSimpleName();
+        List<RevenuePO> revenuePOs = new ArrayList<RevenuePO>();
+        
+        File[] files = DataUtil.getAll(path);
+        for(File f : files){
+            RevenuePO po = (RevenuePO)DataUtil.readObject(f.getAbsolutePath());
+            switch (field) {
+            case "documentState":
+                if(po.getDocumentState().equals(value)){
+                    revenuePOs.add(po);
+                }
+                break;
+            case "organization":
+                if(po.getOrganization().equals(value)){
+                    revenuePOs.add(po);
+                }
+                break;
+            case "date" :
+	        	if(po.getRevenueDate().after((Date)value)||po.getRevenueDate().equals((Date)value))
+	        		revenuePOs.add(po);
+	        	break;
+            default:
+            }
+        }
+            
+        return revenuePOs;
     }
 
     @Override

@@ -9,7 +9,9 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 import po.PaymentPO;
+import systemenum.DocumentState;
 import dataservice.PaymentDataService;
 
 public class PaymentData extends UnicastRemoteObject implements PaymentDataService{
@@ -49,18 +51,22 @@ public class PaymentData extends UnicastRemoteObject implements PaymentDataServi
 		String path = "c:/LIMS/database/"+this.getClass().getSimpleName();
         List<PaymentPO> pos = new ArrayList<PaymentPO>();
         try{
-            File[] files = DataUtil.getAll(path);
-            for(File f : files){
-            	PaymentPO po = (PaymentPO) DataUtil.readObject(f.getAbsolutePath());
-                if(field.equals("date")){
-	            	if(po.getDate().after((Date)value)||po.getDate().equals((Date)value))
-	                	pos.add(po);
-                }
-                else{
-                	
-                }                         
-            }
-        }catch(NullPointerException e){
+        	File[] files = DataUtil.getAll(path);
+	        for(File f : files){
+		        PaymentPO po = (PaymentPO) DataUtil.readObject(f.getAbsolutePath());
+		        switch(field){
+			        case "date" :
+			        	if(po.getDate().after((Date)value)||po.getDate().equals((Date)value))
+			        		pos.add(po);
+			        	break;
+			        case "documentState":
+			        	if(po.getDocumentState().equals((DocumentState)value))
+			        		pos.add(po);
+			        	break;
+		        }
+	        }
+	    }
+        catch(NullPointerException e){
             return pos;
         }
         return pos;

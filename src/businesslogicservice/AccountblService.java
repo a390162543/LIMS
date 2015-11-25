@@ -12,5 +12,5 @@ public interface AccountblService {
 	public boolean modifyAccountPO(AccountVO vo);
 	
 	public List<AccountVO> getAccountVO();
-	
+
 }

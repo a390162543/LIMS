@@ -46,10 +46,9 @@ public class LogData extends UnicastRemoteObject implements LogDataService {
             File[] files = DataUtil.getAll(path);
             for(File f : files){
                 LogPO po = (LogPO) DataUtil.readObject(f.getAbsolutePath());
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); 
-                String s1 = sdf.format(po.getDate());
-                String s2 = sdf.format((Date)value);         
-                if(s1.equals(s2))
+
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");                       
+                if(sdf.format(po.getDate()).equals(sdf.format((Date)value)))
                 	pos.add(po);
                              
             }

@@ -3,6 +3,9 @@ package presentation.financeui.settlementui;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -10,8 +13,11 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import presentation.financeui.FinancePanel;
-import presentation.financeui.logui.LogDialog;
+import businesslogic.revenuebl.Revenue;
+import businesslogic.settlementbl.Settlement;
+import businesslogicservice.RevenueblService;
+import businesslogicservice.SettlementblService;
+import vo.RevenueVO;
 
 public class SettlementDialog extends JDialog{
 
@@ -20,6 +26,12 @@ public class SettlementDialog extends JDialog{
 	 */
 	private static final long serialVersionUID = -1781730997983572841L;
 	private JPanel parent;
+	
+	private JComboBox yearBox;
+	private JComboBox monthBox;
+	private JComboBox dayBox;
+	private JComboBox businessHallBox;
+	
 	public SettlementDialog(JPanel panel){
 		this.parent = panel;
 		int dialogx = 380;
@@ -58,19 +70,19 @@ public class SettlementDialog extends JDialog{
 		monthLabel.setBounds(textFieldx+shortWidth+(20+shortWidth)*1,textFieldy,20,20);	
 		JLabel dayLabel  = new JLabel("日");
 		dayLabel.setBounds(textFieldx+shortWidth+(20+shortWidth)*2,textFieldy,20,20);	
-		JComboBox yearBox = new JComboBox(year);
+		yearBox = new JComboBox(year);
 		yearBox.setSize(shortWidth+5, textFieldHeight);
 		yearBox.setLocation(textFieldx, textFieldy);
 		String[] month = new String[]{"1","2","3","4","5","6","7","8","9","10","11","12"};
-		JComboBox monthBox = new JComboBox(month);
+		monthBox = new JComboBox(month);
 		monthBox.setSize(shortWidth, textFieldHeight);
 		monthBox.setLocation(textFieldx+shortWidth+20, textFieldy);
 		String[] day = new String[]{"1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31"};
-		JComboBox dayBox = new JComboBox(day);
+		dayBox = new JComboBox(day);
 		dayBox.setSize(shortWidth, textFieldHeight);
 		dayBox.setLocation(textFieldx+(shortWidth+20)*2, textFieldy);
-		String[] businessHall = new String[]{"南京市栖霞区营业厅"};
-		JComboBox businessHallBox = new JComboBox(businessHall);
+		String[] businessHall = new String[]{"南京市鼓楼区营业厅"};
+		businessHallBox = new JComboBox(businessHall);
 		businessHallBox.setSize(longWidth, textFieldHeight);
 		businessHallBox.setLocation(textFieldx, textFieldy+(interval2+textFieldHeight)*1);
 		
@@ -106,8 +118,11 @@ public class SettlementDialog extends JDialog{
 	class ConfirmButtonListener implements ActionListener{
 
 		public void actionPerformed(ActionEvent e) {
+			SettlementblService sbs = new Settlement();
+			List<RevenueVO> ros = sbs.queryRevenueVO( new Date(Integer.parseInt(yearBox.getSelectedItem().toString())-1900,Integer.parseInt(monthBox.getSelectedItem().toString())-1,Integer.parseInt(dayBox.getSelectedItem().toString())), businessHallBox.getSelectedItem().toString());
+
 			@SuppressWarnings("unused")
-			SettlementPanel settlementPanel = new SettlementPanel(SettlementDialog.this.parent);
+			SettlementPanel settlementPanel = new SettlementPanel(SettlementDialog.this.parent,ros);
 			SettlementDialog.this.dispose();
 		}
 		

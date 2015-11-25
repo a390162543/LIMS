@@ -43,9 +43,9 @@ public class PaymentPanel extends JPanel{
         column.setMaxWidth(70);
         column.setMinWidth(70);
         column = paymentTable.getColumnModel().getColumn(2);
-        column.setPreferredWidth(60);
-        column.setMaxWidth(60);
-        column.setMinWidth(60);
+        column.setPreferredWidth(90);
+        column.setMaxWidth(90);
+        column.setMinWidth(90);
         column = paymentTable.getColumnModel().getColumn(3);
         column.setPreferredWidth(70);
         column.setMaxWidth(70);

@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 import businesslogic.statisticsbl.Statistics;
 import businesslogicservice.StatisticsblService;
 import vo.PaymentVO;
+import vo.RevenueVO;
 
 public class StatisticsDialog extends JDialog{
 
@@ -55,8 +56,7 @@ public class StatisticsDialog extends JDialog{
 		JLabel dateLabel2 = new JLabel("日期(终)"); 
 		dateLabel2.setSize(labelWidth,labelHeight);
 		dateLabel2.setLocation(labelx, labely2);
-	
-		int longWidth = 180;
+
 		int shortWidth = 60;
 		int textFieldHeight = 25;
 		int textFieldx = 113;
@@ -81,7 +81,7 @@ public class StatisticsDialog extends JDialog{
 		dayBox1.setLocation(textFieldx+(shortWidth+20)*2, textFieldy);
 		
 		int textFieldy2 = 110;
-		String[] year2 = new String[]{"2015","2016"};
+		String[] year2 = new String[]{"2015","2016","2017"};
 		JLabel yearLabel2  = new JLabel("年");
 		yearLabel2.setBounds(textFieldx+shortWidth+5,textFieldy2,20,20);		
 		JLabel monthLabel2  = new JLabel("月");
@@ -139,11 +139,13 @@ public class StatisticsDialog extends JDialog{
 
 		public void actionPerformed(ActionEvent e) {		
 			StatisticsblService sbs = new Statistics();
+			List<RevenueVO> ros = sbs.queryRevenueVO( new Date(Integer.parseInt(yearBox1.getSelectedItem().toString())-1900,Integer.parseInt(monthBox1.getSelectedItem().toString())-1,Integer.parseInt(dayBox1.getSelectedItem().toString())), new Date(Integer.parseInt(yearBox2.getSelectedItem().toString())-1900,Integer.parseInt(monthBox2.getSelectedItem().toString())-1,Integer.parseInt(dayBox2.getSelectedItem().toString())));
+			RevenuePanel revenuePanel = new RevenuePanel(ros);
 			List<PaymentVO> vos = sbs.queryPaymentVO( new Date(Integer.parseInt(yearBox1.getSelectedItem().toString())-1900,Integer.parseInt(monthBox1.getSelectedItem().toString())-1,Integer.parseInt(dayBox1.getSelectedItem().toString())), new Date(Integer.parseInt(yearBox2.getSelectedItem().toString())-1900,Integer.parseInt(monthBox2.getSelectedItem().toString())-1,Integer.parseInt(dayBox2.getSelectedItem().toString())));
 			PaymentPanel paymentPanel = new PaymentPanel(vos);
 	        
 			@SuppressWarnings("unused")
-			StatisticsPanel statisticsPanel = new StatisticsPanel(parent, paymentPanel);
+			StatisticsPanel statisticsPanel = new StatisticsPanel(parent, paymentPanel,revenuePanel);
 			StatisticsDialog.this.dispose();
 		}
 		

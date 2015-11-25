@@ -33,6 +33,10 @@ public class AccountPO implements Serializable{
 		return money;
 	}
 	
+	public boolean setMoney(double money){
+		this.money = money;
+		return true;
+	}
 	public AccountVO getAccountVO(){
 		AccountVO vo = new AccountVO(id,name,money);
 		return vo;		

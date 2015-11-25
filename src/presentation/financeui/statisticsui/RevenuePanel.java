@@ -1,10 +1,7 @@
-package presentation.financeui.settlementui;
+package presentation.financeui.statisticsui;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
 
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -14,26 +11,25 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
-import businesslogic.settlementbl.Settlement;
-import businesslogicservice.SettlementblService;
-import presentation.financeui.settlementui.RevenueTableModel;
 import vo.RevenueVO;
+import businesslogic.statisticsbl.Statistics;
+import businesslogicservice.StatisticsblService;
 
 public class RevenuePanel extends JPanel{
+
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -6891629283767178138L;
-	private JScrollPane scrollPane ;
+	private static final long serialVersionUID = -2759549654404930030L;
+private JScrollPane revenueScrollPane;
+	
 	private JTable revenueTable;
     private RevenueTableModel tableModel;
     private TableRowSorter<TableModel> tableSorter;
-	public RevenuePanel(JPanel panel){
-		panel.removeAll();
-
-		SettlementblService settlementblService = new Settlement();
-		List<RevenueVO> vos = settlementblService.getUncommittedRevenueVO();
-		tableModel = new RevenueTableModel(vos);  
+    private List<RevenueVO> revenueVOs;
+    public RevenuePanel(List<RevenueVO> vos){
+    	revenueVOs = vos;
+    	tableModel = new RevenueTableModel(vos);  
         tableSorter = new TableRowSorter<TableModel>(tableModel);
         revenueTable = new JTable(tableModel);
         revenueTable.setSize(930, 160);
@@ -71,34 +67,16 @@ public class RevenuePanel extends JPanel{
         revenueTable.setDefaultRenderer(Object.class, tcr);
         revenueTable.setRowSorter(tableSorter);    
         revenueTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF); 
-        scrollPane = new JScrollPane(revenueTable);
-        scrollPane.setBounds(0, 0, 560, 370);
-		
-        JButton setAccountButton  =  new JButton("设置收款账户");
-		setAccountButton.setBounds(560-120, 370+10, 120, 30);
-		setAccountButton.addActionListener(new SetAccountButtonActionListener());
-		
-		this.setLayout(null);
-		this.add(scrollPane);
-		this.add(setAccountButton);
-		this.setBounds(0, 100,560,370+10+30);
-		this.setVisible(true);
-		
-		panel.setLayout(null);
-		panel.add(this);
-		panel.setVisible(true);
-		panel.repaint();
-	}
-	
-	class SetAccountButtonActionListener implements ActionListener{
-		public void actionPerformed(ActionEvent arg0) {
-            int row = revenueTable.getSelectedRow();
-            if(row == -1)
-                return;
-            int modelRow = revenueTable.convertRowIndexToModel(row);
-			@SuppressWarnings("unused")
-			SetAccountDialog setAccountDialog = new SetAccountDialog(tableModel,modelRow);
-		}
-		
-	}
+        revenueScrollPane = new JScrollPane(revenueTable);
+        revenueScrollPane.setBounds(0,0,560,160);
+        
+        this.setBounds(0, 0, 560 , 160 );
+        this.setLayout(null);
+        this.add(revenueScrollPane);    
+    }
+    
+    public Double getTotalIncome(){
+    	StatisticsblService sbs = new Statistics(); 	
+    	return sbs.getTotalIncome(revenueVOs);
+    }
 }
