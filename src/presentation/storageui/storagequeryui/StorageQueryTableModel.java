@@ -1,30 +1,25 @@
-package presentation.storeoutCheck;
+package presentation.storageui.storagequeryui;
 
 import java.util.List;
 import java.util.Vector;
 
 import javax.swing.table.DefaultTableModel;
 
+import vo.StorageQueryResultVO;
 
-
-import vo.OutOrderCheckResultVO;
-
-public class StoreoutCheckTableModel extends DefaultTableModel {
+public class StorageQueryTableModel extends DefaultTableModel{
 	
-	
-    /**
+
+	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 6744956344103556816L;
+	private static final long serialVersionUID = 5225401278611579534L;
 	
-	
-	@SuppressWarnings("unused")
-	private List<OutOrderCheckResultVO> dataList;
-    private static final String[] TABLE_HEADER = {"订单号","出库日期","目的地","区号","排号","架号","位号","重量","体积"};
+	private List<StorageQueryResultVO> dataList;
+    private static final String[] TABLE_HEADER = {"订单号","入库日期","目的地","区号","排号","架号","位号"};
     
     
-    public StoreoutCheckTableModel(List<OutOrderCheckResultVO> dataList) {
-        
+    public StorageQueryTableModel(List<StorageQueryResultVO> dataList) {
         this.dataList = dataList;
         setDataVector(convertToVectorData(dataList), getColumnNamesVector());
     }
@@ -46,15 +41,15 @@ public class StoreoutCheckTableModel extends DefaultTableModel {
     }
     
     
-    private static Vector<Vector<Object>> convertToVectorData(List<OutOrderCheckResultVO> list){
+    private static Vector<Vector<Object>> convertToVectorData(List<StorageQueryResultVO> list){
         Vector<Vector<Object>> data = new Vector<Vector<Object>>();
-        for(OutOrderCheckResultVO vo:list){
+        for(StorageQueryResultVO vo:list){
             data.add(convertToVector(vo));
         }
         return data;
     }
     
-    private static Vector<Object> convertToVector(OutOrderCheckResultVO vo){
+    private static Vector<Object> convertToVector(StorageQueryResultVO vo){
         Vector<Object> rowVector = new Vector<Object>();
         rowVector.add(vo.getOrderId());
         rowVector.add(vo.getDate());
@@ -63,9 +58,6 @@ public class StoreoutCheckTableModel extends DefaultTableModel {
         rowVector.add(vo.getRowNum());
         rowVector.add(vo.getFrameNum());
         rowVector.add(vo.getItem());
-        rowVector.add(vo.getWeight());
-        rowVector.add(vo.getSize());
-        
         return rowVector;
     }
     
@@ -76,6 +68,4 @@ public class StoreoutCheckTableModel extends DefaultTableModel {
         }
         return v;
     }
-
-
 }

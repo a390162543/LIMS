@@ -1,4 +1,4 @@
-package presentation;
+package presentation.storageui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,10 +8,16 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 
+
+
+
+import presentation.storageui.storagecheckui.StorageCheckDialog;
+import presentation.storageui.storagemanageui.StorageManageDialog;
+import presentation.storageui.storagequeryui.StorageQueryPanel;
+import presentation.storageui.storeinui.StoreinDialogUI;
+import presentation.storageui.storeoutui.StoreoutDialogUI;
 import businesslogic.storagebl.Storage;
 import businesslogicservice.StorageblService;
-import presentation.storagecheckui.StorageCheckDialog;
-import presentation.storagequery.StorageQueryPanel;
 import vo.StorageQueryResultVO;
 
 public class StorageUI extends JPanel{

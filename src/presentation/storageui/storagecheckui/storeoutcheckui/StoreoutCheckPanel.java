@@ -1,4 +1,4 @@
-package presentation.storeoutCheck;
+package presentation.storageui.storagecheckui.storeoutcheckui;
 
 import java.util.List;
 

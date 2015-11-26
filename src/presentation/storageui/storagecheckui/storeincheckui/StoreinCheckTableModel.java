@@ -1,25 +1,28 @@
-package presentation.storagequery;
+package presentation.storageui.storagecheckui.storeincheckui;
 
 import java.util.List;
 import java.util.Vector;
 
 import javax.swing.table.DefaultTableModel;
 
-import vo.StorageQueryResultVO;
+import vo.InOrderCheckResultVO;
 
-public class StorageQueryTableModel extends DefaultTableModel{
+
+public class StoreinCheckTableModel extends DefaultTableModel{
 	
-
-	/**
+    /**
 	 * 
 	 */
-	private static final long serialVersionUID = 5225401278611579534L;
+	private static final long serialVersionUID = 2502754100476495598L;
 	
-	private List<StorageQueryResultVO> dataList;
-    private static final String[] TABLE_HEADER = {"订单号","入库日期","目的地","区号","排号","架号","位号"};
+	
+	
+    private List<InOrderCheckResultVO> dataList;
+    private static final String[] TABLE_HEADER = {"订单号","入库日期","目的地","区号","排号","架号","位号","重量","体积"};
     
     
-    public StorageQueryTableModel(List<StorageQueryResultVO> dataList) {
+    public StoreinCheckTableModel(List<InOrderCheckResultVO> dataList) {
+    
         this.dataList = dataList;
         setDataVector(convertToVectorData(dataList), getColumnNamesVector());
     }
@@ -41,15 +44,15 @@ public class StorageQueryTableModel extends DefaultTableModel{
     }
     
     
-    private static Vector<Vector<Object>> convertToVectorData(List<StorageQueryResultVO> list){
+    private static Vector<Vector<Object>> convertToVectorData(List<InOrderCheckResultVO> list){
         Vector<Vector<Object>> data = new Vector<Vector<Object>>();
-        for(StorageQueryResultVO vo:list){
+        for(InOrderCheckResultVO vo:list){
             data.add(convertToVector(vo));
         }
         return data;
     }
     
-    private static Vector<Object> convertToVector(StorageQueryResultVO vo){
+    private static Vector<Object> convertToVector(InOrderCheckResultVO vo){
         Vector<Object> rowVector = new Vector<Object>();
         rowVector.add(vo.getOrderId());
         rowVector.add(vo.getDate());
@@ -58,6 +61,9 @@ public class StorageQueryTableModel extends DefaultTableModel{
         rowVector.add(vo.getRowNum());
         rowVector.add(vo.getFrameNum());
         rowVector.add(vo.getItem());
+        rowVector.add(vo.getWeight());
+        rowVector.add(vo.getSize());
+        
         return rowVector;
     }
     
@@ -68,4 +74,5 @@ public class StorageQueryTableModel extends DefaultTableModel{
         }
         return v;
     }
+
 }

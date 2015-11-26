@@ -1,4 +1,4 @@
-package presentation;
+package presentation.storageui.storeinui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -210,7 +210,10 @@ public class StoreinDialogUI extends JDialog{
 		              int item = Integer.parseInt((String)tableModel.getValueAt(i, 4));
 		              StoreinOrderVO vo = new StoreinOrderVO(orderId, areaNum, rowNum, frameNum, item);
 		              StoreinblService storeinblService = new Storein();
+		              //改变库存的位置
 		              storeinblService.restoreLocationState(vo); 
+		              //将订单相应的库存位置置为0
+		              
 				}
 			
 			}

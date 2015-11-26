@@ -1,4 +1,4 @@
-package presentation.storagecheckui;
+package presentation.storageui.storagecheckui;
 
 
 import java.awt.event.ActionEvent;
@@ -11,8 +11,8 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import presentation.storeincheck.StoreinCheckPanel;
-import presentation.storeoutCheck.StoreoutCheckPanel;
+import presentation.storageui.storagecheckui.storeincheckui.StoreinCheckPanel;
+import presentation.storageui.storagecheckui.storeoutcheckui.StoreoutCheckPanel;
 import vo.StoreinCheckVo;
 import businesslogic.storagebl.Storage;
 import businesslogicservice.StorageblService;

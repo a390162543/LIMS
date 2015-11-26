@@ -1,4 +1,4 @@
-package presentation;
+package presentation.courierui.orderqueryui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,7 +11,7 @@ import javax.swing.JTextField;
 import vo.OrderQueryVO;
 import businesslogic.orderbl.Order;
 import businesslogicservice.OrderblService;
-import dataservice.OrderDataService;
+
 
 public class OrderInfoQueryDialog extends JDialog{
 

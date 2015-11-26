@@ -1,4 +1,4 @@
-package presentation.storeincheck;
+package presentation.storageui.storagecheckui.storeincheckui;
 
 import java.util.List;
 
