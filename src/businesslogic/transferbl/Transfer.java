@@ -25,7 +25,7 @@ public class Transfer implements TransferblService{
 		try { 
         	 transferDataService = (TransferDataService) Naming.lookup
         			("rmi://localhost/TransferData");
-		 
+        	 
 			} catch (MalformedURLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -94,7 +94,15 @@ public class Transfer implements TransferblService{
 	@Override
 	public boolean execute(TransferVO vo) {
 		// TODO Auto-generated method stub
-		return false;
+		TransferPO po = vo.getTransferPO();
+		po.setDocumentState(DocumentState.PASS);
+		try {
+			transferDataService.update(po);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return true;
 	}
 
 	@Override
@@ -127,23 +135,14 @@ public class Transfer implements TransferblService{
 	public List<TransferVO> getPendingTransferVO(){
 		List<TransferVO> vos =  new ArrayList<TransferVO>();
 		 try {
-			 TransferDataService tds = (TransferDataService) Naming.lookup
-	        			("rmi://localhost/TransferData");
-			 List<TransferPO> pos= tds.finds("documentState", DocumentState.PENDING);
+			 List<TransferPO> pos= transferDataService.finds("documentState", DocumentState.PENDING);
 			 for(TransferPO po : pos){
 				 vos.add(po.getTransferVO());
-			 }
-	           
-	        } catch (MalformedURLException e) {
-	            // TODO Auto-generated catch block
-	            e.printStackTrace();
+			 }        
 	        } catch (RemoteException e) {
 	            // TODO Auto-generated catch block
 	            e.printStackTrace();
-	        } catch (NotBoundException e) {
-	            // TODO Auto-generated catch block
-	            e.printStackTrace();
-	        }
+	        }  
 		return vos;
 		
 	}

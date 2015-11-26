@@ -5,8 +5,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.sql.Date;
-import java.util.List;
-
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -14,12 +12,10 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
-
-import businesslogic.organizationbl.Organization;
 import businesslogic.userbl.User;
-import businesslogicservice.OrganizationblService;
 import businesslogicservice.UserblService;
 import po.PayPO;
+import presentation.util.OrganizationComboBox;
 import systemenum.Position;
 import systemenum.Power;
 import systemenum.Sex;
@@ -27,10 +23,8 @@ import vo.EmployeeVO;
 import vo.UserVO;
 
 public class EmployeeDialog {
-	private JDialog employeeDialog ;
-	 
+	private JDialog employeeDialog ;	 
 	private String positions[];
-	private String organizationStr[];
 	private Integer year[];
 	private Integer month[];
 	private Integer day[] ;
@@ -44,7 +38,7 @@ public class EmployeeDialog {
 	private JLabel idLabel;	  
 	private JTextField idField;	 
 	private JLabel organizationLabel;	 
-	private JComboBox<String> organizationBox;	 
+	private OrganizationComboBox organizationBox;	 
 	private JLabel positionLabel;	 
 	private JComboBox<String> positionBox;	 
 	private JLabel phoneLabel;	 
@@ -71,11 +65,10 @@ public class EmployeeDialog {
 
 	 
 	public void init(){
-		OrganizationblService organizationblService = new Organization();
+ 
 		positions = new String[]{"总经理","营业厅业务员","中转中心业务员","快递员",
 				 "中转中心仓库管理员","高级财务人员","财务人员","管理员","司机"};
-		List<String> nameLise = organizationblService.getAllOrganizationName();
-		organizationStr =    nameLise.toArray(new String[nameLise.size()]);
+	 
 		year = new Integer[]{1996,1997};
 		month = new Integer[]{1,2,3,4,5,6,7,8,9,10,11,12};
 		day = new Integer[]{1,2,3,4,5,6,7,8,9,10};
@@ -89,7 +82,7 @@ public class EmployeeDialog {
 		idLabel = new JLabel("员工编号");	
 		idField = new JTextField();
 		organizationLabel = new JLabel("所在机构");
-		organizationBox = new JComboBox<String>(organizationStr);	
+		organizationBox = new OrganizationComboBox();	
 		positionLabel = new JLabel("职位");
 		positionBox = new JComboBox<String>(positions);
 		phoneLabel = new JLabel("电话");	
@@ -114,13 +107,13 @@ public class EmployeeDialog {
 		sureButton = new JButton("确认");
 		
 		employeeDialog = new JDialog();
-		employeeDialog.setBounds(0, 0, 380, 460);		 			 
+		employeeDialog.setBounds(300, 100, 380, 460);		 			 
 		infoLabel.setBounds(90, 16, 170, 34);	 
 		nameLabel.setBounds(4, 60, 100, 24);	 
 		nameField.setBounds(100, 60, 60, 20);
 		sexLabel.setBounds(0, 90, 100, 24);	 
-		maleRadioButton.setBounds(100, 90, 40, 16);	 
-		femaleRadioButton.setBounds(135, 90, 40, 16);	 
+		maleRadioButton.setBounds(100, 90, 60, 20);	 
+		femaleRadioButton.setBounds(170, 90, 60, 20);	 
 		sex.add(maleRadioButton);
 		sex.add(femaleRadioButton);	 
 		idLabel.setBounds(0, 120, 100, 24);
@@ -161,6 +154,7 @@ public class EmployeeDialog {
 					employeeDialog.add(percentageLabel1);
 					employeeDialog.add(percentageLabel2);
 					employeeDialog.add(percentageField);
+					employeeDialog.repaint();
 				}
 				else if(positionBox.getSelectedItem().toString().equals("司机")){
 					basePayLabel.setText("按此计费");
@@ -168,6 +162,7 @@ public class EmployeeDialog {
 					percentageField.setVisible(false);
 					percentageLabel1.setVisible(false);
 					percentageLabel2.setVisible(false);
+					employeeDialog.repaint();
 				}
 				else{
 					basePayLabel.setText("月薪");
@@ -175,6 +170,7 @@ public class EmployeeDialog {
 					percentageField.setVisible(false);
 					percentageLabel1.setVisible(false);
 					percentageLabel2.setVisible(false);
+					employeeDialog.repaint();
 				}
 			}
 		});
@@ -223,7 +219,7 @@ public class EmployeeDialog {
 	public void update(boolean isNew,int modelRow){
 
 		  
-		  String id = idCardField.getText();		
+		  String id = idField.getText();		
 		  String name = nameField.getText();
 		  String organization = organizationBox.getSelectedItem().toString();
 		  String phone = phoneField.getText();	
@@ -277,7 +273,7 @@ public class EmployeeDialog {
 			   		break;
 			   	
 			   	case "财务人员":
-			   		p = Position.SYSTEMMANAGER;
+			   		p = Position.FINANCIALSTAFF;
 			   		paypo = new PayPO(Double.valueOf(basePayField.getText()),
 			   				0.0, 0, 0, 0);
 			   		break;
@@ -438,6 +434,15 @@ public class EmployeeDialog {
 
 					// TODO Auto-generated method stub
 					update(false,modelRow);
+					employeeDialog.dispose();
+				}
+			});
+			
+			cancleButton.addActionListener(new  ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
 					employeeDialog.dispose();
 				}
 			});

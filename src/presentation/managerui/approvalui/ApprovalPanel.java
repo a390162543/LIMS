@@ -4,8 +4,8 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 
-import presentation.transitcenterui.transferui.TransferPendingPanel;
-
+import presentation.managerui.approvalui.transferui.TransferPendingPanel;
+ 
 public class ApprovalPanel extends JPanel{
 
 	/**
@@ -15,7 +15,8 @@ public class ApprovalPanel extends JPanel{
 	private JTextField filterTextField;
 	
 	public ApprovalPanel(){
-		JTabbedPane approvalPane = new JTabbedPane();
+		JTabbedPane approvalPane = new JTabbedPane(JTabbedPane.TOP);
+		approvalPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
 		JPanel orderPanel = new JPanel();
 		orderPanel.setBounds(0, 25, 560, 370);
 		JPanel deliverPanel = new JPanel();
@@ -34,7 +35,7 @@ public class ApprovalPanel extends JPanel{
 		paymentPanel.setBounds(0, 25, 560, 370);
 		JPanel arrivalPanel = new JPanel();
 		arrivalPanel.setBounds(0, 25, 560, 370);
-		
+
 		approvalPane.addTab("订单", orderPanel);
 		approvalPane.addTab("派件单", deliverPanel);
 		approvalPane.addTab("收款单", revenuePanel);

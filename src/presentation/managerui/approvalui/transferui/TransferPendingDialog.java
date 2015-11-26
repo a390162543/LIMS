@@ -1,15 +1,18 @@
-package presentation.transitcenterui.transferui;
+package presentation.managerui.approvalui.transferui;
 
+ 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+ 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+ 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -17,31 +20,44 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
  
-import presentation.util.OrganizationComboBox;
-import vo.TransferVO;
- 
-import businesslogic.transferbl.Transfer;
- 
-import businesslogicservice.TransferblService;
 
-public class TransferDialog extends JDialog{
-	/**
+import presentation.transitcenterui.transferui.OrderTableModel;
+import businesslogic.organizationbl.Organization;
+import businesslogic.transferbl.Transfer;
+import businesslogicservice.OrganizationblService;
+import businesslogicservice.TransferblService;
+ 
+import vo.TransferVO;
+
+public class TransferPendingDialog extends JDialog {
+	
+	 
+
+    /**
 	 * 
 	 */
-	private static final long serialVersionUID = 3513694959788276702L;
+	private static final long serialVersionUID = -2401054928878228625L;
+
 	 
+    
+    private TransferPendingTableModel transferPendingTableModel;
+    private OrganizationblService organizationblService;
 	private JTextField expensesField;
 	private JComboBox< String> departBox;
 	private JComboBox<String> destinationBox;
-	private OrderTableModel tableModel;
+	private OrderTableModel orderTableModel;
 	private TransferblService transferblService;
-	
-	public TransferDialog(){
-		transferblService = new Transfer();
- 
+      
+    @SuppressWarnings("deprecation")
+    public TransferPendingDialog(TransferPendingTableModel tm, int modelRow, boolean isEditable) {
+    	transferPendingTableModel = tm;
+    	transferblService = new Transfer();
+		organizationblService = new Organization();
 		Integer[] yearArray = new Integer[]{2015,2016};
 		Integer[] monthArray = new Integer[]{1,2};
 		Integer[] dayArray = new Integer[]{1,2};
+		List<String> nameLise = organizationblService.getAllOrganizationName();
+		String[] organizationNames  =    nameLise.toArray(new String[nameLise.size()]);		 
 		 
 		 
 		JLabel infoLabel = new JLabel("中转单");
@@ -70,12 +86,12 @@ public class TransferDialog extends JDialog{
 		flightNumField.setBounds(105, 130, 180, 20);
 		JLabel departLabel = new JLabel("出发地");
 		departLabel.setBounds(20, 170, 80, 20);
-		departBox = new OrganizationComboBox();
-		departBox.setLocation(105, 170);
+		departBox = new JComboBox<String>( organizationNames);
+		departBox.setBounds(105, 170, 180, 20);
 		JLabel destinationLabel = new JLabel("目的地");
 		destinationLabel.setBounds(20, 210, 80, 20);
-		destinationBox = new OrganizationComboBox();
-		destinationBox.setLocation(105, 210);
+		destinationBox = new JComboBox<String>(organizationNames);
+		destinationBox.setBounds(105, 210, 180, 20);
 		JLabel containerIdLabel = new JLabel("货柜号");
 		containerIdLabel.setBounds(20, 250, 80, 20);
 		JTextField containerIdField = new JTextField();
@@ -91,9 +107,26 @@ public class TransferDialog extends JDialog{
 		expensesField = new JTextField();
 		expensesField.setBounds(105, 370, 60, 20);
 		
-		tableModel = new OrderTableModel(transferblService);  
-		TableRowSorter<TableModel>  tableSorter = new TableRowSorter<TableModel>(tableModel);
-		JTable orderTable = new JTable(tableModel);
+		//set Information
+		TransferVO vo = transferPendingTableModel.getTransferVO(modelRow);
+		idField.setText(vo.getId());
+		yearBox.setSelectedItem((Integer)vo.getLoadDate().getYear());
+		monthBox.setSelectedItem((Integer)vo.getLoadDate().getMonth());
+		dayBox.setSelectedItem((Integer)vo.getLoadDate().getDay());
+		flightNumField.setText(vo.getFlightNumbe());
+		departBox.setSelectedItem(vo.getDepart());
+		destinationBox.setSelectedItem(vo.getDestination());
+		containerIdField.setText(vo.getContainerId());
+		loanManField.setText(vo.getLoadMan());
+		expensesField.setText(""+vo.getExpenses());
+		
+		
+		//订单内容没显示
+		
+		
+		orderTableModel = new OrderTableModel(transferblService);  
+		TableRowSorter<TableModel>  tableSorter = new TableRowSorter<TableModel>(orderTableModel);
+		JTable orderTable = new JTable(orderTableModel);
 	    orderTable.setSize(180, 60);
 	    orderTable.setRowSorter(tableSorter);        
 	    JScrollPane OrderScrollPane = new JScrollPane(orderTable);
@@ -107,7 +140,7 @@ public class TransferDialog extends JDialog{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				// new AddOrderDialog(tableModel, dialog);
+				// new AddOrderDialog(OrderTableModel, dialog);
 					 new AddOrderDialog();
 			}
 		});
@@ -121,7 +154,7 @@ public class TransferDialog extends JDialog{
 	               if(row == -1)
 	                   return;
 	               int modelRow = orderTable.convertRowIndexToModel(row);
-	               tableModel.delete(modelRow);
+	               orderTableModel.delete(modelRow);
 			}
 		});
 		
@@ -135,33 +168,54 @@ public class TransferDialog extends JDialog{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				TransferDialog.this.dispose();
+				TransferPendingDialog.this.dispose();
 			}
 		});
 		
+		
 		sureButton.addActionListener(new ActionListener() {
-			
-			@SuppressWarnings("deprecation")
+				 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				String id = idField.getText();
-				Date loadDate = new Date((Integer)yearBox.getSelectedItem(), 
-						(Integer)monthBox.getSelectedItem(),(Integer)monthBox.getSelectedItem());
-				String flightNum = flightNumField.getText();
-				String depart = (String) departBox.getSelectedItem();
-				String destination = (String) destinationBox.getSelectedItem();
-				String containerId = containerIdField.getText();
-				String loadMan = loanManField.getText();
-				List<String> orderId = new ArrayList<String>();
-				for(int i = 0; i < orderTable.getRowCount(); i ++)
-					orderId.add((String)orderTable.getValueAt(i, 0));
-				double expenses = new Double(expensesField.getText());
-				TransferVO vo = new TransferVO(id, loadDate, flightNum, depart, destination,
-						containerId, loadMan, orderId, expenses);
-				transferblService.createTransferPO(vo);
+				if(isEditable){
+					String id = idField.getText();
+					Date loadDate = new Date((Integer)yearBox.getSelectedItem(), 
+							(Integer)monthBox.getSelectedItem(),(Integer)monthBox.getSelectedItem());
+					String flightNum = flightNumField.getText();
+					String depart = (String) departBox.getSelectedItem();
+					String destination = (String) destinationBox.getSelectedItem();
+					String containerId = containerIdField.getText();
+					String loadMan = loanManField.getText();
+					List<String> orderId = new ArrayList<String>();
+					for(int i = 0; i < orderTable.getRowCount(); i ++)
+						orderId.add((String)orderTable.getValueAt(i, 0));
+					double expenses = new Double(expensesField.getText());
+					TransferVO vo = new TransferVO(id, loadDate, flightNum, depart, destination,
+							containerId, loadMan, orderId, expenses);
+					transferblService.modifyTransferPO(vo);	
+				}
+				else {
+					TransferPendingDialog.this.dispose();
+					return;
+				}
+				
 			}
 		});
+		
+		if(!isEditable){
+			yearBox.setEnabled(true);
+			monthBox.setEnabled(true);
+			dayBox.setEnabled(true);
+			flightNumField.setEnabled(true);
+			departBox.setEnabled(true);
+			destinationBox.setEnabled(true);
+			containerIdField.setEnabled(true);
+			loanManField.setEnabled(true);
+			addOrderButton.setEnabled(true);
+			deleteOrderButton.setEnabled(true);
+			expensesField.setEnabled(true);
+		}
 		
 		 
 		
@@ -197,9 +251,9 @@ public class TransferDialog extends JDialog{
 		this.setBounds(0, 0, 380, 470);
 		this.setLayout(null);
 		this.setVisible(true);
-	}
-	
-	public void setExpensesField(){
+    }
+    
+    public void setExpensesField(){
 		expensesField.setText("" + transferblService.getCost
 				((String)departBox.getSelectedItem(),(String) destinationBox.getSelectedItem() ));
 	}
@@ -241,7 +295,7 @@ public class TransferDialog extends JDialog{
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
-					tableModel.add(orderField.getText());
+					orderTableModel.add(orderField.getText());
 					setExpensesField();
 										
 				}
@@ -258,7 +312,6 @@ public class TransferDialog extends JDialog{
 		}
 
 	}
-	  
-	 
-	
+
 }
+
