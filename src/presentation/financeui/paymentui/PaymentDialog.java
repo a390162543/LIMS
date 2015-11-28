@@ -6,6 +6,9 @@ import java.util.Date;
 
 
 
+
+
+
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -13,7 +16,10 @@ import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import presentation.util.DatePickPanel;
+import businesslogic.IdManagementService;
 import businesslogic.paymentbl.Payment;
+import businesslogicservice.IdManager;
 import businesslogicservice.PaymentblService;
 import systemenum.Entry;
 import vo.PaymentVO;
@@ -36,6 +42,7 @@ public class PaymentDialog extends JDialog{
  	private JComboBox payerAccountBox;
  	private JComboBox entryBox;
  	private JTextArea remarksArea;
+ 	private DatePickPanel datePickPanel;
  	
 	public PaymentDialog(){
 		int dialogx=380;
@@ -88,25 +95,13 @@ public class PaymentDialog extends JDialog{
 		paymentIdField.setSize(longWidth,textFieldHeight);
 		paymentIdField.setLocation(textFieldx, textFieldy);
 		paymentIdField.setEditable(false);
-		paymentIdField.setText("1010100000000000000");
-		String[] year=new String[]{"2015","2016"};
-		JLabel yearLabel =new JLabel("Äê");
-		yearLabel.setBounds(textFieldx+shortWidth+5,textFieldy+(interval2+textFieldHeight)*1,20,20);		
-		JLabel monthLabel =new JLabel("ÔÂ");
-		monthLabel.setBounds(textFieldx+shortWidth+(20+shortWidth)*1,textFieldy+(interval2+textFieldHeight)*1,20,20);	
-		JLabel dayLabel =new JLabel("ÈÕ");
-		dayLabel.setBounds(textFieldx+shortWidth+(20+shortWidth)*2,textFieldy+(interval2+textFieldHeight)*1,20,20);	
-		yearBox=new JComboBox(year);
-		yearBox.setSize(shortWidth+5, textFieldHeight);
-		yearBox.setLocation(textFieldx, textFieldy+(interval2+textFieldHeight)*1);
-		String[] month=new String[]{"1","2","3","4","5","6","7","8","9","10","11","12"};
-		monthBox=new JComboBox(month);
-		monthBox.setSize(shortWidth, textFieldHeight);
-		monthBox.setLocation(textFieldx+shortWidth+20, textFieldy+(interval2+textFieldHeight)*1);
-		String[] day=new String[]{"1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31"};
-		dayBox=new JComboBox(day);
-		dayBox.setSize(shortWidth, textFieldHeight);
-		dayBox.setLocation(textFieldx+(shortWidth+20)*2, textFieldy+(interval2+textFieldHeight)*1);
+
+		IdManager paymentIdManager = IdManagementService.getPaymentIdManager();	
+		paymentIdField.setText(paymentIdManager.createNewId());
+	
+		datePickPanel  = new DatePickPanel();
+		datePickPanel.setLocation(textFieldx+shortWidth+5,textFieldy+(interval2+textFieldHeight)*1);
+		
 		moneyField=new JTextField();
 		moneyField.setSize(shortWidth,textFieldHeight);
 		moneyField.setLocation(textFieldx, textFieldy+(interval2+textFieldHeight)*2);
@@ -152,9 +147,8 @@ public class PaymentDialog extends JDialog{
 		this.add(remarksLabel);
 		
 		this.add(paymentIdField);
-		this.add(yearLabel);
-		this.add(monthLabel);
-		this.add(dayLabel);
+		this.add(datePickPanel);
+
 		this.add(yearBox);
 		this.add(monthBox);
 		this.add(dayBox);
@@ -177,7 +171,7 @@ public class PaymentDialog extends JDialog{
 		public void actionPerformed(ActionEvent e) {			
 			double money = Double.parseDouble(moneyField.getText());
 			new java.text.DecimalFormat("#.00").format(money);
-			PaymentVO vo = new PaymentVO( paymentIdField.getText(),new Date(Integer.parseInt(yearBox.getSelectedItem().toString())-1900,Integer.parseInt(monthBox.getSelectedItem().toString())-1,Integer.parseInt(dayBox.getSelectedItem().toString())), money ,nameField.getText() , payeeAccountField.getText(), payerAccountBox.getSelectedItem().toString() , 	Entry.values()[entryBox.getSelectedIndex()] , remarksArea.getText());
+			PaymentVO vo = new PaymentVO( paymentIdField.getText(), datePickPanel.getDate() , money ,nameField.getText() , payeeAccountField.getText(), payerAccountBox.getSelectedItem().toString() , 	Entry.values()[entryBox.getSelectedIndex()] , remarksArea.getText());
 			PaymentblService pbl = new Payment();
 			pbl.createPaymentPO(vo);
 			PaymentDialog.this.dispose();
