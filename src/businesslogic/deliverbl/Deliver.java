@@ -8,9 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import po.DeliverPO;
+import po.OrderPO;
 import systemenum.DocumentState;
+import dataservice.DataService;
 import dataservice.DeliverDataService;
+import dataservice.OrderDataService;
 import vo.DeliverVO;
+import businesslogic.BusinessLogicUtil;
 import businesslogicservice.DeliverblService;
 
 public class Deliver implements DeliverblService{
@@ -59,7 +63,27 @@ public class Deliver implements DeliverblService{
 
     @Override
     public boolean execute(DeliverVO vo) {
-        // TODO Auto-generated method stub
+        try {
+            DeliverPO po = deliverDataService.find(vo.getId());
+            po.setDocumentState(DocumentState.PASS);
+            deliverDataService.update(po);
+            
+            OrderDataService orderDataService = DataService.getOrderDataService();
+            
+            OrderPO orderPO = orderDataService.find(vo.getOrderId());
+            
+            String deliverInfo = orderPO.getDeliverInfo();
+            deliverInfo += BusinessLogicUtil.getTime(vo.getDeliverDate())+
+                    " 货物正在由快递员"+vo.getCourierId()+"派件\n";
+            orderPO.setDeliverInfo(deliverInfo);
+            
+            orderDataService.update(orderPO);
+                
+            
+        } catch (RemoteException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         return false;
     }
     

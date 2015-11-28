@@ -1,6 +1,7 @@
 package businesslogicservice;
 
 
+import vo.GoodsVO;
 import vo.LoadVO;
 
 public interface LoadblService {
@@ -9,11 +10,13 @@ public interface LoadblService {
     
     public boolean modifyLoadPO(LoadVO vo);
     
-    public boolean addGoods(long id);
+    public GoodsVO getGoodsVO(String id);
     
-    public boolean deleteGoods(long id);
+    public boolean addGoods(GoodsVO vo);
     
-    public double getCost(LoadVO vo);
+    public boolean deleteGoods(GoodsVO vo);
+    
+    public double getCost(String location1, String location2);
     
     public boolean execute(LoadVO vo);
     

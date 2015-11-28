@@ -10,7 +10,7 @@ public class BusinessLogicUtil {
     }
     
     public static String getTime(Date date){
-        return new SimpleDateFormat("MM月dd日 HH:mm:ss").format(date);
+        return new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss").format(date);
     }
     
     public static String formatByZero(String s, int length){

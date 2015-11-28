@@ -11,7 +11,6 @@ import businesslogic.loadbl.Load;
 import businesslogic.logbl.Log;
 import businesslogic.orderbl.Order;
 import businesslogic.organizationbl.Organization;
-import businesslogic.paybl.Pay;
 import businesslogic.paymentbl.Payment;
 import businesslogic.primeinfobl.PrimeInfo;
 import businesslogic.revenuebl.Revenue;
@@ -34,7 +33,6 @@ import businesslogicservice.LoadblService;
 import businesslogicservice.LogblService;
 import businesslogicservice.OrderblService;
 import businesslogicservice.OrganizationblService;
-import businesslogicservice.PayblService;
 import businesslogicservice.PaymentblService;
 import businesslogicservice.PrimeInfoblService;
 import businesslogicservice.RevenueblService;
@@ -93,9 +91,7 @@ public class BusinessLogicService {
         return new Organization();
     }
     
-    public static PayblService getPayblService(){
-        return new Pay();
-    }
+
     
     public static PaymentblService getPaymentblService(){
         return new Payment();

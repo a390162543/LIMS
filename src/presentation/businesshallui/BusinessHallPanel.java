@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 
 import presentation.businesshallui.arrivalui.ArrivalDialog;
 import presentation.businesshallui.deliverui.DeliverDialog;
+import presentation.businesshallui.driverui.DriverPanel;
 import presentation.businesshallui.loadui.LoadDialog;
 import presentation.businesshallui.revenueui.RevenueDialog;
 import presentation.businesshallui.truckui.TruckPanel;
@@ -76,6 +77,7 @@ public class BusinessHallPanel extends JPanel{
             @Override
             public void actionPerformed(ActionEvent e) {
                 frameworkPanel.removeAll();
+                frameworkPanel.add(new DriverPanel());
                 frameworkPanel.repaint();
             }
         });

@@ -8,11 +8,14 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
 import po.ArrivalPO;
+import po.LoadPO;
 import po.OrderPO;
 import po.TransferPO;
 import systemenum.DocumentState;
+import data.LoadData;
 import dataservice.ArrivalDataService;
 import dataservice.DataService;
+import dataservice.LoadDataService;
 import dataservice.OrderDataService;
 import dataservice.TransferDataService;
 import vo.ArrivalVO;
@@ -70,9 +73,19 @@ public class Arrival implements ArrivalblService{
             ArrivalPO po = arrivalDataService.find(vo.getId());
             po.setDocumentState(DocumentState.PASS);
             arrivalDataService.update(po);
-            TransferDataService transferDataService = DataService.getTransferDataService();
-            TransferPO transferPO = transferDataService.find(vo.getTransferId());
-            List<String> orders = transferPO.getOrderId();
+            List<String> orders;
+            
+            //中转单长度为17,根据是中转单还是装车单获取order的list,这里的相关设计不太合理
+            if(vo.getTransferId().length() == 17){
+                TransferDataService transferDataService = DataService.getTransferDataService();
+                TransferPO transferPO = transferDataService.find(vo.getTransferId());
+                orders = transferPO.getOrderId();
+            }else{
+                LoadDataService loadDataService = DataService.getLoadDataService();
+                LoadPO loadPO = loadDataService.find(vo.getTransferId());
+                orders = loadPO.getOrderId();
+            }
+
             OrderDataService orderDataService = DataService.getOrderDataService();
             for(String order : orders){
                 OrderPO orderPO = orderDataService.find(order);

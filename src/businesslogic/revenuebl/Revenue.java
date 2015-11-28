@@ -13,6 +13,7 @@ import po.RevenuePO;
 import systemenum.DocumentState;
 import dataservice.RevenueDataService;
 import vo.RevenueVO;
+import businesslogic.accountbl.Account;
 import businesslogicservice.RevenueblService;
 
 public class Revenue implements RevenueblService{
@@ -76,8 +77,17 @@ public class Revenue implements RevenueblService{
 
     @Override
     public boolean execute(RevenueVO vo) {
-        // TODO Auto-generated method stub
-        return false;
+        try {
+            RevenuePO po = revenueDataService.find(vo.getId());
+            po.setDocumentState(DocumentState.PASS);
+            revenueDataService.update(po);
+            Account account = new Account();
+            account.updateAccountBalance(vo.getAccountId(), vo.getRevenue());
+        } catch (RemoteException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return true;
     }
 
     public List<RevenueVO> getPendingRevenueVO(){

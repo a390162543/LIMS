@@ -1,5 +1,6 @@
 package presentation.businesshallui.loadui;
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -11,8 +12,10 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 import vo.LoadVO;
 import businesslogic.loadbl.Load;
@@ -28,6 +31,10 @@ public class LoadDialog extends JDialog{
     
     private LoadblService loadblService;
     private JTextField[] textFields;
+    private OrderTableModel tableModel;
+    private JTextField costTextField;
+    private JComboBox<String> departComboBox;
+    private JComboBox<String> destinationComboBox;
     
     public LoadDialog(){
         
@@ -48,13 +55,13 @@ public class LoadDialog extends JDialog{
             this.add(textFields[i]);
         }
 
-        JComboBox<String> departComboBox = new JComboBox<String>();
+        departComboBox = new JComboBox<String>();
         departComboBox.addItem("南京市栖霞区中转中心");
         departComboBox.addItem("上海市浦东新区中转中心");
         departComboBox.setBounds(100, 10+35*3, 180, 25);
         this.add(departComboBox);
         
-        JComboBox<String> destinationComboBox = new JComboBox<String>();
+        destinationComboBox = new JComboBox<String>();
         destinationComboBox.addItem("南京市栖霞区中转中心");
         destinationComboBox.addItem("上海市浦东新区中转中心");
         destinationComboBox.setBounds(100, 10+35*4, 180, 25);
@@ -91,17 +98,53 @@ public class LoadDialog extends JDialog{
         orderLabel.setBounds(20, 10+35*7, 100, 25);
         this.add(orderLabel);
         
-        JTextArea orderTextArea = new JTextArea();
-        JScrollPane orderScrollPane = new JScrollPane(orderTextArea);
-        orderScrollPane.setBounds(100, 10+35*7, 150, 75);
-        this.add(orderScrollPane);
+        tableModel = new OrderTableModel(loadblService);  
+        TableRowSorter<TableModel>  tableSorter = new TableRowSorter<TableModel>(tableModel);
+        JTable orderTable = new JTable(tableModel);
+        orderTable.getTableHeader().setPreferredSize(new Dimension(180, 25));
+        orderTable.setSize(250, 100);
+        orderTable.setRowSorter(tableSorter);   
+        
+        
+        JScrollPane OrderScrollPane = new JScrollPane(orderTable);
+        OrderScrollPane.setBounds(100, 10+35*7, 150, 75);          
+        JButton addOrderButton = new JButton("添加订单");
+        addOrderButton.setBounds(270, 10+35*7, 70, 20);
+        JButton deleteOrderButton = new JButton("删除订单");
+        deleteOrderButton.setBounds(270, 10+35*8, 70, 20);
+        addOrderButton.addActionListener(new ActionListener() {
+                
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO Auto-generated method stub
+                // new AddOrderDialog(tableModel, dialog);
+                     new AddOrderDialog();
+            }
+        });
+            
+        deleteOrderButton.addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO Auto-generated method stub
+                int row = orderTable.getSelectedRow();
+                   if(row == -1)
+                       return;
+                   int modelRow = orderTable.convertRowIndexToModel(row);
+                   tableModel.delete(modelRow);
+            }
+        });
+        
+        this.add(OrderScrollPane);
+        this.add(addOrderButton);
+        this.add(deleteOrderButton);
         
         JLabel costLabel = new JLabel();
         costLabel.setText("运费");
         costLabel.setBounds(20, 20+35*9, 100, 25);
         this.add(costLabel);
         
-        JTextField costTextField = new JTextField();
+        costTextField = new JTextField();
         costTextField.setBounds(100, 20+35*9, 60, 25);
         this.add(costTextField);
         
@@ -112,7 +155,8 @@ public class LoadDialog extends JDialog{
             @Override
             public void actionPerformed(ActionEvent e) {
                 List<String> orderIdList = new ArrayList<String>();
-                orderIdList.add(orderTextArea.getText());
+                for(int i = 0; i < orderTable.getRowCount(); i ++)
+                    orderIdList.add((String)orderTable.getValueAt(i, 0));
                 LoadVO vo = new LoadVO(textFields[0].getText(), new Date(), textFields[1].getText(), (String)departComboBox.getSelectedItem(), (String)destinationComboBox.getSelectedItem(), textFields[2].getText(), personTextFields[0].getText(), personTextFields[1].getText(), orderIdList, new Double(costTextField.getText()));
                 loadblService.createLoadPO(vo);
                 LoadDialog.this.dispose();
@@ -138,4 +182,65 @@ public class LoadDialog extends JDialog{
         this.setModalityType(ModalityType.APPLICATION_MODAL);
         this.setVisible(true);
     }
+    
+    private void setExpensesField(){
+        costTextField.setText("" + loadblService.getCost
+                ((String)departComboBox.getSelectedItem(),(String) destinationComboBox.getSelectedItem() ));
+    }
+    
+    class AddOrderDialog extends JDialog{
+
+        
+    /**
+         * 
+         */
+        private static final long serialVersionUID = -5436641251910399740L;
+     
+    
+    
+    public AddOrderDialog( ){
+        
+        JLabel infoLanel = new JLabel("订单");
+        infoLanel.setBounds(105, 10, 170, 35);
+        JLabel orderLabel = new JLabel("订单号");
+        orderLabel.setBounds(35, 85, 100, 24);
+        JTextField orderField = new JTextField();
+        orderField.setBounds(145, 85, 180, 20);
+        JButton cancelButton = new JButton("取消");
+        cancelButton.setBounds(190, 150, 70, 30);
+        JButton confirmButton = new JButton("确定");
+        confirmButton.setBounds(275, 150, 70, 30);
+        
+        cancelButton.addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO Auto-generated method stub
+                AddOrderDialog.this.dispose();
+            }
+        });
+        
+        confirmButton.addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO Auto-generated method stub
+                tableModel.add(orderField.getText());
+                setExpensesField();
+                                    
+            }
+        });
+        
+        this.add(infoLanel);
+        this.add(orderLabel);
+        this.add(orderField);
+        this.add(cancelButton);
+        this.add(confirmButton);
+        this.setLayout(null);
+        this.setBounds(100, 100, 380, 240);
+        this.setModalityType(ModalityType.APPLICATION_MODAL);
+        this.setVisible(true);      
+    }
+
+}
 }

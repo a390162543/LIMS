@@ -77,9 +77,9 @@ public class LoadPendingPanel extends JPanel {
 				new LoadPendingDialog(tableModel, modelRow, false);
 			}
 		});
-		approveButton.setBounds(315, 420, 70, 30);
-		modifyButton.setBounds(400, 420, 70, 30);
-		queryButton.setBounds(485, 420, 70, 30);
+		approveButton.setBounds(315, 390, 70, 30);
+		modifyButton.setBounds(400, 390, 70, 30);
+		queryButton.setBounds(485, 390, 70, 30);
 		// set panel
 		this.setBounds(0, 0, 560, 470);
 		this.setLayout(null);

@@ -1,5 +1,6 @@
 package presentation.managerui.approvalui.loadui;
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -11,9 +12,15 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
+
+
+import businesslogic.loadbl.Load;
+import businesslogicservice.LoadblService;
 import vo.LoadVO;
 
 public class LoadPendingDialog extends JDialog {
@@ -25,14 +32,24 @@ public class LoadPendingDialog extends JDialog {
 
     private static final String[] LABEL_NAMES = {"装车单编号","汽运编号","车辆代号","出发地","目的地","装车日期"};
     
-    private LoadPendingTableModel tableModel;
+    private LoadPendingTableModel loadPendingTableModel;
+    
+    private LoadblService loadblService;
+    private JTextField[] textFields;
+    private OrderTableModel tableModel;
+    private JTextField costTextField;
+    private JComboBox<String> departComboBox;
+    private JComboBox<String> destinationComboBox;
+    
     
       
     @SuppressWarnings("deprecation")
     public LoadPendingDialog(LoadPendingTableModel tm, int modelRow, boolean isEditable) {
         
-        this.tableModel = tm;
+        this.loadPendingTableModel = tm;
 
+        loadblService = new Load();
+        
         JLabel[] labels = new JLabel[6];
         for(int i=0;i<labels.length;i++){
             labels[i] = new JLabel();
@@ -40,7 +57,7 @@ public class LoadPendingDialog extends JDialog {
             labels[i].setBounds(20, 10+35*i, 100, 25);
             this.add(labels[i]);
         }
-        JTextField textFields[];
+        
         textFields = new JTextField[3];
         for(int i=0;i<textFields.length;i++){
             textFields[i] = new JTextField();
@@ -48,13 +65,13 @@ public class LoadPendingDialog extends JDialog {
             this.add(textFields[i]);
         }
 
-        JComboBox<String> departComboBox = new JComboBox<String>();
+        departComboBox = new JComboBox<String>();
         departComboBox.addItem("南京市栖霞区中转中心");
         departComboBox.addItem("上海市浦东新区中转中心");
         departComboBox.setBounds(100, 10+35*3, 180, 25);
         this.add(departComboBox);
         
-        JComboBox<String> destinationComboBox = new JComboBox<String>();
+        destinationComboBox = new JComboBox<String>();
         destinationComboBox.addItem("南京市栖霞区中转中心");
         destinationComboBox.addItem("上海市浦东新区中转中心");
         destinationComboBox.setBounds(100, 10+35*4, 180, 25);
@@ -91,21 +108,19 @@ public class LoadPendingDialog extends JDialog {
         orderLabel.setBounds(20, 10+35*7, 100, 25);
         this.add(orderLabel);
         
-        JTextArea orderTextArea = new JTextArea();
-        JScrollPane orderScrollPane = new JScrollPane(orderTextArea);
-        orderScrollPane.setBounds(100, 10+35*7, 150, 75);
-        this.add(orderScrollPane);
+
+
         
         JLabel costLabel = new JLabel();
         costLabel.setText("运费");
         costLabel.setBounds(20, 20+35*9, 100, 25);
         this.add(costLabel);
         
-        JTextField costTextField = new JTextField();
+        costTextField = new JTextField();
         costTextField.setBounds(100, 20+35*9, 60, 25);
         this.add(costTextField);
         
-        LoadVO vo = tableModel.getLoadVO(modelRow);
+        LoadVO vo = loadPendingTableModel.getLoadVO(modelRow);
         textFields[0].setText(vo.getId());
         textFields[1].setText(vo.getTransportId());
         textFields[2].setText(vo.getTruckId());
@@ -115,6 +130,18 @@ public class LoadPendingDialog extends JDialog {
         monthComboBox.setSelectedItem(vo.getLoadingDate().getMonth());
         dayComboBox.setSelectedItem(vo.getLoadingDate().getDay());
         
+        tableModel = new OrderTableModel(loadblService , vo.getOrderId());
+        TableRowSorter<TableModel>  tableSorter = new TableRowSorter<TableModel>(tableModel);
+        JTable orderTable = new JTable(tableModel);
+        orderTable.getTableHeader().setPreferredSize(new Dimension(180, 25));
+        orderTable.setSize(250, 100);
+        orderTable.setRowSorter(tableSorter);   
+        
+        
+        JScrollPane OrderScrollPane = new JScrollPane(orderTable);
+        OrderScrollPane.setBounds(100, 10+35*7, 150, 75);          
+        this.add(OrderScrollPane);
+
         // 如果textfield的编号和表格列号一一对应，上述代码也可以用for循环 
         // textFields[i].setText((String) tableModel.getValueAt(modelRow, i));
         
@@ -129,9 +156,10 @@ public class LoadPendingDialog extends JDialog {
                     return;
                 }
                 List<String> orderIdList = new ArrayList<String>();
-                orderIdList.add(orderTextArea.getText());
+                for(int i = 0; i < orderTable.getRowCount(); i ++)
+                    orderIdList.add((String)orderTable.getValueAt(i, 0));
                 LoadVO vo = new LoadVO(textFields[0].getText(), new Date(), textFields[1].getText(), (String)departComboBox.getSelectedItem(), (String)destinationComboBox.getSelectedItem(), textFields[2].getText(), personTextFields[0].getText(), personTextFields[1].getText(), orderIdList, new Double(costTextField.getText()));
-                tableModel.modify(modelRow, vo);
+                loadPendingTableModel.modify(modelRow, vo);
                 System.out.println("you've clicked confirm button..");
                 LoadPendingDialog.this.dispose();
                 
