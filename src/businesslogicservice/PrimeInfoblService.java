@@ -11,7 +11,13 @@ public interface PrimeInfoblService {
 
 	public boolean createPrimeInfoPO ();
 	
-	public boolean execute();
+	public boolean executeAccountPO();
+	
+	public boolean executeTruckPO();
+	
+	public boolean executeOrganizationPO();
+	
+	public boolean executeEmployeePO();
 	
 	public boolean addAccountVO( AccountVO vo);
 	

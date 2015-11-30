@@ -13,6 +13,7 @@ import vo.EmployeeVO;
 import vo.OrganizationVO;
 import vo.PrimeInfoVO;
 import vo.TruckVO;
+import businesslogic.accountbl.Account;
 import businesslogicservice.PrimeInfoblService;
 
 public class PrimeInfo implements PrimeInfoblService{
@@ -55,11 +56,6 @@ public class PrimeInfo implements PrimeInfoblService{
 	}
 	
 	@Override
-	public boolean execute() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	@Override
 	public boolean addTruckVO(TruckVO vo) {
 		List<TruckVO> truckVOs = primeInfoVO.getTruck();
 		truckVOs.add(vo);		
@@ -94,5 +90,26 @@ public class PrimeInfo implements PrimeInfoblService{
 		List<EmployeeVO> employeeVOs = primeInfoVO.getEmployee();
 		employeeVOs.remove(vo);	
 		return true;
+	}
+	@Override
+	public boolean executeAccountPO() {
+		Account account = new Account();
+		account.execute(primeInfoVO.getAccount());
+		return true;
+	}
+	@Override
+	public boolean executeTruckPO() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
+	public boolean executeOrganizationPO() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
+	public boolean executeEmployeePO() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }
