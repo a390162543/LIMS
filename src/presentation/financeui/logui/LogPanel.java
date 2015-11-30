@@ -25,7 +25,7 @@ public class LogPanel extends JPanel{
 		String contents="";
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:MM:SS"); 
 		for( LogVO vo : vos)
-			 contents += sdf.format( vo.getDate())+"   :   "+vo.getOpration()+"\n";
+			 contents += sdf.format( vo.getDate())+"   :   "+vo.getOpration()+" "+vo.getEmployeeId()+"("+vo.getEmployeeName()+")"+" "+vo.getOpration()+"\n";
         
 		JTextArea operationArea = new JTextArea(contents);
 		operationArea.setEditable(true);
