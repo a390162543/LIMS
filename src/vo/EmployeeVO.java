@@ -16,12 +16,12 @@ public class EmployeeVO {
 	private Date birthday;
 	private String identityCardNum;
 	private Sex sex;
-	private PayPO pay;
+	private PayVO pay;
 	
 	
 	public EmployeeVO(String id, String name, String organization,
 			Position position, String telephone, Date birthday,
-			String identityCardNum, Sex sex,PayPO pay) {
+			String identityCardNum, Sex sex,PayVO pay) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -35,8 +35,9 @@ public class EmployeeVO {
 	}
 	
 	 public EmployeePO getEmployeePO(){
+		 PayPO paypo = pay.getPayPO();
 		 return new EmployeePO(id, name, organization, position, 
-				 telephone, birthday, identityCardNum, sex, pay, null, null);
+				 telephone, birthday, identityCardNum, sex, paypo, null, null);
 	 }
 	 
 	 
@@ -105,11 +106,11 @@ public class EmployeeVO {
 		this.sex = sex;
 	}
 
-	public PayPO getPay() {
+	public PayVO getPay() {
 		return pay;
 	}
 
-	public void setPay(PayPO pay) {
+	public void setPay(PayVO pay) {
 		this.pay = pay;
 	}
 }
