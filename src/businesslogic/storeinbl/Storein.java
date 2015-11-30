@@ -8,14 +8,15 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.omg.PortableServer.POA;
 
-import po.OrderPO;
+
+
+
 import po.StoreinPO;
 import systemenum.DocumentState;
-import dataservice.OrderDataService;
+import systemenum.StorageState;
 import dataservice.StoreinDataService;
-import vo.StoreinCheckResultVO;
+import vo.StorageLocationVO;
 import vo.StoreinCheckVo;
 import vo.StoreinCreateVO;
 import vo.StoreinOrderVO;
@@ -23,6 +24,7 @@ import vo.StoreinQueryVO;
 import vo.InOrderCheckResultVO;
 import businesslogic.orderbl.Order;
 import businesslogic.storagebl.Storage;
+import businesslogic.storagebl.StorageHelper;
 import businesslogicservice.StoreinblService;
 
 public class Storein implements StoreinblService{
@@ -49,8 +51,38 @@ public class Storein implements StoreinblService{
 
 	@Override
 	public boolean modifyStorein(StoreinCreateVO vo) {
-		
-		return false;
+		try {
+			StoreinDataService storeinDataService = (StoreinDataService) Naming.lookup("rmi://localhost/StoreinData");
+			StoreinPO storeinPO = vo.getStoreinPO();
+			StoreinPO updatePO = storeinPO.updateModifyInfo(vo);
+			updatePO.setDocumentState(DocumentState.PASS);
+			storeinDataService.insert(updatePO);
+			List<String> orderId = updatePO.getOrderId();
+			List<Integer> areaNum = updatePO.getAreaNum();
+			List<Integer> rowNum = updatePO.getRowNum();
+			List<Integer> frameNum = updatePO.getFrameNum();
+			List<Integer> item = updatePO.getItem();	
+			Order order = new Order();
+			StorageHelper helper = new StorageHelper();
+			for (int i = 0; i < areaNum.size(); i++) {
+				StoreinOrderVO storeinOrderVO = new StoreinOrderVO(orderId.get(i), areaNum.get(i), rowNum.get(i), frameNum.get(i), item.get(i));
+				order.setStorageState(storeinOrderVO);
+			}
+			for (int i = 0; i < areaNum.size(); i++) {
+				StorageLocationVO storageLocationVO = new StorageLocationVO("0250", areaNum.get(i), rowNum.get(i), frameNum.get(i), item.get(i), StorageState.ISSTORED);
+				helper.changeLocationState(storageLocationVO);
+			}
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NotBoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return true;
 	}
 
 	@Override
@@ -65,13 +97,18 @@ public class Storein implements StoreinblService{
 			List<Integer> areaNum = storeinPO.getAreaNum();
 			List<Integer> rowNum = storeinPO.getRowNum();
 			List<Integer> frameNum = storeinPO.getFrameNum();
-			List<Integer> item = storeinPO.getItem();
-			Storage storage = new Storage();
+			List<Integer> item = storeinPO.getItem();	
+			Order order = new Order();
+			StorageHelper helper = new StorageHelper();
 			for (int i = 0; i < areaNum.size(); i++) {
 				StoreinOrderVO storeinOrderVO = new StoreinOrderVO(orderId.get(i), areaNum.get(i), rowNum.get(i), frameNum.get(i), item.get(i));
-				storage.setStorageState(storeinOrderVO);
+				order.setStorageState(storeinOrderVO);
 			}
-			
+			for (int i = 0; i < areaNum.size(); i++) {
+				StorageLocationVO storageLocationVO = new StorageLocationVO("0250", areaNum.get(i), rowNum.get(i), frameNum.get(i), item.get(i), StorageState.ISSTORED);
+				helper.changeLocationState(storageLocationVO);
+			}
+
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -163,17 +200,17 @@ public class Storein implements StoreinblService{
 	}
 
 	@Override
-	public boolean changeLocationState(StoreinOrderVO vo) {
-		Storage storage = new Storage();
-		storage.changeStorageState(vo);
+	public boolean changeLocationState(StorageLocationVO vo) {
+		StorageHelper helper = new StorageHelper();
+		helper.changeLocationState(vo);
 		return true;
 	}
 
 	@Override
-	public boolean restoreLocationState(StoreinOrderVO vo) {
-		Storage storage = new Storage();
-		storage.restoreStorageState(vo);
-		return false;
+	public boolean restoreLocationState(StorageLocationVO vo) {
+		StorageHelper helper = new StorageHelper();
+		helper.changeLocationState(vo);
+		return true;
 	}
 	
 	

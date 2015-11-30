@@ -100,6 +100,7 @@ public class StorageManageDialog extends JDialog{
 						Integer.parseInt(trainAreaTextField.getText()), Double.parseDouble(warnTextField.getText()));
 				StorageblService storageblService = new Storage();
 				storageblService.setArea(vo);
+				StorageManageDialog.this.dispose();
 			}
 		});
 	}
@@ -113,6 +114,13 @@ public class StorageManageDialog extends JDialog{
 			trainAreaTextField.setText("0");
 			freeAreaTextField.setText("0");
 			warnTextField.setText("0");
+		}
+		else {
+			planeAreaTextField.setText(vo.getAirCapacity()+"");
+			trainAreaTextField.setText(vo.getTrainCapacity()+"");
+			carAreaTextField.setText(vo.getCarCapacity()+"");
+			freeAreaTextField.setText(vo.getMotorCapacity()+"");
+			warnTextField.setText(vo.getAlarm()+"");
 		}
 		
 	}

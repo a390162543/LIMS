@@ -9,6 +9,11 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import businesslogic.storeinbl.Storein;
+import businesslogic.storeoutbl.Storeout;
+import businesslogicservice.StoreinblService;
+import businesslogicservice.StoreoutblService;
+
 public class StoreoutGoodsDialog extends JDialog {
 
 	/**
@@ -61,8 +66,10 @@ public class StoreoutGoodsDialog extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String[] data = {goodsIdTextField.getText()};
+				StoreoutblService storeoutblService = new Storeout();
+				storeoutblService.changeLocationState(goodsIdTextField.getText());
 				tableModel.addRow(data);
-				
+				StoreoutGoodsDialog.this.dispose();
 			}
 		});
 		

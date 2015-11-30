@@ -11,6 +11,7 @@ import po.OrderPO;
 import systemenum.DocumentState;
 import dataservice.OrderDataService;
 import vo.OrderCreateVO;
+import vo.OrderDeliverInfoVO;
 import vo.OrderQueryVO;
 import vo.OrderSignVO;
 import vo.InOrderCheckResultVO;
@@ -140,11 +141,11 @@ public class Order implements OrderblService{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 		return inCheckResultVO;
 	}
 	
 	public double getTotal(OrderCreateVO vo) {
+		double total = 0;
 		
 		return 0;
 	}
@@ -217,4 +218,60 @@ public class Order implements OrderblService{
 		return storeinOrderVO;
 	}
 	
+	public boolean setStorageState(StoreinOrderVO vo){
+		try {
+			OrderDataService ods = (OrderDataService) Naming.lookup("rmi://localhost/OrderData");
+			OrderPO po = ods.find(vo.getOrderId());
+			OrderPO updatePO = po.updateStoreinOrderPo(vo);
+			ods.update(updatePO);
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NotBoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return true;
+	}
+	
+	public boolean setStoreoutState (String orderId) {
+		try {
+			OrderDataService ods = (OrderDataService) Naming.lookup("rmi://localhost/OrderData");
+			OrderPO po = ods.find(orderId);
+			OrderPO updatePO = po.updateOrderLoction();
+			ods.update(updatePO);
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NotBoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return true;
+	}
+	
+	public boolean modifyDeliverInfo (OrderDeliverInfoVO vo) {
+		try {
+			OrderDataService ods = (OrderDataService) Naming.lookup("rmi://localhost/OrderData");
+			OrderPO po = ods.find(vo.getOrderId());
+			OrderPO updatePO = po.updateOrderDeliverInfo(vo);
+			ods.update(updatePO);
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NotBoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return true;
+	}
 }

@@ -18,6 +18,8 @@ import javax.swing.table.DefaultTableModel;
 import businesslogic.storeinbl.Storein;
 import businesslogicservice.StoreinblService;
 import po.StoreinPO;
+import systemenum.StorageState;
+import vo.StorageLocationVO;
 import vo.StoreinCreateVO;
 import vo.StoreinOrderVO;
 
@@ -95,7 +97,7 @@ public class StoreinDialogUI extends JDialog{
         
         goodsInfoTable = new JTable(tableModel);
         goodsInfoTable.setSize(250, 180);  
-        goodsInfoTable.getColumnModel().getColumn(0).setPreferredWidth(120);;
+        goodsInfoTable.getColumnModel().getColumn(0).setPreferredWidth(120);
         
         JScrollPane scrollpane = new JScrollPane(goodsInfoTable);
         //scrollpane.setVerticalScrollBarPolicy( JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -153,7 +155,8 @@ public class StoreinDialogUI extends JDialog{
 	              int rowNum = Integer.parseInt((String)tableModel.getValueAt(selectedRow, 2));
 	              int frameNum = Integer.parseInt((String)tableModel.getValueAt(selectedRow, 3));
 	              int item = Integer.parseInt((String)tableModel.getValueAt(selectedRow, 4));
-	              StoreinOrderVO vo = new StoreinOrderVO(orderId, areaNum, rowNum, frameNum, item);
+	              //StoreinOrderVO vo = new StoreinOrderVO(orderId, areaNum, rowNum, frameNum, item);
+	              StorageLocationVO vo = new StorageLocationVO("0250", areaNum, rowNum, frameNum, item, StorageState.ISAVAILABLE);
 	              StoreinblService storeinblService = new Storein();
 	              storeinblService.restoreLocationState(vo);   
 	              tableModel.removeRow(selectedRow); 
@@ -189,7 +192,7 @@ public class StoreinDialogUI extends JDialog{
 				Date inDate = new Date(yearDate-1900, monthDate-1, dayDate);
 				String destination = totalDestination[destinationComboBox.getSelectedIndex()];
 				String organization = "南京中转中心";
-				StoreinCreateVO vo = new StoreinCreateVO(new String("2015112000000000"), orderId, inDate, destination, areaNum, rowNum, frameNum, item, organization);
+				StoreinCreateVO vo = new StoreinCreateVO(new String("2015112000000001"), orderId, inDate, destination, areaNum, rowNum, frameNum, item, organization);
 				StoreinblService storeinblService = new Storein();
 				storeinblService.createStoreinPO(vo);	
 			}
@@ -208,12 +211,11 @@ public class StoreinDialogUI extends JDialog{
 		              int rowNum = Integer.parseInt((String)tableModel.getValueAt(i, 2));
 		              int frameNum = Integer.parseInt((String)tableModel.getValueAt(i, 3));
 		              int item = Integer.parseInt((String)tableModel.getValueAt(i, 4));
-		              StoreinOrderVO vo = new StoreinOrderVO(orderId, areaNum, rowNum, frameNum, item);
+		              //StoreinOrderVO vo = new StoreinOrderVO(orderId, areaNum, rowNum, frameNum, item);
+		              StorageLocationVO vo = new StorageLocationVO("0250", areaNum, rowNum, frameNum, item, StorageState.ISAVAILABLE);
 		              StoreinblService storeinblService = new Storein();
 		              //改变库存的位置
 		              storeinblService.restoreLocationState(vo); 
-		              //将订单相应的库存位置置为0
-		              
 				}
 			
 			}

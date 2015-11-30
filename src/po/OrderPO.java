@@ -9,6 +9,7 @@ import systemenum.ShipForm;
 import systemenum.WrapWay;
 import systemenum.GoodsState;
 import vo.OrderCreateVO;
+import vo.OrderDeliverInfoVO;
 import vo.OrderQueryVO;
 import vo.OrderSignVO;
 import vo.InOrderCheckResultVO;
@@ -293,6 +294,29 @@ public class OrderPO implements Serializable{
 	public OrderPO updateSignInfo(OrderSignVO vo){
 		setSignName(vo.getSignName());
 		setSignData(vo.getSignData());
+		return this;
+	}
+	
+	public OrderPO updateStoreinOrderPo(StoreinOrderVO vo) {
+		setAreaNum(vo.getAreaNum());
+		setRowNum(vo.getRowNum());
+		setFrameNum(vo.getFrameNum());
+		setItem(vo.getItem());
+		return this;
+	}
+	
+	public OrderPO updateOrderLoction() {
+		setAreaNum(-1);
+		setRowNum(-1);
+		setFrameNum(-1);
+		setItem(-1);
+		return this;
+	}
+	
+	public OrderPO updateOrderDeliverInfo(OrderDeliverInfoVO vo) {
+		setNowLocation(vo.getNowLocation());
+		setNextLocation(vo.getNextLocation());
+		deliverInfo = deliverInfo+"\n"+vo.getDeliverInfo();
 		return this;
 	}
 	

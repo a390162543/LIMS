@@ -110,6 +110,12 @@ public class StoreoutPO implements Serializable {
 		return storeoutCheckResultVOs;
 	}
 
+	public StoreoutPO updateModifyInfo(StoreoutCreateVO vo) {
+		
+		
+		return this;
+	}
+	
 	public StoreoutCreateVO getStoreoutCreateVO() {
 		return new StoreoutCreateVO(id, orderId, date, destination, shipForm, transferId, organization);
 	}

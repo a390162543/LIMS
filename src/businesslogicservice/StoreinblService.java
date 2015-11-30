@@ -2,6 +2,7 @@ package businesslogicservice;
 
 import java.util.List;
 
+import vo.StorageLocationVO;
 import vo.StoreinCheckResultVO;
 import vo.StoreinCheckVo;
 import vo.StoreinCreateVO;
@@ -16,9 +17,9 @@ public interface StoreinblService {
 	
 	public boolean execute (StoreinCreateVO vo);
 	
-	public boolean changeLocationState (StoreinOrderVO vo);
+	public boolean changeLocationState (StorageLocationVO vo);
 	
-	public boolean restoreLocationState (StoreinOrderVO vo);
+	public boolean restoreLocationState (StorageLocationVO vo);
 	
 	
 

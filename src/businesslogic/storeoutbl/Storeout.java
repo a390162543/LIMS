@@ -8,22 +8,20 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.omg.PortableServer.ID_ASSIGNMENT_POLICY_ID;
-
 import po.StoreinPO;
 import po.StoreoutPO;
 import systemenum.DocumentState;
-import dataservice.OrderDataService;
-import dataservice.StoreinDataService;
+import systemenum.StorageState;
 import dataservice.StoreoutDataService;
-import vo.StoreinCheckResultVO;
+import vo.StorageLocationVO;
 import vo.StoreinCheckVo;
-import vo.StoreinCreateVO;
-import vo.StoreoutCheckResultVO;
+import vo.StoreinOrderVO;
 import vo.StoreoutCreateVO;
 import vo.StoreoutQueryVO;
 import vo.OutOrderCheckResultVO;
 import businesslogic.orderbl.Order;
+import businesslogic.storagebl.Storage;
+import businesslogic.storagebl.StorageHelper;
 import businesslogicservice.StoreoutblService;
 
 public class Storeout implements StoreoutblService{
@@ -51,17 +49,23 @@ public class Storeout implements StoreoutblService{
 
 	@Override
 	public boolean modifyStoreout(StoreoutCreateVO vo) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean execute(StoreoutCreateVO vo) {
 		try {
 			StoreoutDataService storeoutDataService = (StoreoutDataService) Naming.lookup("rmi://localhost/StoreoutData");
-			StoreoutPO storeoutPO = storeoutDataService.find(vo.getId());
-			storeoutPO.setDocumentState(DocumentState.PASS);
-			storeoutDataService.update(storeoutPO);
+			StoreoutPO storeoutPO = vo.getStoreoutPO();
+			StoreoutPO updatePO = storeoutPO.updateModifyInfo(vo);
+			updatePO.setDocumentState(DocumentState.PASS);
+			storeoutDataService.insert(updatePO);
+			List<String> orderIdList = updatePO.getOrderId();
+			Order order = new Order();
+			StorageHelper helper = new StorageHelper();
+			for (int i = 0; i < orderIdList.size(); i++) {
+				StoreinOrderVO storeinOrderVO = order.getStorageOrderVO(orderIdList.get(i));
+				StorageLocationVO storageLocationVO = new StorageLocationVO("0250", storeinOrderVO.getAreaNum(), 
+						storeinOrderVO.getRowNum(), storeinOrderVO.getFrameNum(), storeinOrderVO.getItem(), StorageState.ISAVAILABLE);
+				helper.changeLocationState(storageLocationVO);
+				order.setStoreoutState(orderIdList.get(i));
+			}
+			
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -73,6 +77,38 @@ public class Storeout implements StoreoutblService{
 			e.printStackTrace();
 		}
 		return false;
+	}
+
+	@Override
+	public boolean execute(StoreoutCreateVO vo) {
+		try {
+			StoreoutDataService storeoutDataService = (StoreoutDataService) Naming.lookup("rmi://localhost/StoreoutData");
+			StoreoutPO storeoutPO = storeoutDataService.find(vo.getId());
+			storeoutPO.setDocumentState(DocumentState.PASS);
+			storeoutDataService.update(storeoutPO);
+			StorageHelper helper = new StorageHelper();
+			Order order = new Order();
+			List<String> orderIdList = storeoutPO.getOrderId();
+			
+			
+			for (int i = 0; i < orderIdList.size(); i++) {
+				StoreinOrderVO storeinOrderVO = order.getStorageOrderVO(orderIdList.get(i));
+				StorageLocationVO storageLocationVO = new StorageLocationVO("0250", storeinOrderVO.getAreaNum(), 
+						storeinOrderVO.getRowNum(), storeinOrderVO.getFrameNum(), storeinOrderVO.getItem(), StorageState.ISAVAILABLE);
+				helper.changeLocationState(storageLocationVO);
+				order.setStoreoutState(orderIdList.get(i));
+			}
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NotBoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return true;
 	}
 
 	public List<OutOrderCheckResultVO> storeoutCheck(StoreinCheckVo vo) {
@@ -155,4 +191,24 @@ public class Storeout implements StoreoutblService{
 		}
 		return storeoutPendingVOs;
 	}
+
+	@Override
+	public boolean changeLocationState(String orderId) {
+		Order order = new Order();
+		StoreinOrderVO storeinOrderVO = order.getStorageOrderVO(orderId);
+		StorageLocationVO vo = new StorageLocationVO("0250",storeinOrderVO.getAreaNum(), storeinOrderVO.getRowNum(), 
+				storeinOrderVO.getFrameNum(), storeinOrderVO.getItem(), StorageState.ISSTORINGOUT);
+		return true;
+	}
+
+	@Override
+	public boolean restoreLcationState(String orderId) {
+		Order order = new Order();
+		StoreinOrderVO storeinOrderVO = order.getStorageOrderVO(orderId);
+		StorageLocationVO vo = new StorageLocationVO("0250",storeinOrderVO.getAreaNum(), storeinOrderVO.getRowNum(), 
+				storeinOrderVO.getFrameNum(), storeinOrderVO.getItem(), StorageState.ISSTORED);
+		return true;
+	}
+	
+	 
 }

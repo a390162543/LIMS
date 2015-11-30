@@ -75,7 +75,7 @@ public class StoreinData extends UnicastRemoteObject implements StoreinDataServi
 				{
 					
 					
-					if (po.getInDate().compareTo((Date)value)>=0) {
+					if (po.getInDate().compareTo((Date)value)>=0&&po.getDocumentState().equals(DocumentState.PASS)) {
 						
 						storeinPOs.add(po);
 					}
@@ -86,7 +86,8 @@ public class StoreinData extends UnicastRemoteObject implements StoreinDataServi
 					break;
 					
 				case "organization":
-					if (po.getOrganization().equals((String)value)) {
+					if (po.getOrganization().equals((String)value)&&po.getDocumentState().equals(DocumentState.PASS)) {
+						System.out.println(po.getDocumentState().toString());
 						storeinPOs.add(po);
 					}
 					

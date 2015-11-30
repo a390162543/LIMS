@@ -224,7 +224,12 @@ public class StoreoutDialogUI extends JDialog{
 		cancleButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				StoreoutblService storeoutblService = new Storeout();
+				int totalRow = goodsInfoTable.getRowCount();
+				for (int i = 0; i < totalRow; i++) {
+					String orderId = (String) tableModel.getValueAt(i, 0);
+					storeoutblService.restoreLcationState(orderId);
+				}
 				
 			}
 		});

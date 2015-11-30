@@ -74,7 +74,7 @@ public class StoreoutData extends UnicastRemoteObject implements StoreoutDataSer
 					break;
 					
 				case "date":
-					if (po.getDate().compareTo((Date)value)>=0) {
+					if (po.getDate().compareTo((Date)value)>=0&&po.getDocumentState().equals(DocumentState.PASS)) {
 						storeoutPOs.add(po);
 					}
 					break;
@@ -83,7 +83,7 @@ public class StoreoutData extends UnicastRemoteObject implements StoreoutDataSer
 					break;
 					
 				case "organization":
-					if (po.getOrganization().equals((String)value)) {
+					if (po.getOrganization().equals((String)value)&&po.getDocumentState().equals(DocumentState.PASS)) {
 						storeoutPOs.add(po);	
 					}
 					break;

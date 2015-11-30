@@ -123,6 +123,11 @@ public class StoreinPO implements Serializable{
 		}
 		return storeinCheckResultVOs;	
 	}
+	
+	public StoreinPO updateModifyInfo(StoreinCreateVO vo) {
+		
+		return this;
+	}
 
 	public StoreinQueryVO getStoreinQueryVOs() {
 		return new StoreinQueryVO(orderId, areaNum, rowNum, frameNum, item, date, destination);

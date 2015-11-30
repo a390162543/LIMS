@@ -3,14 +3,17 @@ package presentation.storageui.storeinui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.CellEditor;
+
+
+
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
-import vo.StoreinCreateVO;
+import systemenum.StorageState;
+import vo.StorageLocationVO;
 import vo.StoreinOrderVO;
 import businesslogic.storeinbl.Storein;
 import businesslogicservice.StoreinblService;
@@ -103,11 +106,12 @@ public class StoreinGoodsDialog extends JDialog{
 						rowNumTextField.getText(),frameNumTextField.getText(),
 						itemTextField.getText()};
 				
-				StoreinOrderVO vo = new StoreinOrderVO(orderIdTextField.getText(), Integer.parseInt(areaNUmTextField.getText()),
-						Integer.parseInt(rowNumTextField.getText()), Integer.parseInt(frameNumTextField.getText()), Integer.parseInt(itemTextField.getText()));
+				StorageLocationVO vo = new StorageLocationVO("0250", Integer.parseInt(areaNUmTextField.getText()),Integer.parseInt(rowNumTextField.getText()), 
+						Integer.parseInt(frameNumTextField.getText()), Integer.parseInt(itemTextField.getText()), StorageState.ISSTORING);
 				StoreinblService storeinblService = new Storein();
 				storeinblService.changeLocationState(vo);		
 				tableModel.addRow(data);
+				StoreinGoodsDialog.this.dispose();
 							
 			}
 		});

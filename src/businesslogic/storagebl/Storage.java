@@ -23,6 +23,7 @@ import vo.StoreoutCreateVO;
 import vo.StoreoutQueryVO;
 import vo.InOrderCheckResultVO;
 import vo.OutOrderCheckResultVO;
+import businesslogic.orderbl.Order;
 import businesslogic.storeinbl.Storein;
 import businesslogic.storeoutbl.Storeout;
 import businesslogicservice.StorageblService;
@@ -34,11 +35,15 @@ public class Storage implements StorageblService{
 		try {
 			StorageDataService storageDataService = (StorageDataService) Naming.lookup("rmi://localhost/StorageData");
 			StoragePO po = storageDataService.find(vo.getStorageId());
+			StorageHelper storageHelper = new StorageHelper();
 			if (po==null) {
 				po = vo.getInitialStoragePO();
+				//在库存里添加辅助类，用于TXT的初始化，更新
+				storageHelper.initLocationInfo("0250", vo.getAirCapacity(), vo.getCarCapacity(), vo.getTrainCapacity(), vo.getMotorCapacity());
 			}
 			StoragePO updatePo = po.getUpdateStoragePO(vo);
 			storageDataService.update(updatePo);
+			
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -186,6 +191,9 @@ public class Storage implements StorageblService{
 		return storageQueryResultVOs;
 	}
 	
+	
+	/*
+	
 	public boolean changeStorageState (StoreinOrderVO vo) {
 		try {
 			StorageDataService storageDataService = (StorageDataService) Naming.lookup("rmi://localhost/StorageData");
@@ -204,6 +212,50 @@ public class Storage implements StorageblService{
 			e.printStackTrace();
 		}
 		
+		return true;
+	}
+	
+	public boolean changeStoreoutState (String orderId) {
+		try {
+			StorageDataService storageDataService = (StorageDataService) Naming.lookup("rmi://localhost/StorageData");
+			StoragePO po = storageDataService.find("0250");
+			Order order = new Order();
+			StoreinOrderVO vo = order.getStorageOrderVO(orderId);
+			StorageHelper helper = po.getStorageHelperData()[vo.getAreaNum()][vo.getRowNum()][vo.getFrameNum()][vo.getItem()];
+			helper.setState(StorageState.ISSTORINGOUT);
+			storageDataService.update(po);
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NotBoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return true;
+	}
+	
+	public boolean restoreStoreoutState (String orderId) {
+		try {
+			StorageDataService storageDataService = (StorageDataService) Naming.lookup("rmi://localhost/StorageData");
+			StoragePO po = storageDataService.find("0250");
+			Order order = new Order();
+			StoreinOrderVO vo = order.getStorageOrderVO(orderId);
+			StorageHelper helper = po.getStorageHelperData()[vo.getAreaNum()][vo.getRowNum()][vo.getFrameNum()][vo.getItem()];
+			helper.setState(StorageState.ISSTORED);
+			storageDataService.update(po);
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NotBoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return true;
 	}
 	
@@ -248,4 +300,27 @@ public class Storage implements StorageblService{
 		return true;
 	}
 
+	public boolean setStoreoutState (String orderId) {
+		try {
+			StorageDataService storageDataService = (StorageDataService) Naming.lookup("rmi://localhost/StorageData");
+			StoragePO po = storageDataService.find("0250");
+			Order order = new Order();
+			StoreinOrderVO vo = order.getStorageOrderVO(orderId);
+			StorageHelper helper = po.getStorageHelperData()[vo.getAreaNum()][vo.getRowNum()][vo.getFrameNum()][vo.getItem()];
+			helper.setState(StorageState.ISAVAILABLE);
+			storageDataService.update(po);
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NotBoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return true;	
+	}
+	*/
 }
