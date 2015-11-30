@@ -2,6 +2,8 @@ package po;
 
 import java.io.Serializable;
 
+import vo.PayVO;
+
  
 
 public class PayPO implements Serializable{
@@ -37,6 +39,10 @@ public class PayPO implements Serializable{
 				payStr = "ÔÂÐ½: " + basePay;
 		}
 		return payStr;
+	}
+	
+	public PayVO getPayVO() {
+		return new PayVO(basePay, payByCount, count, salesCommission,  rate);
 	}
 	 
 	public double getPayByCount() {

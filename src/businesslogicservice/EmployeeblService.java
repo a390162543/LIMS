@@ -1,9 +1,6 @@
 package businesslogicservice;
 
 import java.util.List;
-
-import po.EmployeePO;
-import systemenum.Position;
 import vo.EmployeeVO;
 
 public interface EmployeeblService {
@@ -17,7 +14,7 @@ public interface EmployeeblService {
 	
 	 public EmployeeVO find(String id);
 	
-	public List<EmployeeVO> getDriverVO(String organiztion);
+	 
 	
 	 
 }

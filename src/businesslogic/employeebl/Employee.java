@@ -6,13 +6,13 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
-
 import po.EmployeePO;
 import systemenum.Position;
 import dataservice.EmployeeDataService;
- 
 import vo.EmployeeVO;
+import vo.PayVO;
 import businesslogicservice.EmployeeblService;
+ 
 
 public class Employee implements EmployeeblService{
 
@@ -92,8 +92,8 @@ public class Employee implements EmployeeblService{
 	}
 	 
 
-	@Override
-	public List<EmployeeVO> getDriverVO(String organiztion) {
+ 
+	public List<EmployeeVO> getDriverVO(String organiztion ) {
 		// TODO Auto-generated method stub
 		List<EmployeeVO> vos = new ArrayList<EmployeeVO>();
 		try {
@@ -110,6 +110,27 @@ public class Employee implements EmployeeblService{
 	        }  
 		return vos;
 	}
+	
+
+	public List<EmployeeVO> getCourierVO(String organiztion ) {
+		// TODO Auto-generated method stub
+		List<EmployeeVO> vos = new ArrayList<EmployeeVO>();
+		try {
+			
+			 
+			 List<EmployeePO> pos= employeeDataService.finds("organiztion", organiztion);
+			 for(EmployeePO po : pos){
+				 if(po.getPosition().equals(Position.COURIER))
+					 vos.add(po.getEmployeeVO());
+			 }
+	           	         
+	        } catch (RemoteException e) {
+	            // TODO Auto-generated catch block
+	            e.printStackTrace();
+	        }  
+		return vos;
+	}
+
 
 	@Override
 	public EmployeeVO find(String id) {
@@ -129,5 +150,26 @@ public class Employee implements EmployeeblService{
 	        } 
 		return null;
 	}
+
+	
+//add pay
+	public boolean addPay(String id, double salesCommission){
+		EmployeeVO vo = find(id);
+		PayVO payvo = vo.getPay();
+		payvo.setSalesCommission(salesCommission*payvo.getRate() + payvo.getSalesCommission());
+		vo.setPay(payvo);
+		modifyEmployeePO(vo);
+		return true;
+	}
+	
+	public boolean addPay(String id){
+		EmployeeVO vo = find(id);
+		PayVO payvo = vo.getPay();
+		payvo.setCount(payvo.getCount()+1);
+		vo.setPay(payvo);
+		modifyEmployeePO(vo);
+		return true;
+	}
+	
 
 }

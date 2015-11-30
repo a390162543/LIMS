@@ -114,7 +114,10 @@ public class Transfer implements TransferblService{
 				return null;
 			else{
 				OrderPO po = orderDataService.find(id);
+				System.out.println("find orderpo");
+				System.out.println(po.getOrderId());
 				GoodsVO vo = po.getGoodsVO();
+				 
 				return vo;
 			}
 			

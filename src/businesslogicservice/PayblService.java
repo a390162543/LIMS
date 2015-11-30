@@ -1,15 +1,15 @@
 package businesslogicservice;
-
-import po.EmployeePO;
-import po.PayPO;
-import systemenum.Position;
+ 
+ 
+import vo.PayVO;
+ 
 
 public interface PayblService {
-	public boolean addPayByCount();
+	public int addPayByCount(PayVO vo);
 	
-	public double addSalesCommission(double account);
+	public double addSalesCommission(double account,PayVO vo);
 	
-	public double getMonthlyPay(EmployeePO e);
+	public double getMonthlyPay(PayVO vo);
 	
 	 
 }

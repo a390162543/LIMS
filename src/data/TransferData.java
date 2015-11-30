@@ -80,6 +80,7 @@ public class TransferData extends UnicastRemoteObject implements TransferDataSer
         }catch(NullPointerException e){
             return pos;
         }
+        System.out.println("finds Pending transfer");
         return pos;
 		 
 	}
