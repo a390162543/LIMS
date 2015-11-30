@@ -27,7 +27,7 @@ public class SettlementPanel extends JPanel{
 
 	public SettlementPanel(JPanel panel,List<RevenueVO> vos){
 		panel.removeAll();
-		this.setBounds(0, 100, 560, 370);
+		this.setBounds(0, 40, 560, 370);
 
     	tableModel = new RevenueTableModel(vos);  
         tableSorter = new TableRowSorter<TableModel>(tableModel);

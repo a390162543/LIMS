@@ -15,7 +15,7 @@ public class StatisticsPanel extends JPanel{
 
 	public StatisticsPanel(JPanel panel, JPanel paymentPanel ,JPanel revenuePanel){
 		panel.removeAll();
-		this.setBounds(0, 80, 560, 430);
+		this.setBounds(0, 0, 560, 430);
 		
 		int labelWidth = 65;
 		int labelHeight = 20;

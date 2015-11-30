@@ -20,7 +20,7 @@ public class LogPanel extends JPanel{
 
 	public LogPanel(JPanel panel, List<LogVO> vos){
 		panel.removeAll();
-		this.setBounds(0, 110, 560, 360);
+		this.setBounds(0, 40, 560, 360);
 
 		String contents="";
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:MM:SS"); 

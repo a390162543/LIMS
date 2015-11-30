@@ -125,7 +125,7 @@ public class AccountPanel extends JPanel{
 	        modifyButton.setBounds(400, 420, 70, 30);
 	        queryButton.setBounds(485, 420, 70, 30);
 	        //set panel
-	        this.setBounds(0, 60, 560, 470);
+	        this.setBounds(0, 0, 560, 470);
 	        this.setLayout(null);
 	        this.add(accountScrollPane);
 	        this.add(filterTextField);

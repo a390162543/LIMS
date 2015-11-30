@@ -81,7 +81,7 @@ public class RevenuePanel extends JPanel{
 		this.setLayout(null);
 		this.add(scrollPane);
 		this.add(setAccountButton);
-		this.setBounds(0, 100,560,370+10+30);
+		this.setBounds(0, 40,560,370+10+30);
 		this.setVisible(true);
 		
 		panel.setLayout(null);
