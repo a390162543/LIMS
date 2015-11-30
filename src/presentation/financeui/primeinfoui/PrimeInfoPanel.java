@@ -28,22 +28,22 @@ public class PrimeInfoPanel extends JPanel{
 		storageScrollPane.setBounds(0, 25, srollPaneWidth, scrollPaneHeight);
 		
 		
-		JScrollPane accountScrollPane = new JScrollPane();
-		accountScrollPane.setBounds(0, 25, srollPaneWidth, scrollPaneHeight);
+		PrimeInfoAccountPanel primeInfoAccountPanel = new PrimeInfoAccountPanel();
+		primeInfoAccountPanel.setLocation(0, 0);
 	
 		JTabbedPane pane = new JTabbedPane();
 		pane.addTab("机构", organizationScrollPane);
 		pane.addTab("人员", employeeScrollPane);
 		pane.addTab("车辆", truckScrollPane);
 		pane.addTab("库存", storageScrollPane);
-		pane.addTab("账户", accountScrollPane);
-		pane.setBounds(0, 0, 560, 400);
+		pane.addTab("账户", primeInfoAccountPanel );
+		pane.setBounds(0, 0, 560, 500);
 
 	
 
 		this.setLayout(null);
 		this.add(pane);
-		this.setBounds(0, 70, 560, 430);
+		this.setBounds(0, 0, 560, 540);
 		
 		panel.setLayout(null);
 		panel.add(this);
