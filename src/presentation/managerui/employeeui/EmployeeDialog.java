@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.sql.Date;
+
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -12,6 +13,7 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
+
 import businesslogic.userbl.User;
 import businesslogicservice.UserblService;
 import po.PayPO;
@@ -20,6 +22,7 @@ import systemenum.Position;
 import systemenum.Power;
 import systemenum.Sex;
 import vo.EmployeeVO;
+import vo.PayVO;
 import vo.UserVO;
 
 public class EmployeeDialog {
@@ -233,65 +236,65 @@ public class EmployeeDialog {
 				 sex1 = Sex.MALE;
 			else 
 				 sex1 = Sex.FAMALE;			 
-			PayPO paypo = null ;						
+			PayVO payvo = null ;						
 			 Position p = null ;
 			 switch (positionBox.getSelectedItem().toString()) {
 			   	case "总经理":
 			   		p = Position.MANAGER; 
-			   		paypo = new PayPO(Double.valueOf(basePayField.getText()),
+			   		payvo = new PayVO(Double.valueOf(basePayField.getText()),
 			   				0.0, 0, 0, 0);
 			   		break;
 			   
 			   	case "营业厅业务员":
 			   		p = Position.SELLINGBUSINESSMAN;
-			   		paypo = new PayPO(Double.valueOf(basePayField.getText()),
+			   		payvo = new PayVO(Double.valueOf(basePayField.getText()),
 			   				0.0, 0, 0, 0);
 			   		break;
 			   	
 			   	case "中转中心业务员":
 			   		p = Position.TRANSFERCENTREBUSINESSMAN;
-			   		paypo = new PayPO(Double.valueOf(basePayField.getText()),
+			   		payvo = new PayVO(Double.valueOf(basePayField.getText()),
 			   				0.0, 0, 0, 0);
 			   		break;
 			   	
 			   	case "快递员":
 			   		p = Position.COURIER; 
-			   		paypo = new PayPO(Double.valueOf(basePayField.getText()),
+			   		payvo = new PayVO(Double.valueOf(basePayField.getText()),
 			   				0, 0, 0,Double.valueOf(percentageField.getText())/100 );
 			   		break;
 			   	
 			   	case "中转中心仓库管理员":
 			   		p = Position.STORAGEMANAGER;
-			   		paypo = new PayPO(Double.valueOf(basePayField.getText()),
+			   		payvo = new PayVO(Double.valueOf(basePayField.getText()),
 			   				0.0, 0, 0, 0);
 			   		break;
 			   	
 			   	case "高级财务人员":
 			   		p = Position.SENIORFINANCIALSTAFF;
-			   		paypo = new PayPO(Double.valueOf(basePayField.getText()),
+			   		payvo = new PayVO(Double.valueOf(basePayField.getText()),
 			   				0.0, 0, 0, 0);
 			   		break;
 			   	
 			   	case "财务人员":
 			   		p = Position.FINANCIALSTAFF;
-			   		paypo = new PayPO(Double.valueOf(basePayField.getText()),
+			   		payvo = new PayVO(Double.valueOf(basePayField.getText()),
 			   				0.0, 0, 0, 0);
 			   		break;
 			   	
 			   	case "管理员":
 			   		p = Position.SYSTEMMANAGER;
-			   		paypo = new PayPO(Double.valueOf(basePayField.getText()),
+			   		payvo = new PayVO(Double.valueOf(basePayField.getText()),
 			   				0.0, 0, 0, 0);
 			   		break;
 			   	
 			   	case "司机":
 			   		p = Position.DRIVER;
-			   		paypo = new PayPO(0,Double.valueOf(basePayField.getText()), 0, 0, 0);
+			   		payvo = new PayVO(0,Double.valueOf(basePayField.getText()), 0, 0, 0);
 			   		break;			   			 
 			   	
 			}
 			 EmployeeVO vo = new EmployeeVO(id, name, organization,
-					 p, phone, birth, identityCardNum, sex1, paypo);
+					 p, phone, birth, identityCardNum, sex1, payvo);
 			 Power power = Power.valueOf(p.toString());
 			 UserVO uservo = new UserVO(id, "000000", power);
 			 UserblService userblService = new User();
