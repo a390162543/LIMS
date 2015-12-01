@@ -1,4 +1,4 @@
-package presentation.financeui.primeinfoui;
+package presentation.financeui.primeinfoui.primeinfoaccount;
 
 import java.util.ArrayList;
 import java.util.List;

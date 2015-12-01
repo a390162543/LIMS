@@ -1,12 +1,9 @@
-package presentation.financeui.primeinfoui;
+package presentation.financeui.primeinfoui.primeinfoaccount;
 
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -15,17 +12,6 @@ import javax.swing.JTable;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
-import po.AccountPO;
-import po.PrimeInfoPO;
-import data.PrimeInfoData;
-import dataservice.PrimeInfoDataService;
-import vo.AccountVO;
-import vo.EmployeeVO;
-import vo.OrganizationVO;
-import vo.PrimeInfoVO;
-import vo.StorageCheckVO;
-import vo.TruckVO;
-import businesslogic.primeinfobl.PrimeInfo;
 import businesslogicservice.PrimeInfoblService;
 
 
@@ -46,14 +32,8 @@ public class PrimeInfoAccountPanel extends JPanel{
     private JButton deleteButton;
     private JButton createButton;
     
-    public PrimeInfoAccountPanel(){
-    	List<OrganizationVO>  organization = new ArrayList<OrganizationVO>();
-    	List<EmployeeVO>  employee = new ArrayList<EmployeeVO>();
-    	List<TruckVO>  truck = new ArrayList<TruckVO>();
-    	List<StorageCheckVO>  storage = new ArrayList<StorageCheckVO>();
-    	List<AccountVO>  account = new ArrayList<AccountVO>();
-    	Date date = new Date();
-    	primeInfoblService = new PrimeInfo(new PrimeInfoVO(organization, employee, truck, storage,  account, date));
+    public PrimeInfoAccountPanel(PrimeInfoblService primeInfoblService2){	
+    	this.primeInfoblService = primeInfoblService2;
         //build up account table
         tableModel = new PrimeInfoAccountTableModel(primeInfoblService);  
         tableSorter = new TableRowSorter<TableModel>(tableModel);
@@ -92,7 +72,7 @@ public class PrimeInfoAccountPanel extends JPanel{
             @Override
             public void actionPerformed(ActionEvent e) {
             	primeInfoblService.createPrimeInfoPO();
-            	primeInfoblService.execute();
+            	primeInfoblService.executeAccountPO();
  
             	Container container = PrimeInfoAccountPanel.this.getParent().getParent();
             	container.removeAll();

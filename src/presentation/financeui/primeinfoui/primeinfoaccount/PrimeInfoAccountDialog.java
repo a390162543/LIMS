@@ -1,4 +1,4 @@
-package presentation.financeui.primeinfoui;
+package presentation.financeui.primeinfoui.primeinfoaccount;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

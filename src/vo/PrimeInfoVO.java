@@ -21,7 +21,13 @@ public class PrimeInfoVO {
 	private List<AccountVO>  account;
 	private Date date;
 
-	public PrimeInfoVO(List<OrganizationVO>  organization,List<EmployeeVO>  employee,List<TruckVO>  truck,List<StorageCheckVO>  storage,List<AccountVO>  account,Date date){
+	public PrimeInfoVO(){
+		List<OrganizationVO>  organization = new ArrayList<OrganizationVO>();
+    	List<EmployeeVO>  employee = new ArrayList<EmployeeVO>();
+    	List<TruckVO>  truck = new ArrayList<TruckVO>();
+    	List<StorageCheckVO>  storage = new ArrayList<StorageCheckVO>();
+    	List<AccountVO>  account = new ArrayList<AccountVO>();
+    	Date date = new Date();
 		this.organization = organization;
 		this.employee = employee;
 		this.truck = truck;
@@ -29,7 +35,14 @@ public class PrimeInfoVO {
 		this.account = account;
 		this.date = date;
 	}
-
+	public PrimeInfoVO(List<OrganizationVO>  organization,List<EmployeeVO>  employee,List<TruckVO>  truck,List<StorageCheckVO>  storage,List<AccountVO>  account, Date date){
+		this.organization = organization;
+		this.employee = employee;
+		this.truck = truck;
+		this.storage = storage;
+		this.account = account;
+		this.date = date;
+	}
 	public List<OrganizationVO> getOrganization(){
 		return organization;
 	}

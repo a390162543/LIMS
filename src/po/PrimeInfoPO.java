@@ -15,6 +15,10 @@ import vo.TruckVO;
 
 public class PrimeInfoPO implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3455486090934776890L;
 	private List<OrganizationPO>  organization;
 	private List<EmployeePO>  employee;
 	private List<TruckPO>  truck;
@@ -31,6 +35,20 @@ public class PrimeInfoPO implements Serializable{
 		this.date = date;
 	}
 
+	public PrimeInfoPO(){
+		List<OrganizationPO>  organization = new ArrayList<OrganizationPO>();
+    	List<EmployeePO>  employee = new ArrayList<EmployeePO>();
+    	List<TruckPO>  truck = new ArrayList<TruckPO>();
+    	List<StoragePO>  storage = new ArrayList<StoragePO>();
+    	List<AccountPO>  account = new ArrayList<AccountPO>();
+    	Date date = new Date();
+		this.organization = organization;
+		this.employee = employee;
+		this.truck = truck;
+		this.storage = storage;
+		this.account = account;
+		this.date = date;
+	}
 	public List<OrganizationPO> getOrganization(){
 		return organization;
 	}
