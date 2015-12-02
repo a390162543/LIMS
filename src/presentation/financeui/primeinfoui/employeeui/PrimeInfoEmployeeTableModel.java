@@ -23,6 +23,11 @@ public class PrimeInfoEmployeeTableModel extends DefaultTableModel{
 		dataList = new ArrayList<EmployeeVO>();
         setDataVector(convertToVectorData(dataList), getColumnNamesVector());
 	}
+	public PrimeInfoEmployeeTableModel(List<EmployeeVO> vos) {
+		 
+		dataList = vos;
+        setDataVector(convertToVectorData(dataList), getColumnNamesVector());
+	}
 	
 	public void create(EmployeeVO vo){
 	    addRow(convertToVector(vo));

@@ -12,17 +12,12 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
-import javax.swing.JLabel;
- 
+import javax.swing.JLabel; 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
-
- 
-
-
 import presentation.transitcenterui.transferui.OrderTableModel;
 import presentation.util.RecentDatePickPanel;
 import businesslogic.organizationbl.Organization;
