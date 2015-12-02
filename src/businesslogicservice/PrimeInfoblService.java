@@ -2,22 +2,21 @@ package businesslogicservice;
 
 
 
+import java.util.List;
+
 import vo.AccountVO;
 import vo.EmployeeVO;
 import vo.OrganizationVO;
+import vo.PrimeInfoVO;
 import vo.TruckVO;
 
 public interface PrimeInfoblService {
 
 	public boolean createPrimeInfoPO ();
 	
-	public boolean executeAccountPO();
+	public List<PrimeInfoVO> QueryPrimeInfoVO();
 	
-	public boolean executeTruckPO();
-	
-	public boolean executeOrganizationPO();
-	
-	public boolean executeEmployeePO();
+	public boolean execute();
 	
 	public boolean addAccountVO( AccountVO vo);
 	
@@ -34,4 +33,6 @@ public interface PrimeInfoblService {
 	public boolean addEmployeeVO( EmployeeVO vo);
 	
 	public boolean removeEmployeeVO( EmployeeVO vo);
+
+	public List<String> getOrganizationName();
 }

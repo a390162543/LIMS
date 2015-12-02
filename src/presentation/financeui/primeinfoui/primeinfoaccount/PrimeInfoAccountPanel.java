@@ -72,7 +72,7 @@ public class PrimeInfoAccountPanel extends JPanel{
             @Override
             public void actionPerformed(ActionEvent e) {
             	primeInfoblService.createPrimeInfoPO();
-            	primeInfoblService.executeAccountPO();
+            	primeInfoblService.execute();
  
             	Container container = PrimeInfoAccountPanel.this.getParent().getParent();
             	container.removeAll();

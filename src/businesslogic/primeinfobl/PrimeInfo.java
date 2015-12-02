@@ -4,9 +4,11 @@ import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import po.PrimeInfoPO;
 import dataservice.PrimeInfoDataService;
 import vo.AccountVO;
 import vo.EmployeeVO;
@@ -20,8 +22,8 @@ public class PrimeInfo implements PrimeInfoblService{
     
 	private PrimeInfoVO primeInfoVO;
 	
-	public PrimeInfo(PrimeInfoVO primeInfoVO){
-		this.primeInfoVO = primeInfoVO;
+	public PrimeInfo(){
+		this.primeInfoVO = new PrimeInfoVO();
 	}
 	@Override
 	public boolean createPrimeInfoPO() {
@@ -41,6 +43,27 @@ public class PrimeInfo implements PrimeInfoblService{
 	            e.printStackTrace();
 	        }
 	        return true;
+	}
+	
+	@Override
+	public List<PrimeInfoVO> QueryPrimeInfoVO() {
+		List<PrimeInfoVO> vos = new ArrayList<PrimeInfoVO>();
+		 try {
+	        	PrimeInfoDataService ads = (PrimeInfoDataService) Naming.lookup("rmi://localhost/PrimeInfoData");
+	            List<PrimeInfoPO> pos = ads.getAll();
+	            for(PrimeInfoPO po : pos)
+	            	vos.add(po.getPrimeInfoVO());
+	        } catch (MalformedURLException e) {
+	            // TODO Auto-generated catch block
+	            e.printStackTrace();
+	        } catch (RemoteException e) {
+	            // TODO Auto-generated catch block
+	            e.printStackTrace();
+	        } catch (NotBoundException e) {
+	            // TODO Auto-generated catch block
+	            e.printStackTrace();
+	        }
+		return vos;
 	}
 	@Override
 	public boolean addAccountVO( AccountVO vo){
@@ -92,24 +115,27 @@ public class PrimeInfo implements PrimeInfoblService{
 		return true;
 	}
 	@Override
-	public boolean executeAccountPO() {
+	public boolean execute() {
 		Account account = new Account();
 		account.execute(primeInfoVO.getAccount());
+//		Truck truck = new Truck();
+//		truck.execute(primeInfoVO.getTruck());
+//		Employee employee = new Employee();
+//		employee.execute(primeInfoVO.getEmployee());
+//		Organization organization = new Organization();
+//		organization.execute(primeInfoVO.getOrganization());
+//		Storein Storein = new Storein();
+//		Storein.execute(primeInfoVO.getAccount());
 		return true;
 	}
+
 	@Override
-	public boolean executeTruckPO() {
+	public List<String> getOrganizationName(){
 		// TODO Auto-generated method stub
-		return false;
+		List<String> names = new ArrayList<String>();
+		for(OrganizationVO vo : primeInfoVO.getOrganization())
+			names.add(vo.getName());
+		return null;
 	}
-	@Override
-	public boolean executeOrganizationPO() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	@Override
-	public boolean executeEmployeePO() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+
 }

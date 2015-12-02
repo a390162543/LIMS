@@ -8,7 +8,7 @@ import po.AccountPO;
 import po.EmployeePO;
 import po.OrganizationPO;
 import po.PrimeInfoPO;
-import po.StoragePO;
+import po.StoreinPO;
 import po.TruckPO;
 
 
@@ -17,7 +17,7 @@ public class PrimeInfoVO {
 	private List<OrganizationVO>  organization;
 	private List<EmployeeVO>  employee;
 	private List<TruckVO>  truck;
-	private List<StorageCheckVO>  storage;
+	private List<StoreinCreateVO>  storage;
 	private List<AccountVO>  account;
 	private Date date;
 
@@ -25,7 +25,7 @@ public class PrimeInfoVO {
 		List<OrganizationVO>  organization = new ArrayList<OrganizationVO>();
     	List<EmployeeVO>  employee = new ArrayList<EmployeeVO>();
     	List<TruckVO>  truck = new ArrayList<TruckVO>();
-    	List<StorageCheckVO>  storage = new ArrayList<StorageCheckVO>();
+    	List<StoreinCreateVO>  storage = new ArrayList<StoreinCreateVO>();
     	List<AccountVO>  account = new ArrayList<AccountVO>();
     	Date date = new Date();
 		this.organization = organization;
@@ -35,7 +35,7 @@ public class PrimeInfoVO {
 		this.account = account;
 		this.date = date;
 	}
-	public PrimeInfoVO(List<OrganizationVO>  organization,List<EmployeeVO>  employee,List<TruckVO>  truck,List<StorageCheckVO>  storage,List<AccountVO>  account, Date date){
+	public PrimeInfoVO(List<OrganizationVO>  organization,List<EmployeeVO>  employee,List<TruckVO>  truck,List<StoreinCreateVO>  storage,List<AccountVO>  account, Date date){
 		this.organization = organization;
 		this.employee = employee;
 		this.truck = truck;
@@ -55,7 +55,7 @@ public class PrimeInfoVO {
 		return truck;
 	}
 	
-	public List<StorageCheckVO> getStorage(){
+	public List<StoreinCreateVO> getStorage(){
 		return storage;
 	}
 	
@@ -81,9 +81,9 @@ public class PrimeInfoVO {
 		List<TruckPO> truckPOs = new ArrayList<TruckPO>();
 		for(TruckVO vo: truck)
 			truckPOs.add(vo.getTruckPO());
-		List<StoragePO> storagePOs = new ArrayList<StoragePO>();
-//		for(StorageVO vo: storage)
-//			storagePOs.add(vo.getStoragePO());
+		List<StoreinPO> storagePOs = new ArrayList<StoreinPO>();
+		for(StoreinCreateVO vo: storage)
+			storagePOs.add(vo.getStoreinPO());
 		List<AccountPO> accountPOs = new ArrayList<AccountPO>();
 		for(AccountVO vo: account)
 			accountPOs.add(vo.getAccountPO());

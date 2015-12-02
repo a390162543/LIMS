@@ -4,6 +4,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 
+import presentation.financeui.primeinfoui.primeinfoaccount.PrimeInfoAccountPanel;
+import businesslogic.primeinfobl.PrimeInfo;
+import businesslogicservice.PrimeInfoblService;
+
 
 public class PrimeInfoPanel extends JPanel{
 
@@ -27,9 +31,17 @@ public class PrimeInfoPanel extends JPanel{
 		JScrollPane storageScrollPane = new JScrollPane();
 		storageScrollPane.setBounds(0, 25, srollPaneWidth, scrollPaneHeight);
 		
-		
-		PrimeInfoAccountPanel primeInfoAccountPanel = new PrimeInfoAccountPanel();
+		PrimeInfoblService primeInfoblService = new PrimeInfo(); 
+		PrimeInfoAccountPanel primeInfoAccountPanel = new PrimeInfoAccountPanel(primeInfoblService);
 		primeInfoAccountPanel.setLocation(0, 0);
+//		PrimeInfoTruckPanel primeInfoTruckPanel = new PrimeInfoTruckPanel(primeInfoblService);
+//		primeInfoTruckPanel.setLocation(0, 0); 
+//		PrimeInfoOrganizationPanel primeInfoOrganizationPanel = new PrimeInfoOrganizationPanel(primeInfoblService);
+//		primeInfoOrganizationPanel.setLocation(0, 0);
+//		PrimeInfoEmpolyeePanel primeInfoEmpolyeePanel = new PrimeInfoEmpolyeePanel(primeInfoblService);
+//		primeInfoEmpolyeePanel.setLocation(0, 0);
+//		PrimeInfoStoreinPanel primeInfoStoreinPanel = new PrimeInfoStoreinPanel(primeInfoblService);
+//		primeInfoStoreinPanel.setLocation(0, 0);
 	
 		JTabbedPane pane = new JTabbedPane();
 		pane.addTab("»ú¹¹", organizationScrollPane);
