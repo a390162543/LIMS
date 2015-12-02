@@ -77,7 +77,18 @@ public class PrimeInfo implements PrimeInfoblService{
 		accountVOs.remove(vo);	
 		return true;
 	}
-	
+	@Override
+	public boolean modifyAccountVO(AccountVO vo) {		
+		List<AccountVO> accountVOs = primeInfoVO.getAccount();
+		for(AccountVO accountVO : accountVOs){
+			if(accountVO.getId().equals(vo.getId())){
+				accountVO.setName(vo.getName());
+				accountVO.setMoney(vo.getMoney());
+			}
+		}		
+		return true;
+	}
+	 
 	@Override
 	public boolean addTruckVO(TruckVO vo) {
 		List<TruckVO> truckVOs = primeInfoVO.getTruck();
@@ -125,7 +136,7 @@ public class PrimeInfo implements PrimeInfoblService{
 //		Organization organization = new Organization();
 //		organization.execute(primeInfoVO.getOrganization());
 //		Storein Storein = new Storein();
-//		Storein.execute(primeInfoVO.getAccount());
+//		Storein.primeInfoExecute(primeInfoVO.getAccount());
 		return true;
 	}
 
@@ -136,6 +147,21 @@ public class PrimeInfo implements PrimeInfoblService{
 		for(OrganizationVO vo : primeInfoVO.getOrganization())
 			names.add(vo.getName());
 		return null;
+	}
+	@Override
+	public boolean modifyTruckVO(TruckVO vo) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
+	public boolean modifyOrganizationVO(OrganizationVO vo) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
+	public boolean modifyEmployeeVO(EmployeeVO vo) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

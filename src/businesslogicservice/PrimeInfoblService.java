@@ -22,17 +22,25 @@ public interface PrimeInfoblService {
 	
 	public boolean removeAccountVO( AccountVO vo);
 	
+	public boolean modifyAccountVO( AccountVO vo);
+	
 	public boolean addTruckVO( TruckVO vo);
 	
 	public boolean removeTruckVO( TruckVO vo);
+	
+	public boolean modifyTruckVO( TruckVO vo);
 	
 	public boolean addOrganizationVO( OrganizationVO vo);
 	
 	public boolean removeOrganizationVO( OrganizationVO vo);
 	
+	public boolean modifyOrganizationVO( OrganizationVO vo);
+	
 	public boolean addEmployeeVO( EmployeeVO vo);
 	
 	public boolean removeEmployeeVO( EmployeeVO vo);
+	
+	public boolean modifyEmployeeVO( EmployeeVO vo);
 
 	public List<String> getOrganizationName();
 }
