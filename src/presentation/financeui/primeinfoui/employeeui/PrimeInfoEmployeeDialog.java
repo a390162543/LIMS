@@ -1,6 +1,7 @@
 package presentation.financeui.primeinfoui.employeeui;
 
 import java.awt.event.ActionEvent;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
@@ -12,15 +13,12 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
-import businesslogic.userbl.User;
-import businesslogicservice.UserblService;
 import presentation.util.OrganizationComboBox;
 import systemenum.Position;
-import systemenum.Power;
 import systemenum.Sex;
 import vo.EmployeeVO;
 import vo.PayVO;
-import vo.UserVO;
+
 
 public class PrimeInfoEmployeeDialog {
 
@@ -221,7 +219,7 @@ public class PrimeInfoEmployeeDialog {
 		employeeDialog.setVisible(true);
 	}
 	
-	public void update(boolean isNew,int modelRow){
+	public void update(boolean isNew,int modelRow ){
 
 		  
 		  String id = idField.getText();		
@@ -297,13 +295,13 @@ public class PrimeInfoEmployeeDialog {
 			}
 			 EmployeeVO vo = new EmployeeVO(id, name, organization,
 					 p, phone, birth, identityCardNum, sex1, payvo);
-			 Power power = Power.valueOf(p.toString());
-			 UserVO uservo = new UserVO(id, "000000", power);
-			 UserblService userblService = new User();
-			 if(isNew){
-				 tableModel.create(vo);
-				 userblService.creatUserPO(uservo);
-				 }
+			 		  
+			 if(isNew)
+				 tableModel.create(vo);							 
+			 else
+				 tableModel.modify(modelRow, vo);
+			 
+				 
 			 
 	}
 	
@@ -322,13 +320,13 @@ public class PrimeInfoEmployeeDialog {
 		sureButton.addActionListener(new ActionListener(){			
 			  @Override
 			  public void actionPerformed(ActionEvent e){
-				  update(true,0);
+				  update(true, 0);
 				  employeeDialog.dispose();
 			  }
 		});
 		
 	}
-	
+	 
 	@SuppressWarnings("deprecation")
 	public void showQueryDialog(PrimeInfoEmployeeTableModel em, int modelRow, boolean isEdit){
 
@@ -452,4 +450,5 @@ public class PrimeInfoEmployeeDialog {
 			});
 		}
 	}
+	 
 }

@@ -4,8 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.sql.Date;
-
+import java.util.Date;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -13,24 +12,17 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
-
-import businesslogic.userbl.User;
-import businesslogicservice.UserblService;
-import po.PayPO;
+import presentation.util.DatePickPanel;
 import presentation.util.OrganizationComboBox;
 import systemenum.Position;
-import systemenum.Power;
 import systemenum.Sex;
 import vo.EmployeeVO;
 import vo.PayVO;
-import vo.UserVO;
+
 
 public class EmployeeDialog {
 	private JDialog employeeDialog ;	 
-	private String positions[];
-	private Integer year[];
-	private Integer month[];
-	private Integer day[] ;
+	private String positions[]; 
 	private JLabel infoLabel ;	 
 	private JLabel nameLabel ; 
 	private JTextField nameField;	 
@@ -48,13 +40,8 @@ public class EmployeeDialog {
 	private JTextField phoneField;	 
 	private JLabel idCardLabel;	 
 	private JTextField idCardField;
-	private JLabel birthLabel;
-	private JComboBox<Integer> yearBox;
-	private JComboBox<Integer> monthBox;
-	private JComboBox<Integer> dayBox;	 
-	private JLabel yearLabel;
-	private JLabel monthLabel;	 
-	private JLabel dayLabel;	 
+	private JLabel birthLabel;	
+	private DatePickPanel datePickPanel;
 	private JLabel payLabel;
 	private JLabel basePayLabel ;
 	private JTextField basePayField;	 
@@ -71,10 +58,7 @@ public class EmployeeDialog {
  
 		positions = new String[]{"总经理","营业厅业务员","中转中心业务员","快递员",
 				 "中转中心仓库管理员","高级财务人员","财务人员","管理员","司机"};
-	 
-		year = new Integer[]{1996,1997};
-		month = new Integer[]{1,2,3,4,5,6,7,8,9,10,11,12};
-		day = new Integer[]{1,2,3,4,5,6,7,8,9,10};
+	  
 		infoLabel = new JLabel("员工信息");
 		nameLabel = new JLabel("姓名");
 		nameField = new JTextField();
@@ -93,12 +77,7 @@ public class EmployeeDialog {
 		idCardLabel = new JLabel("身份证号");	
 		idCardField = new JTextField();
 		birthLabel = new JLabel("出生日期");
-		yearBox = new JComboBox<Integer>(year);
-		monthBox = new JComboBox<Integer>(month);
-		dayBox = new JComboBox<Integer>(day);
-		yearLabel = new JLabel("年");
-		monthLabel = new JLabel("月");	
-		dayLabel = new JLabel("日");	 
+		datePickPanel = new DatePickPanel();
 		payLabel = new JLabel("工资");
 		basePayLabel = new JLabel();
 		basePayField = new JTextField();	
@@ -130,12 +109,7 @@ public class EmployeeDialog {
 		idCardLabel.setBounds(0, 245, 100, 20);	 
 		idCardField.setBounds(100, 245, 180, 20);	 
 		birthLabel.setBounds(0, 275, 100, 20);		 
-		yearBox.setBounds(100, 275, 60, 20);	 
-		monthBox.setBounds(180, 275, 60, 20); 
-		dayBox.setBounds(260, 275, 60, 20);
-		yearLabel.setBounds(160, 275, 20, 20);
-		monthLabel.setBounds(240, 275, 20, 20);	 
-		dayLabel.setBounds(320,275, 20, 20);	 
+		datePickPanel.setBounds(95, 275, 200, 25);
 		payLabel.setBounds(0, 310, 100, 20);	 
 		basePayLabel.setBounds(95, 310, 70, 24);	 
 		basePayField.setBounds(175, 310, 60, 20);	 
@@ -201,12 +175,7 @@ public class EmployeeDialog {
 		employeeDialog.add(idCardLabel);
 		employeeDialog.add(idCardField);
 		employeeDialog.add(birthLabel);
-		employeeDialog.add(yearBox);
-		employeeDialog.add(yearLabel);
-		employeeDialog.add(monthBox);
-		employeeDialog.add(monthLabel);
-		employeeDialog.add(dayBox);
-		employeeDialog.add(dayLabel);
+		employeeDialog.add(datePickPanel);
 		employeeDialog.add(cancleButton);
 		employeeDialog.add(sureButton);
 		employeeDialog.add(payLabel);
@@ -226,10 +195,8 @@ public class EmployeeDialog {
 		  String name = nameField.getText();
 		  String organization = organizationBox.getSelectedItem().toString();
 		  String phone = phoneField.getText();	
-		  String identityCardNum = new String(idCardField.getText());
-			@SuppressWarnings("deprecation")
-		 Date birth = new Date((int)yearBox.getSelectedItem(), 
-					   (int)monthBox.getSelectedItem(),(int)dayBox.getSelectedItem());
+		  String identityCardNum = new String(idCardField.getText());			 
+		  Date birth =  datePickPanel.getDate();
 			//String idCardNum = new String(idCardField.getText());
 			Sex sex1 ;
 			 if(maleRadioButton.isSelected())
@@ -295,13 +262,9 @@ public class EmployeeDialog {
 			}
 			 EmployeeVO vo = new EmployeeVO(id, name, organization,
 					 p, phone, birth, identityCardNum, sex1, payvo);
-			 Power power = Power.valueOf(p.toString());
-			 UserVO uservo = new UserVO(id, "000000", power);
-			 UserblService userblService = new User();
-			 if(isNew){
-				 tableModel.create(vo);
-				 userblService.creatUserPO(uservo);
-				 }
+			 
+			 if(isNew)
+				 tableModel.create(vo);							 
 			 else
 				 tableModel.modify(modelRow, vo);
 	}
@@ -328,7 +291,7 @@ public class EmployeeDialog {
 		
 	}
 	
-	@SuppressWarnings("deprecation")
+ 
 	public void showQueryDialog(EmployeeTableModel em, int modelRow, boolean isEdit){
 
 		init();
@@ -338,6 +301,7 @@ public class EmployeeDialog {
 		idField.setText(""+vo.getId());
 		idField.setEnabled(false);
 		organizationBox.setSelectedItem(vo.getOrganization());
+		datePickPanel.setDate(vo.getBirthday());
 		if(vo.getSex().equals(Sex.MALE))
 			maleRadioButton.setSelected(true);
 		else 
@@ -366,9 +330,7 @@ public class EmployeeDialog {
 		
 		 phoneField.setText(""+vo.getTelephone());
 		 idCardField.setText(""+vo.getIdentityCardNum());
-		 yearBox.setSelectedIndex(vo.getBirthday().getYear()-1996);
-		 monthBox.setSelectedIndex(vo.getBirthday().getMonth()-1);
-		 dayBox.setSelectedIndex(vo.getBirthday().getDay()-1);	
+		 
 		  
 			
 			 
@@ -414,9 +376,7 @@ public class EmployeeDialog {
 			positionBox.setEnabled(false);
 			phoneField.setEnabled(false);
 			idCardField.setEnabled(false);
-			yearBox.setEnabled(false);
-			monthBox.setEnabled(false);
-			dayBox.setEnabled(false);
+			datePickPanel.setEnabled(false);
 			basePayField.setEnabled(false);
 			percentageField.setEnabled(false);
 			cancleButton.setVisible(false);

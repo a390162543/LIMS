@@ -6,12 +6,17 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
+
 import po.EmployeePO;
 import systemenum.Position;
+import systemenum.Power;
 import dataservice.EmployeeDataService;
 import vo.EmployeeVO;
 import vo.PayVO;
+import vo.UserVO;
+import businesslogic.userbl.User;
 import businesslogicservice.EmployeeblService;
+import businesslogicservice.UserblService;
  
 
 public class Employee implements EmployeeblService{
@@ -45,6 +50,11 @@ public class Employee implements EmployeeblService{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+ 
+		 UserVO uservo = new UserVO(vo.getId(), "000000", Power.valueOf(vo.getPosition().toString()));
+		 UserblService userblService = new User();			  		 
+		 userblService.creatUserPO(uservo);
+
 		return true;
 	}
 
@@ -156,7 +166,7 @@ public class Employee implements EmployeeblService{
 	public boolean addPay(String id, double salesCommission){
 		EmployeeVO vo = find(id);
 		PayVO payvo = vo.getPay();
-		payvo.setSalesCommission(salesCommission*payvo.getRate() + payvo.getSalesCommission());
+		payvo.setSalesCommission(salesCommission + payvo.getSalesCommission());
 		vo.setPay(payvo);
 		modifyEmployeePO(vo);
 		return true;

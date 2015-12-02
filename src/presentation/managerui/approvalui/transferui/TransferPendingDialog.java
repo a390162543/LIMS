@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 
  
+
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -21,7 +22,9 @@ import javax.swing.table.TableRowSorter;
 
  
 
+
 import presentation.transitcenterui.transferui.OrderTableModel;
+import presentation.util.RecentDatePickPanel;
 import businesslogic.organizationbl.Organization;
 import businesslogic.transferbl.Transfer;
 import businesslogicservice.OrganizationblService;
@@ -48,14 +51,12 @@ public class TransferPendingDialog extends JDialog {
 	private OrderTableModel orderTableModel;
 	private TransferblService transferblService;
       
-    @SuppressWarnings("deprecation")
+ 
     public TransferPendingDialog(TransferPendingTableModel tm, int modelRow, boolean isEditable) {
     	transferPendingTableModel = tm;
     	transferblService = new Transfer();
 		organizationblService = new Organization();
-		Integer[] yearArray = new Integer[]{2015,2016};
-		Integer[] monthArray = new Integer[]{1,2};
-		Integer[] dayArray = new Integer[]{1,2};
+		 
 		List<String> nameLise = organizationblService.getAllOrganizationName();
 		String[] organizationNames  =    nameLise.toArray(new String[nameLise.size()]);		 
 		 
@@ -68,18 +69,9 @@ public class TransferPendingDialog extends JDialog {
 		idLabel.setBounds(20, 50, 80, 20);
 		JLabel dateLabel = new JLabel("装车日期");
 		dateLabel.setBounds(20, 90, 80, 20);
-		JComboBox<Integer> yearBox = new JComboBox<Integer>(yearArray);
-		yearBox.setBounds(105,90, 60, 20);
-		JComboBox<Integer> monthBox = new JComboBox<Integer>(monthArray);
-		monthBox.setBounds(185, 90, 60, 20);
-		JComboBox<Integer> dayBox = new JComboBox<Integer>(dayArray);
-		dayBox.setBounds(265, 90, 60, 20);
-		JLabel yearLabel = new JLabel("年");
-		yearLabel.setBounds(165, 90, 20, 20);
-		JLabel monthLabel = new JLabel("月");
-		monthLabel.setBounds(245, 90, 20, 20);
-		JLabel dayLabel = new JLabel("日");
-		dateLabel.setBounds(325, 90, 20, 20);
+		 RecentDatePickPanel datePickPanel = new RecentDatePickPanel();
+		 datePickPanel.setBounds(105, 90, 200, 25);
+		 
 		JLabel flightNumLabel = new JLabel("航班号");
 		flightNumLabel.setBounds(20, 130, 80, 20);
 		JTextField flightNumField = new JTextField();
@@ -110,20 +102,13 @@ public class TransferPendingDialog extends JDialog {
 		//set Information
 		TransferVO vo = transferPendingTableModel.getTransferVO(modelRow);
 		idField.setText(vo.getId());
-		yearBox.setSelectedItem((Integer)vo.getLoadDate().getYear());
-		monthBox.setSelectedItem((Integer)vo.getLoadDate().getMonth());
-		dayBox.setSelectedItem((Integer)vo.getLoadDate().getDay());
+	 
 		flightNumField.setText(vo.getFlightNumbe());
 		departBox.setSelectedItem(vo.getDepart());
 		destinationBox.setSelectedItem(vo.getDestination());
 		containerIdField.setText(vo.getContainerId());
 		loanManField.setText(vo.getLoadMan());
-		expensesField.setText(""+vo.getExpenses());
-		
-		
-		//订单内容没显示
-		
-		
+		expensesField.setText(""+vo.getExpenses());		
 		orderTableModel = new OrderTableModel(transferblService);  
 		TableRowSorter<TableModel>  tableSorter = new TableRowSorter<TableModel>(orderTableModel);
 		JTable orderTable = new JTable(orderTableModel);
@@ -180,8 +165,7 @@ public class TransferPendingDialog extends JDialog {
 				// TODO Auto-generated method stub
 				if(isEditable){
 					String id = idField.getText();
-					Date loadDate = new Date((Integer)yearBox.getSelectedItem(), 
-							(Integer)monthBox.getSelectedItem(),(Integer)monthBox.getSelectedItem());
+					Date loadDate = datePickPanel.getTime();
 					String flightNum = flightNumField.getText();
 					String depart = (String) departBox.getSelectedItem();
 					String destination = (String) destinationBox.getSelectedItem();
@@ -204,9 +188,7 @@ public class TransferPendingDialog extends JDialog {
 		});
 		
 		if(!isEditable){
-			yearBox.setEnabled(true);
-			monthBox.setEnabled(true);
-			dayBox.setEnabled(true);
+			 
 			flightNumField.setEnabled(true);
 			departBox.setEnabled(true);
 			destinationBox.setEnabled(true);
@@ -224,12 +206,7 @@ public class TransferPendingDialog extends JDialog {
 		this.add(idField);
 		this.add(dateLabel);
 		this.add(dateLabel);
-		this.add(yearBox);
-		this.add(yearLabel);
-		this.add(monthBox);
-		this.add(monthLabel);
-		this.add(dayBox);
-		this.add(dayLabel);
+		 
 		this.add(flightNumLabel);
 		this.add(flightNumField);
 		this.add(departLabel);

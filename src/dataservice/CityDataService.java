@@ -21,4 +21,6 @@ public interface CityDataService extends Remote{
 	 public void finish() throws RemoteException; 
 	 
 	 public void init() throws RemoteException;
+	 
+	 public CityPO findByName(String name) throws RemoteException;
 }

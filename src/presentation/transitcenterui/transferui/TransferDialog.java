@@ -17,11 +17,15 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
  
+
+
 import presentation.util.OrganizationComboBox;
+import presentation.util.RecentDatePickPanel;
 import vo.TransferVO;
  
 import businesslogic.transferbl.Transfer;
  
+import businesslogic.userbl.LoginController;
 import businesslogicservice.TransferblService;
 
 public class TransferDialog extends JDialog{
@@ -37,13 +41,7 @@ public class TransferDialog extends JDialog{
 	private TransferblService transferblService;
 	
 	public TransferDialog(){
-		transferblService = new Transfer();
- 
-		Integer[] yearArray = new Integer[]{2015,2016};
-		Integer[] monthArray = new Integer[]{1,2};
-		Integer[] dayArray = new Integer[]{1,2};
-		 
-		 
+		transferblService = new Transfer();		 
 		JLabel infoLabel = new JLabel("中转单");
 		infoLabel.setBounds(105, 5, 170, 35);
 		JTextField idField = new JTextField();
@@ -52,30 +50,28 @@ public class TransferDialog extends JDialog{
 		idLabel.setBounds(20, 50, 80, 20);
 		JLabel dateLabel = new JLabel("装车日期");
 		dateLabel.setBounds(20, 90, 80, 20);
-		JComboBox<Integer> yearBox = new JComboBox<Integer>(yearArray);
-		yearBox.setBounds(105,90, 60, 20);
-		JComboBox<Integer> monthBox = new JComboBox<Integer>(monthArray);
-		monthBox.setBounds(185, 90, 60, 20);
-		JComboBox<Integer> dayBox = new JComboBox<Integer>(dayArray);
-		dayBox.setBounds(265, 90, 60, 20);
-		JLabel yearLabel = new JLabel("年");
-		yearLabel.setBounds(165, 90, 20, 20);
-		JLabel monthLabel = new JLabel("月");
-		monthLabel.setBounds(245, 90, 20, 20);
-		JLabel dayLabel = new JLabel("日");
-		dateLabel.setBounds(325, 90, 20, 20);
+		
+		RecentDatePickPanel datePickPanel = new RecentDatePickPanel();
+        datePickPanel.setBounds(100, 90, 200, 25);
+        this.add(datePickPanel);
+		 
 		JLabel flightNumLabel = new JLabel("航班号");
 		flightNumLabel.setBounds(20, 130, 80, 20);
 		JTextField flightNumField = new JTextField();
 		flightNumField.setBounds(105, 130, 180, 20);
+		
 		JLabel departLabel = new JLabel("出发地");
-		departLabel.setBounds(20, 170, 80, 20);
+		departLabel.setBounds(20, 170, 80, 20);		
 		departBox = new OrganizationComboBox();
 		departBox.setLocation(105, 170);
 		JLabel destinationLabel = new JLabel("目的地");
 		destinationLabel.setBounds(20, 210, 80, 20);
+		
 		destinationBox = new OrganizationComboBox();
 		destinationBox.setLocation(105, 210);
+		destinationBox.setSelectedItem(LoginController.getOrganizationName());
+		destinationBox.setEnabled(false);
+		
 		JLabel containerIdLabel = new JLabel("货柜号");
 		containerIdLabel.setBounds(20, 250, 80, 20);
 		JTextField containerIdField = new JTextField();
@@ -141,13 +137,12 @@ public class TransferDialog extends JDialog{
 		
 		sureButton.addActionListener(new ActionListener() {
 			
-			@SuppressWarnings("deprecation")
+			 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				String id = idField.getText();
-				Date loadDate = new Date((Integer)yearBox.getSelectedItem(), 
-						(Integer)monthBox.getSelectedItem(),(Integer)monthBox.getSelectedItem());
+				Date loadDate = datePickPanel.getTime();
 				String flightNum = flightNumField.getText();
 				String depart = (String) departBox.getSelectedItem();
 				String destination = (String) destinationBox.getSelectedItem();
@@ -169,13 +164,7 @@ public class TransferDialog extends JDialog{
 		this.add(idLabel);
 		this.add(idField);
 		this.add(dateLabel);
-		this.add(dateLabel);
-		this.add(yearBox);
-		this.add(yearLabel);
-		this.add(monthBox);
-		this.add(monthLabel);
-		this.add(dayBox);
-		this.add(dayLabel);
+		this.add(dateLabel);	 
 		this.add(flightNumLabel);
 		this.add(flightNumField);
 		this.add(departLabel);

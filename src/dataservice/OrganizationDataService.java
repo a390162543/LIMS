@@ -23,6 +23,6 @@ public interface OrganizationDataService extends Remote{
 	    
 	    public void init() throws RemoteException ;
 	    
-	    public String getId() throws RemoteException;
+	    public String getId(String name) throws RemoteException;
 
 }

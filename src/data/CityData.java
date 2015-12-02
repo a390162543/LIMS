@@ -104,4 +104,16 @@ public class CityData extends UnicastRemoteObject implements CityDataService{
 	        return pos;
 	}
 
+
+	@Override
+	public CityPO findByName(String name) throws RemoteException {
+		// TODO Auto-generated method stub
+		List<CityPO> pos = getAll();
+		for(CityPO po : pos){
+			if(po.getName().equals(name))
+				return po;
+		}
+		return null;
+	}
+
 }

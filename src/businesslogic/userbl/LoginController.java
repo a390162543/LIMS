@@ -26,7 +26,7 @@ public class LoginController {
 	private EmployeeblService employeeblService;
 	private OrganizationblService organizationblService;
 	  
- 
+	
 	
 	public boolean checkUser(String id,String password){
 		userblService = new User();
@@ -44,6 +44,7 @@ public class LoginController {
 					break;
 				}
 			}
+			 
 			return vo.getPassword().equals(password);
 		}
 		 

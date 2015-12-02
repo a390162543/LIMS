@@ -121,9 +121,15 @@ public class OrganizationData extends UnicastRemoteObject implements Organizatio
 
 
 	@Override
-	public String getId() throws RemoteException {
+	public String getId(String name) throws RemoteException {
 		// TODO Auto-generated method stub
-		return null;
+		List<OrganizationPO> pos = getAll();
+		String id = "";
+		for(OrganizationPO po : pos){
+			if(po.getName().equals(name))
+				id = po.getName();
+		}
+		return id;
 	}
 
 	 

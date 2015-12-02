@@ -1,6 +1,7 @@
 package presentation.financeui.primeinfoui.organizationui;
 
 import java.awt.event.ActionEvent;
+
 import java.awt.event.ActionListener;
 import java.util.List;
 import javax.swing.JButton;
@@ -91,12 +92,11 @@ public class PrimeInfoOrganizationDialog {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				 update(0,true);
+				 update(0, true);
 				 organizationDialog.dispose();
 			}
 		});
 	}
-	
 	public void showQueryDialog(PrimeInfoOrganizationTableModel em, int modelRow,boolean isEdit){
 
 		init();
@@ -133,17 +133,18 @@ public class PrimeInfoOrganizationDialog {
 			
 		
 	}
+	 
 	
-	public void update( int modelRow,boolean isNew){
+	public void update( int modelRow, boolean isNew){
 		OrganizationblService organizationblService = new Organization();
 		String name = nameField.getText();
 		String city = (String) cityBox.getSelectedItem();
 		String id = idField.getText();
 		OrganizationVO vo= new OrganizationVO(id, name, city);
-		organizationblService.CreatOrganizationPO(vo);
+		organizationblService.CreatOrganizationPO(vo);	 
 		if(isNew)
 			tableModel.create(vo);
 		else
-			tableModel.modify(modelRow, vo);
+			tableModel.modify(modelRow, vo);	 
 	}
 }

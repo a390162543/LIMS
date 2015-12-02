@@ -1,5 +1,7 @@
 package presentation.financeui.primeinfoui.organizationui;
-
+ 
+ 
+import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -13,32 +15,26 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
-
 import businesslogicservice.PrimeInfoblService;
-import presentation.managerui.organizationui.OrganizationDialog;
-import presentation.managerui.organizationui.OrganizationTableModel;
 
 public class PrimeInfoOrganizationPanel extends JPanel{
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 5055537811206619490L;
-	
-	
+	private static final long serialVersionUID = 5055537811206619490L;		
 	private JScrollPane OrganizationScrollPane;   
     private JTable OrganizationTable;
     private PrimeInfoOrganizationTableModel tableModel;
     private TableRowSorter<TableModel> tableSorter;   
     private JTextField filterTextField;
-    private JButton createButton;
-    private JButton deleteButton;
-    private JButton confirmButton;
- 
+  
+    private PrimeInfoblService primeInfoblService;
     
     public PrimeInfoOrganizationPanel(PrimeInfoblService pibs){
     	 //build up Organization table
-        tableModel = new  PrimeInfoOrganizationTableModel(pibs);
+    	primeInfoblService = pibs;
+        tableModel = new  PrimeInfoOrganizationTableModel(primeInfoblService);
         tableSorter = new TableRowSorter<TableModel>(tableModel);
         OrganizationTable = new JTable(tableModel);
         OrganizationTable.setSize(800, 500);
@@ -76,10 +72,11 @@ public class PrimeInfoOrganizationPanel extends JPanel{
         });
         filterTextField.setBounds(320, 0, 235, 25);
         
-        createButton = new JButton("添加");
-        deleteButton = new JButton("删除");
-        confirmButton = new JButton("新建机构");
- 
+        JButton createButton = new JButton("添加");
+        JButton deleteButton = new JButton("删除");
+        JButton modifyButton = new JButton("修改");
+        JButton queryButton = new JButton("详情");
+        JButton confirmButton = new JButton("确认");
         createButton.addActionListener(new ActionListener() {
             
             @Override
@@ -100,18 +97,45 @@ public class PrimeInfoOrganizationPanel extends JPanel{
 
             }
         });
-        confirmButton.addActionListener(new ActionListener() {
+        modifyButton.addActionListener(new ActionListener() {
             
             @Override
             public void actionPerformed(ActionEvent e) {
-              
+            	 int row = OrganizationTable.getSelectedRow();
+                 if(row == -1)
+                     return;
+                 int modelRow = OrganizationTable.convertRowIndexToModel(row);
+                 new PrimeInfoOrganizationDialog().showQueryDialog(tableModel, modelRow, false);	 
             }
         });
+        queryButton.addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int row = OrganizationTable.getSelectedRow();
+                if(row == -1)
+                    return;
+                int modelRow = OrganizationTable.convertRowIndexToModel(row);
+                new PrimeInfoOrganizationDialog().showQueryDialog(tableModel, modelRow, false);
+            }
+        });
+        confirmButton.addActionListener(new ActionListener() {
+			
+    		@Override
+    		public void actionPerformed(ActionEvent e) {
+    		// TODO Auto-generated method stub
+    			primeInfoblService.createPrimeInfoPO();
+    	        Container container = PrimeInfoOrganizationPanel.this.getParent().getParent();
+    	        container.removeAll();
+    	        container.repaint();
+    		}
+    	});
        
         createButton.setBounds(230, 420, 70, 30);
         deleteButton.setBounds(315, 420, 70, 30);
-        confirmButton.setBounds(400, 420, 70, 30);
- 
+        modifyButton.setBounds(400, 420, 70, 30);
+        queryButton.setBounds(485, 420, 70, 30);
+        confirmButton.setBounds(145, 420, 70, 40);
         //set panel
         this.setBounds(0, 0, 560, 470);
         this.setLayout(null);
@@ -119,8 +143,9 @@ public class PrimeInfoOrganizationPanel extends JPanel{
         this.add(filterTextField);
         this.add(createButton);
         this.add(deleteButton);
-        this.add(confirmButton);
-    
+        this.add(modifyButton);
+        this.add(queryButton);
+        this.add(confirmButton);  
 
     }
 

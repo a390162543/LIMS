@@ -125,8 +125,22 @@ public class City implements CityblService{
 			for(CityVO vo : vos)
 				nameList.add(vo.getName());
 			return nameList;
-			}
-		
+			}		
+		}
+	
+	public double getDistance(String city1, String city2){
+		CityPO po = null;
+		try {
+			po = cityDataService.findByName(city1);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if(po != null){
+			double distance = po.getDistance().get(city2);
+			return distance;
+		}
+		return 0;
 	}
 
 }

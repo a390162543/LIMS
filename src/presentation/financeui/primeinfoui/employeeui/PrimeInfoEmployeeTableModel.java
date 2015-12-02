@@ -31,17 +31,28 @@ public class PrimeInfoEmployeeTableModel extends DefaultTableModel{
 	}
 	    
 	    public void delete(int row){
+	     removeRow(row);
+	     EmployeeVO vo = dataList.get(row);
+	     dataList.remove(row);
+	     primeInfoblService.removeEmployeeVO(vo);         
+	    }
+	    
+	    public void modify(int row, EmployeeVO vo){
 	        removeRow(row);
-	        EmployeeVO vo = dataList.get(row);
+	        insertRow(row, convertToVector(vo));
 	        dataList.remove(row);
-	        primeInfoblService.removeEmployeeVO(vo);         
+	        dataList.add(row, vo);
+	        
 	    }
 	    
 	    public List<String> getOrganizationName(){
 	    	List<String> names = new ArrayList<String>();
-	    	for(String s:primeInfoblService.getOrganizationName())
-	    		names.add(s);
-	    	return null;
+	    	if(primeInfoblService.getOrganizationName()!=null){
+	    		for(String s:primeInfoblService.getOrganizationName())
+	    			names.add(s);
+	    	}
+	    
+	    	return names;
 	    }
  
 	    public EmployeeVO getEmployeeVO(int row){
