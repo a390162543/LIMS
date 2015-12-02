@@ -15,8 +15,10 @@ public class EmployeeVO {
 	private String telephone;
 	private Date birthday;
 	private String identityCardNum;
-	private Sex sex;
+	private Sex sex;	
 	private PayVO pay;
+	private Date driverLDDL;
+	private String truck;
 	
 	
 	public EmployeeVO(String id, String name, String organization,
@@ -32,13 +34,36 @@ public class EmployeeVO {
 		this.identityCardNum = identityCardNum;
 		this.sex = sex;
 		this.pay = pay;
+		this.driverLDDL = null;
+		this.truck = null;
 	}
 	
-	 public EmployeePO getEmployeePO(){
+	 public EmployeeVO(String id, String name, String organization,
+			Position position, String telephone, Date birthday,
+			String identityCardNum, Sex sex, PayVO pay, Date driverLDDL,
+			String truck) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.organization = organization;
+		this.position = position;
+		this.telephone = telephone;
+		this.birthday = birthday;
+		this.identityCardNum = identityCardNum;
+		this.sex = sex;
+		this.pay = pay;
+		this.driverLDDL = driverLDDL;
+		this.truck = truck;
+	}
+
+
+
+	public EmployeePO getEmployeePO(){
 		 PayPO paypo = pay.getPayPO();
 		 return new EmployeePO(id, name, organization, position, 
-				 telephone, birthday, identityCardNum, sex, paypo, null, null);
+				 telephone, birthday, identityCardNum, sex, paypo, driverLDDL, truck);
 	 }
+	 
 	 
 	 
 

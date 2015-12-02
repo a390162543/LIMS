@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
  
+
 import po.OrganizationPO;
  
 import dataservice.OrganizationDataService;
@@ -116,6 +117,13 @@ public class OrganizationData extends UnicastRemoteObject implements Organizatio
 	            e.printStackTrace();
 	        }
 	        System.out.println("Server is on.");
+	}
+
+
+	@Override
+	public String getId() throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	 

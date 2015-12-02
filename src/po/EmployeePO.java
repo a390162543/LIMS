@@ -1,12 +1,12 @@
 package po;
 
 import java.io.Serializable;
-
 import java.util.Date;
 
 import systemenum.Position;
 import systemenum.Sex;
 import vo.EmployeeVO;
+import vo.PayVO;
 
  
 
@@ -30,7 +30,7 @@ public class EmployeePO implements Serializable{
 	 
 	public EmployeePO(String id, String name, String organization,
 			Position position, String telephone, Date birthday,
-			String identityCardNum, Sex sex,	PayPO pay  ,Date driverLDDL, String truck) {
+			String identityCardNum, Sex sex, PayPO pay  ,Date driverLDDL, String truck) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -44,9 +44,12 @@ public class EmployeePO implements Serializable{
 		this.driverLDDL = driverLDDL;
 		this.truck = truck;		
 	}
+	
 
 	public EmployeeVO getEmployeeVO(){
-		return new EmployeeVO(id, name, organization, position, telephone, birthday, identityCardNum, sex, pay);
+		PayVO payvo =  pay.getPayVO();
+		return new EmployeeVO(id, name, organization, position, telephone, birthday, identityCardNum, 
+				sex, payvo,driverLDDL, truck);
 	}
 	public String getTruck() {
 		return truck;

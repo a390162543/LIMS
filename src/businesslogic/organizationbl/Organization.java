@@ -111,5 +111,10 @@ public class Organization implements OrganizationblService{
 		
 		return nameList;
 	}
+	
+	public String getId(String name){
+		return name;
+		
+	}
 
 }
