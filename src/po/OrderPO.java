@@ -8,9 +8,11 @@ import systemenum.DocumentState;
 import systemenum.ShipForm;
 import systemenum.WrapWay;
 import systemenum.GoodsState;
+import vo.GoodsVO;
 import vo.OrderCreateVO;
 import vo.OrderDeliverInfoVO;
 import vo.OrderQueryVO;
+import vo.OrderRevenueVO;
 import vo.OrderSignVO;
 import vo.InOrderCheckResultVO;
 import vo.OutOrderCheckResultVO;
@@ -79,6 +81,33 @@ public class OrderPO implements Serializable{
 	}
 	
 	
+	public OrderPO(String id, WrapWay wrapWay, DeliveryWay deliverWay,
+			String senderName, String senderAddress,
+			String senderTel, String senderCell, String receiverName,
+			String receiverAddress, String receiverTel, String receiverCell,
+			String goodsInfo, double weight, double size, double cost, int totalTime, String organzation) {
+		super();
+		this.state = GoodsState.COMPLETE;
+		this.id = id;
+		this.wrapWay = wrapWay;
+		this.deliverWay = deliverWay;
+		this.senderName = senderName;
+		this.senderAddress = senderAddress;
+		this.senderTel = senderTel;
+		this.senderCell = senderCell;
+		this.receiverName = receiverName;
+		this.receiverAddress = receiverAddress;
+		this.receiverTel = receiverTel;
+		this.receiverCell = receiverCell;
+		this.goodsInfo = goodsInfo;
+		this.weight = weight;
+		this.size = size;
+		this.cost = cost;
+		this.totalTime = totalTime;
+		this.documentState = DocumentState.PENDING;
+		this.organization = organzation;
+	}
+	
 	private String id;
 	
 	private DocumentState documentState;
@@ -119,9 +148,19 @@ public class OrderPO implements Serializable{
    	
    	private int totalTime;
    	
+   	private String organization;
    	
+
    	
-   	public int getTotalTime() {
+   	public String getOrganization() {
+		return organization;
+	}
+
+	public void setOrganization(String organization) {
+		this.organization = organization;
+	}
+
+	public int getTotalTime() {
 		return totalTime;
 	}
 
@@ -340,5 +379,13 @@ public class OrderPO implements Serializable{
 	
 	public StoreinOrderVO getStorageOrderVO() {
 		return new StoreinOrderVO(id, areaNum, rowNum, frameNum, item);
+	}
+	
+	public GoodsVO getGoodsVO() {
+		return new GoodsVO(id, weight, nowLocation, nextLocation);
+	}
+	
+	public OrderRevenueVO getOrderRevenueVO() {
+		return new OrderRevenueVO(id, organization, cost, goodsInfo);
 	}
 }

@@ -116,12 +116,9 @@ public class StoragePO implements Serializable {
 	}
 
 	public StoragePO getUpdateStoragePO(StorageSetAreaVO vo){
-		setAirCapacity(vo.getAirCapacity());
-		setMotorCapacity(vo.getMotorCapacity());
-		setCarCapacity(vo.getCarCapacity());
-		setTrainCapacity(vo.getTrainCapacity());
-		setAlarm(vo.getAlarm());
-		return this;
+		
+		return new StoragePO(vo.getAirCapacity(), vo.getMotorCapacity(), vo.getCarCapacity(), vo.getTrainCapacity(),
+				vo.getAirCapacity()+vo.getMotorCapacity()+vo.getCarCapacity()+vo.getTrainCapacity(), nowCapacity, alarm, checkDate, storageId);
 	}
 	
 }

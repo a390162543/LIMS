@@ -40,10 +40,14 @@ public class Storage implements StorageblService{
 				po = vo.getInitialStoragePO();
 				//在库存里添加辅助类，用于TXT的初始化，更新
 				storageHelper.initLocationInfo("0250", vo.getAirCapacity(), vo.getCarCapacity(), vo.getTrainCapacity(), vo.getMotorCapacity());
+				storageDataService.update(po);
+				return true;
 			}
-			StoragePO updatePo = po.getUpdateStoragePO(vo);
-			storageDataService.update(updatePo);
+		
 			
+			StoragePO updatePo = po.getUpdateStoragePO(vo);
+			storageHelper.changeLocationInfo(po, updatePo);
+			storageDataService.update(updatePo);
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

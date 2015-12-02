@@ -31,7 +31,6 @@ public class StoreinCreateVO {
 		this.frameNum = frameNum;
 		this.item = item;
 	}
-
 	
 
 	public StoreinCreateVO(String id, List<String> orderId, Date inDate,
@@ -50,6 +49,20 @@ public class StoreinCreateVO {
 	}
 
 
+	//期初建账的构造方法
+	public StoreinCreateVO(String id, List<String> orderId, Date inDate,
+			 List<Integer> areaNum, List<Integer> rowNum,
+			List<Integer> frameNum, List<Integer> item, String organization) {
+		super();
+		this.id = id;
+		this.orderId = orderId;
+		this.inDate = inDate;
+		this.areaNum = areaNum;
+		this.rowNum = rowNum;
+		this.frameNum = frameNum;
+		this.item = item;
+		this.organization = organization;
+	}
 	
 
 	public String getOrganization() {

@@ -10,9 +10,11 @@ import java.util.List;
 import po.OrderPO;
 import systemenum.DocumentState;
 import dataservice.OrderDataService;
+import vo.GoodsVO;
 import vo.OrderCreateVO;
 import vo.OrderDeliverInfoVO;
 import vo.OrderQueryVO;
+import vo.OrderRevenueVO;
 import vo.OrderSignVO;
 import vo.InOrderCheckResultVO;
 import vo.OutOrderCheckResultVO;
@@ -273,5 +275,43 @@ public class Order implements OrderblService{
 			e.printStackTrace();
 		}
 		return true;
+	}
+	
+	public GoodsVO getGoodsVO (String orderId) {
+		GoodsVO goodsVO = null;
+		try {
+			OrderDataService ods = (OrderDataService) Naming.lookup("rmi://localhost/OrderData");
+			OrderPO po = ods.find(orderId);
+			goodsVO = po.getGoodsVO();	
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NotBoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return goodsVO;
+	} 
+	
+	public OrderRevenueVO getOrderRevenueVO (String orderId) {
+		OrderRevenueVO orderRevenueVO = null;
+		try {
+			OrderDataService ods = (OrderDataService) Naming.lookup("rmi://localhost/OrderData");
+			OrderPO po = ods.find(orderId);
+			orderRevenueVO = po.getOrderRevenueVO();
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NotBoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return orderRevenueVO;
 	}
 }

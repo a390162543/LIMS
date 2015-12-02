@@ -60,7 +60,7 @@ public class StorageLocationData extends UnicastRemoteObject implements StorageL
 		}
 		BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out));
 			for (int j = 0; j < airNum; j++) {
-				for (int m = 0; m < 100; m++) {
+				for (int m = 0; m < 10; m++) {
 					for (int n = 0; n < 100; n++) {
 						String info = String.format("%02d", 0)+String.format("%02d", j)+String.format("%02d", m)
 								+String.format("%02d", n)+StorageState.ISAVAILABLE.toString()+"   "+new SimpleDateFormat("yyyy-MM-dd").format(new Date())+storageId;
@@ -76,8 +76,8 @@ public class StorageLocationData extends UnicastRemoteObject implements StorageL
 					}
 				}
 			}
-			for (int j = airNum; j < 100; j++) {
-				for (int m = 0; m < 100; m++) {
+			for (int j = airNum; j < 20; j++) {
+				for (int m = 0; m < 10; m++) {
 					for (int n = 0; n < 100; n++) {
 						String info = String.format("%02d", 0)+String.format("%02d", j)+String.format("%02d", m)
 								+String.format("%02d", n)+StorageState.FORBIDDEN.toString()+"   "+new SimpleDateFormat("yyyy-MM-dd").format(new Date())+storageId;
@@ -94,7 +94,7 @@ public class StorageLocationData extends UnicastRemoteObject implements StorageL
 				}
 			}
 			for (int j = 0; j < trainNum; j++) {
-				for (int m = 0; m < 100; m++) {
+				for (int m = 0; m < 10; m++) {
 					for (int n = 0; n < 100; n++) {
 						String info = String.format("%02d", 1)+String.format("%02d", j)+String.format("%02d", m)
 								+String.format("%02d", n)+StorageState.ISAVAILABLE.toString()+"   "+new SimpleDateFormat("yyyy-MM-dd").format(new Date())+storageId;
@@ -111,8 +111,8 @@ public class StorageLocationData extends UnicastRemoteObject implements StorageL
 					}
 				}
 			}
-			for (int j = trainNum; j < 100; j++) {
-				for (int m = 0; m < 100; m++) {
+			for (int j = trainNum; j < 20; j++) {
+				for (int m = 0; m < 10; m++) {
 					for (int n = 0; n < 100; n++) {
 						String info = String.format("%02d", 1)+String.format("%02d", j)+String.format("%02d", m)
 								+String.format("%02d", n)+StorageState.FORBIDDEN.toString()+"   "+new SimpleDateFormat("yyyy-MM-dd").format(new Date())+storageId;
@@ -129,7 +129,7 @@ public class StorageLocationData extends UnicastRemoteObject implements StorageL
 				}
 			}
 			for (int j = 0; j < carNum; j++) {
-				for (int m = 0; m < 100; m++) {
+				for (int m = 0; m < 10; m++) {
 					for (int n = 0; n < 100; n++) {
 						String info = String.format("%02d", 2)+String.format("%02d", j)+String.format("%02d", m)
 								+String.format("%02d", n)+StorageState.ISAVAILABLE.toString()+"   "+new SimpleDateFormat("yyyy-MM-dd").format(new Date())+storageId;
@@ -145,8 +145,8 @@ public class StorageLocationData extends UnicastRemoteObject implements StorageL
 					}
 				}
 			}
-			for (int j = carNum; j < 100; j++) {
-				for (int m = 0; m < 100; m++) {
+			for (int j = carNum; j < 20; j++) {
+				for (int m = 0; m < 10; m++) {
 					for (int n = 0; n < 100; n++) {
 						String info = String.format("%02d", 2)+String.format("%02d", j)+String.format("%02d", m)
 								+String.format("%02d", n)+StorageState.FORBIDDEN.toString()+"   "+new SimpleDateFormat("yyyy-MM-dd").format(new Date())+storageId;
@@ -163,7 +163,7 @@ public class StorageLocationData extends UnicastRemoteObject implements StorageL
 				}
 			}
 			for (int j = 0; j < freeNum; j++) {
-				for (int m = 0; m < 100; m++) {
+				for (int m = 0; m < 10; m++) {
 					for (int n = 0; n < 100; n++) {
 						String info = String.format("%02d", 3)+String.format("%02d", j)+String.format("%02d", m)
 								+String.format("%02d", n)+StorageState.ISAVAILABLE.toString()+"   "+new SimpleDateFormat("yyyy-MM-dd").format(new Date())+storageId;
@@ -179,8 +179,8 @@ public class StorageLocationData extends UnicastRemoteObject implements StorageL
 					}
 				}
 			}
-			for (int j = freeNum; j < 100; j++) {
-				for (int m = 0; m < 100; m++) {
+			for (int j = freeNum; j < 20; j++) {
+				for (int m = 0; m < 10; m++) {
 					for (int n = 0; n < 100; n++) {
 						String info = String.format("%02d", 3)+String.format("%02d", j)+String.format("%02d", m)
 								+String.format("%02d", n)+StorageState.FORBIDDEN.toString()+"   "+new SimpleDateFormat("yyyy-MM-dd").format(new Date())+storageId;
@@ -221,16 +221,16 @@ public class StorageLocationData extends UnicastRemoteObject implements StorageL
 		long checkline = 0;
 		switch (areaNum) {
 		case 0:
-			checkline = rowNum*10000+frameNum*100+item;
+			checkline = rowNum*1000+frameNum*100+item;
 			break;
 		case 1:
-			checkline = 100*10000+rowNum*10000+frameNum*100+item;
+			checkline = 20*1000+rowNum*1000+frameNum*100+item;
 			break;
 		case 2:
-			checkline = 200*10000+rowNum*10000+frameNum*100+item;
+			checkline = 40*1000+rowNum*1000+frameNum*100+item;
 			break;
 		case 3:
-			checkline = 300*10000+rowNum*10000+frameNum*100+item;
+			checkline = 60*10000+rowNum*1000+frameNum*100+item;
 			break;
 		default:
 			break;
@@ -272,16 +272,16 @@ public class StorageLocationData extends UnicastRemoteObject implements StorageL
 		long checkline = 0;
 		switch (areaNum) {
 		case 0:
-			checkline = rowNum*10000+frameNum*100+item;
+			checkline = rowNum*1000+frameNum*100+item;
 			break;
 		case 1:
-			checkline = 100*10000+rowNum*10000+frameNum*100+item;
+			checkline = 20*1000+rowNum*1000+frameNum*100+item;
 			break;
 		case 2:
-			checkline = 200*10000+rowNum*10000+frameNum*100+item;
+			checkline = 40*1000+rowNum*1000+frameNum*100+item;
 			break;
 		case 3:
-			checkline = 300*10000+rowNum*10000+frameNum*100+item;
+			checkline = 60*10000+rowNum*1000+frameNum*100+item;
 			break;
 		default:
 			break;
@@ -335,10 +335,84 @@ public class StorageLocationData extends UnicastRemoteObject implements StorageL
 		int updateTrainNum = updatePO.getTrainCapacity();
 		int updateCarNum = updatePO.getCarCapacity();
 		int updateFreeNum = updatePO.getMotorCapacity();
-		
-		
-		
-		return false;
+		System.out.println(orginalAirNum);
+		System.out.println(updateAirNum);
+		long checkLine = 0;
+		int changeRow = 0;
+		//容量减少
+		System.out.println(System.currentTimeMillis());
+		for (int j = 0; j < 4; j++) {
+			switch (j) {
+			case 0:
+				checkLine = updateAirNum * 1000;
+				changeRow = orginalAirNum - updateAirNum;
+				break;
+			case 1:
+				checkLine = (updateTrainNum + 20) * 1000;
+				changeRow = orginalTrainNum - updateTrainNum;
+				break;
+			case 2:
+				checkLine = (updateCarNum + 40) * 1000;
+				changeRow = orginalCarNum - updateCarNum;
+				break;
+			case 3:
+				checkLine = (updateFreeNum + 60) * 1000;
+				changeRow = orginalFreeNum - updateFreeNum;
+				break;
+			}
+			System.out.println(changeRow);
+				for (int i = 0; i < changeRow*1000; i++) {
+					try {
+						RandomAccessFile randomAccessFile = new RandomAccessFile(path, "rw");
+						randomAccessFile.seek(38 * checkLine);
+						randomAccessFile.skipBytes(8);
+						randomAccessFile.writeBytes(StorageState.FORBIDDEN.toString());
+						checkLine++;
+				
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			
+		}	
+		//容量增加
+		for (int j = 0; j < 4; j++) {
+			switch (j) {
+			case 0:
+				checkLine = orginalAirNum * 1000;
+				changeRow = updateAirNum - orginalAirNum;
+				break;
+			case 1:
+				checkLine = (orginalTrainNum + 20) * 1000;
+				changeRow = updateTrainNum - orginalFreeNum;
+				break;
+			case 2:
+				checkLine = (orginalCarNum + 40) * 1000;
+				changeRow = updateCarNum - orginalCarNum;
+				break;
+			case 3:
+				checkLine = (orginalFreeNum + 60) * 1000;
+				changeRow = updateFreeNum - orginalFreeNum;
+				break;
+			}
+			System.out.println(changeRow);
+			for (int i = 0; i < changeRow*1000; i++) {
+				try {
+					
+					RandomAccessFile randomAccessFile = new RandomAccessFile(path, "rw");
+					randomAccessFile.seek(38 * checkLine);
+					randomAccessFile.skipBytes(8);
+					randomAccessFile.writeBytes(StorageState.FORBIDDEN.toString());
+					checkLine++;
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		System.out.println(System.currentTimeMillis());
+		return true;
 	}
 
 }

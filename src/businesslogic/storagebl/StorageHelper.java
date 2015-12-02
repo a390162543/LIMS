@@ -5,6 +5,8 @@ import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
+import org.omg.PortableServer.POA;
+
 import po.StorageLocationPO;
 import po.StoragePO;
 import systemenum.StorageState;
@@ -69,7 +71,20 @@ public class StorageHelper {
 	}
 	
 	public boolean changeLocationInfo(StoragePO orginalPO, StoragePO updatePO) {
-		
+		try {
+			StorageLocationDataService storageLocationDataService = (StorageLocationDataService) Naming.lookup("rmi://localhost/LocationData");
+			storageLocationDataService.changeLocationInfo(orginalPO, updatePO);
+			
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NotBoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return true;
 	}
 	
