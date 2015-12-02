@@ -82,5 +82,8 @@ public class Truck implements TruckblService{
         }
         return vos;
     }
-
+    
+    public boolean execute(TruckVO vo){
+        return createTruckPO(vo);
+    }
 }

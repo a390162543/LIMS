@@ -1,5 +1,6 @@
 package presentation.managerui.approvalui.revenueui;
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -11,9 +12,14 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
+import businesslogic.BusinessLogicService;
+import businesslogicservice.RevenueblService;
+import presentation.managerui.approvalui.revenueui.OrderTableModel;
 import vo.RevenueVO;
 
 public class RevenuePendingDialog extends JDialog {
@@ -25,13 +31,15 @@ public class RevenuePendingDialog extends JDialog {
 
     private static final String[] LABEL_NAMES = {"收款单编号","快递员编号","收款营业厅","收款账户","收款日期","收款订单号"};
     
-    private RevenuePendingTableModel tableModel;
-    
+    private RevenueblService revenueblService;
+    private RevenuePendingTableModel revenuePendingTableModel;
+    private OrderTableModel tableModel;
       
     @SuppressWarnings("deprecation")
     public RevenuePendingDialog(RevenuePendingTableModel tm, int modelRow, boolean isEditable) {
+        revenueblService = BusinessLogicService.getRevenueblService();
         
-        this.tableModel = tm;
+        this.revenuePendingTableModel = tm;
 
         JLabel[] labels = new JLabel[6];
         for(int i=0;i<labels.length;i++){
@@ -71,10 +79,7 @@ public class RevenuePendingDialog extends JDialog {
         this.add(monthComboBox);
         this.add(dayComboBox);
         
-        JTextArea orderTextArea = new JTextArea();
-        JScrollPane orderScrollPane = new JScrollPane(orderTextArea);
-        orderScrollPane.setBounds(100, 10+35*5, 150, 75);
-        this.add(orderScrollPane);
+
         
         JLabel costLabel = new JLabel("", JLabel.CENTER);
         costLabel.setText("收款金额");
@@ -85,7 +90,7 @@ public class RevenuePendingDialog extends JDialog {
         costTextField.setBounds(100, 25+35*7, 60, 25);
         this.add(costTextField);
         
-        RevenueVO vo = tableModel.getRevenueVO(modelRow);
+        RevenueVO vo = revenuePendingTableModel.getRevenueVO(modelRow);
         textFields[0].setText(vo.getId());
         textFields[1].setText(vo.getCourierId());
         organizationComboBox.setSelectedItem(vo.getOrganization());
@@ -93,8 +98,19 @@ public class RevenuePendingDialog extends JDialog {
         yearComboBox.setSelectedItem(vo.getRevenueDate().getYear());
         monthComboBox.setSelectedItem(vo.getRevenueDate().getMonth());
         dayComboBox.setSelectedItem(vo.getRevenueDate().getDate());
+        costTextField.setText(""+vo.getRevenue());
 
+        tableModel = new OrderTableModel(revenueblService,vo.getOrderId());  
+        TableRowSorter<TableModel>  tableSorter = new TableRowSorter<TableModel>(tableModel);
+        JTable orderTable = new JTable(tableModel);
+        orderTable.getTableHeader().setPreferredSize(new Dimension(180, 25));
+        orderTable.setSize(250, 100);
+        orderTable.setRowSorter(tableSorter);   
         
+        
+        JScrollPane OrderScrollPane = new JScrollPane(orderTable);
+        OrderScrollPane.setBounds(100, 10+35*4, 150, 75);    
+        this.add(OrderScrollPane);
         // 如果textfield的编号和表格列号一一对应，上述代码也可以用for循环 
         // textFields[i].setText((String) tableModel.getValueAt(modelRow, i));
         
@@ -109,9 +125,10 @@ public class RevenuePendingDialog extends JDialog {
                     return;
                 }
                 List<String> orderIdList = new ArrayList<String>();
-                orderIdList.add(orderTextArea.getText());
+                for(int i = 0; i < orderTable.getRowCount(); i ++)
+                    orderIdList.add((String)orderTable.getValueAt(i, 0));
                 RevenueVO vo = new RevenueVO(textFields[0].getText(), new Date(), textFields[1].getText(), new Double(costTextField.getText()), orderIdList,accountIdTextField.getText(),(String)organizationComboBox.getSelectedItem());
-                tableModel.modify(modelRow, vo);
+                revenuePendingTableModel.modify(modelRow, vo);
                 System.out.println("you've clicked confirm button..");
                 RevenuePendingDialog.this.dispose();
                 

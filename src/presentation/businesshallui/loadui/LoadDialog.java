@@ -8,7 +8,6 @@ import java.util.Date;
 import java.util.List;
 
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
@@ -17,8 +16,11 @@ import javax.swing.JTextField;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
+import presentation.util.OrganizationComboBox;
+import presentation.util.RecentDatePickPanel;
 import vo.LoadVO;
-import businesslogic.loadbl.Load;
+import businesslogic.BusinessLogicService;
+import businesslogic.userbl.LoginController;
 import businesslogicservice.LoadblService;
 
 public class LoadDialog extends JDialog{
@@ -27,18 +29,18 @@ public class LoadDialog extends JDialog{
      * 
      */
     private static final long serialVersionUID = 6468749815012470915L;
-    private static final String[] LABEL_NAMES = {"装车单编号","汽运编号","车辆代号","出发地","目的地","装车日期"};
+    private static final String[] LABEL_NAMES = {"装车单编号","汽运编号","车辆编号","出发地","目的地","装车日期"};
     
     private LoadblService loadblService;
     private JTextField[] textFields;
     private OrderTableModel tableModel;
     private JTextField costTextField;
-    private JComboBox<String> departComboBox;
-    private JComboBox<String> destinationComboBox;
+    private OrganizationComboBox departComboBox;
+    private OrganizationComboBox destinationComboBox;
     
     public LoadDialog(){
         
-        loadblService = new Load();
+        loadblService = BusinessLogicService.getLoadblService();
         
         JLabel[] labels = new JLabel[6];
         for(int i=0;i<labels.length;i++){
@@ -54,31 +56,21 @@ public class LoadDialog extends JDialog{
             textFields[i].setBounds(100, 10+35*i, 150, 25);
             this.add(textFields[i]);
         }
-
-        departComboBox = new JComboBox<String>();
-        departComboBox.addItem("南京市栖霞区中转中心");
-        departComboBox.addItem("上海市浦东新区中转中心");
+        textFields[0].setEnabled(false);
+        
+        departComboBox = new OrganizationComboBox();
+        departComboBox.setSelectedItem(LoginController.getOrganizationName());
+        departComboBox.setEnabled(false);
         departComboBox.setBounds(100, 10+35*3, 180, 25);
         this.add(departComboBox);
         
-        destinationComboBox = new JComboBox<String>();
-        destinationComboBox.addItem("南京市栖霞区中转中心");
-        destinationComboBox.addItem("上海市浦东新区中转中心");
+        destinationComboBox = new OrganizationComboBox();
         destinationComboBox.setBounds(100, 10+35*4, 180, 25);
         this.add(destinationComboBox);
         
-        JComboBox<Integer> yearComboBox = new JComboBox<Integer>();
-        JComboBox<Integer> monthComboBox = new JComboBox<Integer>();
-        JComboBox<Integer> dayComboBox = new JComboBox<Integer>();
-        for(int i=1960;i<=2015;i++)  yearComboBox.addItem(i);
-        for(int i=1;i<=12;i++)  monthComboBox.addItem(i);
-        for(int i=1;i<=31;i++)  dayComboBox.addItem(i);
-        yearComboBox.setBounds(100, 10+35*5, 70, 25);
-        monthComboBox.setBounds(170, 10+35*5, 60, 25);
-        dayComboBox.setBounds(230, 10+35*5, 60, 25);
-        this.add(yearComboBox);
-        this.add(monthComboBox);
-        this.add(dayComboBox);
+        RecentDatePickPanel datePickPanel = new RecentDatePickPanel();
+        datePickPanel.setBounds(100, 10+35*5, 200, 25);
+        this.add(datePickPanel);
         
         JLabel[] personLabels = new JLabel[2];
         String[] personLabelNames = {"监装员","押运员"};
@@ -109,9 +101,9 @@ public class LoadDialog extends JDialog{
         JScrollPane OrderScrollPane = new JScrollPane(orderTable);
         OrderScrollPane.setBounds(100, 10+35*7, 150, 75);          
         JButton addOrderButton = new JButton("添加订单");
-        addOrderButton.setBounds(270, 10+35*7, 70, 20);
+        addOrderButton.setBounds(260, 10+35*7, 70, 20);
         JButton deleteOrderButton = new JButton("删除订单");
-        deleteOrderButton.setBounds(270, 10+35*8, 70, 20);
+        deleteOrderButton.setBounds(260, 10+35*8, 70, 20);
         addOrderButton.addActionListener(new ActionListener() {
                 
             @Override
@@ -154,10 +146,22 @@ public class LoadDialog extends JDialog{
             
             @Override
             public void actionPerformed(ActionEvent e) {
+                
+                String id = textFields[0].getText();
+                Date loadingDate = datePickPanel.getTime();
+                String transportId = textFields[1].getText();
+                String depart = (String) departComboBox.getSelectedItem();
+                String destination = (String)destinationComboBox.getSelectedItem();
+                String truckId = textFields[2].getText();
+                String loadMan = personTextFields[0].getText();
+                String transman = personTextFields[1].getText();
+                double cost = new Double(costTextField.getText());
+                
                 List<String> orderIdList = new ArrayList<String>();
                 for(int i = 0; i < orderTable.getRowCount(); i ++)
                     orderIdList.add((String)orderTable.getValueAt(i, 0));
-                LoadVO vo = new LoadVO(textFields[0].getText(), new Date(), textFields[1].getText(), (String)departComboBox.getSelectedItem(), (String)destinationComboBox.getSelectedItem(), textFields[2].getText(), personTextFields[0].getText(), personTextFields[1].getText(), orderIdList, new Double(costTextField.getText()));
+                
+                LoadVO vo = new LoadVO(id, loadingDate, transportId, depart, destination, truckId, loadMan, transman, orderIdList, cost);
                 loadblService.createLoadPO(vo);
                 LoadDialog.this.dispose();
             }

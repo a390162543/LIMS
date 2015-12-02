@@ -9,9 +9,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import po.OrderPO;
 import po.RevenuePO;
 import systemenum.DocumentState;
+import dataservice.OrderDataService;
 import dataservice.RevenueDataService;
+import vo.OrderRevenueVO;
 import vo.RevenueVO;
 import businesslogic.accountbl.Account;
 import businesslogicservice.RevenueblService;
@@ -19,8 +22,10 @@ import businesslogicservice.RevenueblService;
 public class Revenue implements RevenueblService{
 
     private RevenueDataService revenueDataService;
+    private OrderList orderList;
     
     public Revenue(){
+        orderList = new OrderList();
         try {
             revenueDataService = (RevenueDataService) Naming.lookup("rmi://localhost/RevenueData");
         } catch (MalformedURLException e) {
@@ -90,6 +95,36 @@ public class Revenue implements RevenueblService{
         return true;
     }
 
+    @Override
+    public OrderRevenueVO getOrderRevenueVO(String id) {
+        // TODO Auto-generated method stub  
+        try {
+            OrderDataService orderDataService = (OrderDataService)Naming.lookup("rmi://localhost/OrderData");
+            if(orderDataService.find(id) == null)
+                return null;
+            else{
+                OrderPO po = orderDataService.find(id);
+                System.out.println("find orderpo");
+                System.out.println(po.getOrderId());
+                OrderRevenueVO vo = po.getOrderRevenueVO();
+                 
+                return vo;
+            }
+            
+             
+        } catch (MalformedURLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (RemoteException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (NotBoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }        
+        return null;
+    }
+    
     public List<RevenueVO> getPendingRevenueVO(){
         List<RevenuePO> pos = null;
         List<RevenueVO> vos = new ArrayList<RevenueVO>();
@@ -166,6 +201,23 @@ public class Revenue implements RevenueblService{
         }
         return vos;
         
+    }
+
+    @Override
+    public boolean add(OrderRevenueVO vo) {
+        orderList.add(vo);
+        return true;
+    }
+
+    @Override
+    public boolean delete(OrderRevenueVO vo) {
+        orderList.delete(vo);
+        return true;
+    }
+
+    @Override
+    public double getSum() {
+        return orderList.getRevenue();
     }
     
 }

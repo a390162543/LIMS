@@ -5,13 +5,13 @@ import java.awt.event.ActionListener;
 import java.util.Date;
 
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import presentation.util.RecentDatePickPanel;
 import vo.DeliverVO;
-import businesslogic.deliverbl.Deliver;
+import businesslogic.BusinessLogicService;
 import businesslogicservice.DeliverblService;
 
 public class DeliverDialog extends JDialog{
@@ -27,7 +27,7 @@ public class DeliverDialog extends JDialog{
     
     public DeliverDialog(){
         
-        deliverblService = new Deliver();
+        deliverblService = BusinessLogicService.getDeliverblService();
         
         JLabel[] labels = new JLabel[4];
         for(int i=0;i<labels.length;i++){
@@ -43,27 +43,12 @@ public class DeliverDialog extends JDialog{
             textFields[i].setBounds(100, 10+35*i, 150, 25);
             this.add(textFields[i]);
         }
-        //set birth chooser
-//        JLabel[] birthLabels = new JLabel[3];
-//        String[] birthLabelNames = {"年","月","日"};
-//        for(int i=0;i<birthLabels.length;i++){
-//            birthLabels[i] = new JLabel();
-//            birthLabels[i].setText(birthLabelNames[i]);
-//            birthLabels[i].setBounds(145+50*i, 8+35*3, 20, 25);
-//            this.add(birthLabels[i]);
-//        }
-        JComboBox<Integer> yearComboBox = new JComboBox<Integer>();
-        JComboBox<Integer> monthComboBox = new JComboBox<Integer>();
-        JComboBox<Integer> dayComboBox = new JComboBox<Integer>();
-        for(int i=1960;i<=2015;i++)  yearComboBox.addItem(i);
-        for(int i=1;i<=12;i++)  monthComboBox.addItem(i);
-        for(int i=1;i<=31;i++)  dayComboBox.addItem(i);
-        yearComboBox.setBounds(100, 10+35*3, 70, 25);
-        monthComboBox.setBounds(170, 10+35*3, 60, 25);
-        dayComboBox.setBounds(230, 10+35*3, 60, 25);
-        this.add(yearComboBox);
-        this.add(monthComboBox);
-        this.add(dayComboBox);
+        textFields[0].setEnabled(false);
+        
+        
+        RecentDatePickPanel datePickPanel = new RecentDatePickPanel();
+        datePickPanel.setBounds(100, 10+35*3, 200, 25);
+        this.add(datePickPanel);
         
         JButton confirmButton = new JButton("确认");
         confirmButton.setBounds(230, 160, 80, 30);
@@ -71,7 +56,13 @@ public class DeliverDialog extends JDialog{
             
             @Override
             public void actionPerformed(ActionEvent e) {
-                DeliverVO vo = new DeliverVO(textFields[0].getText(), new Date(), textFields[1].getText(), textFields[2].getText());
+                
+                String id = textFields[0].getText();
+                Date deliverDate = datePickPanel.getTime();
+                String orderId = textFields[1].getText();
+                String courierId = textFields[2].getText();
+                
+                DeliverVO vo = new DeliverVO(id, deliverDate, orderId, courierId);
                 deliverblService.createDeliverPO(vo);
                 DeliverDialog.this.dispose();
             }

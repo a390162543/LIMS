@@ -72,7 +72,6 @@ public class DatePickPanel extends JPanel{
                 for(int i=dayComboBox.getItemCount();i>28;i--){
                     dayComboBox.removeItem(i);
                 }
-                System.out.println(getDayOfMonth());
                 for(int i=29;i<=getDayOfMonth();i++){
                     dayComboBox.addItem(i);
                 }
@@ -102,6 +101,30 @@ public class DatePickPanel extends JPanel{
     public Date getDate(){
         calendar.set(Calendar.DATE, (int)dayComboBox.getSelectedItem());
         return calendar.getTime();
+    }
+    
+    public void setDate(Date date){
+        calendar.setTime(date);
+        yearComboBox.setSelectedItem(calendar.get(Calendar.YEAR));
+        monthComboBox.setSelectedItem(calendar.get(Calendar.MONTH)+1);
+        
+        for(int i=dayComboBox.getItemCount();i>28;i--){
+            dayComboBox.removeItem(i);
+        }
+        for(int i=29;i<=getDayOfMonth();i++){
+            dayComboBox.addItem(i);
+        }
+        
+        dayComboBox.setSelectedItem(calendar.get(Calendar.DATE));
+    }
+    
+    @Override
+    public void setEnabled(boolean enabled) {
+        // TODO Auto-generated method stub
+        super.setEnabled(enabled);
+        yearComboBox.setEnabled(false);
+        monthComboBox.setEnabled(false);
+        dayComboBox.setEnabled(false);
     }
     
     public void addActionListener(ActionListener listener){

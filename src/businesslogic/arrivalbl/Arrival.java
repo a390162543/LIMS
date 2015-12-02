@@ -12,7 +12,6 @@ import po.LoadPO;
 import po.OrderPO;
 import po.TransferPO;
 import systemenum.DocumentState;
-import data.LoadData;
 import dataservice.ArrivalDataService;
 import dataservice.DataService;
 import dataservice.LoadDataService;

@@ -1,5 +1,6 @@
 package presentation.businesshallui.revenueui;
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -7,15 +8,20 @@ import java.util.Date;
 import java.util.List;
 
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
+import presentation.businesshallui.revenueui.OrderTableModel;
+import presentation.util.OrganizationComboBox;
+import presentation.util.RecentDatePickPanel;
 import vo.RevenueVO;
-import businesslogic.revenuebl.Revenue;
+import businesslogic.BusinessLogicService;
+import businesslogic.userbl.LoginController;
 import businesslogicservice.RevenueblService;
 
 public class RevenueDialog extends JDialog{
@@ -28,10 +34,12 @@ public class RevenueDialog extends JDialog{
     
     private RevenueblService revenueblService;
     private JTextField[] textFields;
+    private OrderTableModel tableModel;
+    private JTextField costTextField;
     
     public RevenueDialog(){
         
-        revenueblService = new Revenue();
+        revenueblService = BusinessLogicService.getRevenueblService();
         
         JLabel[] labels = new JLabel[5];
         for(int i=0;i<labels.length;i++){
@@ -48,36 +56,63 @@ public class RevenueDialog extends JDialog{
             this.add(textFields[i]);
         }
         
-        JComboBox<String> organizationComboBox = new JComboBox<String>();
-        organizationComboBox.addItem("南京市栖霞区中转中心");
-        organizationComboBox.addItem("上海市浦东新区中转中心");
+        OrganizationComboBox organizationComboBox = new OrganizationComboBox();
+        organizationComboBox.setSelectedItem(LoginController.getOrganizationName());
+        organizationComboBox.setEnabled(false);
         organizationComboBox.setBounds(100, 10+35*2, 180, 25);
         this.add(organizationComboBox);
         
-        JComboBox<Integer> yearComboBox = new JComboBox<Integer>();
-        JComboBox<Integer> monthComboBox = new JComboBox<Integer>();
-        JComboBox<Integer> dayComboBox = new JComboBox<Integer>();
-        for(int i=1960;i<=2015;i++)  yearComboBox.addItem(i);
-        for(int i=1;i<=12;i++)  monthComboBox.addItem(i);
-        for(int i=1;i<=31;i++)  dayComboBox.addItem(i);
-        yearComboBox.setBounds(100, 10+35*3, 70, 25);
-        monthComboBox.setBounds(170, 10+35*3, 60, 25);
-        dayComboBox.setBounds(230, 10+35*3, 60, 25);
-        this.add(yearComboBox);
-        this.add(monthComboBox);
-        this.add(dayComboBox);
+        RecentDatePickPanel datePickPanel = new RecentDatePickPanel();
+        datePickPanel.setBounds(100, 10+35*3, 200, 25);
+        this.add(datePickPanel);
         
-        JTextArea orderTextArea = new JTextArea();
-        JScrollPane orderScrollPane = new JScrollPane(orderTextArea);
-        orderScrollPane.setBounds(100, 10+35*4, 150, 75);
-        this.add(orderScrollPane);
+        tableModel = new OrderTableModel(revenueblService);  
+        TableRowSorter<TableModel>  tableSorter = new TableRowSorter<TableModel>(tableModel);
+        JTable orderTable = new JTable(tableModel);
+        orderTable.getTableHeader().setPreferredSize(new Dimension(180, 25));
+        orderTable.setSize(250, 100);
+        orderTable.setRowSorter(tableSorter);   
+        
+        
+        JScrollPane OrderScrollPane = new JScrollPane(orderTable);
+        OrderScrollPane.setBounds(100, 10+35*4, 150, 75);          
+        JButton addOrderButton = new JButton("添加订单");
+        addOrderButton.setBounds(260, 10+35*4, 70, 20);
+        JButton deleteOrderButton = new JButton("删除订单");
+        deleteOrderButton.setBounds(260, 10+35*5, 70, 20);
+        addOrderButton.addActionListener(new ActionListener() {
+                
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO Auto-generated method stub
+                // new AddOrderDialog(tableModel, dialog);
+                     new AddOrderDialog();
+            }
+        });
+            
+        deleteOrderButton.addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO Auto-generated method stub
+                int row = orderTable.getSelectedRow();
+                   if(row == -1)
+                       return;
+                   int modelRow = orderTable.convertRowIndexToModel(row);
+                   tableModel.delete(modelRow);
+            }
+        });
+        
+        this.add(OrderScrollPane);
+        this.add(addOrderButton);
+        this.add(deleteOrderButton);
         
         JLabel costLabel = new JLabel("", JLabel.CENTER);
         costLabel.setText("收款金额");
         costLabel.setBounds(0, 25+35*6, 100, 25);
         this.add(costLabel);
         
-        JTextField costTextField = new JTextField();
+        costTextField = new JTextField();
         costTextField.setBounds(100, 25+35*6, 60, 25);
         this.add(costTextField);
         
@@ -87,9 +122,19 @@ public class RevenueDialog extends JDialog{
             
             @Override
             public void actionPerformed(ActionEvent e) {
+                
+                String id = textFields[0].getText();
+                Date revenueDate = datePickPanel.getTime();
+                String courierId = textFields[1].getText();
+                double revenue = new Double(costTextField.getText());
+                String accountId = "";
+                String organization = (String) organizationComboBox.getSelectedItem();
+                
                 List<String> orderIdList = new ArrayList<String>();
-                orderIdList.add(orderTextArea.getText());
-                RevenueVO vo = new RevenueVO(textFields[0].getText(), new Date(), textFields[1].getText(), new Double(costTextField.getText()), orderIdList, (String)organizationComboBox.getSelectedItem());
+                for(int i = 0; i < orderTable.getRowCount(); i ++)
+                    orderIdList.add((String)orderTable.getValueAt(i, 0));
+                
+                RevenueVO vo = new RevenueVO(id, revenueDate, courierId, revenue, orderIdList, accountId, organization);
                 revenueblService.createRevenuePO(vo);
                 RevenueDialog.this.dispose();
             }
@@ -113,5 +158,65 @@ public class RevenueDialog extends JDialog{
         this.setLocationRelativeTo(null);
         this.setModalityType(ModalityType.APPLICATION_MODAL);
         this.setVisible(true);
+    }
+    
+    private void setRevenueField(){
+        costTextField.setText(""+revenueblService.getSum());
+    }
+    
+    class AddOrderDialog extends JDialog{
+
+        
+    /**
+         * 
+         */
+        private static final long serialVersionUID = -5436641251910399740L;
+     
+    
+    
+        public AddOrderDialog( ){
+            
+            JLabel infoLanel = new JLabel("订单");
+            infoLanel.setBounds(105, 10, 170, 35);
+            JLabel orderLabel = new JLabel("订单号");
+            orderLabel.setBounds(35, 85, 100, 24);
+            JTextField orderField = new JTextField();
+            orderField.setBounds(145, 85, 180, 20);
+            JButton cancelButton = new JButton("取消");
+            cancelButton.setBounds(190, 150, 70, 30);
+            JButton confirmButton = new JButton("确定");
+            confirmButton.setBounds(275, 150, 70, 30);
+            
+            cancelButton.addActionListener(new ActionListener() {
+                
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    // TODO Auto-generated method stub
+                    AddOrderDialog.this.dispose();
+                }
+            });
+            
+            confirmButton.addActionListener(new ActionListener() {
+                
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    // TODO Auto-generated method stub
+                    tableModel.add(orderField.getText());
+                    setRevenueField();
+                                        
+                }
+            });
+            
+            this.add(infoLanel);
+            this.add(orderLabel);
+            this.add(orderField);
+            this.add(cancelButton);
+            this.add(confirmButton);
+            this.setLayout(null);
+            this.setBounds(100, 100, 380, 240);
+            this.setModalityType(ModalityType.APPLICATION_MODAL);
+            this.setVisible(true);      
+        }
+
     }
 }
