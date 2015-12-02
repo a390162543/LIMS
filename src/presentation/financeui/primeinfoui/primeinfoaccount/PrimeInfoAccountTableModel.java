@@ -25,7 +25,12 @@ public class PrimeInfoAccountTableModel extends DefaultTableModel{
     	dataList = new ArrayList<AccountVO>();
         setDataVector(convertToVectorData(dataList), getColumnNamesVector());
     }
-    
+    public PrimeInfoAccountTableModel(List<AccountVO> vos) {  
+	    dataList = vos;
+	    setDataVector(convertToVectorData(dataList), getColumnNamesVector());
+    }
+
+
     public void create(AccountVO vo){
         addRow(convertToVector(vo));
         dataList.add(vo);
@@ -37,8 +42,14 @@ public class PrimeInfoAccountTableModel extends DefaultTableModel{
         AccountVO vo = dataList.get(row);
         dataList.remove(row);
         primeInfoblService.removeAccountVO(vo);
+    }   
+    public void modify(int row, AccountVO vo){
+        removeRow(row);
+        insertRow(row, convertToVector(vo));
+        dataList.remove(row);
+        dataList.add(row, vo);
+        primeInfoblService.modifyAccountVO(vo);
     }
-    
     public AccountVO getAccountVO(int row){
         return getRowData(row);
     }
@@ -85,4 +96,5 @@ public class PrimeInfoAccountTableModel extends DefaultTableModel{
         }
         return v;
     }
+ 
 }
