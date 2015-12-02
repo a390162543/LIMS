@@ -20,7 +20,7 @@ public class OrderList {
     public double getRevenue(){
         double revenue = 0;
         for(OrderRevenueVO vo : orderList)
-            revenue += vo.getRevenue();
+            revenue += vo.getExpense();
         return revenue;
     }
     

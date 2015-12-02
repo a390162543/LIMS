@@ -89,9 +89,9 @@ public class OrderTableModel extends DefaultTableModel{
     
     private static Vector<Object> convertToVector(OrderRevenueVO vo){
         Vector<Object> rowVector = new Vector<Object>();
-        rowVector.add(vo.getId()); 
-        rowVector.add(vo.getGoodsInfo());
-        rowVector.add(vo.getRevenue());
+        rowVector.add(vo.getOrderId()); 
+        rowVector.add(vo.getInfo());
+        rowVector.add(vo.getExpense());
        
         
         return rowVector;

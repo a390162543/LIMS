@@ -24,13 +24,13 @@ public class ArrivalVO {
     }
     
     public ArrivalVO(String id, Date arrivalDate, String transferId,
-            String depart, String destination, GoodsState gs){
+            String depart, String destination, GoodsState goodsState){
         this.id = id;
         this.arrivalDate = arrivalDate;
         this.transferId = transferId;
         this.depart = depart;
         this.destination = destination;
-        this.goodsState = gs;
+        this.goodsState = goodsState;
     }
 
     public String getIdString(){

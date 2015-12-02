@@ -9,6 +9,7 @@ import po.TruckPO;
 public class TruckVO {
     
     private String id;
+    private String organization;
     private String engineNumber;
     private String truckNumber;
     private String chassisNumber;
@@ -24,6 +25,17 @@ public class TruckVO {
         this.purchaseDate = purchaseDate;
         this.truckImage = truckImage;
     }
+    
+    public TruckVO(String id, String organization,String engineNumber, String truckNumber,
+            String chassisNumber, Date purchaseDate, ImageIcon truckImage) {
+        this.id = id;
+        this.organization = organization;
+        this.engineNumber = engineNumber;
+        this.truckNumber = truckNumber;
+        this.chassisNumber = chassisNumber;
+        this.purchaseDate = purchaseDate;
+        this.truckImage = truckImage;
+    }
 
     public String getIdString(){
         return String.format("%09d", id);
@@ -33,6 +45,14 @@ public class TruckVO {
         return id;
     }
     
+    public String getOrganization() {
+        return organization;
+    }
+
+    public void setOrganization(String organization) {
+        this.organization = organization;
+    }
+
     public String getEngineNumber() {
         return engineNumber;
     }
@@ -64,7 +84,11 @@ public class TruckVO {
     public void setPurchaseDate(Date purchaseDate) {
         this.purchaseDate = purchaseDate;
     }
-
+    
+    public String getServedTime(){
+        int day = (int) ((System.currentTimeMillis()-purchaseDate.getTime())/(1000*60*60*24));
+        return day+"Ìì";
+    } 
     public ImageIcon getTruckImage() {
         return truckImage;
     }
@@ -74,7 +98,7 @@ public class TruckVO {
     }
 
     public TruckPO getTruckPO(){
-        return new TruckPO(this.id, this.engineNumber, this.truckNumber, this.chassisNumber, this.purchaseDate, this.truckImage);
+        return new TruckPO(this.id, this.getOrganization(), this.engineNumber, this.truckNumber, this.chassisNumber, this.purchaseDate, this.truckImage);
     }
 
     

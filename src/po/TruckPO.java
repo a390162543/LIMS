@@ -33,6 +33,18 @@ public class TruckPO implements Serializable{
         this.truckImage = truckImage;
         this.documentState = DocumentState.PENDING;
     }
+    
+    public TruckPO(String id, String organization, String engineNumber, String truckNumber,
+            String chassisNumber, Date purchaseDate, ImageIcon truckImage) {
+        this.id = id;
+        this.organization = organization;
+        this.engineNumber = engineNumber;
+        this.truckNumber = truckNumber;
+        this.chassisNumber = chassisNumber;
+        this.purchaseDate = purchaseDate;
+        this.truckImage = truckImage;
+        this.documentState = DocumentState.PENDING;
+    }
 
     public String getIdString(){
         return String.format("%09d", id);
@@ -99,11 +111,12 @@ public class TruckPO implements Serializable{
     }
 
     public TruckVO getTruckVO(){
-        return new TruckVO(this.id, this.engineNumber, this.truckNumber, this.chassisNumber, this.purchaseDate, this.truckImage);
+        return new TruckVO(this.id, this.organization, this.engineNumber, this.truckNumber, this.chassisNumber, this.purchaseDate, this.truckImage);
     }
     
     public void update(TruckVO vo){
         this.id = vo.getId();
+        this.organization = vo.getOrganization();
         this.engineNumber = vo.getEngineNumber();
         this.truckNumber = vo.getTruckNumber();
         this.chassisNumber = vo.getChassisNumber();

@@ -16,7 +16,6 @@ import dataservice.LoadDataService;
 import dataservice.LogDataService;
 import dataservice.OrderDataService;
 import dataservice.OrganizationDataService;
-import dataservice.PayDataService;
 import dataservice.PaymentDataService;
 import dataservice.PrimeInfoDataService;
 import dataservice.RevenueDataService;
@@ -192,22 +191,6 @@ public class DataService {
     public static OrganizationDataService getOrganizationDataService(){
         try {
             return (OrganizationDataService) Naming.lookup("rmi://localhost/OrganizationData");
-        } catch (MalformedURLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (RemoteException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (NotBoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return null;
-    }
-    
-    public static PayDataService getPayDataService(){
-        try {
-            return (PayDataService) Naming.lookup("rmi://localhost/PayData");
         } catch (MalformedURLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

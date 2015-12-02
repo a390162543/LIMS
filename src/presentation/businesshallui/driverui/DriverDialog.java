@@ -13,13 +13,13 @@ import javax.swing.JTextField;
 
 import businesslogic.userbl.User;
 import businesslogicservice.UserblService;
-import po.PayPO;
 import presentation.util.DatePickPanel;
 import presentation.util.OrganizationComboBox;
 import systemenum.Position;
 import systemenum.Power;
 import systemenum.Sex;
 import vo.EmployeeVO;
+import vo.PayVO;
 import vo.UserVO;
 
 public class DriverDialog extends JDialog {
@@ -156,7 +156,7 @@ public class DriverDialog extends JDialog {
 		  else 
 		      sex1 = Sex.FAMALE;			 					
 		  Position p = Position.DRIVER;
-		  PayPO paypo = new PayPO(0,Double.valueOf(basePayField.getText()), 0, 0, 0);
+		  PayVO paypo = new PayVO(0,Double.valueOf(basePayField.getText()), 0, 0, 0);
 		  EmployeeVO vo = new EmployeeVO(id, name, organization,
 					 p, phone, birth, identityCardNum, sex1, paypo);
 		  Power power = Power.valueOf(p.toString());

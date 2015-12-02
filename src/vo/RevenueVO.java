@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.List;
 
 import po.RevenuePO;
-import systemenum.DocumentState;
 
 public class RevenueVO {
     
