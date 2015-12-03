@@ -1,8 +1,11 @@
 package presentation.transitcenterui.transferui;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
+
 import javax.swing.table.DefaultTableModel;
+
 import businesslogicservice.TransferblService;
 import vo.GoodsVO;
  
@@ -22,8 +25,9 @@ public class OrderTableModel extends DefaultTableModel{
  
     
     public OrderTableModel(TransferblService tbs) {      
-       transferblService = tbs;    
-       setDataVector(null, getColumnNamesVector());
+       transferblService = tbs; 
+       dataList = new ArrayList<GoodsVO>();
+       setDataVector(convertToVectorData(dataList), getColumnNamesVector());
     }
     
     public void add(String id){
@@ -37,9 +41,9 @@ public class OrderTableModel extends DefaultTableModel{
     }
     
     public void delete(int row){
-        removeRow(row);         
-        dataList.remove(row);
+        removeRow(row);              
         transferblService.deleteGoods(dataList.get(row));
+        dataList.remove(row);
          
     }
     
@@ -49,16 +53,16 @@ public class OrderTableModel extends DefaultTableModel{
         return getRowData(row);
     }
     
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    public Class getColumnClass(int column) {  
-        Class returnValue;  
-        if ((column >= 0) && (column < getColumnCount())) {  
-            returnValue = getValueAt(0, column).getClass();  
-        } else {  
-            returnValue = Object.class;  
-        }  
-        return returnValue;  
-    }  
+//    @SuppressWarnings({ "unchecked", "rawtypes" })
+//    public Class getColumnClass(int column) {  
+//        Class returnValue;  
+//        if ((column >= 0) && (column < getColumnCount())) {  
+//            returnValue = getValueAt(0, column).getClass();  
+//        } else {  
+//            returnValue = Object.class;  
+//        }  
+//        return returnValue;  
+//    }  
     
     public boolean isCellEditable(int row, int column) { 
         return false;
@@ -78,7 +82,10 @@ public class OrderTableModel extends DefaultTableModel{
     
     private static Vector<Object> convertToVector(GoodsVO vo){
         Vector<Object> rowVector = new Vector<Object>();
-        
+       rowVector.add(vo.getId());
+       rowVector.add(vo.getWeight());
+       rowVector.add(vo.getDepart());
+       rowVector.add(vo.getDestination());
         
         return rowVector;
     }

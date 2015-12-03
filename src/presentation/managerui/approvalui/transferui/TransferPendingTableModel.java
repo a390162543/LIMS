@@ -13,7 +13,7 @@ public class TransferPendingTableModel extends DefaultTableModel {
 	 */
 	private static final long serialVersionUID = 1828574105866597049L;
 	private List<TransferVO> dataList;
-    private static final String[] TABLE_HEADER = {"中转单编号","装车日期","航班号","出发地","到达地",
+    private static final String[] TABLE_HEADER = {"中转单编号","货运方式","装车日期","航班号","出发地","到达地",
     												"货柜号","监装员","订单号","运费"};
     private Transfer transfer;
     
@@ -21,7 +21,7 @@ public class TransferPendingTableModel extends DefaultTableModel {
         transfer = new Transfer();
         dataList = transfer.getPendingTransferVO();
         System.out.println(dataList.size());
-        
+        setDataVector(convertToVectorData(dataList), getColumnNamesVector());
     }
     
     public void modify(int row, TransferVO vo){
@@ -73,6 +73,7 @@ public class TransferPendingTableModel extends DefaultTableModel {
     private static Vector<Object> convertToVector(TransferVO vo){
         Vector<Object> rowVector = new Vector<Object>();
         rowVector.add(vo.getId());
+        rowVector.add(vo.getShipForm().getName());
         rowVector.add(vo.getLoadDate());
         rowVector.add(vo.getFlightNumbe());
         rowVector.add(vo.getDepart());

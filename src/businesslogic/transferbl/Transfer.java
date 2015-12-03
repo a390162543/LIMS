@@ -1,17 +1,16 @@
 package businesslogic.transferbl;
 
 import java.net.MalformedURLException;
-
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
-import dataservice.OrderDataService;
 import dataservice.TransferDataService; 
-import po.OrderPO;
 import po.TransferPO;
 import systemenum.DocumentState; 
+import businesslogic.orderbl.Order;
+import businesslogic.organizationbl.Organization;
 import businesslogicservice.TransferblService; 
 import vo.GoodsVO;
 import vo.TransferVO;
@@ -46,9 +45,24 @@ public class Transfer implements TransferblService{
 		goodsList.delete(vo);
 	}
 	
-	public double getCost(String location1, String location2){
-		
-		return 0;
+	public double getCost(String location1, String location2,String way){
+		Organization organization = new Organization();
+		double distance = organization.getDistanceByOrganizatioName(location1, location2);
+		double weight = goodsList.getWeight();
+		double cost = 0.0;
+		double rate = 0.0;
+		switch (way) {
+		case "º½¿Õ":
+			rate = 20; break;
+		case "ÌúÂ·":
+			rate = 0.2; break;
+		case "ÆûÔË":
+			rate = 2; break;
+		default:
+			break;
+		}
+		cost = weight * rate * distance;
+		return cost;
 	}
 
 	@Override
@@ -108,31 +122,10 @@ public class Transfer implements TransferblService{
 	@Override
 	public GoodsVO getGoodsVO(String id) {
 		// TODO Auto-generated method stub	
-		try {
-			OrderDataService orderDataService = (OrderDataService)Naming.lookup("rmi://localhost/OrderData");
-			if(orderDataService.find(id) == null)
-				return null;
-			else{
-				OrderPO po = orderDataService.find(id);
-				System.out.println("find orderpo");
-				System.out.println(po.getOrderId());
-				GoodsVO vo = po.getGoodsVO();
-				 
-				return vo;
-			}
-			
-			 
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NotBoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}		 
-		return null;
+		 Order order = new Order();
+		 GoodsVO vo = order.getGoodsVO(id);				 
+		 return vo;
+			 		 
 	}
 	
 	public List<TransferVO> getPendingTransferVO(){
@@ -147,6 +140,18 @@ public class Transfer implements TransferblService{
 	            e.printStackTrace();
 	        }  
 		return vos;
+		
+	}
+	
+	public TransferVO find(String id){
+		try {
+			TransferVO vo = transferDataService.find(id).getTransferVO();
+			return vo;
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 		
 	}
 	

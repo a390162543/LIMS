@@ -31,17 +31,17 @@ public class CreateCityDialog extends JDialog{
 	 
 	private CityblService cityblService;
 	private JPanel mainPanel;
-	private int width = 500;
-	private int height = 500;
+	
 	
 	public CreateCityDialog( ){
+		 this.setTitle("新增城市");
 		 mainPanel = new JPanel();
 		 cityblService = new City();
-		 mainPanel.setBounds(0, 0, width, height);
+		 mainPanel.setBounds(0, 0, 400, 300);
 		 mainPanel.add(new InputCityPanel());
 		 mainPanel.setLayout(null);
 		 this.add(mainPanel);
-		 this.setBounds(50, 50, width, height);
+		 this.setBounds(400, 200, 400, 250);
 		 this.setLayout(null);
 		 this.setVisible(true);
 	}
@@ -55,21 +55,20 @@ public class CreateCityDialog extends JDialog{
 		private static final long serialVersionUID = 3840173390122307371L;
 
 		public InputCityPanel(){
-			this.setBounds(0, 0, width, height);		
-			JLabel infoLabel = new JLabel("新增城市");
-			infoLabel.setBounds(105, 15, 170, 35);
+			this.setBounds(0, 0, 400, 250);		
+			 
 			JLabel nameLabel = new JLabel("城市名称");
-			nameLabel.setBounds(50, 100, 100, 25);
+			nameLabel.setBounds(50, 50, 100, 25);
 			JTextField nameField = new JTextField();
-			nameField.setBounds(180, 100, 60, 20);
+			nameField.setBounds(180, 50, 60, 20);
 			JLabel warnLabel = new JLabel();
-			warnLabel.setBounds(265, 100, 100, 25);		
+			warnLabel.setBounds(265, 50, 100, 25);		
 			JLabel idLabel = new JLabel("城市编号");
-			idLabel.setBounds(50, 150, 100, 25);
+			idLabel.setBounds(50, 100, 100, 25);
 			JTextField idField = new JTextField();
-			idField.setBounds(180, 150, 60, 20);		
+			idField.setBounds(180, 100, 60, 20);		
 			JButton cancelButton = new JButton("取消");
-			cancelButton.setBounds(190, 190, 70, 30);
+			cancelButton.setBounds(190, 150, 70, 30);
 			cancelButton.addActionListener(new ActionListener() {
 				
 				@Override
@@ -80,7 +79,7 @@ public class CreateCityDialog extends JDialog{
 			});
 			
 			JButton nextButton = new JButton("下一步");
-			nextButton.setBounds(280, 190, 70, 30);
+			nextButton.setBounds(280, 150, 70, 30);
 			nextButton.addActionListener(new ActionListener() {
 				
 				@Override
@@ -96,6 +95,7 @@ public class CreateCityDialog extends JDialog{
 							HashMap<String, Double> map = new HashMap<String, Double>();
 							String name = nameField.getText();
 							String id = idField.getText();
+							map.put(name, 0.0);
 							cityblService.createCityPO(new CityVO(name, id, map));
 						}
 						else{
@@ -108,7 +108,7 @@ public class CreateCityDialog extends JDialog{
 					}
 				}
 			});
-			this.add(infoLabel);
+			 
 			this.add(nameLabel);
 			this.add(nameField);
 			this.add(idField);
@@ -190,7 +190,7 @@ public class CreateCityDialog extends JDialog{
 			this.add(cityScrollpane);
 			this.add(cancelButton);
 			this.add(sureButton);
-			this.setBounds(0, 0, width, height);
+			this.setBounds(0, 0, 400, 300);
 			this.setVisible(true);
 			this.setLayout(null);
 			 
