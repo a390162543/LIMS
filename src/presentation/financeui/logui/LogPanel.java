@@ -1,14 +1,13 @@
 package presentation.financeui.logui;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-
-
+import businesslogic.logbl.Log;
+import businesslogicservice.LogblService;
 import vo.LogVO;
 
 public class LogPanel extends JPanel{
@@ -23,9 +22,9 @@ public class LogPanel extends JPanel{
 		this.setBounds(0, 40, 560, 360);
 
 		String contents="";
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:MM:SS"); 
+		LogblService logblService = new Log();
 		for( LogVO vo : vos)
-			 contents += sdf.format( vo.getDate())+"   :   "+vo.getOpration()+" "+vo.getEmployeeId()+"("+vo.getEmployeeName()+")"+" "+vo.getOpration()+"\n";
+			 contents += logblService.getLogInfo(vo);
         
 		JTextArea operationArea = new JTextArea(contents);
 		operationArea.setEditable(true);

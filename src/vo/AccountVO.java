@@ -25,6 +25,14 @@ public class AccountVO {
 	public double getMoney(){
 		return money;
 	}
+	
+	public void setName(String name){
+		this.name = name;
+	}
+	
+	public void setMoney(double money){
+		this.money = money;
+	}
 	public AccountPO getAccountPO(){
 		AccountPO po = new AccountPO(id ,name,money);
 		return po;	

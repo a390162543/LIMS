@@ -79,4 +79,8 @@ private JScrollPane revenueScrollPane;
     	StatisticsblService sbs = new Statistics(); 	
     	return sbs.getTotalIncome(revenueVOs);
     }
+    
+    public JTable getTable(){
+    	return revenueTable;
+    }
 }

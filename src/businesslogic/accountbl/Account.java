@@ -134,4 +134,9 @@ public class Account implements AccountblService {
 	      
 		return accountId;
 	}
+	
+	public boolean execute(List<AccountVO> vos){
+		
+		return true;
+	}
 }

@@ -83,4 +83,8 @@ public class PaymentPanel extends JPanel{
     	StatisticsblService sbs = new Statistics(); 	
     	return sbs.getTotalExpenditure(paymentVOs);
     }
+    
+    public JTable getTable(){
+    	return paymentTable;
+    }
 }

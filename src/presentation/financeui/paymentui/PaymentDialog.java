@@ -2,12 +2,6 @@ package presentation.financeui.paymentui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Date;
-
-
-
-
-
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -33,9 +27,6 @@ public class PaymentDialog extends JDialog{
 	private static final long serialVersionUID = -165240080512733546L;
 
 	private JTextField paymentIdField;
- 	private JComboBox yearBox;
- 	private JComboBox monthBox;
- 	private JComboBox dayBox;
  	private JTextField moneyField;
  	private JTextField nameField;
  	private JTextField payeeAccountField;
@@ -148,10 +139,6 @@ public class PaymentDialog extends JDialog{
 		
 		this.add(paymentIdField);
 		this.add(datePickPanel);
-
-		this.add(yearBox);
-		this.add(monthBox);
-		this.add(dayBox);
 		this.add(moneyField);
 		this.add(nameField);
 		this.add(payeeAccountField);

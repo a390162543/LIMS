@@ -12,8 +12,10 @@ import po.PrimeInfoPO;
 import dataservice.PrimeInfoDataService;
 import vo.AccountVO;
 import vo.EmployeeVO;
+import vo.OrderCreateVO;
 import vo.OrganizationVO;
 import vo.PrimeInfoVO;
+import vo.StoreinCreateVO;
 import vo.TruckVO;
 import businesslogic.accountbl.Account;
 import businesslogicservice.PrimeInfoblService;
@@ -100,7 +102,22 @@ public class PrimeInfo implements PrimeInfoblService{
 		List<TruckVO> truckVOs = primeInfoVO.getTruck();
 		truckVOs.remove(vo);	
 		return true;
+	}	
+	@Override
+	public boolean modifyTruckVO(TruckVO vo) {
+		List<TruckVO> truckVOs = primeInfoVO.getTruck();
+		for(TruckVO truckVO : truckVOs){
+			if(truckVO.getId().equals(vo.getId())){
+				truckVO.setEngineNumber(vo.getEngineNumber());
+				truckVO.setTruckNumber(vo.getTruckNumber());
+				truckVO.setChassisNumber(vo.getChassisNumber());
+				truckVO.setPurchaseDate(vo.getPurchaseDate());
+				truckVO.setTruckImage(vo.getTruckImage());
+			}
+		}
+		return true;
 	}
+	
 	@Override
 	public boolean addOrganizationVO(OrganizationVO vo) {
 		List<OrganizationVO> organizationVOs = primeInfoVO.getOrganization();
@@ -112,7 +129,13 @@ public class PrimeInfo implements PrimeInfoblService{
 		List<OrganizationVO> organizationVOs = primeInfoVO.getOrganization();
 		organizationVOs.remove(vo);	
 		return true;
+	}	
+	@Override
+	public boolean modifyOrganizationVO(OrganizationVO vo) {
+		// TODO Auto-generated method stub
+		return false;
 	}
+	
 	@Override
 	public boolean addEmployeeVO(EmployeeVO vo) {
 		List<EmployeeVO> employeeVOs = primeInfoVO.getEmployee();
@@ -124,7 +147,44 @@ public class PrimeInfo implements PrimeInfoblService{
 		List<EmployeeVO> employeeVOs = primeInfoVO.getEmployee();
 		employeeVOs.remove(vo);	
 		return true;
+	}		
+	@Override
+	public boolean modifyEmployeeVO(EmployeeVO vo) {
+		// TODO Auto-generated method stub
+		return false;
 	}
+	
+	@Override
+	public boolean addStoreinCheckResultVO(StoreinCreateVO vo) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
+	public boolean removeStoreinCheckResultVO(StoreinCreateVO vo) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
+	public boolean modifyStoreinVO(StoreinCreateVO vo) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
+	public boolean addOrderCheckResultVO(OrderCreateVO vo) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
+	public boolean removeOrderCheckResultVO(OrderCreateVO vo) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
+	public boolean modifyOrderVO(OrderCreateVO vo) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 	@Override
 	public boolean execute() {
 		Account account = new Account();
@@ -148,20 +208,6 @@ public class PrimeInfo implements PrimeInfoblService{
 			names.add(vo.getName());
 		return null;
 	}
-	@Override
-	public boolean modifyTruckVO(TruckVO vo) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	@Override
-	public boolean modifyOrganizationVO(OrganizationVO vo) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	@Override
-	public boolean modifyEmployeeVO(EmployeeVO vo) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	
 
 }

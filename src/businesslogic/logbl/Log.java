@@ -4,6 +4,7 @@ import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -53,6 +54,14 @@ public class Log implements LogblService{
             e.printStackTrace();
         }
         return vos;
+	}
+
+	@Override
+	public String getLogInfo(LogVO vo) {
+		String logInfo = "";
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:MM:SS");
+		logInfo = sdf.format(vo.getDate())+"   :   "+vo.getOpration()+" "+vo.getEmployeeId()+"("+vo.getEmployeeName()+")"+" "+vo.getOpration()+"\n";
+		return logInfo;
 	}
 
 }

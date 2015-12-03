@@ -3,7 +3,6 @@ package businesslogicservice;
 import java.util.List;
 import java.util.Date;
 
-import po.LogPO;
 import vo.LogVO;
 
 public interface LogblService {
@@ -12,4 +11,5 @@ public interface LogblService {
 	
 	public List<LogVO>  queryLogVO (Date date);
 	
+	public String getLogInfo(LogVO vo);
 }

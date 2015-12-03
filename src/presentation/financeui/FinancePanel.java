@@ -9,7 +9,7 @@ import javax.swing.JPanel;
 import presentation.financeui.accountui.AccountPanel;
 import presentation.financeui.logui.LogDialog;
 import presentation.financeui.paymentui.PaymentDialog;
-import presentation.financeui.primeinfoui.PrimeInfoPanel;
+import presentation.financeui.primeinfoui.PrimeInfoDialog;
 import presentation.financeui.settlementui.RevenuePanel;
 import presentation.financeui.settlementui.SettlementDialog;
 import presentation.financeui.statisticsui.StatisticsDialog;
@@ -70,7 +70,7 @@ public class FinancePanel extends JPanel {
 	class PrimeInfoButtonListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
 			@SuppressWarnings("unused")
-			PrimeInfoPanel primeInfoPane = new PrimeInfoPanel(panel);
+			PrimeInfoDialog primeInfoDialog = new PrimeInfoDialog(panel);
 		}	
 	}
 	class AccountButtonListener implements ActionListener{

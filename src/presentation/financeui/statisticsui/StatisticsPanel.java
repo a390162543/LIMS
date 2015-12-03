@@ -1,8 +1,16 @@
 package presentation.financeui.statisticsui;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import businesslogic.ExcelExporter;
+import businesslogicservice.ExcelExporterService;
 
 
 
@@ -27,6 +35,22 @@ public class StatisticsPanel extends JPanel{
 		revenuePanel.setLocation(0,20+labelHeight);
 		JButton excelButton = new JButton("生成到Excel");
 		excelButton.setBounds(418, 10, 140, 30);
+		excelButton.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ExcelExporterService excelExporterService = new ExcelExporter();
+				File file = new File("c:/LIMS/database/"+"StatisticsExcel"+".xls");
+				try {
+					excelExporterService.export(((RevenuePanel)revenuePanel).getTable(),((PaymentPanel)paymentPanel).getTable(),file);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+			}
+			
+		});
 	
 		JLabel paymentLabel = new JLabel("付款单：");
 		paymentLabel.setBounds(0,20+labelHeight+scrollPaneHeight+interval,labelWidth,labelHeight);
