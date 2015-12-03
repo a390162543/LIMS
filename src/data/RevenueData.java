@@ -121,6 +121,11 @@ public class RevenueData extends UnicastRemoteObject implements RevenueDataServi
         
     }
 
+    @Override
+    public boolean isAvailable(String id) throws RemoteException {
+        return find(id) == null;
+    }
+    
 
 
 }

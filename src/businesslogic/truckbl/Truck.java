@@ -9,6 +9,8 @@ import java.util.List;
 
 import po.TruckPO;
 import vo.TruckVO;
+import businesslogic.idbl.IdManager;
+import businesslogicservice.IdblService;
 import businesslogicservice.TruckblService;
 import dataservice.TruckDataService;
 
@@ -83,7 +85,27 @@ public class Truck implements TruckblService{
         return vos;
     }
     
+    public List<TruckVO> getTruckVO(String organization) {
+        List<TruckVO> vos = new ArrayList<TruckVO>();
+        List<TruckPO> pos;
+        try {
+            pos = truckDataService.finds("organization", organization);
+            for(TruckPO po : pos){
+                vos.add(po.getTruckVO());
+            }
+        } catch (RemoteException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return vos;
+    }
+    
     public boolean execute(TruckVO vo){
         return createTruckPO(vo);
+    }
+
+    @Override
+    public IdblService getIdblService() {
+        return new IdManager(truckDataService, 3, false);
     }
 }

@@ -19,6 +19,9 @@ import javax.swing.filechooser.FileFilter;
 
 import org.jb2011.lnf.beautyeye.widget.border.BERoundBorder;
 
+import businesslogic.BusinessLogicService;
+import businesslogicservice.IdblService;
+import businesslogicservice.TruckblService;
 import vo.TruckVO;
 
 public class TruckDialog extends JDialog{
@@ -52,6 +55,11 @@ public class TruckDialog extends JDialog{
             textFields[i].setBounds(100, 10+35*i, 150, 25);
             this.add(textFields[i]);
         }
+        TruckblService truckblService = BusinessLogicService.getTruckblService();
+        IdblService idblService = truckblService.getIdblService();
+        textFields[0].setText(idblService.createNewId());
+        textFields[0].setEnabled(false);
+        
         textFields[6].setText("此项由系统自动生成");
         imageLabel = 
                new JLabel("<html>  点击此处选择车辆图片<br>图片格式需求：<br>"

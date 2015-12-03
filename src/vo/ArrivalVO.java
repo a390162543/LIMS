@@ -10,9 +10,11 @@ public class ArrivalVO {
     private String id;
     private Date arrivalDate;
     private String transferId;
+    private boolean isTransferId;
     private String depart;
     private String destination;
     private GoodsState goodsState;
+
     
     public ArrivalVO(String id, Date arrivalDate, String transferId,
             String depart, GoodsState gs){
@@ -21,6 +23,8 @@ public class ArrivalVO {
         this.transferId = transferId;
         this.depart = depart;
         this.goodsState = gs;
+        if(transferId.length() == 17)
+            isTransferId = true;
     }
     
     public ArrivalVO(String id, Date arrivalDate, String transferId,
@@ -31,6 +35,8 @@ public class ArrivalVO {
         this.depart = depart;
         this.destination = destination;
         this.goodsState = goodsState;
+        if(transferId.length() == 17)
+            isTransferId = true;
     }
 
     public String getIdString(){
@@ -60,7 +66,11 @@ public class ArrivalVO {
     public String getTransferId() {
         return transferId;
     }
-
+    
+    public boolean isTransferId() {
+        return isTransferId;
+    }
+    
     public String getDepart() {
         return depart;
     }
@@ -76,5 +86,7 @@ public class ArrivalVO {
     public ArrivalPO getArrivalPO() {
         return new ArrivalPO(id, arrivalDate, transferId, depart, destination, goodsState);
     }
+
+
 
 }

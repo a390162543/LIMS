@@ -43,15 +43,15 @@ public class OrderTableModel extends DefaultTableModel{
     	if(vo != null){
     		addRow(convertToVector(vo));
     		dataList.add(vo); 
+    		System.out.println(dataList.size());
     		revenueblService.add(vo);
     	}
     }
     
     public void delete(int row){
-        removeRow(row);         
-        dataList.remove(row);
+        removeRow(row);
         revenueblService.delete(dataList.get(row));
-         
+        dataList.remove(row);  
     }
     
     

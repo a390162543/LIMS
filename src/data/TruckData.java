@@ -116,4 +116,9 @@ public class TruckData extends UnicastRemoteObject implements TruckDataService {
         
     }
 
+    @Override
+    public boolean isAvailable(String id) throws RemoteException {
+        return find(id) == null;
+    }
+    
 }

@@ -48,9 +48,10 @@ public class OrderTableModel extends DefaultTableModel{
     }
     
     public void delete(int row){
-        removeRow(row);         
-        dataList.remove(row);
+        removeRow(row);     
         loadblService.deleteGoods(dataList.get(row));
+        dataList.remove(row);
+
          
     }
     

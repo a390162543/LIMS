@@ -2,6 +2,8 @@ package presentation.businesshallui.arrivalui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.Date;
 
 import javax.swing.ButtonGroup;
@@ -11,11 +13,16 @@ import javax.swing.JLabel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
+import presentation.util.CheckInfoGetter;
+import presentation.util.Checker;
 import presentation.util.OrganizationComboBox;
 import presentation.util.RecentDatePickPanel;
 import businesslogic.BusinessLogicService;
+import businesslogic.checkbl.CheckInfo;
+import businesslogic.checkbl.arrivalinfo.ArrivalTransferId;
 import businesslogic.userbl.LoginController;
 import businesslogicservice.ArrivalblService;
+import businesslogicservice.IdblService;
 import systemenum.GoodsState;
 import vo.ArrivalVO;
 
@@ -48,9 +55,35 @@ public class ArrivalDialog extends JDialog{
             textFields[i].setBounds(100, 10+35*i, 150, 25);
             this.add(textFields[i]);
         }
+        IdblService idblService = arrivalblService.getIdblService();
+        textFields[0].setText(idblService.createNewId());
         textFields[0].setEnabled(false);
         
+        Checker transferIdChecker = new Checker(textFields[1], new CheckInfoGetter() {
+            
+            @Override
+            public CheckInfo getCheckInfo() {
+                return new ArrivalTransferId(textFields[1].getText());
+            }
+        });
+        
+        textFields[1].addKeyListener(new KeyListener() {
+            
+            @Override
+            public void keyTyped(KeyEvent e) {
+            }
+            
+            @Override
+            public void keyReleased(KeyEvent e) {
+                transferIdChecker.check();
+            }
+            
+            @Override
+            public void keyPressed(KeyEvent e) {
+            }
+        });
        
+        
         OrganizationComboBox departComboBox = new OrganizationComboBox();
         departComboBox.setBounds(100, 10+35*2, 180, 25);
         this.add(departComboBox);

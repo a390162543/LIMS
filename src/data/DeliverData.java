@@ -96,4 +96,9 @@ public class DeliverData extends UnicastRemoteObject implements DeliverDataServi
         
     }
 
+    @Override
+    public boolean isAvailable(String id) throws RemoteException {
+        return find(id) == null;
+    }
+    
 }

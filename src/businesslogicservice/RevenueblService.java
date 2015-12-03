@@ -1,9 +1,12 @@
 package businesslogicservice;
 
+import java.util.List;
+
+import vo.EmployeeVO;
 import vo.OrderRevenueVO;
 import vo.RevenueVO;
 
-public interface RevenueblService {
+public interface RevenueblService extends Identifiable {
     
     public boolean createRevenuePO(RevenueVO vo);
     
@@ -18,5 +21,7 @@ public interface RevenueblService {
     public boolean delete(OrderRevenueVO vo);
     
     public double getSum();
+    
+    public List<EmployeeVO> getAllCouriers();
     
 }

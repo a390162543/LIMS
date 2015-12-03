@@ -22,6 +22,7 @@ import presentation.util.RecentDatePickPanel;
 import vo.RevenueVO;
 import businesslogic.BusinessLogicService;
 import businesslogic.userbl.LoginController;
+import businesslogicservice.IdblService;
 import businesslogicservice.RevenueblService;
 
 public class RevenueDialog extends JDialog{
@@ -49,12 +50,19 @@ public class RevenueDialog extends JDialog{
             this.add(labels[i]);
         }
         
-        textFields = new JTextField[2];
+        textFields = new JTextField[1];
         for(int i=0;i<textFields.length;i++){
             textFields[i] = new JTextField();
             textFields[i].setBounds(100, 10+35*i, 150, 25);
             this.add(textFields[i]);
         }
+        IdblService idblService = revenueblService.getIdblService();
+        textFields[0].setText(idblService.createNewId());
+        textFields[0].setEnabled(false);
+        
+        CourierComboBox courierComboBox = new CourierComboBox();
+        courierComboBox.setBounds(100, 10+35*1, 150, 25);
+        this.add(courierComboBox);
         
         OrganizationComboBox organizationComboBox = new OrganizationComboBox();
         organizationComboBox.setSelectedItem(LoginController.getOrganizationName());
@@ -100,6 +108,7 @@ public class RevenueDialog extends JDialog{
                        return;
                    int modelRow = orderTable.convertRowIndexToModel(row);
                    tableModel.delete(modelRow);
+                   setRevenueField();
             }
         });
         
@@ -125,7 +134,7 @@ public class RevenueDialog extends JDialog{
                 
                 String id = textFields[0].getText();
                 Date revenueDate = datePickPanel.getTime();
-                String courierId = textFields[1].getText();
+                String courierId = courierComboBox.getSelectedCourier();
                 double revenue = new Double(costTextField.getText());
                 String accountId = "";
                 String organization = (String) organizationComboBox.getSelectedItem();

@@ -38,5 +38,8 @@ public class OrganizationComboBox extends JComboBox<String>{
 		this.setModel(comboBoxModel);
 		this.setSize(180, 20);
 	}
-
+	
+	public String getSelectedOrganization(){
+	    return (String)getSelectedItem();
+	}
 }

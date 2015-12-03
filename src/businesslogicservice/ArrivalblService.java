@@ -2,7 +2,7 @@ package businesslogicservice;
 
 import vo.ArrivalVO;
 
-public interface ArrivalblService {
+public interface ArrivalblService extends Identifiable{
     
     public boolean createArrivalPO(ArrivalVO vo);
     

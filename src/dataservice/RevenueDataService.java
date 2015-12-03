@@ -6,7 +6,7 @@ import java.util.List;
 
 import po.RevenuePO;
 
-public interface RevenueDataService extends Remote{
+public interface RevenueDataService extends DataIdentifiable,Remote{
     
     public void insert(RevenuePO po) throws RemoteException;
     

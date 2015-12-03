@@ -13,7 +13,7 @@ import javax.swing.JTextField;
 import presentation.util.DatePickPanel;
 import businesslogic.IdManagementService;
 import businesslogic.paymentbl.Payment;
-import businesslogicservice.IdManager;
+import businesslogicservice.IdblService;
 import businesslogicservice.PaymentblService;
 import systemenum.Entry;
 import vo.PaymentVO;
@@ -87,7 +87,7 @@ public class PaymentDialog extends JDialog{
 		paymentIdField.setLocation(textFieldx, textFieldy);
 		paymentIdField.setEditable(false);
 
-		IdManager paymentIdManager = IdManagementService.getPaymentIdManager();	
+		IdblService paymentIdManager = IdManagementService.getPaymentIdManager();	
 		paymentIdField.setText(paymentIdManager.createNewId());
 	
 		datePickPanel  = new DatePickPanel();

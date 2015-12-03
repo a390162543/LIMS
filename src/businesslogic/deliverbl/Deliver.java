@@ -8,14 +8,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import po.DeliverPO;
-import po.OrderPO;
 import systemenum.DocumentState;
-import dataservice.DataService;
 import dataservice.DeliverDataService;
-import dataservice.OrderDataService;
 import vo.DeliverVO;
+import vo.EmployeeVO;
+import vo.OrderDeliverInfoVO;
 import businesslogic.BusinessLogicUtil;
+import businesslogic.employeebl.Employee;
+import businesslogic.idbl.IdManager;
+import businesslogic.orderbl.Order;
+import businesslogic.userbl.LoginController;
 import businesslogicservice.DeliverblService;
+import businesslogicservice.IdblService;
 
 public class Deliver implements DeliverblService{
     
@@ -67,17 +71,12 @@ public class Deliver implements DeliverblService{
             DeliverPO po = deliverDataService.find(vo.getId());
             po.setDocumentState(DocumentState.PASS);
             deliverDataService.update(po);
-            
-            OrderDataService orderDataService = DataService.getOrderDataService();
-            
-            OrderPO orderPO = orderDataService.find(vo.getOrderId());
-            
-            String deliverInfo = orderPO.getDeliverInfo();
-            deliverInfo += BusinessLogicUtil.getTime(vo.getDeliverDate())+
+
+            Order orderbl = new Order();
+            String deliverInfo = BusinessLogicUtil.getTime(vo.getDeliverDate())+
                     " 货物正在由快递员"+vo.getCourierId()+"派件\n";
-            orderPO.setDeliverInfo(deliverInfo);
-            
-            orderDataService.update(orderPO);
+            OrderDeliverInfoVO orderDeliverInfoVO = new OrderDeliverInfoVO(vo.getOrderId(), LoginController.getOrganizationName(), "", deliverInfo);
+            orderbl.modifyDeliverInfo(orderDeliverInfoVO);
                 
             
         } catch (RemoteException e) {
@@ -100,6 +99,18 @@ public class Deliver implements DeliverblService{
             vos.add(po.getDeliverVO());
         }
         return vos;
+    }
+
+    @Override
+    public IdblService getIdblService() {
+        return new IdManager(deliverDataService, 6);
+    }
+
+    @Override
+    public List<EmployeeVO> getAllCouriers() {
+        String organization = LoginController.getOrganizationName();
+        Employee employee = new Employee();
+        return employee.getCourierVO(organization);
     }
     
 }

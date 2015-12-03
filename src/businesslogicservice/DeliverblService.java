@@ -1,8 +1,11 @@
 package businesslogicservice;
 
-import vo.DeliverVO;
+import java.util.List;
 
-public interface DeliverblService {
+import vo.DeliverVO;
+import vo.EmployeeVO;
+
+public interface DeliverblService extends Identifiable {
 
     public boolean createDeliverPO(DeliverVO vo);
     
@@ -10,4 +13,5 @@ public interface DeliverblService {
     
     public boolean execute(DeliverVO vo);
     
+    public List<EmployeeVO> getAllCouriers();
 }

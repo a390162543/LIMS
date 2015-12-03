@@ -42,10 +42,12 @@ public class RecentDatePickPanel extends JPanel{
         dateTextField.setEditable(false);
         SimpleDateFormat sdf = new SimpleDateFormat(
                 "yyyy年MM月dd日");
-        dateTextField.setText(sdf.format(new Date()));
+        Date date = new Date();
+        dateTextField.setText(sdf.format(date));
         popUpButton = new JButton("选择日期");
         popUpButton.setBounds(130, 0, 70, 25);
         datePicker = new DatePicker(popUpButton);
+        datePicker.setDate(date);
         popUpButton.addActionListener(new ActionListener() {
             
             @Override

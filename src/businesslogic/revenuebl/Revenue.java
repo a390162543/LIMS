@@ -14,9 +14,14 @@ import po.RevenuePO;
 import systemenum.DocumentState;
 import dataservice.OrderDataService;
 import dataservice.RevenueDataService;
+import vo.EmployeeVO;
 import vo.OrderRevenueVO;
 import vo.RevenueVO;
 import businesslogic.accountbl.Account;
+import businesslogic.employeebl.Employee;
+import businesslogic.idbl.IdManager;
+import businesslogic.userbl.LoginController;
+import businesslogicservice.IdblService;
 import businesslogicservice.RevenueblService;
 
 public class Revenue implements RevenueblService{
@@ -218,6 +223,18 @@ public class Revenue implements RevenueblService{
     @Override
     public double getSum() {
         return orderList.getRevenue();
+    }
+    
+    @Override
+    public List<EmployeeVO> getAllCouriers() {
+        String organization = LoginController.getOrganizationName();
+        Employee employee = new Employee();
+        return employee.getCourierVO(organization);
+    }
+    
+    @Override
+    public IdblService getIdblService() {
+        return new IdManager(revenueDataService, 6);
     }
     
 }

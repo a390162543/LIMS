@@ -10,12 +10,15 @@ import java.util.List;
 import po.LoadPO;
 import po.OrderPO;
 import systemenum.DocumentState;
-import dataservice.DataService;
 import dataservice.LoadDataService;
 import dataservice.OrderDataService;
 import vo.GoodsVO;
 import vo.LoadVO;
+import vo.OrderDeliverInfoVO;
 import businesslogic.BusinessLogicUtil;
+import businesslogic.idbl.IdManager;
+import businesslogic.orderbl.Order;
+import businesslogicservice.IdblService;
 import businesslogicservice.LoadblService;
 
 public class Load implements LoadblService{
@@ -121,19 +124,12 @@ public class Load implements LoadblService{
 
             List<String> orders = vo.getOrderId();
             
-            OrderDataService orderDataService = DataService.getOrderDataService();
-            for(String order : orders){
-                OrderPO orderPO = orderDataService.find(order);
-                
-                orderPO.setNowLocation(vo.getDepart());
-                orderPO.setNextLocation(vo.getDestination());
-                
-                String deliverInfo = orderPO.getDeliverInfo();
-                deliverInfo += BusinessLogicUtil.getTime(vo.getLoadingDate())+
+            Order orderbl = new Order();
+            for(String orderId : orders){
+                String deliverInfo = BusinessLogicUtil.getTime(vo.getLoadingDate())+
                         " 货物从"+vo.getDepart()+"出发\n";
-                orderPO.setDeliverInfo(deliverInfo);
-                
-                orderDataService.update(orderPO);
+                OrderDeliverInfoVO orderDeliverInfoVO = new OrderDeliverInfoVO(orderId, vo.getDestination(), vo.getDestination(), deliverInfo);
+                orderbl.modifyDeliverInfo(orderDeliverInfoVO);
                 
             }
         } catch (RemoteException e) {
@@ -156,6 +152,23 @@ public class Load implements LoadblService{
             vos.add(po.getLoadVO());
         }
         return vos;
+    }
+    
+    public LoadVO getLoadVO(String id){
+        try {
+            LoadPO po = loadDataService.find(id);
+            if(po != null)
+                return po.getLoadVO();
+        } catch (RemoteException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
+    @Override
+    public IdblService getIdblService() {
+        return new IdManager(loadDataService, 6);
     }
 
 }

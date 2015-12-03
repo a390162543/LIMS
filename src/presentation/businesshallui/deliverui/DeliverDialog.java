@@ -13,6 +13,7 @@ import presentation.util.RecentDatePickPanel;
 import vo.DeliverVO;
 import businesslogic.BusinessLogicService;
 import businesslogicservice.DeliverblService;
+import businesslogicservice.IdblService;
 
 public class DeliverDialog extends JDialog{
 
@@ -37,14 +38,19 @@ public class DeliverDialog extends JDialog{
             this.add(labels[i]);
         }
         
-        textFields = new JTextField[3];
+        textFields = new JTextField[2];
         for(int i=0;i<textFields.length;i++){
             textFields[i] = new JTextField();
             textFields[i].setBounds(100, 10+35*i, 150, 25);
             this.add(textFields[i]);
         }
+        IdblService idblService = deliverblService.getIdblService();
+        textFields[0].setText(idblService.createNewId());
         textFields[0].setEnabled(false);
         
+        CourierComboBox courierComboBox = new CourierComboBox();
+        courierComboBox.setBounds(100, 10+35*2, 150, 25);
+        this.add(courierComboBox);
         
         RecentDatePickPanel datePickPanel = new RecentDatePickPanel();
         datePickPanel.setBounds(100, 10+35*3, 200, 25);
@@ -60,7 +66,7 @@ public class DeliverDialog extends JDialog{
                 String id = textFields[0].getText();
                 Date deliverDate = datePickPanel.getTime();
                 String orderId = textFields[1].getText();
-                String courierId = textFields[2].getText();
+                String courierId = courierComboBox.getSelectedCourier();
                 
                 DeliverVO vo = new DeliverVO(id, deliverDate, orderId, courierId);
                 deliverblService.createDeliverPO(vo);

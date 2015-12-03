@@ -96,4 +96,10 @@ public class ArrivalData extends UnicastRemoteObject implements ArrivalDataServi
         
     }
 
+    @Override
+    public boolean isAvailable(String id) throws RemoteException {
+        return find(id) == null;
+    }
+
+
 }

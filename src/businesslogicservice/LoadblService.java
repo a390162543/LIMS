@@ -4,7 +4,7 @@ package businesslogicservice;
 import vo.GoodsVO;
 import vo.LoadVO;
 
-public interface LoadblService {
+public interface LoadblService extends Identifiable {
     
     public boolean createLoadPO(LoadVO vo);
     

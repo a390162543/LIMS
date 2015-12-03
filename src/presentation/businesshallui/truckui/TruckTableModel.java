@@ -7,6 +7,7 @@ import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 
 import businesslogic.truckbl.Truck;
+import businesslogic.userbl.LoginController;
 import businesslogicservice.TruckblService;
 import vo.TruckVO;
 
@@ -24,7 +25,7 @@ public class TruckTableModel extends DefaultTableModel{
     
     public TruckTableModel() {
         truckblService = new Truck();
-        dataList = truckblService.getTruckVO();
+        dataList = truckblService.getTruckVO(LoginController.getOrganizationName());
         setDataVector(convertToVectorData(dataList), getColumnNamesVector());
     }
     

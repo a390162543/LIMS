@@ -128,7 +128,7 @@ public class Employee implements EmployeeblService{
 		try {
 			
 			 
-			 List<EmployeePO> pos= employeeDataService.finds("organiztion", organiztion);
+			 List<EmployeePO> pos= employeeDataService.finds("organization", organiztion);
 			 for(EmployeePO po : pos){
 				 if(po.getPosition().equals(Position.COURIER))
 					 vos.add(po.getEmployeeVO());

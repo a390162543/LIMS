@@ -6,7 +6,7 @@ import java.util.List;
 
 import po.TruckPO;
 
-public interface TruckDataService extends Remote{
+public interface TruckDataService extends DataIdentifiable,Remote{
     
     public void insert(TruckPO po) throws RemoteException;
     

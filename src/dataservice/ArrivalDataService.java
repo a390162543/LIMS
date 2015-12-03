@@ -6,7 +6,7 @@ import java.util.List;
 
 import po.ArrivalPO;
 
-public interface ArrivalDataService extends Remote{
+public interface ArrivalDataService extends DataIdentifiable,Remote{
     
     public void insert(ArrivalPO po) throws RemoteException;
     

@@ -95,5 +95,11 @@ public class LoadData extends UnicastRemoteObject implements LoadDataService {
         // TODO Auto-generated method stub
         
     }
+    
+    @Override
+    public boolean isAvailable(String id) throws RemoteException {
+        return find(id) == null;
+    }
+    
 
 }
