@@ -10,7 +10,7 @@ public interface TransferblService {
 	public boolean createTransferPO(TransferVO vo);
 	
 	
-	public double getCost(String location1, String location2);
+	public double getCost(String location1, String location2,String way);
 	
 	public boolean modifyTransferPO(TransferVO vo);
 	

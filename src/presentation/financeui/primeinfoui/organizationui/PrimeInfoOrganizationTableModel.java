@@ -23,6 +23,11 @@ public class PrimeInfoOrganizationTableModel extends DefaultTableModel{
         setDataVector(convertToVectorData(dataList), getColumnNamesVector());
     }
     
+    public PrimeInfoOrganizationTableModel(List<OrganizationVO> vos){
+    	 dataList = vos;
+ 	    setDataVector(convertToVectorData(dataList), getColumnNamesVector());
+    }
+    
     public void create(OrganizationVO vo){
         addRow(convertToVector(vo));
         dataList.add(vo);
@@ -42,7 +47,7 @@ public class PrimeInfoOrganizationTableModel extends DefaultTableModel{
         insertRow(row, convertToVector(vo));
         dataList.remove(row);
         dataList.add(row, vo);
-         
+        primeInfoblService.modifyOrganizationVO(vo);
     }
     
     public OrganizationVO getOrganizationVO(int row){

@@ -20,8 +20,12 @@ import vo.EmployeeVO;
 import vo.PayVO;
 
 
-public class EmployeeDialog {
-	private JDialog employeeDialog ;	 
+public class EmployeeDialog extends JDialog{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4592042591265103245L;
+		 
 	private String positions[]; 
 	private JLabel infoLabel ;	 
 	private JLabel nameLabel ; 
@@ -53,7 +57,134 @@ public class EmployeeDialog {
 	private JButton sureButton;
     private EmployeeTableModel tableModel;
 
+    public EmployeeDialog(EmployeeTableModel em){
+		init();		
+		tableModel = em;
+		cancleButton.addActionListener(new ActionListener(){
+	
+			  @Override
+			  public void actionPerformed(ActionEvent e){
+				  EmployeeDialog.this.dispose();
+			  }
+		});
+			
+		sureButton.addActionListener(new ActionListener(){			
+			  @Override
+			  public void actionPerformed(ActionEvent e){
+				  update(true,0);
+				  EmployeeDialog.this.dispose();
+			  }
+		});		
+	}
+	
+ 
+	public EmployeeDialog(EmployeeTableModel em, int modelRow, boolean isEdit){
+
+		init();
+		tableModel = em;
+		EmployeeVO vo = tableModel.getEmployeeVO(modelRow);
+		nameField.setText(vo.getName());
+		idField.setText(""+vo.getId());
+		idField.setEnabled(false);
+		organizationBox.setSelectedItem(vo.getOrganization());
+		datePickPanel.setDate(vo.getBirthday());
+		if(vo.getSex().equals(Sex.MALE))
+			maleRadioButton.setSelected(true);
+		else 
+			femaleRadioButton.setSelected(true);	
+		
+		switch (vo.getPosition()) {
+		case MANAGER: 
+			positionBox.setSelectedIndex(0); break;
+		case SELLINGBUSINESSMAN: 
+			positionBox.setSelectedIndex(1); break;
+		case TRANSFERCENTREBUSINESSMAN: 
+			positionBox.setSelectedIndex(2) ;break;
+		case COURIER:
+			positionBox.setSelectedIndex(3); break;
+		case STORAGEMANAGER:
+			positionBox.setSelectedIndex(4); break;
+		case SENIORFINANCIALSTAFF:
+			positionBox.setSelectedIndex(5); break;
+		case FINANCIALSTAFF:
+			positionBox.setSelectedIndex(6); break;
+		case SYSTEMMANAGER:
+			positionBox.setSelectedIndex(7); break;
+		case DRIVER:
+			positionBox.setSelectedIndex(8); break;		
+		}
+		
+		 phoneField.setText(""+vo.getTelephone());
+		 idCardField.setText(""+vo.getIdentityCardNum());
+		 		 		 
+		if(positionBox.getSelectedItem().toString().equals("快递员")){
+			basePayLabel.setText("基础工资");
+			unitLabel.setText("/月");
+			percentageField.setVisible(true);
+			percentageLabel1.setVisible(true);
+			percentageLabel2.setVisible(true);
+			basePayField.setText(""+vo.getPay().getBasePay());
+			percentageField.setText(""+vo.getPay().getRate()*100);
+			this.add(percentageLabel1);
+			this.add(percentageLabel2);
+			this.add(percentageField);										
+			}
+		else if(positionBox.getSelectedItem().toString().equals("司机")){
+			basePayLabel.setText("按次计费");
+			unitLabel.setText("/次");
+			basePayField.setText(""+vo.getPay().getPayByCount());
+			percentageField.setVisible(false);
+			percentageLabel1.setVisible(false);
+			percentageLabel2.setVisible(false);
+			}
+		else{
+			basePayLabel.setText("月薪");
+			unitLabel.setText("");
+			basePayField.setText(""+vo.getPay().getBasePay());
+			percentageField.setVisible(false);
+			percentageLabel1.setVisible(false);
+			percentageLabel2.setVisible(false);
+		}
+			
 	 
+		
+		if(!isEdit){
+			nameField.setEnabled(false);
+			maleRadioButton.setEnabled(false);
+			femaleRadioButton.setEnabled(false);
+			idCardField.setEnabled(false);
+			organizationBox.setEnabled(false);
+			positionBox.setEnabled(false);
+			phoneField.setEnabled(false);
+			idCardField.setEnabled(false);
+			datePickPanel.setEnabled(false);
+			basePayField.setEnabled(false);
+			percentageField.setEnabled(false);
+			cancleButton.setVisible(false);
+			sureButton.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					EmployeeDialog.this.dispose();
+				}
+			});
+		}
+		else{
+			sureButton.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					update(false, modelRow);
+					EmployeeDialog.this.dispose();
+				}
+			});
+		}
+		 
+	}
+    
+    
 	public void init(){
  
 		positions = new String[]{"总经理","营业厅业务员","中转中心业务员","快递员",
@@ -88,8 +219,8 @@ public class EmployeeDialog {
 		cancleButton = new JButton("取消");
 		sureButton = new JButton("确认");
 		
-		employeeDialog = new JDialog();
-		employeeDialog.setBounds(300, 100, 380, 460);		 			 
+		 
+		this.setBounds(300, 100, 380, 460);		 			 
 		infoLabel.setBounds(90, 16, 170, 34);	 
 		nameLabel.setBounds(4, 60, 100, 24);	 
 		nameField.setBounds(100, 60, 60, 20);
@@ -128,10 +259,10 @@ public class EmployeeDialog {
 					percentageField.setVisible(true);
 					percentageLabel1.setVisible(true);
 					percentageLabel2.setVisible(true);
-					employeeDialog.add(percentageLabel1);
-					employeeDialog.add(percentageLabel2);
-					employeeDialog.add(percentageField);
-					employeeDialog.repaint();
+					EmployeeDialog.this.add(percentageLabel1);
+					EmployeeDialog.this.add(percentageLabel2);
+					EmployeeDialog.this.add(percentageField);
+					EmployeeDialog.this.repaint();
 				}
 				else if(positionBox.getSelectedItem().toString().equals("司机")){
 					basePayLabel.setText("按此计费");
@@ -139,7 +270,7 @@ public class EmployeeDialog {
 					percentageField.setVisible(false);
 					percentageLabel1.setVisible(false);
 					percentageLabel2.setVisible(false);
-					employeeDialog.repaint();
+					EmployeeDialog.this.repaint();
 				}
 				else{
 					basePayLabel.setText("月薪");
@@ -147,7 +278,7 @@ public class EmployeeDialog {
 					percentageField.setVisible(false);
 					percentageLabel1.setVisible(false);
 					percentageLabel2.setVisible(false);
-					employeeDialog.repaint();
+					EmployeeDialog.this.repaint();
 				}
 			}
 		});
@@ -158,34 +289,34 @@ public class EmployeeDialog {
 		cancleButton.setBounds(175, 380, 70, 30);
 		sureButton.setBounds(265, 380, 70, 30);
 	 
-		employeeDialog.add(infoLabel);
-		employeeDialog.add(nameField);
-		employeeDialog.add(nameLabel);
-		employeeDialog.add(sexLabel);
-		employeeDialog.add(femaleRadioButton);
-		employeeDialog.add(maleRadioButton);	
-		employeeDialog.add(idField);
-		employeeDialog.add(idLabel);
-		employeeDialog.add(organizationLabel);
-		employeeDialog.add(organizationBox);
-		employeeDialog.add(positionLabel);
-		employeeDialog.add(positionBox);
-		employeeDialog.add(phoneField);
-		employeeDialog.add(phoneLabel);
-		employeeDialog.add(idCardLabel);
-		employeeDialog.add(idCardField);
-		employeeDialog.add(birthLabel);
-		employeeDialog.add(datePickPanel);
-		employeeDialog.add(cancleButton);
-		employeeDialog.add(sureButton);
-		employeeDialog.add(payLabel);
-		employeeDialog.add(basePayLabel);
-		employeeDialog.add(basePayField);
-		employeeDialog.add(unitLabel);
+		this.add(infoLabel);
+		this.add(nameField);
+		this.add(nameLabel);
+		this.add(sexLabel);
+		this.add(femaleRadioButton);
+		this.add(maleRadioButton);	
+		this.add(idField);
+		this.add(idLabel);
+		this.add(organizationLabel);
+		this.add(organizationBox);
+		this.add(positionLabel);
+		this.add(positionBox);
+		this.add(phoneField);
+		this.add(phoneLabel);
+		this.add(idCardLabel);
+		this.add(idCardField);
+		this.add(birthLabel);
+		this.add(datePickPanel);
+		this.add(cancleButton);
+		this.add(sureButton);
+		this.add(payLabel);
+		this.add(basePayLabel);
+		this.add(basePayField);
+		this.add(unitLabel);
 		
 		
-		employeeDialog.setLayout(null);
-		employeeDialog.setVisible(true);
+		this.setLayout(null);
+		this.setVisible(true);
 	}
 	
 	public void update(boolean isNew,int modelRow){
@@ -269,146 +400,5 @@ public class EmployeeDialog {
 				 tableModel.modify(modelRow, vo);
 	}
 	
-	public void showCreateDialog(EmployeeTableModel em){
-		init();		
-		tableModel = em;
-		cancleButton.addActionListener(new ActionListener(){
 	
-			  @Override
-			  public void actionPerformed(ActionEvent e){
-				  employeeDialog.dispose();
-			  }
-		});
-			 
-		
-		sureButton.addActionListener(new ActionListener(){			
-			  @Override
-			  public void actionPerformed(ActionEvent e){
-				  update(true,0);
-				  employeeDialog.dispose();
-			  }
-		});
-		
-	}
-	
- 
-	public void showQueryDialog(EmployeeTableModel em, int modelRow, boolean isEdit){
-
-		init();
-		this.tableModel = em;
-		EmployeeVO vo = tableModel.getEmployeeVO(modelRow);
-		nameField.setText(vo.getName());
-		idField.setText(""+vo.getId());
-		idField.setEnabled(false);
-		organizationBox.setSelectedItem(vo.getOrganization());
-		datePickPanel.setDate(vo.getBirthday());
-		if(vo.getSex().equals(Sex.MALE))
-			maleRadioButton.setSelected(true);
-		else 
-			femaleRadioButton.setSelected(true);	
-		
-		switch (vo.getPosition()) {
-		case MANAGER: 
-			positionBox.setSelectedIndex(0); break;
-		case SELLINGBUSINESSMAN: 
-			positionBox.setSelectedIndex(1); break;
-		case TRANSFERCENTREBUSINESSMAN: 
-			positionBox.setSelectedIndex(2) ;break;
-		case COURIER:
-			positionBox.setSelectedIndex(3); break;
-		case STORAGEMANAGER:
-			positionBox.setSelectedIndex(4); break;
-		case SENIORFINANCIALSTAFF:
-			positionBox.setSelectedIndex(5); break;
-		case FINANCIALSTAFF:
-			positionBox.setSelectedIndex(6); break;
-		case SYSTEMMANAGER:
-			positionBox.setSelectedIndex(7); break;
-		case DRIVER:
-			positionBox.setSelectedIndex(8); break;		
-		}
-		
-		 phoneField.setText(""+vo.getTelephone());
-		 idCardField.setText(""+vo.getIdentityCardNum());
-		 
-		  
-			
-			 
-				if(positionBox.getSelectedItem().toString().equals("快递员")){
-					basePayLabel.setText("基础工资");
-					unitLabel.setText("/月");
-					percentageField.setVisible(true);
-					percentageLabel1.setVisible(true);
-					percentageLabel2.setVisible(true);
-					basePayField.setText(""+vo.getPay().getBasePay());
-					percentageField.setText(""+vo.getPay().getRate()*100);
-					employeeDialog.add(percentageLabel1);
-					employeeDialog.add(percentageLabel2);
-					employeeDialog.add(percentageField);
-										
-				}
-				else if(positionBox.getSelectedItem().toString().equals("司机")){
-					basePayLabel.setText("按次计费");
-					unitLabel.setText("/次");
-					basePayField.setText(""+vo.getPay().getPayByCount());
-					percentageField.setVisible(false);
-					percentageLabel1.setVisible(false);
-					percentageLabel2.setVisible(false);
-				}
-				else{
-					basePayLabel.setText("月薪");
-					unitLabel.setText("");
-					basePayField.setText(""+vo.getPay().getBasePay());
-					percentageField.setVisible(false);
-					percentageLabel1.setVisible(false);
-					percentageLabel2.setVisible(false);
-
-				}
-			
-	 
-		
-		if(!isEdit){
-			nameField.setEnabled(false);
-			maleRadioButton.setEnabled(false);
-			femaleRadioButton.setEnabled(false);
-			idCardField.setEnabled(false);
-			organizationBox.setEnabled(false);
-			positionBox.setEnabled(false);
-			phoneField.setEnabled(false);
-			idCardField.setEnabled(false);
-			datePickPanel.setEnabled(false);
-			basePayField.setEnabled(false);
-			percentageField.setEnabled(false);
-			cancleButton.setVisible(false);
-			sureButton.addActionListener(new ActionListener() {
-				
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					// TODO Auto-generated method stub
-					employeeDialog.dispose();
-				}
-			});
-		}
-		else{
-			sureButton.addActionListener(new ActionListener() {
-				
-				@Override
-				public void actionPerformed(ActionEvent e) {
-
-					// TODO Auto-generated method stub
-					update(false,modelRow);
-					employeeDialog.dispose();
-				}
-			});
-			
-			cancleButton.addActionListener(new  ActionListener() {
-				
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					// TODO Auto-generated method stub
-					employeeDialog.dispose();
-				}
-			});
-		}
-	}
 }

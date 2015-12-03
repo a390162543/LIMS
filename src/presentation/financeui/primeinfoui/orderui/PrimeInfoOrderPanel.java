@@ -1,4 +1,4 @@
-package presentation.financeui.primeinfoui.storeinui;
+package presentation.financeui.primeinfoui.orderui;
 
 import java.awt.Container;
 import java.awt.event.ActionEvent;
@@ -11,21 +11,20 @@ import javax.swing.JTable;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
-import presentation.financeui.primeinfoui.orderui.PrimeInfoOrderDialog;
+import presentation.financeui.primeinfoui.primeinfoaccount.PrimeInfoAccountDialog;
 import businesslogicservice.PrimeInfoblService;
 
-public class PrimeInfoStoreinPanel extends JPanel{
+public class PrimeInfoOrderPanel extends JPanel{
 	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 5707582086736967054L;
-	
+	private static final long serialVersionUID = -4991664100422134832L;
 	
 	private PrimeInfoblService primeInfoblService;
-	private JScrollPane storeinScrollPane;
-    private JTable storeinTable;
-    private PrimeInfoStoreinTableModel tableModel;
+	private JScrollPane orderScrollPane;
+    private JTable orderTable;
+    private PrimeInfoOrderTableModel tableModel;
     private TableRowSorter<TableModel> tableSorter;
 
     private JButton addButton;
@@ -34,17 +33,19 @@ public class PrimeInfoStoreinPanel extends JPanel{
     private JButton queryButton;
     private JButton modifyButton;
     
-    public PrimeInfoStoreinPanel(PrimeInfoblService primeInfoblService2){	
+
+    
+    public PrimeInfoOrderPanel(PrimeInfoblService primeInfoblService2){	
     	this.primeInfoblService = primeInfoblService2;
         //build up account table
-        tableModel = new PrimeInfoStoreinTableModel(primeInfoblService);  
+        tableModel = new PrimeInfoOrderTableModel(primeInfoblService);  
         tableSorter = new TableRowSorter<TableModel>(tableModel);
-        storeinTable = new JTable(tableModel);
-        storeinTable.setSize(800, 500);
-        storeinTable.setRowSorter(tableSorter);        
+        orderTable = new JTable(tableModel);
+        orderTable.setSize(800, 500);
+        orderTable.setRowSorter(tableSorter);        
         //set scroll pane
-        storeinScrollPane = new JScrollPane(storeinTable);
-        storeinScrollPane.setBounds(0, 10, 560, 370);
+        orderScrollPane = new JScrollPane(orderTable);
+        orderScrollPane.setBounds(0, 10, 560, 370);
         
         addButton = new JButton("Ìí¼Ó");
         deleteButton = new JButton("É¾³ý");
@@ -55,7 +56,7 @@ public class PrimeInfoStoreinPanel extends JPanel{
             
             @Override
             public void actionPerformed(ActionEvent e) {
-                new PrimeInfoStoreinDialog(tableModel);
+                new PrimeInfoOrderDialog(tableModel);
                 
             }
         });
@@ -63,10 +64,10 @@ public class PrimeInfoStoreinPanel extends JPanel{
             
             @Override
             public void actionPerformed(ActionEvent e) {
-                int row = storeinTable.getSelectedRow();
+                int row = orderTable.getSelectedRow();
                 if(row == -1)
                     return;
-                int modelRow = storeinTable.convertRowIndexToModel(row);
+                int modelRow = orderTable.convertRowIndexToModel(row);
                 tableModel.delete(modelRow);
 
             }
@@ -75,22 +76,22 @@ public class PrimeInfoStoreinPanel extends JPanel{
             
             @Override
             public void actionPerformed(ActionEvent e) {
-                int row = storeinTable.getSelectedRow();
+                int row = orderTable.getSelectedRow();
                 if(row == -1)
                     return;
-                int modelRow = storeinTable.convertRowIndexToModel(row);
-                new PrimeInfoStoreinDialog(tableModel ,modelRow ,true);
+                int modelRow = orderTable.convertRowIndexToModel(row);
+                new PrimeInfoOrderDialog(tableModel ,modelRow ,true);
             }
         });
         queryButton.addActionListener(new ActionListener() {
             
             @Override
             public void actionPerformed(ActionEvent e) {
-                int row = storeinTable.getSelectedRow();
+                int row = orderTable.getSelectedRow();
                 if(row == -1)
                     return;
-                int modelRow = storeinTable.convertRowIndexToModel(row);
-                new PrimeInfoStoreinDialog(tableModel ,modelRow ,false);
+                int modelRow = orderTable.convertRowIndexToModel(row);
+                new PrimeInfoOrderDialog(tableModel ,modelRow ,false);
             }
         });
         createButton.addActionListener(new ActionListener() {
@@ -98,9 +99,9 @@ public class PrimeInfoStoreinPanel extends JPanel{
             @Override
             public void actionPerformed(ActionEvent e) {
             	primeInfoblService.createPrimeInfoPO();
-            	primeInfoblService.executeStoreinPO();
+            	primeInfoblService.executeOrderPO();
  
-            	Container container = PrimeInfoStoreinPanel.this.getParent().getParent();
+            	Container container = PrimeInfoOrderPanel.this.getParent().getParent();
             	container.removeAll();
             	container.repaint();
             }
@@ -113,7 +114,7 @@ public class PrimeInfoStoreinPanel extends JPanel{
         //set panel
         this.setBounds(0, 15, 560, 470);
         this.setLayout(null);
-        this.add(storeinScrollPane);
+        this.add(orderScrollPane);
         this.add(addButton);
         this.add(deleteButton);
         this.add(createButton);
@@ -121,6 +122,5 @@ public class PrimeInfoStoreinPanel extends JPanel{
         this.add(modifyButton);
 
     }
-	
 
 }

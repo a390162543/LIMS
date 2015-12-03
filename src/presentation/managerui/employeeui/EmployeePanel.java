@@ -84,7 +84,7 @@ public class EmployeePanel extends JPanel{
             
             @Override
             public void actionPerformed(ActionEvent e) {
-                new EmployeeDialog().showCreateDialog(tableModel);
+                new EmployeeDialog(tableModel);
                 
             }
         });
@@ -108,7 +108,7 @@ public class EmployeePanel extends JPanel{
                 if(row == -1)
                     return;
                 int modelRow = EmployeeTable.convertRowIndexToModel(row);
-                new EmployeeDialog().showQueryDialog(tableModel, modelRow, true);
+                new EmployeeDialog(tableModel, modelRow, true);
             }
         });
         queryButton.addActionListener(new ActionListener() {
@@ -119,7 +119,7 @@ public class EmployeePanel extends JPanel{
                 if(row == -1)
                     return;
                 int modelRow = EmployeeTable.convertRowIndexToModel(row);
-                new EmployeeDialog().showQueryDialog(tableModel, modelRow, false);
+                new EmployeeDialog(tableModel, modelRow, false);
             }
         });
         createButton.setBounds(230, 420, 70, 30);

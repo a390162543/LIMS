@@ -214,4 +214,25 @@ public class Storein implements StoreinblService{
 	}
 	
 	
+	public boolean primeInfoExecute (List<StoreinCreateVO> vos){
+		try {
+			StoreinDataService storeinDataService =  (StoreinDataService) Naming.lookup("rmi://localhost/StoreinData");
+			for (StoreinCreateVO storeinCreateVO : vos) {
+				StoreinPO po = storeinCreateVO.getStoreinPO();
+				storeinDataService.insert(po);
+			}
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NotBoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return true;
+	}
+	
 }

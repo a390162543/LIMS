@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import systemenum.DocumentState;
+import systemenum.ShipForm;
 import vo.TransferVO;
 
 public class TransferPO implements Serializable{
@@ -22,10 +23,11 @@ public class TransferPO implements Serializable{
 	private List<String> orderId;
 	private double expenses;
 	private DocumentState documentState;
+	private ShipForm shipForm;
 
 	public TransferPO(String id, Date date, String flightNum, String depart,
 			String destination, String containerId, String loadMan, List<String> orderId, 
-			double expenses ){
+			double expenses ,ShipForm shipForm){
 		this.id = id;
 		this.loadDate = date;
 		this.flightNumbe = flightNum;
@@ -35,13 +37,23 @@ public class TransferPO implements Serializable{
 		this.loadMan = loadMan;
 		this.orderId = orderId;
 		this.expenses = expenses;
+		this.shipForm = shipForm;
 		documentState = DocumentState.PENDING;
 	}
-
-	public TransferVO getTransferVO(){
-		return new TransferVO(id, loadDate, flightNumbe, depart,
-				destination, containerId, loadMan, orderId, expenses);
+	
+		public TransferVO getTransferVO(){
+			return new TransferVO(id, loadDate, flightNumbe, depart,
+				destination, containerId, loadMan, orderId, expenses, shipForm);
+		}
+	public ShipForm getShipForm() {
+		return shipForm;
 	}
+
+	public void setShipForm(ShipForm shipForm) {
+		this.shipForm = shipForm;
+	}
+
+	
 	public DocumentState getDocumentState() {
 		return documentState;
 	}

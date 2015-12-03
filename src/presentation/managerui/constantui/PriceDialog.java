@@ -18,32 +18,29 @@ public class PriceDialog extends JDialog{
 	 * 
 	 */
 	private static final long serialVersionUID = -4463982469330418268L;
-	private JLabel infoLabel;
-	private JLabel priceLabel;
-	private JTextField priceField;
-	private JButton cancelButton;
-	private JButton sureButton;
+ 
+	 
 	
 	public PriceDialog(){
 		 
-		this.setBounds(300, 200, 380, 200);
-		infoLabel = new JLabel("价格查询");
-		infoLabel.setBounds(105, 15, 170, 35);
-		priceLabel = new JLabel("当前价格");
-		priceLabel.setBounds(80, 70, 90, 20);
-		priceField = new JTextField();
-		priceField.setBounds(190, 70, 60, 20);
-		cancelButton = new JButton("取消");
-		cancelButton.setBounds(185, 110, 70, 30);
-		sureButton = new JButton("确定");
-		sureButton.setBounds(270, 110, 70, 30);
+		this.setBounds(300, 200, 380, 170);
+		this.setTitle("价格查询");
+		JLabel priceLabel = new JLabel("当前价格");
+		priceLabel.setBounds(80, 20, 90, 20);
+		JTextField priceField = new JTextField();
+		priceField.setBounds(190, 20, 60, 20);
+		JLabel unitLabel = new JLabel(" 每公里每吨");
+		unitLabel.setBounds(250, 20, 80, 20);
+		JButton cancelButton = new JButton("取消");
+		cancelButton.setBounds(185, 70, 70, 30);
+		JButton sureButton = new JButton("确定");
+		sureButton.setBounds(270, 70, 70, 30);
 		
-		this.add(infoLabel);
 		this.add(priceLabel);
 		this.add(priceField);
 		this.add(cancelButton);
 		this.add(sureButton);
-		
+		this.add(unitLabel);
 	
 	 
 	 
@@ -66,6 +63,7 @@ public class PriceDialog extends JDialog{
 				// TODO Auto-generated method stub
 				 ConstantVO vo2 = new ConstantVO(Double.valueOf(priceField.getText()));
 				 constantblService.modifyPrice(vo2);
+				 PriceDialog.this.dispose();
 				
 			}
 		});

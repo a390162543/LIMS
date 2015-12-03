@@ -17,6 +17,11 @@ import businesslogicservice.StoreinblService;
 
 public class PrimeInfoStoreinGoodsDialog extends JDialog {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 689862824298738060L;
+	
 	private JLabel orderIdLabel;
 	private JTextField orderIdTextField;
 	private JLabel areaNumLabel;

@@ -32,26 +32,27 @@ public class QueryDistanceDialog extends JDialog{
 	public QueryDistanceDialog() {	 
 		// TODO Auto-generated constructor stub	 
 		cityblService = new City();
-		String[] cityStr1 = (String[])cityblService.getAllName().toArray(new String[cityblService.getAllName().size()]);
+		this.setTitle("距离查询");
+		String[] cityStr1 = (String[])cityblService.getAllName().toArray
+				(new String[cityblService.getAllName().size()]);
 		String[] cityStr2 = cityStr1;
-		JLabel infoLabel = new JLabel("距离查询");
-		infoLabel.setBounds(105, 15, 170, 35);
+		 
 		JLabel city1Label = new JLabel("城市");
-		city1Label.setBounds(80, 70, 80, 20);
+		city1Label.setBounds(80, 20, 80, 20);
 		JLabel city2Label = new JLabel("城市");
-		city2Label.setBounds(215, 70, 80, 20);	
+		city2Label.setBounds(215, 20, 80, 20);	
 		JLabel markLabel = new JLabel("---");
-		markLabel.setBounds(140, 100, 80, 20);
+		markLabel.setBounds(140, 50, 80, 20);
 		distanceField = new JTextField();
-		distanceField.setBounds(145, 145, 60, 20);
+		distanceField.setBounds(145, 95, 60, 20);
 		JLabel unitLabel = new JLabel("km");
-		unitLabel.setBounds(205, 145, 80, 20);
+		unitLabel.setBounds(205, 95, 80, 20);
 		JButton cancelButton = new JButton("取消");
-		cancelButton.setBounds(190, 190, 70, 30);
+		cancelButton.setBounds(190, 140, 70, 30);
 		JButton sureButton = new JButton("确认");
-		sureButton.setBounds(280, 190, 70, 30);
+		sureButton.setBounds(280, 140, 70, 30);
 		city1Box = new JComboBox<String>(cityStr1);
-		city1Box.setBounds(90, 100, 60, 20);
+		city1Box.setBounds(90, 50, 60, 20);
 		city1Box.addItemListener(new ItemListener() {			
 			@Override
 			public void itemStateChanged(ItemEvent e) {
@@ -61,7 +62,7 @@ public class QueryDistanceDialog extends JDialog{
 		});
 		
 		city2Box = new JComboBox<String>(cityStr2);
-		city2Box.setBounds(220, 100, 60, 20);
+		city2Box.setBounds(220, 50, 60, 20);
 		city2Box.addItemListener(new ItemListener() {
 			
 			@Override
@@ -94,11 +95,12 @@ public class QueryDistanceDialog extends JDialog{
 							new Double(distanceField.getText()));
 					cityblService.modifyCityPO(cityvo1);
 					cityblService.modifyCityPO(cityvo1);
+					QueryDistanceDialog.this.dispose();
 				}
 			}
 		});
-		this.setBounds(300, 200, 380, 300);
-		this.add(infoLabel);
+		this.setBounds(300, 200, 380, 250);
+		 
 		this.add(city1Label);
 		this.add(city2Label);
 		this.add(city1Box);

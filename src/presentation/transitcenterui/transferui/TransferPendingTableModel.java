@@ -1,4 +1,4 @@
-package presentation.managerui.approvalui.transferui;
+package presentation.transitcenterui.transferui;
 
 import java.util.List;
 import java.util.Vector;
@@ -13,14 +13,13 @@ public class TransferPendingTableModel extends DefaultTableModel {
 	 */
 	private static final long serialVersionUID = 1828574105866597049L;
 	private List<TransferVO> dataList;
-    private static final String[] TABLE_HEADER = {"中转单编号","货运方式","装车日期","航班号","出发地","到达地",
+    private static final String[] TABLE_HEADER = {"中转单编号","装车日期","航班号","出发地","到达地",
     												"货柜号","监装员","订单号","运费"};
     private Transfer transfer;
     
     public TransferPendingTableModel() {
         transfer = new Transfer();
         dataList = transfer.getPendingTransferVO();
-        System.out.println(dataList.size());
         setDataVector(convertToVectorData(dataList), getColumnNamesVector());
     }
     
@@ -43,16 +42,16 @@ public class TransferPendingTableModel extends DefaultTableModel {
         return getRowData(row);
     }
     
-//    @SuppressWarnings({ "unchecked", "rawtypes" })
-//    public Class getColumnClass(int column) {  
-//        Class returnValue;  
-//        if ((column >= 0) && (column < getColumnCount())) {  
-//            returnValue = getValueAt(0, column).getClass();  
-//        } else {  
-//            returnValue = Object.class;  
-//        }  
-//        return returnValue;  
-//    }  
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    public Class getColumnClass(int column) {  
+        Class returnValue;  
+        if ((column >= 0) && (column < getColumnCount())) {  
+            returnValue = getValueAt(0, column).getClass();  
+        } else {  
+            returnValue = Object.class;  
+        }  
+        return returnValue;  
+    }  
     
     public boolean isCellEditable(int row, int column) { 
         return false;
@@ -72,16 +71,7 @@ public class TransferPendingTableModel extends DefaultTableModel {
     
     private static Vector<Object> convertToVector(TransferVO vo){
         Vector<Object> rowVector = new Vector<Object>();
-        rowVector.add(vo.getId());
-        rowVector.add(vo.getShipForm().getName());
-        rowVector.add(vo.getLoadDate());
-        rowVector.add(vo.getFlightNumbe());
-        rowVector.add(vo.getDepart());
-        rowVector.add(vo.getDestination());
-        rowVector.add(getColumnNamesVector());
-        rowVector.add(vo.getLoadMan());
-        rowVector.add(vo.getOrderId());
-        rowVector.add(vo.getExpenses());
+        
         return rowVector;
     }
     

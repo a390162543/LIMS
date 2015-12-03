@@ -4,8 +4,18 @@ import java.util.Date;
 import java.util.List;
 
 import po.TransferPO;
+import systemenum.DocumentState;
+import systemenum.ShipForm;
 
 public class TransferVO {
+	public ShipForm getShipForm() {
+		return shipForm;
+	}
+
+	public void setShipForm(ShipForm shipForm) {
+		this.shipForm = shipForm;
+	}
+
 	private String id;
 	private Date date;
 	private  String flightNum;
@@ -15,10 +25,11 @@ public class TransferVO {
 	private  String loadMan;
 	private  List<String> orderId;
 	private double expenses;
+	private ShipForm shipForm;
 	  
 	public TransferVO(String id, Date loadDate, String flightNum, String depart,
 			String destination, String containerId, String loadMan,
-			List<String> orderId, double expenses) {
+			List<String> orderId, double expenses, ShipForm shipForm) {
 		super();
 		this.id = id;
 		this.date = loadDate;
@@ -29,11 +40,12 @@ public class TransferVO {
 		this.loadMan = loadMan;
 		this.orderId = orderId;
 		this.expenses = expenses;
+		this.shipForm = shipForm;
 	}
 	
 	public TransferPO getTransferPO(){
 		return new TransferPO(id, date, flightNum, 
-				depart, destination, containerId, loadMan, orderId, expenses);
+				depart, destination, containerId, loadMan, orderId, expenses,shipForm);
 	}
 
 	public String getId() {

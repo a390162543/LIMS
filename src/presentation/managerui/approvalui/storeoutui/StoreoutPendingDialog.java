@@ -63,7 +63,7 @@ public class StoreoutPendingDialog extends JDialog {
         textFields[2].setText(vo.getOrganization());
         textFields[3].setText(vo.getDestination());
         textFields[4].setText(vo.getTransferId());
-        textFields[5].setText(vo.getShipForm().toString());
+        textFields[5].setText(vo.getShipForm().getName());
         textFields[6].setText(String.valueOf(vo.getOrderId().size()));
         
         
@@ -92,7 +92,7 @@ public class StoreoutPendingDialog extends JDialog {
    
                 @SuppressWarnings("deprecation")
                 
-				StoreoutCreateVO vo = new StoreoutCreateVO(textFields[0].getText(), null, new Date(textFields[1].getText()), 
+				StoreoutCreateVO vo = new StoreoutCreateVO(textFields[0].getText(), orderIdList, new Date(textFields[1].getText()), 
                 		textFields[3].getText(),ShipForm.valueOf(textFields[5].getText()), textFields[4].getText(),textFields[2].getText());
                 tableModel.modify(modelRow, vo);
                 StoreoutPendingDialog.this.dispose();  

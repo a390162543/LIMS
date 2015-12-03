@@ -4,7 +4,7 @@ package presentation.financeui.primeinfoui.organizationui;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -15,6 +15,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
+import vo.OrganizationVO;
 import businesslogicservice.PrimeInfoblService;
 
 public class PrimeInfoOrganizationPanel extends JPanel{
@@ -28,9 +29,41 @@ public class PrimeInfoOrganizationPanel extends JPanel{
     private PrimeInfoOrganizationTableModel tableModel;
     private TableRowSorter<TableModel> tableSorter;   
     private JTextField filterTextField;
-  
     private PrimeInfoblService primeInfoblService;
     
+    public PrimeInfoOrganizationPanel(List<OrganizationVO> vos){
+    	 //build up account table
+        tableModel = new PrimeInfoOrganizationTableModel(vos);  
+        tableSorter = new TableRowSorter<TableModel>(tableModel);
+        OrganizationTable = new JTable(tableModel);
+        OrganizationTable.setSize(800, 500);
+        OrganizationTable.setRowSorter(tableSorter);        
+        //set scroll pane
+        OrganizationScrollPane = new JScrollPane(OrganizationTable);
+        OrganizationScrollPane.setBounds(0, 10, 560, 370);
+        
+        JButton queryButton = new JButton("ฯ๊ว้");
+        queryButton.addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int row = OrganizationTable.getSelectedRow();
+                if(row == -1)
+                    return;
+                int modelRow = OrganizationTable.convertRowIndexToModel(row);
+                new PrimeInfoOrganizationDialog().showQueryDialog(tableModel, modelRow, false);
+                
+            }
+        });
+  
+        queryButton.setBounds(485, 390, 70, 30);
+        //set panel
+        this.setBounds(0, 15, 560, 470);
+        this.setLayout(null);
+        this.add(OrganizationScrollPane);
+        this.add(queryButton);
+    	
+    }
     public PrimeInfoOrganizationPanel(PrimeInfoblService pibs){
     	 //build up Organization table
     	primeInfoblService = pibs;
@@ -125,17 +158,18 @@ public class PrimeInfoOrganizationPanel extends JPanel{
     		public void actionPerformed(ActionEvent e) {
     		// TODO Auto-generated method stub
     			primeInfoblService.createPrimeInfoPO();
+    			primeInfoblService.execute();   
     	        Container container = PrimeInfoOrganizationPanel.this.getParent().getParent();
     	        container.removeAll();
     	        container.repaint();
     		}
     	});
        
-        createButton.setBounds(230, 420, 70, 30);
-        deleteButton.setBounds(315, 420, 70, 30);
-        modifyButton.setBounds(400, 420, 70, 30);
-        queryButton.setBounds(485, 420, 70, 30);
-        confirmButton.setBounds(145, 420, 70, 40);
+        createButton.setBounds(60, 420, 70, 30);
+        deleteButton.setBounds(145, 420, 70, 30);
+        modifyButton.setBounds(230, 420, 70, 30);
+        queryButton.setBounds(315, 420, 70, 30);
+        confirmButton.setBounds(425, 420, 70, 40);
         //set panel
         this.setBounds(0, 0, 560, 470);
         this.setLayout(null);

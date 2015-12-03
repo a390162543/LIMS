@@ -85,7 +85,7 @@ public class OrganizationPanel extends JPanel{
             
             @Override
             public void actionPerformed(ActionEvent e) {
-                new OrganizationDialog().showCreateDialog(tableModel);
+                new OrganizationDialog(tableModel);
                 
             }
         });
@@ -109,7 +109,7 @@ public class OrganizationPanel extends JPanel{
                 if(row == -1)
                     return;
                 int modelRow = OrganizationTable.convertRowIndexToModel(row);
-                new OrganizationDialog().showQueryDialog(tableModel, modelRow, true);
+                new OrganizationDialog(tableModel, modelRow, true);
             }
         });
         queryButton.addActionListener(new ActionListener() {
@@ -120,7 +120,7 @@ public class OrganizationPanel extends JPanel{
                 if(row == -1)
                     return;
                 int modelRow = OrganizationTable.convertRowIndexToModel(row);
-                new OrganizationDialog().showQueryDialog(tableModel, modelRow, false);
+                new OrganizationDialog(tableModel, modelRow, false);
             }
         });
         createButton.setBounds(230, 420, 70, 30);
