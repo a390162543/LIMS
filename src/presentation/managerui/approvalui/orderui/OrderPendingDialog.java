@@ -53,8 +53,8 @@ public class OrderPendingDialog extends JDialog{
         textFields[3].setText(vo.getGoodsInfo());
         textFields[4].setText(String.valueOf(vo.getWeight()));
         textFields[5].setText(String.valueOf(vo.getSize()));
-        textFields[6].setText(vo.getWrapWay().toString());
-        textFields[7].setText(vo.getDeliverWay().toString());
+        textFields[6].setText(vo.getWrapWay().getName());
+        textFields[7].setText(vo.getDeliverWay().getName());
         textFields[8].setText(String.valueOf(vo.getCost()));
         
         

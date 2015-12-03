@@ -8,7 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import po.OrderPO;
+import systemenum.DeliveryWay;
 import systemenum.DocumentState;
+import systemenum.WrapWay;
 import dataservice.OrderDataService;
 import vo.GoodsVO;
 import vo.OrderCreateVO;
@@ -19,6 +21,7 @@ import vo.OrderSignVO;
 import vo.InOrderCheckResultVO;
 import vo.OutOrderCheckResultVO;
 import vo.StoreinOrderVO;
+import businesslogic.citybl.City;
 import businesslogicservice.OrderblService;
 
 public class Order implements OrderblService{
@@ -147,15 +150,49 @@ public class Order implements OrderblService{
 	}
 	
 	public double getTotal(OrderCreateVO vo) {
-		double total = 0;
-		
-		return 0;
+		double weight = vo.getWeight();
+		WrapWay wrapWay = vo.getWrapWay();
+		DeliveryWay deliveryWay = vo.getDeliverWay();
+		double distance = getEximatedTime(vo.getSenderAddress(), vo.getReceiverAddress());
+		int wrapCost = 0;
+		double deliverCost = 0;
+		switch (wrapWay) {
+		case CARTON:
+			wrapCost = 5;
+			break;
+		case WOODEN:
+			wrapCost = 10;
+			break;
+		case BAG:
+			wrapCost = 1;
+			break;
+		}
+		switch (deliveryWay) {
+		case ECONOMIC:
+			deliverCost = distance/1000*18*weight;
+			break;
+		case STANDARD:
+			deliverCost = distance/1000*23*weight;
+			break;
+		case FAST:
+			deliverCost = distance/1000*25*weight;
+			break;
+		}
+		return deliverCost+wrapCost;
 	}
 
 
-	public int getEximatedTime(OrderCreateVO vo) {
-		
-		return 0;
+	public int getEximatedTime(String senderAddress, String receiverAddress) {
+		int fromBeginIndex = senderAddress.indexOf("省");
+		int fromEndIndex = senderAddress.indexOf("市");
+		int toBeginIndex = receiverAddress.indexOf("省");
+		int toEndIndex = receiverAddress.indexOf("市");
+		String fromCity = senderAddress.substring(fromBeginIndex+1, fromEndIndex);
+		String toCity = receiverAddress.substring(toBeginIndex+1, toEndIndex);
+		City city = new City();
+		double distance = city.getDistance(fromCity, toCity);
+		int time = (int) ((distance%30)/2+1);
+		return time;
 	}
 
 	
@@ -313,5 +350,26 @@ public class Order implements OrderblService{
 			e.printStackTrace();
 		}
 		return orderRevenueVO;
+	}
+	
+	public boolean primeInfoExecute (List<OrderCreateVO> vos) {
+		try {
+			OrderDataService ods = (OrderDataService) Naming.lookup("rmi://localhost/OrderData");
+			for (OrderCreateVO orderCreateVO : vos) {
+				OrderPO po = orderCreateVO.getOrderPO();
+				ods.insert(po);
+			}
+			
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NotBoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return true;
 	}
 }

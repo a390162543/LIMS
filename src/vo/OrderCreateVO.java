@@ -31,6 +31,16 @@ public class OrderCreateVO {
     private int totalTime;
     private GoodsState goodsState;
     
+    private String organization;
+    
+    public OrderCreateVO(String senderAddress, String receiverAddress,
+    		WrapWay wrapWay, DeliveryWay deliverWay, double weight){
+    	this.senderAddress = senderAddress;
+    	this.receiverAddress = receiverAddress;
+    	this.wrapWay = wrapWay;
+    	this.deliverWay = deliverWay;
+    	this.weight = weight;
+    }
     
 	public OrderCreateVO(String id, String senderName, String senderAddress,
 			String senderTel, String senderCell, String receiverName,
@@ -80,9 +90,41 @@ public class OrderCreateVO {
 		this.totalTime = totalTime;
 	}
 
+	public OrderCreateVO(String id, String senderName, String senderAddress,
+			String senderTel, String senderCell, String receiverName,
+			String receiverAddress, String receiverTel, String receiverCell,
+			String goodsInfo, double weight, double size, double cost,
+			WrapWay wrapWay, DeliveryWay deliverWay, int totalTime, String organization) {
+		super();
+		this.id = id;
+		this.senderName = senderName;
+		this.senderAddress = senderAddress;
+		this.senderTel = senderTel;
+		this.senderCell = senderCell;
+		this.receiverName = receiverName;
+		this.receiverAddress = receiverAddress;
+		this.receiverTel = receiverTel;
+		this.receiverCell = receiverCell;
+		this.goodsInfo = goodsInfo;
+		this.weight = weight;
+		this.size = size;
+		this.cost = cost;
+		this.wrapWay = wrapWay;
+		this.deliverWay = deliverWay;
+		this.totalTime = totalTime;
+		this.organization = organization;
+	}
+	
+	
+	
+	public String getOrganization() {
+		return organization;
+	}
 
-	
-	
+	public void setOrganization(String organization) {
+		this.organization = organization;
+	}
+
 	public GoodsState getGoodsState() {
 		return goodsState;
 	}

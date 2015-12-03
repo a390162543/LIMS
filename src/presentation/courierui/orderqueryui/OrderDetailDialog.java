@@ -40,14 +40,17 @@ public class OrderDetailDialog extends JDialog{
 		goodsStateLabel.setBounds(20, 61, 80, 22);
 		goodsStateTextField = new JTextField();
 		goodsStateTextField.setBounds(90, 61, 60, 22);
+		goodsStateTextField.setEditable(false);
 		orderIdLabel = new JLabel("订单号");
 		orderIdLabel.setBounds(20, 100, 60, 22);
 		orderIdTextField = new JTextField();
+		orderIdTextField.setEditable(false);
 		orderIdTextField.setBounds(90, 100, 180, 22);
 		deliveryInfoLabel = new JLabel("物流轨迹");
 		deliveryInfoLabel.setBounds(20, 145, 80, 22);
 		deliveryInfoTestTextArea = new JTextArea();
 		deliveryInfoTestTextArea.setBounds(90, 147, 220, 220);
+		deliveryInfoTestTextArea.setEditable(false);
 		confirmButton = new JButton("确定");
 		confirmButton.setBounds(280, 388, 70, 30);
 		this.add(confirmButton);
@@ -63,8 +66,8 @@ public class OrderDetailDialog extends JDialog{
 	}
 	
 	public void setInfo(OrderQueryVO vo){
-		goodsStateTextField.setText(vo.getState().toString());
-		orderIdTextField.setText(String.format("%010d", vo.getId()));
+		goodsStateTextField.setText(vo.getState().getName());
+		orderIdTextField.setText(vo.getId());
 		deliveryInfoTestTextArea.setText(vo.getDeliverInfo()+"\n"+vo.getNowLocation()+"发往"+vo.getNextLocation());	
 	}
 	
@@ -73,7 +76,7 @@ public class OrderDetailDialog extends JDialog{
 		confirmButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				OrderDetailDialog.this.dispose();
 				
 			}
 		});

@@ -15,6 +15,9 @@ import javax.swing.event.DocumentListener;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
+import businesslogic.storagebl.Storage;
+import businesslogicservice.ExcelExporterService;
+import businesslogicservice.StorageblService;
 import vo.StorageQueryResultVO;
 
 
@@ -81,7 +84,8 @@ public class StorageQueryPanel extends JPanel{
         getExcelButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+				StorageblService storageblService = new Storage();
+				storageblService.gainExcel(storageQueryTable);	
 			}
 		});
         

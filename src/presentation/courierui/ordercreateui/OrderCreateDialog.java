@@ -2,6 +2,10 @@ package presentation.courierui.ordercreateui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ContainerEvent;
+import java.awt.event.ContainerListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -81,6 +85,7 @@ public class OrderCreateDialog extends JDialog{
 	public OrderCreateDialog(){
 		init();	
 		buttonFunction();
+		
 	}
 	
 	
@@ -237,6 +242,45 @@ public class OrderCreateDialog extends JDialog{
 		senderAddressLabel.setBounds(39, 631, 40, 22);
 		senderAdressTextField = new JTextField();
 		senderAdressTextField.setBounds(89, 631, 180, 22);
+		
+		senderAdressTextField.addFocusListener(new FocusListener() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				OrderblService orderblService = new Order();
+				if (recipientAdressTextField.getText()!=null) {
+					totalTimeTextField.setText(String.valueOf(orderblService.getEximatedTime(senderAdressTextField.getText(), recipientAdressTextField.getText())));
+				}
+				if (recipientAdressTextField.getText()!=null&&weighTextField.getText()!=null&&(cartonWrapButton.isSelected()||woodenWrapButton.isSelected()
+						||bagWrapButton.isSelected())&&(economicDeliveryButton.isSelected()||standardDeliveryButton.isSelected()||fastDeliveryButton.isSelected())) {
+					WrapWay wrapWay;
+					if(woodenWrapButton.isSelected())
+						wrapWay = WrapWay.WOODEN;
+					else if(cartonWrapButton.isSelected())
+						wrapWay = WrapWay.CARTON;
+					else 
+						wrapWay = WrapWay.BAG;
+					
+					DeliveryWay deliverWay;
+					if(economicDeliveryButton.isSelected())
+						deliverWay = DeliveryWay.ECONOMIC;
+					else if(standardDeliveryButton.isSelected())
+						deliverWay = DeliveryWay.STANDARD;
+					else
+						deliverWay = DeliveryWay.FAST;
+					
+					OrderCreateVO vo = new OrderCreateVO(senderAdressTextField.getText(), recipientAdressTextField.getText(), 
+							wrapWay, deliverWay, Double.parseDouble(weighTextField.getText()));	
+					totalExpenseTextField.setText(String.valueOf(orderblService.getTotal(vo)));
+				}
+				
+			}
+			@Override
+			public void focusGained(FocusEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
 		this.add(senderAdressTextField);
 		this.add(senderAddressLabel);
 		this.add(senderCellTextField); 
@@ -256,7 +300,6 @@ public class OrderCreateDialog extends JDialog{
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				double tempcost = Double.parseDouble(totalExpenseTextField.getText());
-				int temptme = Integer.parseInt(totalTimeTextField.getText());
 				
 				WrapWay wrapWay;
 				if(woodenWrapButton.isSelected())
@@ -281,7 +324,7 @@ public class OrderCreateDialog extends JDialog{
 						recipientTeltTextField.getText(), recipientCellTextField.getText(), 
 						goodsInfoTextField.getText(), Double.parseDouble(weighTextField.getText()),
 						Double.parseDouble(volumeTextField.getText()), tempcost, wrapWay,
-						deliverWay, temptme);
+						deliverWay,  Integer.parseInt(totalTimeTextField.getText()));
 				orderCreateVO.setGoodsState(GoodsState.COMPLETE);
 				OrderblService orderblService = new Order();
 				orderblService.createOrderPO(orderCreateVO);

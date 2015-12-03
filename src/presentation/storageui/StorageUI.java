@@ -101,7 +101,10 @@ public class StorageUI extends JPanel{
 		storageCheckButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				contentPanel.removeAll();
+				contentPanel.repaint();
 				new StorageCheckDialog(contentPanel);
+				
 			}
 		});
 		
@@ -114,6 +117,8 @@ public class StorageUI extends JPanel{
 				StorageQueryPanel storageQueryPanel = new StorageQueryPanel(storageQueryResultVOs);
 				storageQueryPanel.setBounds(10, 40, 540, 400);
 				contentPanel.setLayout(null);
+				contentPanel.removeAll();
+				contentPanel.repaint();
 				contentPanel.add(storageQueryPanel);
 			}
 		});

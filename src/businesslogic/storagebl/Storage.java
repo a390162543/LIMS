@@ -1,15 +1,21 @@
 package businesslogic.storagebl;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Path;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.swing.JTable;
+
 import po.StoragePO;
+import presentation.storageui.storagequeryui.StorageQueryTableModel;
 import systemenum.StorageState;
 import dataservice.StorageDataService;
 import vo.StorageCheckVO;
@@ -23,6 +29,7 @@ import vo.StoreoutCreateVO;
 import vo.StoreoutQueryVO;
 import vo.InOrderCheckResultVO;
 import vo.OutOrderCheckResultVO;
+import businesslogic.ExcelExporter;
 import businesslogic.orderbl.Order;
 import businesslogic.storeinbl.Storein;
 import businesslogic.storeoutbl.Storeout;
@@ -76,9 +83,26 @@ public class Storage implements StorageblService{
 	}
 
 
-	public boolean gainExcel() {
-		
-		return false;
+	public boolean gainExcel(JTable storageQueryTable) {
+		ExcelExporter excelExporter = new ExcelExporter();
+		String path = System.getProperty("user.home")+System.getProperty("file.separator")+"Desktop/"
+				+new SimpleDateFormat("yyyy-MM-dd").format(new Date()).toString()+" data"+".xls";
+		File storageData = new File(path);
+		if(!storageData.getParentFile().exists())
+            storageData.getParentFile().mkdirs();
+        try {
+            storageData.createNewFile();
+        } catch (IOException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
+		try {
+			excelExporter.export(storageQueryTable, storageData);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return true;
 	}
 
 	
@@ -140,33 +164,19 @@ public class Storage implements StorageblService{
 
 	@Override
 	public List<OutOrderCheckResultVO> storeoutCheck(StoreinCheckVo vo) {
-		Storeout storeout = new Storeout();
-		List<OutOrderCheckResultVO> resultVOs = storeout.storeoutCheck(vo);
-		for(OutOrderCheckResultVO tempvo : resultVOs){
-//			System.out.println(tempvo.getDate());
-//			System.out.println(tempvo.getOrderId());
-//			System.out.println(tempvo.getItem());
-		}
 		
+		Storeout storeout = new Storeout();
+		List<OutOrderCheckResultVO> resultVOs = storeout.storeoutCheck(vo);		
 		return resultVOs;
 	}
 
 
 	@Override
 	public List<InOrderCheckResultVO> storeinCheck(StoreinCheckVo vo) {
-		Storein storein = new Storein();
 		
+		Storein storein = new Storein();
 		List<InOrderCheckResultVO> resultVOs = storein.storeinCheck(vo);
-		for(InOrderCheckResultVO tempvo : resultVOs){
-			
-//			System.out.println(tempvo.getDate());
-//			System.out.println(tempvo.getOrderId());
-//			System.out.println(tempvo.getItem());
-//			System.out.println(tempvo.getAreaNum());
-//			System.out.println(tempvo.getDestination());
-	}
-
-	return resultVOs;
+		return resultVOs;
 		
 	}
 
@@ -196,135 +206,4 @@ public class Storage implements StorageblService{
 	}
 	
 	
-	/*
-	
-	public boolean changeStorageState (StoreinOrderVO vo) {
-		try {
-			StorageDataService storageDataService = (StorageDataService) Naming.lookup("rmi://localhost/StorageData");
-			StoragePO po = storageDataService.find("0250");
-			StorageHelper helper = po.getStorageHelperData()[vo.getAreaNum()][vo.getRowNum()][vo.getFrameNum()][vo.getItem()];
-			helper.setState(StorageState.ISSTORING);
-			storageDataService.update(po);
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NotBoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		return true;
-	}
-	
-	public boolean changeStoreoutState (String orderId) {
-		try {
-			StorageDataService storageDataService = (StorageDataService) Naming.lookup("rmi://localhost/StorageData");
-			StoragePO po = storageDataService.find("0250");
-			Order order = new Order();
-			StoreinOrderVO vo = order.getStorageOrderVO(orderId);
-			StorageHelper helper = po.getStorageHelperData()[vo.getAreaNum()][vo.getRowNum()][vo.getFrameNum()][vo.getItem()];
-			helper.setState(StorageState.ISSTORINGOUT);
-			storageDataService.update(po);
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NotBoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return true;
-	}
-	
-	public boolean restoreStoreoutState (String orderId) {
-		try {
-			StorageDataService storageDataService = (StorageDataService) Naming.lookup("rmi://localhost/StorageData");
-			StoragePO po = storageDataService.find("0250");
-			Order order = new Order();
-			StoreinOrderVO vo = order.getStorageOrderVO(orderId);
-			StorageHelper helper = po.getStorageHelperData()[vo.getAreaNum()][vo.getRowNum()][vo.getFrameNum()][vo.getItem()];
-			helper.setState(StorageState.ISSTORED);
-			storageDataService.update(po);
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NotBoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return true;
-	}
-	
-	public boolean restoreStorageState (StoreinOrderVO vo) {
-		try {
-			StorageDataService storageDataService = (StorageDataService) Naming.lookup("rmi://localhost/StorageData");
-			StoragePO po = storageDataService.find("0250");
-			StorageHelper helper = po.getStorageHelperData()[vo.getAreaNum()][vo.getRowNum()][vo.getFrameNum()][vo.getItem()];
-			helper.setState(StorageState.ISAVAILABLE);
-			storageDataService.update(po);
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NotBoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		return true;
-	}
-	
-	public boolean setStorageState (StoreinOrderVO vo) {
-		try {
-			StorageDataService storageDataService = (StorageDataService) Naming.lookup("rmi://localhost/StorageData");
-			StoragePO po = storageDataService.find("0250");
-			StorageHelper helper = po.getStorageHelperData()[vo.getAreaNum()][vo.getRowNum()][vo.getFrameNum()][vo.getItem()];
-			helper.setState(StorageState.ISSTORED);
-			storageDataService.update(po);
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NotBoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return true;
-	}
-
-	public boolean setStoreoutState (String orderId) {
-		try {
-			StorageDataService storageDataService = (StorageDataService) Naming.lookup("rmi://localhost/StorageData");
-			StoragePO po = storageDataService.find("0250");
-			Order order = new Order();
-			StoreinOrderVO vo = order.getStorageOrderVO(orderId);
-			StorageHelper helper = po.getStorageHelperData()[vo.getAreaNum()][vo.getRowNum()][vo.getFrameNum()][vo.getItem()];
-			helper.setState(StorageState.ISAVAILABLE);
-			storageDataService.update(po);
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NotBoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		return true;	
-	}
-	*/
 }

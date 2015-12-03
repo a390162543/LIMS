@@ -2,7 +2,7 @@ package presentation.storageui.storeinui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Date;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +18,8 @@ import javax.swing.table.DefaultTableModel;
 import businesslogic.storeinbl.Storein;
 import businesslogicservice.StoreinblService;
 import po.StoreinPO;
+import presentation.util.OrganizationComboBox;
+import presentation.util.RecentDatePickPanel;
 import systemenum.StorageState;
 import vo.StorageLocationVO;
 import vo.StoreinCreateVO;
@@ -35,62 +37,39 @@ public class StoreinDialogUI extends JDialog{
 	
 	
 	private JLabel storeinDateLabel;
-	private JLabel yearLabel;
-	private JLabel monthLabel;
-	private JLabel dayLabel;
-	private JComboBox<String> yearComboBox;
-	private JComboBox<String> monthComboBox;
-	private JComboBox<String> dayComboBox;
+	private RecentDatePickPanel datePickPanel;
 	
 	private JLabel destinationLabel;
-	private JComboBox<String> destinationComboBox;
+	private OrganizationComboBox destinationComboBox;
 	private JLabel goodsInfoLabel;
 	private JTable goodsInfoTable;
+	
 	
 	private JButton addButton;
 	private JButton deleteButton;
 	private JButton confirmButton;
 	private JButton cancleButton;
-	
-	private String[] year = {"2015","2016","2017","2018","2019","2010"};
-    private String[] month = {"1","2","3","4","5","6","7","8","9","10","11","12"};
-    private String[] day = {"1","2","3","4","5","6","7","8","9","10","11","12","13","14","15",
-    		"16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31"};
+
 	private String[] column = {"订单号","区号","排号","架号","位号"};
     private DefaultTableModel tableModel = new DefaultTableModel(null, column);
-    private String[] totalDestination = {"鼓楼营业厅","仙林营业厅","南京中转中心"};
+    
+    
+    
 
 	public StoreinDialogUI(){
-		init();
-		buttonFunction();
-	}
-
-	public void init(){
+		
 		this.setTitle("货物入库");	
 		this.setSize(380, 440);
 		this.setLayout(null);
 			
 		storeinDateLabel = new JLabel("入库日期");
 		storeinDateLabel.setBounds(20, 64, 80, 22);
-		       
-        yearComboBox = new JComboBox<String>(year);
-        yearComboBox.setBounds(110, 62, 70, 25);
-        yearComboBox.setEditable(false);
-        monthComboBox = new JComboBox<String>(month);
-        monthComboBox.setBounds(200, 60, 50, 25);
-        monthComboBox.setEditable(false);
-        dayComboBox = new JComboBox<String>(day);
-        dayComboBox.setBounds(270, 60, 50, 25);
-        dayComboBox.setEditable(false);
-        yearLabel = new JLabel("年");
-        yearLabel.setBounds(180, 62, 20, 22);
-        monthLabel = new JLabel("月");
-        monthLabel.setBounds(250, 62, 20, 22);
-        dayLabel = new JLabel("日");
-        dayLabel.setBounds(320, 60, 20, 22);
+		datePickPanel = new RecentDatePickPanel();
+		datePickPanel.setBounds(110, 64, 200, 22);
+        
         destinationLabel = new JLabel("目的地");
         destinationLabel.setBounds(28, 90, 60, 22);
-        destinationComboBox = new JComboBox<String>(totalDestination);
+        destinationComboBox = new OrganizationComboBox();
         destinationComboBox.setBounds(110, 92, 180, 22);
         goodsInfoLabel = new JLabel("货物信息");
         goodsInfoLabel.setBounds(2, 125, 80, 22);
@@ -119,23 +98,13 @@ public class StoreinDialogUI extends JDialog{
         this.add(goodsInfoLabel);
         this.add(destinationComboBox);
         this.add(destinationLabel);
-        this.add(yearLabel);
-        this.add(monthLabel);
-        this.add(dayLabel);
-        this.add(dayComboBox);
-        this.add(monthComboBox);
-        this.add(yearComboBox);
-        this.add(dayComboBox);
-        this.add(monthComboBox);
-        this.add(yearComboBox);
+        this.add(datePickPanel);
 		this.add(storeinDateLabel);
 		
 		this.setLocationRelativeTo(null);
         this.setResizable(false);
         this.setVisible(true);
-	}
 	
-	public void buttonFunction(){
 		addButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -184,13 +153,9 @@ public class StoreinDialogUI extends JDialog{
 				for(int i=0;i<totalRow;i++)
 					System.out.println(orderId.get(i));
 				
+				Date inDate = datePickPanel.getDate();
 				
-				int yearDate = Integer.parseInt(year[yearComboBox.getSelectedIndex()]);
-				int monthDate = Integer.parseInt(month[monthComboBox.getSelectedIndex()]);
-				int dayDate = Integer.parseInt(day[dayComboBox.getSelectedIndex()]);
-				@SuppressWarnings("deprecation")
-				Date inDate = new Date(yearDate-1900, monthDate-1, dayDate);
-				String destination = totalDestination[destinationComboBox.getSelectedIndex()];
+				String destination = destinationComboBox.getItemAt(destinationComboBox.getSelectedIndex());
 				String organization = "南京中转中心";
 				StoreinCreateVO vo = new StoreinCreateVO(new String("2015112000000001"), orderId, inDate, destination, areaNum, rowNum, frameNum, item, organization);
 				StoreinblService storeinblService = new Storein();

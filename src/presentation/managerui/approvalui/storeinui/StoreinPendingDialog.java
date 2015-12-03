@@ -88,10 +88,9 @@ public class StoreinPendingDialog extends JDialog {
    
                 @SuppressWarnings("deprecation")
                 //完整的信息构造可以根据tablemodel显示
-				StoreinCreateVO vo = new StoreinCreateVO(textFields[0].getText(), null, new Date(textFields[1].getText()), 
-                		textFields[2].getText(), null, null, null, null);
+				StoreinCreateVO vo = new StoreinCreateVO(textFields[0].getText(), orderIdList, new Date(textFields[1].getText()), 
+                		textFields[2].getText(), areaNum, rowNum, frameNum, item);
                 tableModel.modify(modelRow, vo);
-                System.out.println("you've clicked confirm button..");
                 StoreinPendingDialog.this.dispose();
                 
             }

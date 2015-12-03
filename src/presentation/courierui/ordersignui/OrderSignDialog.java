@@ -12,6 +12,8 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import presentation.util.DatePickPanel;
+import presentation.util.RecentDatePickPanel;
 import businesslogic.orderbl.Order;
 import businesslogicservice.OrderblService;
 import vo.OrderSignVO;
@@ -31,12 +33,7 @@ public class OrderSignDialog extends JDialog{
 	private JTextField orderIdTextField;
 	
 	private JLabel dateLabel;
-	private JLabel yearLabel;
-	private JLabel monthLabel;
-	private JLabel dayLabel;
-	private JComboBox<String> yearComboBox;
-	private JComboBox<String> monthComboBox;
-	private JComboBox<String> dayComboBox;
+	
 	
 	private JLabel signNameLabel;	
 	private JTextField signNameTextField;
@@ -44,10 +41,7 @@ public class OrderSignDialog extends JDialog{
 	private JButton confirmButton;
 	private JButton cancleButton;
 	
-	private String[] year = {"2015","2016","2017","2018","2019","2010"};
-	private String[] month = {"1","2","3","4","5","6","7","8","9","10","11","12"};
-    private String[] day = {"1","2","3","4","5","6","7","8","9","10","11","12","13","14","15",
-    		"16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31"};
+	private RecentDatePickPanel datePickPanel;
 	
 
 	public OrderSignDialog(){
@@ -91,34 +85,10 @@ public class OrderSignDialog extends JDialog{
 		dateLabel = new JLabel("签收日期");
         dateLabel.setFont(new Font("签收日期", 0, 13));
         dateLabel.setBounds(30, 84, 60, 16);
-        yearLabel = new JLabel("年");
-        yearLabel.setFont(new Font("年", 0, 16));
-        yearLabel.setBounds(173, 84, 20, 25);
-        monthLabel = new JLabel("月");
-        monthLabel.setFont(new Font("月", 0, 16));
-        monthLabel.setBounds(243, 84, 20, 25);
-        dayLabel = new JLabel("日");
-        dayLabel.setFont(new Font("日", 0, 16));
-        dayLabel.setBounds(313,84, 20, 25);
-    
-        
-        
-        yearComboBox = new JComboBox<String>(year);
-        yearComboBox.setBounds(100, 84, 70, 25);
-        yearComboBox.setEditable(false);
-        monthComboBox = new JComboBox<String>(month);
-        monthComboBox.setBounds(190, 84, 50, 25);
-        monthComboBox.setEditable(false);
-        dayComboBox = new JComboBox<String>(day);
-        dayComboBox.setBounds(260, 84, 50, 25);
-        dayComboBox.setEditable(false);
-        this.add(yearLabel);
-        this.add(dayLabel);
-        this.add(monthLabel);
-        this.add(monthComboBox);
-        this.add(yearComboBox);
-        this.add(dayComboBox);
+        datePickPanel = new RecentDatePickPanel();
+        datePickPanel.setBounds(100, 84, 300, 25);
         this.add(dateLabel);
+        this.add(datePickPanel);
 	}
 	
 	public void signNameinit(){
@@ -139,13 +109,9 @@ public class OrderSignDialog extends JDialog{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				int yearDate = Integer.parseInt(year[yearComboBox.getSelectedIndex()]);
-				int monthDate = Integer.parseInt(month[monthComboBox.getSelectedIndex()]);
-				int dayDate = Integer.parseInt(day[dayComboBox.getSelectedIndex()]);
-	
-				@SuppressWarnings("deprecation")
+				
 				OrderSignVO orderSignVO = new OrderSignVO(new String(orderIdTextField.getText()), 
-						signNameTextField.getText(),new Date(yearDate, monthDate, dayDate));
+						signNameTextField.getText(),datePickPanel.getDate());
 				OrderblService orderblService = new Order();
 				orderblService.signOrder(orderSignVO);	
 			}

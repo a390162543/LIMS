@@ -3,6 +3,9 @@ package businesslogicservice;
 import java.util.Date;
 import java.util.List;
 
+import javax.swing.JTable;
+
+import presentation.storageui.storagequeryui.StorageQueryTableModel;
 import vo.StorageCheckVO;
 import vo.StorageQueryResultVO;
 import vo.StorageSetAreaVO;
@@ -25,7 +28,7 @@ public interface StorageblService {
 	public boolean isExceeded();
 	
 	
-	public boolean gainExcel();
+	public boolean gainExcel(JTable table);
 	
 	
 	public boolean setAlarm(double alarm);

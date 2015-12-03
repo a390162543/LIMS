@@ -1,4 +1,4 @@
-package presentation.financeui.primeinfoui.storeinui;
+package presentation.financeui.primeinfoui.orderui;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,51 +9,45 @@ import javax.swing.table.DefaultTableModel;
 
 
 
-
-
+import vo.AccountVO;
 import vo.OrderCreateVO;
-import vo.StoreinCreateVO;
 import businesslogicservice.PrimeInfoblService;
 
-public class PrimeInfoStoreinTableModel extends DefaultTableModel {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 5394935988487031345L;
+public class PrimeInfoOrderTableModel extends DefaultTableModel {
 	
 	private PrimeInfoblService primeInfoblService;
-    private List<StoreinCreateVO> dataList;
-    private static final String[] TABLE_HEADER = {"机构","日期"};
+    private List<OrderCreateVO> dataList;
+    private static final String[] TABLE_HEADER = {"订单号","货物信息","运送方式","包装方式"};
     
     
-    public PrimeInfoStoreinTableModel(PrimeInfoblService primeInfoblService) {
+    public PrimeInfoOrderTableModel(PrimeInfoblService primeInfoblService) {
     	this.primeInfoblService = primeInfoblService;
-    	dataList = new ArrayList<StoreinCreateVO>();
+    	dataList = new ArrayList<OrderCreateVO>();
         setDataVector(convertToVectorData(dataList), getColumnNamesVector());
     }
     
-    public void create(StoreinCreateVO vo){
+    public void create(OrderCreateVO vo){
         addRow(convertToVector(vo));
         dataList.add(vo);
-        primeInfoblService.addStoreinCheckResultVO(vo);
+        primeInfoblService.addOrderCheckResultVO(vo);
     }
     
     public void delete(int row){
         removeRow(row);
-        StoreinCreateVO vo = dataList.get(row);
+        OrderCreateVO vo = dataList.get(row);
         dataList.remove(row);
-        primeInfoblService.removeStoreinCheckResultVO(vo);
+        primeInfoblService.removeOrderCheckResultVO(vo);
     }
     
-    public void modify(int row, StoreinCreateVO vo){
+    public void modify(int row, OrderCreateVO vo){
         removeRow(row);
         insertRow(row, convertToVector(vo));
         dataList.remove(row);
         dataList.add(row, vo);
-        primeInfoblService.modifyStoreinVO(vo);
+        primeInfoblService.modifyOrderVO(vo);
     }
     
-    public StoreinCreateVO getStoreinCreateVO(int row){
+    public OrderCreateVO getOrderVO(int row){
         return getRowData(row);
     }
     
@@ -72,22 +66,24 @@ public class PrimeInfoStoreinTableModel extends DefaultTableModel {
         return false;
     }
     
-    private StoreinCreateVO getRowData(int row){
+    private OrderCreateVO getRowData(int row){
         return dataList.get(row);
     }
     
-    private static Vector<Vector<Object>> convertToVectorData(List<StoreinCreateVO> list){
+    private static Vector<Vector<Object>> convertToVectorData(List<OrderCreateVO> list){
         Vector<Vector<Object>> data = new Vector<Vector<Object>>();
-        for(StoreinCreateVO vo:list){
+        for(OrderCreateVO vo:list){
             data.add(convertToVector(vo));
         }
         return data;
     }
     
-    private static Vector<Object> convertToVector(StoreinCreateVO vo){
+    private static Vector<Object> convertToVector(OrderCreateVO vo){
         Vector<Object> rowVector = new Vector<Object>();
-        rowVector.add(vo.getDestination());
-        rowVector.add(vo.getInDate());
+        rowVector.add(vo.getId());
+        rowVector.add(vo.getGoodsInfo());
+        rowVector.add(vo.getDeliverWay());
+        rowVector.add(vo.getWrapWay());
         return rowVector;
     }
     
@@ -98,5 +94,6 @@ public class PrimeInfoStoreinTableModel extends DefaultTableModel {
         }
         return v;
     }
+
 
 }

@@ -24,7 +24,7 @@ public interface OrderblService {
 	
 	
 	//compute the estimated time
-	public int getEximatedTime(OrderCreateVO vo);
+	public int getEximatedTime(String senderAddress, String receiverAddress);
 	
 	
 	public boolean execute(OrderCreateVO vo);
