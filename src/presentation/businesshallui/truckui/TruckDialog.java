@@ -235,6 +235,7 @@ public class TruckDialog extends JDialog{
             public void actionPerformed(ActionEvent e) {
                 if(!isEditable){
                     TruckDialog.this.dispose();
+                    return;
                 }
                 TruckVO vo = new TruckVO(textFields[0].getText(), textFields[1].getText(), textFields[2].getText(), textFields[3].getText(), textFields[4].getText(), new Date(), image);
                 tableModel.modify(modelRow, vo);
