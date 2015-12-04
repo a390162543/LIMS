@@ -6,13 +6,16 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
+
 import dataservice.TransferDataService; 
+import po.TransferPO;
 import po.TransferPO;
 import systemenum.DocumentState; 
 import businesslogic.orderbl.Order;
 import businesslogic.organizationbl.Organization;
 import businesslogicservice.TransferblService; 
 import vo.GoodsVO;
+import vo.TransferVO;
 import vo.TransferVO;
 
 public class Transfer implements TransferblService{
@@ -143,16 +146,16 @@ public class Transfer implements TransferblService{
 		
 	}
 	
-	public TransferVO find(String id){
-		try {
-			TransferVO vo = transferDataService.find(id).getTransferVO();
-			return vo;
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
-		
-	}
+    public TransferVO getTransferVO(String id){
+        try {
+            TransferPO po = transferDataService.find(id);
+            if(po != null)
+                return po.getTransferVO();
+        } catch (RemoteException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return null;
+    }
 	
 }

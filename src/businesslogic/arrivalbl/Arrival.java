@@ -5,18 +5,18 @@ import java.util.List;
 import java.rmi.RemoteException;
 
 import po.ArrivalPO;
-import po.TransferPO;
 import systemenum.DocumentState;
 import dataservice.ArrivalDataService;
 import dataservice.DataService;
-import dataservice.TransferDataService;
 import vo.ArrivalVO;
 import vo.LoadVO;
 import vo.OrderDeliverInfoVO;
+import vo.TransferVO;
 import businesslogic.BusinessLogicUtil;
 import businesslogic.idbl.IdManager;
 import businesslogic.loadbl.Load;
 import businesslogic.orderbl.Order;
+import businesslogic.transferbl.Transfer;
 import businesslogicservice.ArrivalblService;
 import businesslogicservice.IdblService;
 
@@ -63,12 +63,12 @@ public class Arrival implements ArrivalblService{
             List<String> orders;
 
             if(vo.isTransferId()){
-                TransferDataService transferDataService = DataService.getTransferDataService();
-                TransferPO transferPO = transferDataService.find(vo.getTransferId());
-                orders = transferPO.getOrderId();
+                Transfer transferbl = new Transfer();
+                TransferVO transferVO = transferbl.getTransferVO(vo.getTransferId());
+                orders = transferVO.getOrderId();
             }else{
                 Load loadbl = new Load();
-                LoadVO loadVO = loadbl.getLoadVO(vo.getId());
+                LoadVO loadVO = loadbl.getLoadVO(vo.getTransferId());
                 orders = loadVO.getOrderId();
             }
 
