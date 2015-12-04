@@ -9,6 +9,7 @@ import java.util.List;
 
 import dataservice.TransferDataService; 
 import po.TransferPO;
+import po.TransferPO;
 import systemenum.DocumentState; 
 import businesslogic.idbl.IdManager;
 import businesslogic.orderbl.Order;
@@ -16,6 +17,7 @@ import businesslogic.organizationbl.Organization;
 import businesslogicservice.IdblService;
 import businesslogicservice.TransferblService; 
 import vo.GoodsVO;
+import vo.TransferVO;
 import vo.TransferVO;
 
 public class Transfer implements TransferblService{
@@ -146,6 +148,7 @@ public class Transfer implements TransferblService{
 		
 	}
 	
+<<<<<<< HEAD
 	public TransferVO find(String id){
 		try {
 			
@@ -164,5 +167,18 @@ public class Transfer implements TransferblService{
 		// TODO Auto-generated method stub
 	 return new IdManager(transferDataService, 7, true);
 	}
+=======
+    public TransferVO getTransferVO(String id){
+        try {
+            TransferPO po = transferDataService.find(id);
+            if(po != null)
+                return po.getTransferVO();
+        } catch (RemoteException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return null;
+    }
+>>>>>>> 3f6cb6eaed803ccadd947a8619444e70c26cb2b8
 	
 }
