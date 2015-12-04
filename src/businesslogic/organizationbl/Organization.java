@@ -11,11 +11,15 @@ import dataservice.OrganizationDataService;
 import po.OrganizationPO;
 import vo.OrganizationVO;
 import businesslogic.citybl.City;
+import businesslogic.idbl.IdManager;
+import businesslogicservice.IdblService;
 import businesslogicservice.OrganizationblService;
 
 public class Organization implements OrganizationblService{
+	
 	private OrganizationDataService organizationDataService;
- public Organization() {
+	
+	public Organization() {
 		// TODO Auto-generated constructor stub
 		try { 
         	 organizationDataService = (OrganizationDataService) Naming.lookup
@@ -32,6 +36,7 @@ public class Organization implements OrganizationblService{
 			e.printStackTrace();
 		}
 	}
+	
 	@Override
 	public boolean CreatOrganizationPO(OrganizationVO vo) {
 		// TODO Auto-generated method stub
@@ -129,8 +134,27 @@ public class Organization implements OrganizationblService{
 			if(vo.getName().equals(organization2))
 				city2 = vo.getCity();
 		}
-		
-		return city.getDistance(city1, city2);
+		if(city1 != null && city2 != null){
+			return city.getDistance(city1, city2);
+		}
+		else{
+			return 0;
+		}
+	}
+ 
+
+	@Override
+	public IdblService getIdblService(int ordinalLength) {
+		// TODO Auto-generated method stub
+		return new IdManager(organizationDataService, ordinalLength, false);
+		 
 	}
 
+	@Override
+	public IdblService getIdblService() {
+		// 1TODO Auto-generated method stub
+		return new IdManager(organizationDataService, 2, false);
+	}
+
+	 
 }

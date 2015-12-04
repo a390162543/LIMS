@@ -1,12 +1,10 @@
 package businesslogicservice;
 
 import java.util.List;
-
-import po.TransferPO;
 import vo.GoodsVO;
 import vo.TransferVO;
 
-public interface TransferblService {
+public interface TransferblService extends Identifiable{
 	public boolean createTransferPO(TransferVO vo);
 	
 	

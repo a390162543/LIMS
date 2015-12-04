@@ -135,7 +135,7 @@ public class User implements UserblService{
 	 
 		try {
 			 UserDataService eds = (UserDataService) Naming.lookup("rmi://localhost/UserData");
-			 if(eds.find(id).equals(null))
+			 if(eds.find(id) == null)
 				 return null;
 			 else{
 				 UserVO vo = eds.find(id).getUserVO();

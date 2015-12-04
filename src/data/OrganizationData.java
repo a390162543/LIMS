@@ -11,6 +11,7 @@ import java.util.List;
 
  
 
+
 import po.OrganizationPO;
  
 import dataservice.OrganizationDataService;
@@ -62,8 +63,14 @@ public class OrganizationData extends UnicastRemoteObject implements Organizatio
 		// TODO Auto-generated method stub
 		String fileName = id;
 		String path = "c:/LIMS/database/"+this.getClass().getSimpleName()+"/"+fileName+".ser";
-		OrganizationPO po =(OrganizationPO) DataUtil.readObject(path);
-		return po;
+		File file = new File(path);
+		if(file.exists()){
+			OrganizationPO po =(OrganizationPO) DataUtil.readObject(path);
+			return po;
+		}
+		else{
+			return null;
+		}
 		 
 	}
 
@@ -127,9 +134,16 @@ public class OrganizationData extends UnicastRemoteObject implements Organizatio
 		String id = "";
 		for(OrganizationPO po : pos){
 			if(po.getName().equals(name))
-				id = po.getName();
+				id = po.getId();
 		}
 		return id;
+	}
+
+
+	@Override
+	public boolean isAvailable(String id) throws RemoteException {
+		// TODO Auto-generated method stub
+		return find(id) == null;
 	}
 
 	 

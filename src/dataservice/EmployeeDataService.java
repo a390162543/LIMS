@@ -6,7 +6,7 @@ import java.util.List;
 
 import po.EmployeePO;
 
-public interface EmployeeDataService extends Remote{
+public interface EmployeeDataService extends DataIdentifiable,Remote{
 	 public void insert(EmployeePO po) throws RemoteException;
 	    
 	 public void delete(EmployeePO po) throws RemoteException;

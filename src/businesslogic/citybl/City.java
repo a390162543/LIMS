@@ -6,6 +6,7 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
+
 import po.CityPO;
 import dataservice.CityDataService;
 import vo.CityVO;
@@ -141,6 +142,18 @@ public class City implements CityblService{
 			return distance;
 		}
 		return 0;
+	}
+	@Override
+	public String getId(String name) {
+		// TODO Auto-generated method stub
+		String id = "";
+		try {
+			  id = cityDataService.getId(name);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return id;
 	}
 
 }

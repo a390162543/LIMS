@@ -16,4 +16,6 @@ public interface CityblService {
 	public List<CityVO> getAll();
 	
 	public List<String> getAllName();
+	
+	public String getId(String name);
 }

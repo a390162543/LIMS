@@ -192,8 +192,10 @@ public class TransferPendingDialog extends JDialog {
 					String containerId = containerIdField.getText();
 					String loadMan = loanManField.getText();
 					List<String> orderId = new ArrayList<String>();
-					for(int i = 0; i < orderTable.getRowCount(); i ++)
+					for(int i = 0; i < orderTable.getRowCount(); i ++){
 						orderId.add((String)orderTable.getValueAt(i, 0));
+					}
+						
 					double expenses = new Double(expensesField.getText());
 					ShipForm shipForm = null;
 					if(trainButton.isSelected())

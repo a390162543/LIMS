@@ -4,7 +4,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.Date;
+
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -12,6 +15,17 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
+
+import businesslogic.checkbl.CheckInfo;
+import businesslogic.checkbl.employeeinfo.EmployeeIdCard;
+import businesslogic.checkbl.employeeinfo.EmployeePhoneNumber;
+import businesslogic.employeebl.Employee;
+import businesslogic.organizationbl.Organization;
+import businesslogicservice.EmployeeblService;
+import businesslogicservice.IdblService;
+import businesslogicservice.OrganizationblService;
+import presentation.util.CheckInfoGetter;
+import presentation.util.Checker;
 import presentation.util.DatePickPanel;
 import presentation.util.OrganizationComboBox;
 import systemenum.Position;
@@ -56,12 +70,31 @@ public class EmployeeDialog extends JDialog{
 	private JButton cancleButton;
 	private JButton sureButton;
     private EmployeeTableModel tableModel;
+    private OrganizationblService organizationblService;
+    private EmployeeblService employeeblService;
 
+    //创建员工的Dialog
+    
+    
     public EmployeeDialog(EmployeeTableModel em){
 		init();		
+		
 		tableModel = em;
-		cancleButton.addActionListener(new ActionListener(){
-	
+		organizationblService = new Organization();
+		employeeblService = new Employee();
+				
+		setId();
+		
+		organizationBox.addItemListener(new ItemListener() {
+			
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				// TODO Auto-generated method stub
+				setId();
+			}
+		});
+		
+		cancleButton.addActionListener(new ActionListener(){	
 			  @Override
 			  public void actionPerformed(ActionEvent e){
 				  EmployeeDialog.this.dispose();
@@ -75,10 +108,16 @@ public class EmployeeDialog extends JDialog{
 				  EmployeeDialog.this.dispose();
 			  }
 		});		
+		
+		//添加check	
+		//checkPhoneNumber();
+		
+		
 	}
 	
- 
+    //修改、查看员工信息的Dialog
 	public EmployeeDialog(EmployeeTableModel em, int modelRow, boolean isEdit){
+
 
 		init();
 		tableModel = em;
@@ -171,6 +210,14 @@ public class EmployeeDialog extends JDialog{
 			});
 		}
 		else{
+			cancleButton.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					EmployeeDialog.this.dispose();
+				}
+			}); 
 			sureButton.addActionListener(new ActionListener() {
 				
 				@Override
@@ -180,10 +227,86 @@ public class EmployeeDialog extends JDialog{
 					EmployeeDialog.this.dispose();
 				}
 			});
-		}
-		 
+		}	
 	}
-    
+	
+	
+	public void setId(){
+		String organizationId = organizationblService.getId
+				(organizationBox.getSelectedOrganization());
+		IdblService idblService = employeeblService.getIdblService();
+		idField.setText(idblService.createNewId(organizationId));		 
+	}
+	
+	public void checkPhoneNumber(){
+		Checker phoneNumberChecker = new Checker(phoneField, new CheckInfoGetter() {
+			
+			@Override
+			public CheckInfo getCheckInfo() {
+				// TODO Auto-generated method stub
+				if(phoneField.getText() == null){
+					return null;
+				}
+				return new EmployeePhoneNumber(phoneField.getText());
+			}
+		});
+		phoneField.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				phoneNumberChecker.check();
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+	}
+	
+ 
+	public void checkIdcard(){
+			Checker idcardChecker = new Checker(idCardField, new CheckInfoGetter() {
+			
+			@Override
+			public CheckInfo getCheckInfo() {
+				// TODO Auto-generated method stub
+				if(idCardField.getText() == null){
+					return null;
+				}
+				return new EmployeeIdCard(idCardField.getText());
+			}
+		});
+		idCardField.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				idcardChecker.check();
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+	}
+	
     
 	public void init(){
  
@@ -247,7 +370,10 @@ public class EmployeeDialog extends JDialog{
 		unitLabel.setBounds(235, 310, 70, 24);	 
 		percentageLabel1.setBounds(95, 345, 70, 24);
 		percentageField.setBounds(175, 345, 60, 20);
-		percentageLabel2.setBounds(235, 345, 70, 24);		
+		percentageLabel2.setBounds(235, 345, 70, 24);
+		
+	//
+		
 		positionBox.addItemListener(new ItemListener() {
 			
 			@Override
@@ -312,11 +438,13 @@ public class EmployeeDialog extends JDialog{
 		this.add(payLabel);
 		this.add(basePayLabel);
 		this.add(basePayField);
-		this.add(unitLabel);
-		
-		
+		this.add(unitLabel);		
 		this.setLayout(null);
 		this.setVisible(true);
+	
+		//添加检查项
+		checkPhoneNumber();
+		checkIdcard();
 	}
 	
 	public void update(boolean isNew,int modelRow){

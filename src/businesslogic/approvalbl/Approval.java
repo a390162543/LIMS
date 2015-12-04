@@ -6,7 +6,6 @@ import vo.ArrivalVO;
 import vo.DeliverVO;
 import vo.LoadVO;
 import vo.OrderCreateVO;
- 
 import vo.PaymentVO;
 import vo.RevenueVO;
 import vo.StoreinCreateVO;
@@ -22,6 +21,8 @@ import businesslogic.storeinbl.Storein;
 import businesslogic.storeoutbl.Storeout;
 import businesslogic.transferbl.Transfer;
 import businesslogicservice.ApprovalblService;
+import businesslogicservice.ArrivalblService;
+import businesslogicservice.StoreinblService;
  
 
 public class Approval implements ApprovalblService{
@@ -70,7 +71,7 @@ public class Approval implements ApprovalblService{
 	public boolean approveStoreinVO(StoreinCreateVO vo) {
 		// TODO Auto-generated method stub
 		Storein s = new Storein();
-		s.excute(vo);
+		 s.execute(vo);
 		return true;
 	}
 
@@ -79,7 +80,7 @@ public class Approval implements ApprovalblService{
 		// TODO Auto-generated method stub
 		
 		Storeout s = new Storeout();
-		s.excute(vo);
+		s.execute(vo);
 		return true;
 	}
 

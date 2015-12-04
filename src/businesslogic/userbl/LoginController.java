@@ -33,7 +33,7 @@ public class LoginController {
 		employeeblService = new Employee();
 		UserVO vo = userblService.find(id);
 		organizationblService = new Organization();
-		if(vo.equals(null))
+		if(vo == null )
 			return false;
 		else{
 			employeeVO = employeeblService.find(id);

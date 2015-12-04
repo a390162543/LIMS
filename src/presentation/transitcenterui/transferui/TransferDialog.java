@@ -26,6 +26,7 @@ import javax.swing.table.TableRowSorter;
 
 
 
+
 import presentation.util.OrganizationComboBox;
 import presentation.util.RecentDatePickPanel;
 import systemenum.ShipForm;
@@ -34,6 +35,7 @@ import vo.TransferVO;
 import businesslogic.transferbl.Transfer;
  
 import businesslogic.userbl.LoginController;
+import businesslogicservice.IdblService;
 import businesslogicservice.TransferblService;
 
 public class TransferDialog extends JDialog{
@@ -53,7 +55,8 @@ public class TransferDialog extends JDialog{
 	private TransferblService transferblService;
 	
 	public TransferDialog(){
-		transferblService = new Transfer();		 
+		transferblService = new Transfer();	
+		
 		JLabel wayLabel = new JLabel("货运方式");
 		wayLabel.setBounds(20, 50, 80, 20);
 		flightButton = new JRadioButton("航空");
@@ -109,6 +112,10 @@ public class TransferDialog extends JDialog{
 		expensesLabel.setBounds(20, 430, 80, 20);
 		expensesField = new JTextField();
 		expensesField.setBounds(105, 430, 60, 20);
+		idField.setEnabled(false);
+		
+		IdblService idblService = transferblService.getIdblService();
+		idField.setText(idblService.createNewId());		
 		
 		tableModel = new OrderTableModel(transferblService);  
 		TableRowSorter<TableModel>  tableSorter = new TableRowSorter<TableModel>(tableModel);
@@ -219,6 +226,8 @@ public class TransferDialog extends JDialog{
 		this.setLayout(null);
 		this.setVisible(true);
 	}
+	
+	 
 	
 	public void setExpensesField(){
 		double distance = 0.0;

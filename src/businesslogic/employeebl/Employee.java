@@ -14,8 +14,10 @@ import dataservice.EmployeeDataService;
 import vo.EmployeeVO;
 import vo.PayVO;
 import vo.UserVO;
+import businesslogic.idbl.IdManager;
 import businesslogic.userbl.User;
 import businesslogicservice.EmployeeblService;
+import businesslogicservice.IdblService;
 import businesslogicservice.UserblService;
  
 
@@ -179,6 +181,11 @@ public class Employee implements EmployeeblService{
 		vo.setPay(payvo);
 		modifyEmployeePO(vo);
 		return true;
+	}
+	@Override
+	public IdblService getIdblService() {
+		// TODO Auto-generated method stub
+		return new IdManager(employeeDataService, 3, false);
 	}
 	
 

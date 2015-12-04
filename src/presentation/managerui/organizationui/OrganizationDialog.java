@@ -2,6 +2,8 @@ package presentation.managerui.organizationui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -13,6 +15,7 @@ import javax.swing.JTextField;
 import businesslogic.citybl.City;
 import businesslogic.organizationbl.Organization;
 import businesslogicservice.CityblService;
+import businesslogicservice.IdblService;
 import businesslogicservice.OrganizationblService;
 import vo.OrganizationVO;
 
@@ -24,7 +27,7 @@ public class OrganizationDialog extends JDialog{
 	 */
 	private static final long serialVersionUID = 3380122615488984030L;
 
-	private JLabel infoLabel;
+	 
 	private JLabel nameLabel;
 	private JTextField nameField;
 	private JLabel idLabel;
@@ -35,13 +38,25 @@ public class OrganizationDialog extends JDialog{
 	private JButton sureButton;
 	private OrganizationTableModel tableModel;
 	private CityblService cityblService;
-	
+	private OrganizationblService organizationblService;
 
 	public OrganizationDialog(OrganizationTableModel tm){
 		init();
-		tableModel = tm;		
+		tableModel = tm;	
+		organizationblService = new Organization();
+		
+		 
+		cityBox.addItemListener(new ItemListener() {
+			
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				// TODO Auto-generated method stub
+			
+				setId(nameField.getText());
+			}
+		});
+		
 		cancleButton.addActionListener(new ActionListener() {
-
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -95,11 +110,30 @@ public class OrganizationDialog extends JDialog{
 		}		
 	}
 	
+	public void setId(String organizationName){
+		String cityId = cityblService.getId
+				((String)cityBox.getSelectedItem());
+		if(organizationName.contains("中转中心")){
+			IdblService idblService = organizationblService.getIdblService(1);
+			idField.setText(idblService.createNewId(cityId));
+		}
+		else if(organizationName.contains("营业厅")){
+			IdblService idblService = organizationblService.getIdblService(3);
+			idField.setText(idblService.createNewId(cityId));
+		}
+		else{
+			IdblService idblService = organizationblService.getIdblService();
+			idField.setText(idblService.createNewId());
+		}
+		
+	}
+	
 	public void init(){		 
 		cityblService = new City();
+		this.setTitle("机构信息");
 		List<String> cityList = cityblService.getAllName();
 		String[] cityStr = cityList.toArray(new String[cityList.size()]);
-		infoLabel = new JLabel();
+		 
 		nameLabel = new JLabel();
 		nameField = new JTextField();
 		cityBox = new JComboBox<String>(cityStr);
@@ -110,8 +144,7 @@ public class OrganizationDialog extends JDialog{
 		sureButton = new JButton("确定");
 		 		
 		this.setBounds(0, 0, 380, 300);
-		infoLabel.setText("机构信息");
-		infoLabel.setBounds(170, 15, 170, 35);
+	 
 		nameLabel.setText("机构名称");
 		nameLabel.setBounds(27, 65, 100, 20);
 		nameField.setBounds(135, 65, 180, 20);
@@ -125,7 +158,7 @@ public class OrganizationDialog extends JDialog{
 		cancleButton.setBounds(180, 185, 70, 30);
 		sureButton.setBounds(270, 185, 70, 30);
 		
-		this.add(infoLabel);
+		 
 		this.add(nameLabel);
 		this.add(nameField);
 		this.add(cityLabel);

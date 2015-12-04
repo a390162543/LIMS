@@ -2,10 +2,9 @@ package businesslogicservice;
 
 import java.util.List;
 
-import po.OrganizationPO;
 import vo.OrganizationVO;
 
-public interface OrganizationblService {
+public interface OrganizationblService extends OrganizationIdentifiable{
 	public boolean CreatOrganizationPO(OrganizationVO vo); 
 	
 	public boolean deleteOrganizationPO (OrganizationVO vo);
@@ -15,4 +14,6 @@ public interface OrganizationblService {
 	public List<OrganizationVO>  getOrganizationVO();
 	
 	public List<String> getAllOrganizationName();
+	
+	public String getId(String name);
 }

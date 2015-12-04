@@ -1,10 +1,15 @@
 package presentation.financeui.primeinfoui.employeeui;
 
 import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Vector;
+
 import javax.swing.table.DefaultTableModel;
+
+ 
 import vo.EmployeeVO;
+ 
 import businesslogicservice.PrimeInfoblService;
 
 public class PrimeInfoEmployeeTableModel extends DefaultTableModel{
@@ -23,6 +28,7 @@ public class PrimeInfoEmployeeTableModel extends DefaultTableModel{
 		dataList = new ArrayList<EmployeeVO>();
         setDataVector(convertToVectorData(dataList), getColumnNamesVector());
 	}
+	
 	public PrimeInfoEmployeeTableModel(List<EmployeeVO> vos) {
 		 
 		dataList = vos;
@@ -35,45 +41,50 @@ public class PrimeInfoEmployeeTableModel extends DefaultTableModel{
 	    primeInfoblService.addEmployeeVO(vo);
 	}
 	    
-	    public void delete(int row){
-	     removeRow(row);
-	     EmployeeVO vo = dataList.get(row);
+	 public void delete(int row){
+	    removeRow(row);
+	    EmployeeVO vo = dataList.get(row);
+	    dataList.remove(row);
+	    primeInfoblService.removeEmployeeVO(vo);         
+	 }
+	    
+	 public void modify(int row, EmployeeVO vo){
+		 removeRow(row);
+	     insertRow(row, convertToVector(vo));
 	     dataList.remove(row);
-	     primeInfoblService.removeEmployeeVO(vo);         
-	    }
+	     dataList.add(row, vo);	        
+	 }
 	    
-	    public void modify(int row, EmployeeVO vo){
-	        removeRow(row);
-	        insertRow(row, convertToVector(vo));
-	        dataList.remove(row);
-	        dataList.add(row, vo);
-	        
-	    }
+	  public List<String> getOrganizationName(){
+		  List<String> names = new ArrayList<String>();
+		  List<String> organizationName = primeInfoblService.getOrganizationName();
+		  if(!organizationName.isEmpty()){
+			  for(String s : organizationName){
+				 names.add(s);
+			  }				
+		  }    
+		  return names;
+	   }
 	    
-	    public List<String> getOrganizationName(){
-	    	List<String> names = new ArrayList<String>();
-	    	if(primeInfoblService.getOrganizationName()!=null){
-	    		for(String s:primeInfoblService.getOrganizationName())
-	    			names.add(s);
-	    	}
-	    
-	    	return names;
-	    }
+	  public String getOrganizationId(String name){	     
+	    String id =  primeInfoblService.getOrganizationId(name);	    	 
+		return id;	    	
+	  }
  
-	    public EmployeeVO getEmployeeVO(int row){
-	        return getRowData(row);
-	    }
+	  public EmployeeVO getEmployeeVO(int row){
+	       return getRowData(row);
+	   }
 	    
-	    @SuppressWarnings({ "unchecked", "rawtypes" })
-	    public Class getColumnClass(int column) {  
-	        Class returnValue;  
-	        if ((column >= 0) && (column < getColumnCount())) {  
-	            returnValue = getValueAt(0, column).getClass();  
-	        } else {  
-	            returnValue = Object.class;  
-	        }  
-	        return returnValue;  
-	    }  
+//	    public Class getColumnClass(int column) {  
+//	        Class returnValue;  
+//	        if ((column >= 0) && (column < getColumnCount())) {  
+//	            returnValue = getValueAt(0, column).getClass();  
+//	        } else {  
+//	            returnValue = Object.class;  
+//	        }  
+//	        return returnValue;  
+//	    }  	    
+
 	    
 	    public boolean isCellEditable(int row, int column) { 
 	        return false;

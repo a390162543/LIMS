@@ -5,7 +5,6 @@ import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
-
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -16,10 +15,6 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
-
-import presentation.financeui.primeinfoui.primeinfoaccount.PrimeInfoAccountDialog;
-import presentation.financeui.primeinfoui.primeinfoaccount.PrimeInfoAccountPanel;
-import presentation.financeui.primeinfoui.primeinfoaccount.PrimeInfoAccountTableModel;
 import vo.EmployeeVO;
 import businesslogicservice.PrimeInfoblService;
 
@@ -55,7 +50,7 @@ public class PrimeInfoEmployeePanel extends JPanel{
 	                if(row == -1)
 	                    return;
 	                int modelRow = employeeTable.convertRowIndexToModel(row);
-	                new PrimeInfoEmployeeDialog().showQueryDialog(tableModel, modelRow, false); 	                
+	                new PrimeInfoEmployeeDialog(tableModel, modelRow, false); 	                
 	            }
 	        });
 	  
@@ -115,7 +110,7 @@ public class PrimeInfoEmployeePanel extends JPanel{
 	            
 	            @Override
 	            public void actionPerformed(ActionEvent e) {
-	                new PrimeInfoEmployeeDialog().showCreateDialog(tableModel);
+	                new PrimeInfoEmployeeDialog(tableModel);
 	                
 	            }
 	        });
@@ -139,7 +134,7 @@ public class PrimeInfoEmployeePanel extends JPanel{
 		             if(row == -1)
 		                return;
 		             int modelRow = employeeTable.convertRowIndexToModel(row);
-		             new PrimeInfoEmployeeDialog().showQueryDialog(tableModel, modelRow, true);
+		             new PrimeInfoEmployeeDialog(tableModel, modelRow, true);
 
 	            }
 	        });
@@ -153,7 +148,7 @@ public class PrimeInfoEmployeePanel extends JPanel{
 		            if(row == -1)
 		               return;
 		            int modelRow = employeeTable.convertRowIndexToModel(row);
-		            new PrimeInfoEmployeeDialog().showQueryDialog(tableModel, modelRow, false);
+		            new PrimeInfoEmployeeDialog(tableModel, modelRow, false);
 
 				}
 			});

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
  
+
 import po.EmployeePO;
 import dataservice.EmployeeDataService;
  
@@ -131,6 +132,12 @@ public class EmployeeData extends UnicastRemoteObject implements EmployeeDataSer
 	            e.printStackTrace();
 	        }
 	        System.out.println("Server is on.");
+	}
+
+	@Override
+	public boolean isAvailable(String id) throws RemoteException {
+		// TODO Auto-generated method stub
+		return find(id) == null;
 	}
 
 }

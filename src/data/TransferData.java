@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
  
+
 import po.TransferPO;
  
 import dataservice.TransferDataService;
@@ -123,6 +124,12 @@ public class TransferData extends UnicastRemoteObject implements TransferDataSer
 	public void finish() throws RemoteException {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public boolean isAvailable(String id) throws RemoteException {
+		// TODO Auto-generated method stub
+		return find(id) == null;
 	}
 
 }

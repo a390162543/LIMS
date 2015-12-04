@@ -6,7 +6,7 @@ import java.util.List;
 
 import po.OrganizationPO;
 
-public interface OrganizationDataService extends Remote{
+public interface OrganizationDataService extends DataIdentifiable,Remote{
 	 public void insert(OrganizationPO po) throws RemoteException;
 	    
 	    public void delete(OrganizationPO po) throws RemoteException;

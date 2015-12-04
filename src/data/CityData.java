@@ -116,4 +116,18 @@ public class CityData extends UnicastRemoteObject implements CityDataService{
 		return null;
 	}
 
+
+	@Override
+	public String getId(String name) throws RemoteException {
+		// TODO Auto-generated method stub
+		if(findByName(name) == null){
+			return null;
+		}
+		else{
+			String id = findByName(name).getId();
+			return id;
+		}
+		
+	}
+
 }
