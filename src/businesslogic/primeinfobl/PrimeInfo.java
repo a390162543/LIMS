@@ -18,6 +18,10 @@ import vo.PrimeInfoVO;
 import vo.StoreinCreateVO;
 import vo.TruckVO;
 import businesslogic.accountbl.Account;
+import businesslogic.orderbl.Order;
+import businesslogic.organizationbl.Organization;
+import businesslogic.storeinbl.Storein;
+import businesslogic.truckbl.Truck;
 import businesslogicservice.PrimeInfoblService;
 
 public class PrimeInfo implements PrimeInfoblService{
@@ -132,8 +136,14 @@ public class PrimeInfo implements PrimeInfoblService{
 	}	
 	@Override
 	public boolean modifyOrganizationVO(OrganizationVO vo) {
-		// TODO Auto-generated method stub
-		return false;
+		List<OrganizationVO> organizationVOs = primeInfoVO.getOrganization();
+		for(OrganizationVO organizationVO : organizationVOs){
+			if(organizationVO.getId().equals(vo.getId())){
+				organizationVO.setCity(vo.getCity());
+				organizationVO.setName(vo.getName());
+			}
+		}
+		return true;
 	}
 	
 	@Override
@@ -156,13 +166,15 @@ public class PrimeInfo implements PrimeInfoblService{
 	
 	@Override
 	public boolean addStoreinCheckResultVO(StoreinCreateVO vo) {
-		// TODO Auto-generated method stub
-		return false;
+		List<StoreinCreateVO> storeinCreateVOs = primeInfoVO.getStorage();
+		storeinCreateVOs.add(vo);		
+		return true;
 	}
 	@Override
 	public boolean removeStoreinCheckResultVO(StoreinCreateVO vo) {
-		// TODO Auto-generated method stub
-		return false;
+		List<StoreinCreateVO> storeinCreateVOs = primeInfoVO.getStorage();
+		storeinCreateVOs.remove(vo);		
+		return true;
 	}
 	@Override
 	public boolean modifyStoreinVO(StoreinCreateVO vo) {
@@ -171,13 +183,15 @@ public class PrimeInfo implements PrimeInfoblService{
 	}
 	@Override
 	public boolean addOrderCheckResultVO(OrderCreateVO vo) {
-		// TODO Auto-generated method stub
-		return false;
+		List<OrderCreateVO> orderCreateVOs = primeInfoVO.getOrder();
+		orderCreateVOs.add(vo);		
+		return true;
 	}
 	@Override
 	public boolean removeOrderCheckResultVO(OrderCreateVO vo) {
-		// TODO Auto-generated method stub
-		return false;
+		List<OrderCreateVO> orderCreateVOs = primeInfoVO.getOrder();
+		orderCreateVOs.remove(vo);		
+		return true;
 	}
 	@Override
 	public boolean modifyOrderVO(OrderCreateVO vo) {
@@ -187,27 +201,59 @@ public class PrimeInfo implements PrimeInfoblService{
 
 	@Override
 	public boolean execute() {
+		List<AccountVO> accountVOs = primeInfoVO.getAccount();
 		Account account = new Account();
-		account.execute(primeInfoVO.getAccount());
-//		Truck truck = new Truck();
-//		truck.execute(primeInfoVO.getTruck());
+		for(AccountVO vo : accountVOs)
+			account.execute(vo);
+		
+		List<TruckVO> truckVOs = primeInfoVO.getTruck();
+		Truck truck = new Truck();
+		for(TruckVO vo :truckVOs)
+			truck.execute(vo);
 //		Employee employee = new Employee();
 //		employee.execute(primeInfoVO.getEmployee());
 //		Organization organization = new Organization();
 //		organization.execute(primeInfoVO.getOrganization());
-//		Storein Storein = new Storein();
-//		Storein.primeInfoExecute(primeInfoVO.getAccount());
+		List<StoreinCreateVO> vos = primeInfoVO.getStorage();
+		Storein Storein = new Storein();
+		for(StoreinCreateVO vo : vos)
+			Storein.execute(vo);
+		
+		List<OrderCreateVO> orderVOs = primeInfoVO.getOrder();
+		Order order = new Order();		
+		for(OrderCreateVO vo : orderVOs)
+			order.execute(vo);
+		
 		return true;
 	}
 
 	@Override
 	public List<String> getOrganizationName(){
-		// TODO Auto-generated method stub
 		List<String> names = new ArrayList<String>();
 		for(OrganizationVO vo : primeInfoVO.getOrganization())
 			names.add(vo.getName());
 		return null;
 	}
 	
+	@Override
+	public String getOrganizationId(String name) {
+		String id = "";
+		Organization organization = new Organization();
+		List<OrganizationVO> vos = new ArrayList<OrganizationVO>();
+		List<OrganizationVO> list = primeInfoVO.getOrganization();
+		vos = organization.getOrganizationVO();
+		if(!list.isEmpty()){
+			for(OrganizationVO vo : list){
+				vos.add(vo);
+			}
+		}
+		for(OrganizationVO vo : vos){
+			 if(name.equals(vo.getName())){
+				 id = vo.getId();
+			 }
+		}
+		return id;
+	}
+
 
 }
