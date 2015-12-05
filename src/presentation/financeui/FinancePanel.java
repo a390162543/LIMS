@@ -53,6 +53,7 @@ public class FinancePanel extends JPanel {
 	    logButton.setBounds(buttonx,buttony+buttonHeight*6+interval*6,buttonWidth, buttonHeight);
 	    
 	    panel = new JPanel();
+	    panel.setLayout(null);
 	    panel.setBounds(220, 30, 800-220, 470);
 	    		
 	    this.setLayout(null);

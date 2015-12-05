@@ -1,11 +1,14 @@
 package presentation.financeui.primeinfoui;
 
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 
-import presentation.financeui.primeinfoui.primeinfoaccount.PrimeInfoAccountPanel;
-import presentation.financeui.primeinfoui.primeinfotruck.PrimeInfoTruckPanel;
+import presentation.financeui.primeinfoui.accountui.PrimeInfoAccountPanel;
+import presentation.financeui.primeinfoui.employeeui.PrimeInfoEmployeePanel;
+import presentation.financeui.primeinfoui.orderui.PrimeInfoOrderPanel;
+import presentation.financeui.primeinfoui.organizationui.PrimeInfoOrganizationPanel;
+import presentation.financeui.primeinfoui.storeinui.PrimeInfoStoreinPanel;
+import presentation.financeui.primeinfoui.truckui.PrimeInfoTruckPanel;
 import businesslogic.primeinfobl.PrimeInfo;
 import businesslogicservice.PrimeInfoblService;
 
@@ -20,39 +23,30 @@ public class PrimeInfoPanel extends JPanel{
 	public PrimeInfoPanel(JPanel panel){
 		panel.removeAll();
 		
-		int srollPaneWidth = 560;
-		int scrollPaneHeight = 370;
-
-		JScrollPane organizationScrollPane = new JScrollPane();
-		organizationScrollPane.setBounds(0, 25, srollPaneWidth, scrollPaneHeight);
-		JScrollPane employeeScrollPane = new JScrollPane();
-		employeeScrollPane.setBounds(0, 25, srollPaneWidth, scrollPaneHeight);
-		JScrollPane storageScrollPane = new JScrollPane();
-		storageScrollPane.setBounds(0, 25, srollPaneWidth, scrollPaneHeight);
-		
 		PrimeInfoblService primeInfoblService = new PrimeInfo(); 
 
 		PrimeInfoAccountPanel primeInfoAccountPanel = new PrimeInfoAccountPanel(primeInfoblService);
 		primeInfoAccountPanel.setLocation(0, 0);
 		PrimeInfoTruckPanel primeInfoTruckPanel = new PrimeInfoTruckPanel(primeInfoblService);
 		primeInfoTruckPanel.setLocation(0, 0);
-//		PrimeInfoOrganizationPanel primeInfoOrganizationPanel = new PrimeInfoOrganizationPanel(primeInfoblService);
-//		primeInfoOrganizationPanel.setLocation(0, 0);
-//		PrimeInfoEmpolyeePanel primeInfoEmpolyeePanel = new PrimeInfoEmpolyeePanel(primeInfoblService);
-//		primeInfoEmpolyeePanel.setLocation(0, 0);
-//		PrimeInfoStoreinPanel primeInfoStoreinPanel = new PrimeInfoStoreinPanel(primeInfoblService);
-//		primeInfoStoreinPanel.setLocation(0, 0);
+		PrimeInfoOrganizationPanel primeInfoOrganizationPanel = new PrimeInfoOrganizationPanel(primeInfoblService);
+		primeInfoOrganizationPanel.setLocation(0, 0);
+		PrimeInfoEmployeePanel primeInfoEmployeePanel = new PrimeInfoEmployeePanel(primeInfoblService);
+		primeInfoEmployeePanel.setLocation(0, 0);
+		PrimeInfoStoreinPanel primeInfoStoreinPanel = new PrimeInfoStoreinPanel(primeInfoblService);
+		primeInfoStoreinPanel.setLocation(0, 0);
+		PrimeInfoOrderPanel primeInfoOrderPanel = new PrimeInfoOrderPanel(primeInfoblService);
+		primeInfoOrderPanel.setLocation(0, 0);
 	
 		JTabbedPane pane = new JTabbedPane();
-		pane.addTab("机构", organizationScrollPane);
-		pane.addTab("人员", employeeScrollPane);
+		pane.addTab("机构", primeInfoOrganizationPanel);
+		pane.addTab("人员", primeInfoEmployeePanel);
 		pane.addTab("车辆", primeInfoTruckPanel);
-		pane.addTab("库存", storageScrollPane);
+		pane.addTab("库存", primeInfoStoreinPanel);
+		pane.addTab("订单", primeInfoOrderPanel);
 		pane.addTab("账户", primeInfoAccountPanel );
 		pane.setBounds(0, 0, 560, 500);
-
-	
-
+		
 		this.setLayout(null);
 		this.add(pane);
 		this.setBounds(0, 0, 560, 540);

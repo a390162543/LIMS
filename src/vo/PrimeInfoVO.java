@@ -6,6 +6,7 @@ import java.util.List;
 
 import po.AccountPO;
 import po.EmployeePO;
+import po.OrderPO;
 import po.OrganizationPO;
 import po.PrimeInfoPO;
 import po.StoreinPO;
@@ -19,6 +20,7 @@ public class PrimeInfoVO {
 	private List<TruckVO>  truck;
 	private List<StoreinCreateVO>  storage;
 	private List<AccountVO>  account;
+	private List<OrderCreateVO> order;
 	private Date date;
 
 	public PrimeInfoVO(){
@@ -27,20 +29,23 @@ public class PrimeInfoVO {
     	List<TruckVO>  truck = new ArrayList<TruckVO>();
     	List<StoreinCreateVO>  storage = new ArrayList<StoreinCreateVO>();
     	List<AccountVO>  account = new ArrayList<AccountVO>();
+    	List<OrderCreateVO> order = new ArrayList<OrderCreateVO>();
     	Date date = new Date();
 		this.organization = organization;
 		this.employee = employee;
 		this.truck = truck;
 		this.storage = storage;
 		this.account = account;
+		this.order = order;
 		this.date = date;
 	}
-	public PrimeInfoVO(List<OrganizationVO>  organization,List<EmployeeVO>  employee,List<TruckVO>  truck,List<StoreinCreateVO>  storage,List<AccountVO>  account, Date date){
+	public PrimeInfoVO(List<OrganizationVO>  organization,List<EmployeeVO>  employee,List<TruckVO>  truck,List<StoreinCreateVO>  storage,List<AccountVO>  account, List<OrderCreateVO> order,Date date){
 		this.organization = organization;
 		this.employee = employee;
 		this.truck = truck;
 		this.storage = storage;
 		this.account = account;
+		this.order = order;
 		this.date = date;
 	}
 	public List<OrganizationVO> getOrganization(){
@@ -63,6 +68,9 @@ public class PrimeInfoVO {
 		return account;
 	}
 
+	public List<OrderCreateVO> getOrder(){
+		return order;
+	}
 	public Date getDate(){
 		return date;
 	}
@@ -87,7 +95,10 @@ public class PrimeInfoVO {
 		List<AccountPO> accountPOs = new ArrayList<AccountPO>();
 		for(AccountVO vo: account)
 			accountPOs.add(vo.getAccountPO());
-		PrimeInfoPO po = new PrimeInfoPO(organizationPOs,employeePOs,truckPOs,storagePOs,accountPOs,date);
+		List<OrderPO> orderPOs = new ArrayList<OrderPO>();
+		for(OrderCreateVO vo: order)
+			orderPOs.add(vo.getOrderPO());
+		PrimeInfoPO po = new PrimeInfoPO(organizationPOs,employeePOs,truckPOs,storagePOs,accountPOs,orderPOs,date);
 		return po;
 	}
 }

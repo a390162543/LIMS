@@ -11,7 +11,6 @@ import javax.swing.JTable;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
-import presentation.financeui.primeinfoui.primeinfoaccount.PrimeInfoAccountDialog;
 import businesslogicservice.PrimeInfoblService;
 
 public class PrimeInfoOrderPanel extends JPanel{
@@ -49,7 +48,7 @@ public class PrimeInfoOrderPanel extends JPanel{
         
         addButton = new JButton("添加");
         deleteButton = new JButton("删除");
-        createButton = new JButton("新建账单");
+        createButton = new JButton("完成建账");
         queryButton = new JButton("查询");
         modifyButton = new JButton("修改");
         addButton.addActionListener(new ActionListener() {
@@ -99,7 +98,7 @@ public class PrimeInfoOrderPanel extends JPanel{
             @Override
             public void actionPerformed(ActionEvent e) {
             	primeInfoblService.createPrimeInfoPO();
-            	primeInfoblService.executeOrderPO();
+            	primeInfoblService.execute();
  
             	Container container = PrimeInfoOrderPanel.this.getParent().getParent();
             	container.removeAll();

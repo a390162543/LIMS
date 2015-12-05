@@ -28,7 +28,6 @@ public class PrimeInfoOrganizationPanel extends JPanel{
     private JTable OrganizationTable;
     private PrimeInfoOrganizationTableModel tableModel;
     private TableRowSorter<TableModel> tableSorter;   
-    private JTextField filterTextField;
     private PrimeInfoblService primeInfoblService;
     
     public PrimeInfoOrganizationPanel(List<OrganizationVO> vos){
@@ -58,7 +57,7 @@ public class PrimeInfoOrganizationPanel extends JPanel{
   
         queryButton.setBounds(485, 390, 70, 30);
         //set panel
-        this.setBounds(0, 15, 560, 470);
+        this.setBounds(0, 15, 560, 370);
         this.setLayout(null);
         this.add(OrganizationScrollPane);
         this.add(queryButton);
@@ -74,42 +73,13 @@ public class PrimeInfoOrganizationPanel extends JPanel{
         OrganizationTable.setRowSorter(tableSorter);        
         //set scroll pane
         OrganizationScrollPane = new JScrollPane(OrganizationTable);
-        OrganizationScrollPane.setBounds(0, 40, 560, 370);
-        //set other components on panel
-        filterTextField = new JTextField();
-        filterTextField.setToolTipText("请输入模糊查找字段");
-        filterTextField.getDocument().addDocumentListener(new DocumentListener() {
-            
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                changedUpdate(e);
-                
-            }
-            
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                changedUpdate(e);
-                
-            }
-            
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                String filterText = filterTextField.getText();
-                if(filterText.isEmpty()){
-                    tableSorter.setRowFilter(null);
-                }else{
-                    tableSorter.setRowFilter(RowFilter.regexFilter(filterText));
-                }
-                
-            }
-        });
-        filterTextField.setBounds(320, 0, 235, 25);
+        OrganizationScrollPane.setBounds(0, 10, 560, 370);
         
         JButton createButton = new JButton("添加");
         JButton deleteButton = new JButton("删除");
         JButton modifyButton = new JButton("修改");
-        JButton queryButton = new JButton("详情");
-        JButton confirmButton = new JButton("确认");
+        JButton queryButton = new JButton("查询");
+        JButton confirmButton = new JButton("完成建账");
         createButton.addActionListener(new ActionListener() {
             
             @Override
@@ -165,16 +135,16 @@ public class PrimeInfoOrganizationPanel extends JPanel{
     		}
     	});
        
-        createButton.setBounds(60, 420, 70, 30);
-        deleteButton.setBounds(145, 420, 70, 30);
-        modifyButton.setBounds(230, 420, 70, 30);
-        queryButton.setBounds(315, 420, 70, 30);
-        confirmButton.setBounds(425, 420, 70, 40);
+        createButton.setBounds(60, 390, 70, 30);
+        deleteButton.setBounds(145, 390, 70, 30);
+        modifyButton.setBounds(230, 390, 70, 30);
+        queryButton.setBounds(315, 390, 70, 30);          
+        confirmButton.setBounds(425, 390, 130, 30);
         //set panel
-        this.setBounds(0, 0, 560, 470);
+        //改成470高的话 jtabbedpane 就不显示选项卡了 不知为什么！！！！
+        this.setBounds(0, 15, 560, 370);
         this.setLayout(null);
         this.add(OrganizationScrollPane);
-        this.add(filterTextField);
         this.add(createButton);
         this.add(deleteButton);
         this.add(modifyButton);
