@@ -23,7 +23,7 @@ public class ArrivalVO {
         this.transferId = transferId;
         this.depart = depart;
         this.goodsState = gs;
-        if(transferId.length() == 17)
+        if(transferId.length() == 19)
             isTransferId = true;
     }
     

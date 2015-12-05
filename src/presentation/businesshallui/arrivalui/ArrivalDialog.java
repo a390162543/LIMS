@@ -15,6 +15,7 @@ import javax.swing.JTextField;
 
 import presentation.util.CheckInfoGetter;
 import presentation.util.Checker;
+import presentation.util.DialogLayoutManager;
 import presentation.util.OrganizationComboBox;
 import presentation.util.RecentDatePickPanel;
 import businesslogic.BusinessLogicService;
@@ -25,6 +26,8 @@ import businesslogicservice.ArrivalblService;
 import businesslogicservice.IdblService;
 import systemenum.GoodsState;
 import vo.ArrivalVO;
+import vo.LoadVO;
+import vo.TransferVO;
 
 public class ArrivalDialog extends JDialog{
 
@@ -59,29 +62,7 @@ public class ArrivalDialog extends JDialog{
         textFields[0].setText(idblService.createNewId());
         textFields[0].setEnabled(false);
         
-        Checker transferIdChecker = new Checker(textFields[1], new CheckInfoGetter() {
-            
-            @Override
-            public CheckInfo getCheckInfo() {
-                return new ArrivalTransferId(textFields[1].getText());
-            }
-        });
-        
-        textFields[1].addKeyListener(new KeyListener() {
-            
-            @Override
-            public void keyTyped(KeyEvent e) {
-            }
-            
-            @Override
-            public void keyReleased(KeyEvent e) {
-                transferIdChecker.check();
-            }
-            
-            @Override
-            public void keyPressed(KeyEvent e) {
-            }
-        });
+
        
         
         OrganizationComboBox departComboBox = new OrganizationComboBox();
@@ -109,8 +90,52 @@ public class ArrivalDialog extends JDialog{
             this.add(jRadioButtons[i]);
         }
         jRadioButtons[0].setSelected(true);
+        DialogLayoutManager.fix(jRadioButtons);
 
-
+        //添加所有的checker
+        Checker transferIdChecker = new Checker(textFields[1], new CheckInfoGetter() {
+            
+            @Override
+            public CheckInfo getCheckInfo() {
+                return new ArrivalTransferId(textFields[1].getText());
+            }
+        });
+        
+        textFields[1].addKeyListener(new KeyListener() {
+            
+            @Override
+            public void keyTyped(KeyEvent e) {
+            }
+            
+            @Override
+            public void keyReleased(KeyEvent e) {
+                boolean isTransferRight = transferIdChecker.check();
+                if(isTransferRight){
+                    LoadVO loadVO;
+                    TransferVO transferVO;
+                    if((loadVO = arrivalblService.getLoadVO(textFields[1].getText())) != null){
+                        departComboBox.setSelectedItem(loadVO.getDepart());
+                    }else{
+                        transferVO = arrivalblService.getTransferVO(textFields[1].getText());
+                        departComboBox.setSelectedItem(transferVO.getDepart());
+                    }
+                }
+            }
+            
+            @Override
+            public void keyPressed(KeyEvent e) {
+            }
+        });
+        
+        Checker datePickChecker = new Checker(datePickPanel, new CheckInfoGetter() {
+            
+            @Override
+            public CheckInfo getCheckInfo() {
+                return null;
+            }
+        });
+        
+        
         
         JButton confirmButton = new JButton("确认");
         confirmButton.setBounds(230, 240, 80, 30);
@@ -149,10 +174,10 @@ public class ArrivalDialog extends JDialog{
         
         this.add(confirmButton);
         this.add(cancleButton);
-        
+
         this.setTitle("到达单");
         this.setSize(340, 320);
-        this.setLayout(null);
+        this.setLayout(new DialogLayoutManager());
         this.setLocationRelativeTo(null);
         this.setModalityType(ModalityType.APPLICATION_MODAL);
         this.setVisible(true);
