@@ -47,7 +47,7 @@ public class PrimeInfoEmployeePanel extends JPanel{
 	                if(row == -1)
 	                    return;
 	                int modelRow = employeeTable.convertRowIndexToModel(row);
-	                new PrimeInfoEmployeeDialog().showQueryDialog(tableModel, modelRow, false); 	                
+	                new PrimeInfoEmployeeDialog(tableModel, modelRow, false); 	                
 	            }
 	        });
 	  
@@ -79,7 +79,7 @@ public class PrimeInfoEmployeePanel extends JPanel{
 	            
 	            @Override
 	            public void actionPerformed(ActionEvent e) {
-	                new PrimeInfoEmployeeDialog().showCreateDialog(tableModel);
+	                new PrimeInfoEmployeeDialog (tableModel);
 	                
 	            }
 	        });
@@ -103,7 +103,7 @@ public class PrimeInfoEmployeePanel extends JPanel{
 		             if(row == -1)
 		                return;
 		             int modelRow = employeeTable.convertRowIndexToModel(row);
-		             new PrimeInfoEmployeeDialog().showQueryDialog(tableModel, modelRow, true);
+		             new PrimeInfoEmployeeDialog(tableModel, modelRow, true);
 
 	            }
 	        });
@@ -117,7 +117,7 @@ public class PrimeInfoEmployeePanel extends JPanel{
 		            if(row == -1)
 		               return;
 		            int modelRow = employeeTable.convertRowIndexToModel(row);
-		            new PrimeInfoEmployeeDialog().showQueryDialog(tableModel, modelRow, false);
+		            new PrimeInfoEmployeeDialog(tableModel, modelRow, false);
 
 				}
 			});

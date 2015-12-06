@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -12,6 +14,10 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import presentation.util.CheckInfoGetter;
+import presentation.util.Checker;
+import businesslogic.checkbl.CheckInfo;
+import businesslogic.checkbl.organizationinfo.OrganizationName;
 import businesslogic.citybl.City;
 import businesslogic.organizationbl.Organization;
 import businesslogicservice.CityblService;
@@ -39,39 +45,38 @@ public class OrganizationDialog extends JDialog{
 	private OrganizationTableModel tableModel;
 	private CityblService cityblService;
 	private OrganizationblService organizationblService;
+	private Checker organizationNameChecker;
 
 	public OrganizationDialog(OrganizationTableModel tm){
 		init();
 		tableModel = tm;	
-		organizationblService = new Organization();
-		
-		 
+		organizationblService = new Organization();	 
 		cityBox.addItemListener(new ItemListener() {
 			
 			@Override
 			public void itemStateChanged(ItemEvent e) {
-				// TODO Auto-generated method stub
-			
+				// TODO Auto-generated method stub			
 				setId(nameField.getText());
+				organizationNameChecker.check();
 			}
 		});
 		
-		cancleButton.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				OrganizationDialog.this.dispose();
-			}
-		});
+		
 		
 		sureButton.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				 update(0,true);
-				 OrganizationDialog.this.dispose();
+				boolean isRight = organizationNameChecker.check();
+				if(isRight){
+					update(0,true);
+					OrganizationDialog.this.dispose();
+				}
+				else{
+					return;
+				}
+				 
 			}
 		});
 	}
@@ -82,6 +87,7 @@ public class OrganizationDialog extends JDialog{
 		OrganizationVO vo = tableModel.getOrganizationVO(modelRow);
 		nameField.setText(vo.getName());
 		cityBox.setSelectedItem(vo.getCity());
+		cityBox.setEnabled(false);
 		idField.setText(""+vo.getId());
 		
 		idField.setEnabled(false);
@@ -98,13 +104,30 @@ public class OrganizationDialog extends JDialog{
 			});
 		}
 		else{
+			cancleButton.setVisible(false);
+			cityBox.addItemListener(new ItemListener() {
+				
+				@Override
+				public void itemStateChanged(ItemEvent e) {
+					// TODO Auto-generated method stub			
+					setId(nameField.getText());
+					organizationNameChecker.check();
+				}
+			});
 			sureButton.addActionListener(new ActionListener() {
 				
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
-					update(modelRow,false);
-					OrganizationDialog.this.dispose();
+					boolean isRight = organizationNameChecker.check();
+					if(isRight){
+						update(modelRow,false);
+						OrganizationDialog.this.dispose();						
+					}
+					else{
+						return;
+					}
+					
 				}
 			});
 		}		
@@ -143,7 +166,7 @@ public class OrganizationDialog extends JDialog{
 		cancleButton = new JButton("取消");
 		sureButton = new JButton("确定");
 		 		
-		this.setBounds(0, 0, 380, 300);
+		this.setBounds(400, 200, 380, 300);
 	 
 		nameLabel.setText("机构名称");
 		nameLabel.setBounds(27, 65, 100, 20);
@@ -154,9 +177,18 @@ public class OrganizationDialog extends JDialog{
 		idLabel.setText("机构编号");
 		idLabel.setBounds(27, 135, 100, 20);
 		idField.setBounds(137, 135, 180, 20);
-		 
+		idField.setEnabled(false);
 		cancleButton.setBounds(180, 185, 70, 30);
 		sureButton.setBounds(270, 185, 70, 30);
+		
+		cancleButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				OrganizationDialog.this.dispose();
+			}
+		});
 		
 		 
 		this.add(nameLabel);
@@ -170,6 +202,39 @@ public class OrganizationDialog extends JDialog{
 		
 		this.setLayout(null);
 		this.setVisible(true);
+		
+		//添加检查项
+		organizationNameChecker = new Checker(nameField,new CheckInfoGetter() {
+			
+			@Override
+			public CheckInfo getCheckInfo() {
+				// TODO Auto-generated method stub
+				if(nameField.getText() == null){
+					return null;
+				}
+				return new OrganizationName(nameField.getText(), (String)cityBox.getSelectedItem());
+			}
+		});
+		nameField.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				organizationNameChecker.check();
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 	}
 	
 	public void update( int modelRow,boolean isNew){

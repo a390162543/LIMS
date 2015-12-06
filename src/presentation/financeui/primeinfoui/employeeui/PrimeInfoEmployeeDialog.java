@@ -5,14 +5,34 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.sql.Date;
+ 
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.util.Date;
+import java.util.List;
+
 import javax.swing.ButtonGroup;
+ 
+ 
+import javax.swing.ButtonGroup;
+ 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
+ 
+import businesslogic.BusinessLogicService;
+import businesslogic.checkbl.CheckInfo;
+import businesslogic.checkbl.employeeinfo.EmployeeIdCard;
+import businesslogic.checkbl.employeeinfo.EmployeePhoneNumber;
+import businesslogicservice.EmployeeblService;
+import businesslogicservice.IdblService;
+import presentation.util.CheckInfoGetter;
+import presentation.util.Checker;
+import presentation.util.DatePickPanel;
+ 
 import presentation.util.OrganizationComboBox;
 import systemenum.Position;
 import systemenum.Sex;
@@ -20,9 +40,13 @@ import vo.EmployeeVO;
 import vo.PayVO;
 
 
-public class PrimeInfoEmployeeDialog {
+public class PrimeInfoEmployeeDialog extends JDialog{
 
-	private JDialog employeeDialog ;	 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6718995997080603644L;
+ 	 
 	private String positions[];
 	private Integer year[];
 	private Integer month[];
@@ -61,10 +85,196 @@ public class PrimeInfoEmployeeDialog {
 	private JButton cancleButton;
 	private JButton sureButton;
     private PrimeInfoEmployeeTableModel tableModel;
+ 
+    private EmployeeblService employeeblService;
+    private Checker phoneNumberChecker;
+    private Checker idcardChecker;
+ 
+    
+    public PrimeInfoEmployeeDialog(PrimeInfoEmployeeTableModel em){		
+		tableModel = em;
+		 
+		
+		init();		
+		
+		setId();
+		
+		organizationBox.addItemListener(new ItemListener() {
+			
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				// TODO Auto-generated method stub
+				setId();
+			}
+		});
+		
+		cancleButton.addActionListener(new ActionListener(){
+	
+			  @Override
+			  public void actionPerformed(ActionEvent e){
+				  PrimeInfoEmployeeDialog.this.dispose();
+			  }
+		});
+			 
+		
+		sureButton.addActionListener(new ActionListener(){			
+			  @Override
+			  public void actionPerformed(ActionEvent e){
+				  boolean isCorrect = idcardChecker.check() && phoneNumberChecker.check();
+				  if(isCorrect){
+					  update(true,0);
+					  PrimeInfoEmployeeDialog.this.dispose();
+				  }
+				  else{
+					  return;
+				  }		
+			}
+		});		
+	}
+	 
+	public PrimeInfoEmployeeDialog(PrimeInfoEmployeeTableModel em, int modelRow, boolean isEdit){
+		init();
+		this.tableModel = em;
+		EmployeeVO vo = tableModel.getEmployeeVO(modelRow);
+		nameField.setText(vo.getName());
+		idField.setText(""+vo.getId());
+		idField.setEnabled(false);
+		organizationBox.setSelectedItem(vo.getOrganization());
+		if(vo.getSex().equals(Sex.MALE))
+			maleRadioButton.setSelected(true);
+		else 
+			femaleRadioButton.setSelected(true);	
+		
+		switch (vo.getPosition()) {
+		case MANAGER: 
+			positionBox.setSelectedIndex(0); break;
+		case SELLINGBUSINESSMAN: 
+			positionBox.setSelectedIndex(1); break;
+		case TRANSFERCENTREBUSINESSMAN: 
+			positionBox.setSelectedIndex(2) ;break;
+		case COURIER:
+			positionBox.setSelectedIndex(3); break;
+		case STORAGEMANAGER:
+			positionBox.setSelectedIndex(4); break;
+		case SENIORFINANCIALSTAFF:
+			positionBox.setSelectedIndex(5); break;
+		case FINANCIALSTAFF:
+			positionBox.setSelectedIndex(6); break;
+		case SYSTEMMANAGER:
+			positionBox.setSelectedIndex(7); break;
+		case DRIVER:
+			positionBox.setSelectedIndex(8); break;		
+		}
+		
+		 phoneField.setText(""+vo.getTelephone());
+		 idCardField.setText(""+vo.getIdentityCardNum());
+		   			 
+		if(positionBox.getSelectedItem().toString().equals("快递员")){
+			basePayLabel.setText("基础工资");
+			unitLabel.setText("/月");
+			percentageField.setVisible(true);
+			percentageLabel1.setVisible(true);
+			percentageLabel2.setVisible(true);
+			basePayField.setText(""+vo.getPay().getBasePay());
+			percentageField.setText(""+vo.getPay().getRate()*100);
+			this.add(percentageLabel1);
+			this.add(percentageLabel2);
+			this.add(percentageField);
+										
+		}
+		else if(positionBox.getSelectedItem().toString().equals("司机")){
+			basePayLabel.setText("按次计费");
+			unitLabel.setText("/次");
+			basePayField.setText(""+vo.getPay().getPayByCount());
+			percentageField.setVisible(false);
+			percentageLabel1.setVisible(false);
+			percentageLabel2.setVisible(false);
+		}
+		else{
+			basePayLabel.setText("月薪");
+			unitLabel.setText("");
+			basePayField.setText(""+vo.getPay().getBasePay());
+			percentageField.setVisible(false);
+			percentageLabel1.setVisible(false);
+			percentageLabel2.setVisible(false);
+		}
+						
+		if(!isEdit){
+			nameField.setEnabled(false);
+			maleRadioButton.setEnabled(false);
+			femaleRadioButton.setEnabled(false);
+			idCardField.setEnabled(false);
+			organizationBox.setEnabled(false);
+			positionBox.setEnabled(false);
+			phoneField.setEnabled(false);
+			idCardField.setEnabled(false);			 
+			basePayField.setEnabled(false);
+			percentageField.setEnabled(false);
+			cancleButton.setVisible(false);
+			sureButton.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					 PrimeInfoEmployeeDialog.this.dispose();
+				}
+			});
+		}
+		else{
+			sureButton.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+
+					// TODO Auto-generated method stub
+					 boolean isCorrect = idcardChecker.check() && phoneNumberChecker.check();
+					  if(isCorrect){
+						  if(idField.getText().equals(vo.getId())){
+							  update(false,modelRow);
+							  PrimeInfoEmployeeDialog.this.dispose();
+						  }
+						  else{
+							  tableModel.delete(modelRow);
+							  update(true,0);
+							  PrimeInfoEmployeeDialog.this.dispose();
+						  }
+						  
+					  }
+					  else{
+						  return;
+					  }				 						
+				}
+			});
+			organizationBox.addItemListener(new ItemListener() {
+				
+				@Override
+				public void itemStateChanged(ItemEvent e) {
+					// TODO Auto-generated method stub
+					setId();
+				}
+			});
+			
+		
+		}
+	}
+	
+
+
+	public void setId(){
+		String organizationId =  tableModel.getOrganizationId((String)organizationBox.getSelectedItem());
+		IdblService idblService = employeeblService.getIdblService();
+		idField.setText(idblService.createNewId(organizationId));		 
+	}
+	
+    public void init(){    	 
+   
+		employeeblService =  BusinessLogicService.getEmployeeblService();
+ 
 	
     
-    public void init(){
+ 
     	 
+ 
 		positions = new String[]{"总经理","营业厅业务员","中转中心业务员","快递员",
 				 "中转中心仓库管理员","高级财务人员","财务人员","管理员","司机"};
 	 
@@ -109,8 +319,8 @@ public class PrimeInfoEmployeeDialog {
 		for(String s : tableModel.getOrganizationName())
 			organizationBox.addItem(s);
 		
-		employeeDialog = new JDialog();
-		employeeDialog.setBounds(300, 100, 380, 460);		 			 
+		 
+		this.setBounds(300, 100, 380, 460);		 			 
 		infoLabel.setBounds(90, 16, 170, 34);	 
 		nameLabel.setBounds(4, 60, 100, 24);	 
 		nameField.setBounds(100, 60, 60, 20);
@@ -142,7 +352,16 @@ public class PrimeInfoEmployeeDialog {
 		unitLabel.setBounds(235, 310, 70, 24);	 
 		percentageLabel1.setBounds(95, 345, 70, 24);
 		percentageField.setBounds(175, 345, 60, 20);
-		percentageLabel2.setBounds(235, 345, 70, 24);		
+		percentageLabel2.setBounds(235, 345, 70, 24);
+		
+		cancleButton.addActionListener(new  ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				 PrimeInfoEmployeeDialog.this.dispose();
+			}
+		});
 		positionBox.addItemListener(new ItemListener() {
 			
 			@Override
@@ -154,10 +373,10 @@ public class PrimeInfoEmployeeDialog {
 					percentageField.setVisible(true);
 					percentageLabel1.setVisible(true);
 					percentageLabel2.setVisible(true);
-					employeeDialog.add(percentageLabel1);
-					employeeDialog.add(percentageLabel2);
-					employeeDialog.add(percentageField);
-					employeeDialog.repaint();
+					PrimeInfoEmployeeDialog.this.add(percentageLabel1);
+					PrimeInfoEmployeeDialog.this.add(percentageLabel2);
+					PrimeInfoEmployeeDialog.this.add(percentageField);
+					PrimeInfoEmployeeDialog.this.repaint();
 				}
 				else if(positionBox.getSelectedItem().toString().equals("司机")){
 					basePayLabel.setText("按此计费");
@@ -165,7 +384,7 @@ public class PrimeInfoEmployeeDialog {
 					percentageField.setVisible(false);
 					percentageLabel1.setVisible(false);
 					percentageLabel2.setVisible(false);
-					employeeDialog.repaint();
+					PrimeInfoEmployeeDialog.this.repaint();
 				}
 				else{
 					basePayLabel.setText("月薪");
@@ -173,7 +392,7 @@ public class PrimeInfoEmployeeDialog {
 					percentageField.setVisible(false);
 					percentageLabel1.setVisible(false);
 					percentageLabel2.setVisible(false);
-					employeeDialog.repaint();
+					PrimeInfoEmployeeDialog.this.repaint();
 				}
 			}
 		});
@@ -184,39 +403,110 @@ public class PrimeInfoEmployeeDialog {
 		cancleButton.setBounds(175, 380, 70, 30);
 		sureButton.setBounds(265, 380, 70, 30);
 	 
-		employeeDialog.add(infoLabel);
-		employeeDialog.add(nameField);
-		employeeDialog.add(nameLabel);
-		employeeDialog.add(sexLabel);
-		employeeDialog.add(femaleRadioButton);
-		employeeDialog.add(maleRadioButton);	
-		employeeDialog.add(idField);
-		employeeDialog.add(idLabel);
-		employeeDialog.add(organizationLabel);
-		employeeDialog.add(organizationBox);
-		employeeDialog.add(positionLabel);
-		employeeDialog.add(positionBox);
-		employeeDialog.add(phoneField);
-		employeeDialog.add(phoneLabel);
-		employeeDialog.add(idCardLabel);
-		employeeDialog.add(idCardField);
-		employeeDialog.add(birthLabel);
-		employeeDialog.add(yearBox);
-		employeeDialog.add(yearLabel);
-		employeeDialog.add(monthBox);
-		employeeDialog.add(monthLabel);
-		employeeDialog.add(dayBox);
-		employeeDialog.add(dayLabel);
-		employeeDialog.add(cancleButton);
-		employeeDialog.add(sureButton);
-		employeeDialog.add(payLabel);
-		employeeDialog.add(basePayLabel);
-		employeeDialog.add(basePayField);
-		employeeDialog.add(unitLabel);
+		this.add(infoLabel);
+		this.add(nameField);
+		this.add(nameLabel);
+		this.add(sexLabel);
+		this.add(femaleRadioButton);
+		this.add(maleRadioButton);	
+		this.add(idField);
+		this.add(idLabel);
+		this.add(organizationLabel);
+		this.add(organizationBox);
+		this.add(positionLabel);
+		this.add(positionBox);
+		this.add(phoneField);
+		this.add(phoneLabel);
+		this.add(idCardLabel);
+		this.add(idCardField);
+		this.add(birthLabel);
+		this.add(yearBox);
+		this.add(yearLabel);
+		this.add(monthBox);
+		this.add(monthLabel);
+		this.add(dayBox);
+		this.add(dayLabel);
+		this.add(cancleButton);
+		this.add(sureButton);
+		this.add(payLabel);
+		this.add(basePayLabel);
+		this.add(basePayField);
+		this.add(unitLabel);
 		
+ 
+	
+		this.setLayout(null);
+		this.setVisible(true);
 		
-		employeeDialog.setLayout(null);
-		employeeDialog.setVisible(true);
+		//添加检查项
+		phoneNumberChecker = new Checker(phoneField, new CheckInfoGetter() {
+			
+			@Override
+			public CheckInfo getCheckInfo() {
+				// TODO Auto-generated method stub
+				if(phoneField.getText() == null){
+					return null;
+				}
+				return new EmployeePhoneNumber(phoneField.getText());
+			}
+		});
+		phoneField.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				phoneNumberChecker.check();
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
+		idcardChecker = new Checker(idCardField, new CheckInfoGetter() {
+			
+			@Override
+			public CheckInfo getCheckInfo() {
+				// TODO Auto-generated method stub
+				if(idCardField.getText() == null){
+					return null;
+				}
+				return new EmployeeIdCard(idCardField.getText());
+			}
+		});
+		idCardField.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				idcardChecker.check();
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		 
+ 
+		this.setLayout(null);
+		this.setVisible(true);
+ 
 	}
 	
 	public void update(boolean isNew,int modelRow ){
@@ -299,10 +589,8 @@ public class PrimeInfoEmployeeDialog {
 			 if(isNew)
 				 tableModel.create(vo);							 
 			 else
-				 tableModel.modify(modelRow, vo);
-			 
-				 
-			 
+				 tableModel.modify(modelRow, vo);				 
+ 
 	}
 	
 	public void showCreateDialog(PrimeInfoEmployeeTableModel em){		
@@ -312,7 +600,7 @@ public class PrimeInfoEmployeeDialog {
 	
 			  @Override
 			  public void actionPerformed(ActionEvent e){
-				  employeeDialog.dispose();
+				  PrimeInfoEmployeeDialog.this.dispose();
 			  }
 		});
 			 
@@ -321,7 +609,7 @@ public class PrimeInfoEmployeeDialog {
 			  @Override
 			  public void actionPerformed(ActionEvent e){
 				  update(true, 0);
-				  employeeDialog.dispose();
+				  PrimeInfoEmployeeDialog.this.dispose();
 			  }
 		});
 		
@@ -379,9 +667,9 @@ public class PrimeInfoEmployeeDialog {
 					percentageLabel2.setVisible(true);
 					basePayField.setText(""+vo.getPay().getBasePay());
 					percentageField.setText(""+vo.getPay().getRate()*100);
-					employeeDialog.add(percentageLabel1);
-					employeeDialog.add(percentageLabel2);
-					employeeDialog.add(percentageField);
+					this.add(percentageLabel1);
+					this.add(percentageLabel2);
+					this.add(percentageField);
 										
 				}
 				else if(positionBox.getSelectedItem().toString().equals("司机")){
@@ -424,7 +712,7 @@ public class PrimeInfoEmployeeDialog {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
-					employeeDialog.dispose();
+					PrimeInfoEmployeeDialog.this.dispose();
 				}
 			});
 		}
@@ -436,7 +724,7 @@ public class PrimeInfoEmployeeDialog {
 
 					// TODO Auto-generated method stub
 					update(false,modelRow);
-					employeeDialog.dispose();
+					PrimeInfoEmployeeDialog.this.dispose();
 				}
 			});
 			
@@ -445,10 +733,10 @@ public class PrimeInfoEmployeeDialog {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
-					employeeDialog.dispose();
+					PrimeInfoEmployeeDialog.this.dispose();
 				}
 			});
 		}
 	}
-	 
+ 
 }

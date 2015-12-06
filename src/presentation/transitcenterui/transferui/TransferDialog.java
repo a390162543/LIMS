@@ -1,8 +1,10 @@
-package presentation.transitcenterui.transferui;
+ package presentation.transitcenterui.transferui;
 
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -19,21 +21,16 @@ import javax.swing.JTextField;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
- 
-
-
-
-
-
-
-
+import presentation.util.CheckInfoGetter;
+import presentation.util.Checker;
 import presentation.util.OrganizationComboBox;
 import presentation.util.RecentDatePickPanel;
 import systemenum.ShipForm;
 import vo.TransferVO;
- 
+import businesslogic.checkbl.CheckInfo;
+import businesslogic.checkbl.transferinfo.OrderChecker;
+import businesslogic.checkbl.transferinfo.TransferNumber;
 import businesslogic.transferbl.Transfer;
- 
 import businesslogic.userbl.LoginController;
 import businesslogicservice.IdblService;
 import businesslogicservice.TransferblService;
@@ -53,6 +50,10 @@ public class TransferDialog extends JDialog{
 	private ButtonGroup way;
 	private OrderTableModel tableModel;
 	private TransferblService transferblService;
+	private Checker containerNumberChecker;
+	private Checker flightNumberChecker ;
+	private Checker orderCheck;
+	private Checker nameChecker;
 	
 	public TransferDialog(){
 		transferblService = new Transfer();	
@@ -90,12 +91,12 @@ public class TransferDialog extends JDialog{
 		departLabel.setBounds(20, 170, 80, 20);		
 		departBox = new OrganizationComboBox();
 		departBox.setLocation(105, 170);
+		departBox.setSelectedItem(LoginController.getOrganizationName());
 		JLabel destinationLabel = new JLabel("目的地");
 		destinationLabel.setBounds(20, 210, 80, 20);
 		
 		destinationBox = new OrganizationComboBox();
-		destinationBox.setLocation(105, 210);
-		destinationBox.setSelectedItem(LoginController.getOrganizationName());
+		destinationBox.setLocation(105, 210);		
 		destinationBox.setEnabled(false);
 		
 		JLabel containerIdLabel = new JLabel("货柜号");
@@ -169,6 +170,12 @@ public class TransferDialog extends JDialog{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				boolean isRight = containerNumberChecker.check() && flightNumberChecker.check();
+				if(!isRight){
+					return;
+				}
+									  
+				
 				String id = idField.getText();
 				Date loadDate = datePickPanel.getTime();
 				String flightNum = flightNumField.getText();
@@ -225,9 +232,113 @@ public class TransferDialog extends JDialog{
 		this.setBounds(400, 120, 400, 550);
 		this.setLayout(null);
 		this.setVisible(true);
+		
+		//添加检查
+		  flightNumberChecker = new Checker(flightNumField, new CheckInfoGetter() {
+			
+			@Override
+			public CheckInfo getCheckInfo() {
+				// TODO Auto-generated method stub
+				if(flightNumField.getText() == null){
+					return null;
+				}
+				else{
+					return new TransferNumber(flightNumField.getText());
+				}
+				 
+			}
+		});
+		flightNumField.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				flightNumberChecker.check();
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		 
+		
+		containerNumberChecker = new Checker(containerIdField, new CheckInfoGetter() {			
+			@Override
+			public CheckInfo getCheckInfo() {
+				// TODO Auto-generated method stub
+				if(containerIdField.getText() == null){
+					return null;
+				}
+				else{
+					return new TransferNumber(containerIdField.getText());
+				}
+				 
+			}
+		});
+		containerIdField.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				containerNumberChecker.check();
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
+		nameChecker = new Checker(loanManField,new CheckInfoGetter() {
+			
+			@Override
+			public CheckInfo getCheckInfo() {
+				// TODO Auto-generated method stub
+				if(loanManField.getText() == null){
+					return null;
+				}
+				else{
+					return null;
+				}
+			}
+		});
+		loanManField.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				nameChecker.check();
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
 	}
-	
-	 
 	
 	public void setExpensesField(){
 		double distance = 0.0;
@@ -244,6 +355,7 @@ public class TransferDialog extends JDialog{
 		
 		expensesField.setText("" +  distance);
 	}
+	 	
 	
 	    class AddOrderDialog extends JDialog{
 
@@ -287,15 +399,61 @@ public class TransferDialog extends JDialog{
 				}
 			});
 			
-			 this.setTitle("订单");
+			this.setTitle("订单");
 			this.add(orderLabel);
 			this.add(orderField);
 			this.add(cancelButton);
 			this.add(confirmButton);
 			this.setLayout(null);
 			this.setBounds(400, 250, 380, 140);
-			this.setVisible(true);		
+			this.setVisible(true);	
+			//添加订单检查
+			orderCheck = new Checker(orderField,new CheckInfoGetter() {
+				
+				@Override
+				public CheckInfo getCheckInfo() {
+					// TODO Auto-generated method stub
+					if(orderField.getText() == null){
+						return null;
+					}
+					else {
+						ShipForm shipForm = null;
+						if(trainButton.isSelected())
+							shipForm = ShipForm.TRAIN;
+						else if(flightButton.isSelected())
+							shipForm = ShipForm.PLANE;
+						else 
+							shipForm = ShipForm.CAR;
+						return new OrderChecker(shipForm,(String) destinationBox.getSelectedItem(),
+								orderField.getText());
+					}
+					 
+				}
+			});	
+			
+			orderField.addKeyListener(new KeyListener() {
+				
+				@Override
+				public void keyTyped(KeyEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void keyReleased(KeyEvent e) {
+					// TODO Auto-generated method stub
+					orderCheck.check();
+				}
+				
+				@Override
+				public void keyPressed(KeyEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+			});
 		}
+		
+		
 
 	}
 	  

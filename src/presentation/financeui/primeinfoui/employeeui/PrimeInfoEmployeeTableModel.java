@@ -3,7 +3,9 @@ package presentation.financeui.primeinfoui.employeeui;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
+
 import javax.swing.table.DefaultTableModel;
+
 import vo.EmployeeVO;
 import businesslogicservice.PrimeInfoblService;
 
@@ -113,4 +115,8 @@ public class PrimeInfoEmployeeTableModel extends DefaultTableModel{
 	        }
 	        return v;
 	    }
+		public String getOrganizationId(String selectedItem) {
+			// TODO Auto-generated method stub
+			return null;
+		}
 }
