@@ -17,7 +17,7 @@ import javax.swing.JScrollPane;
 public class DialogLayoutManager implements LayoutManager{
     //±ß¾à
     private static final int LEFT_DISTANCE = 0;
-    private static final int RIGHT_DISTANCE = 20;
+    private static final int RIGHT_DISTANCE = 30;
     private static final int UP_DISTANCE = 15;
     private static final int DOWN_DISTANCE = 20;
     //×é¼þ¾àÀë×ó¶Ë±ß¾à
@@ -130,7 +130,7 @@ public class DialogLayoutManager implements LayoutManager{
     }
     
     public static void fix(JComponent ...components){
-        if(components.length <= 1)
+        if(components.length == 0)
             return;
         
         Container container = components[0].getParent();

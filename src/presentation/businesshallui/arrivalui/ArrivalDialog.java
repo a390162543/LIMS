@@ -66,6 +66,7 @@ public class ArrivalDialog extends JDialog{
        
         
         OrganizationComboBox departComboBox = new OrganizationComboBox();
+        departComboBox.setEnabled(false);
         departComboBox.setBounds(100, 10+35*2, 180, 25);
         this.add(departComboBox);
         
@@ -126,14 +127,7 @@ public class ArrivalDialog extends JDialog{
             public void keyPressed(KeyEvent e) {
             }
         });
-        
-        Checker datePickChecker = new Checker(datePickPanel, new CheckInfoGetter() {
-            
-            @Override
-            public CheckInfo getCheckInfo() {
-                return null;
-            }
-        });
+
         
         
         

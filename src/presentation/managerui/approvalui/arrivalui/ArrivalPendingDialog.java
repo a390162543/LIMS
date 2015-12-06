@@ -2,18 +2,30 @@ package presentation.managerui.approvalui.arrivalui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Date;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
+import presentation.util.CheckInfoGetter;
+import presentation.util.Checker;
+import presentation.util.DialogLayoutManager;
+import presentation.util.OrganizationComboBox;
+import presentation.util.RecentDatePickPanel;
+import businesslogic.BusinessLogicService;
+import businesslogic.checkbl.CheckInfo;
+import businesslogic.checkbl.arrivalinfo.ArrivalTransferId;
+import businesslogic.userbl.LoginController;
+import businesslogicservice.ArrivalblService;
 import systemenum.GoodsState;
 import vo.ArrivalVO;
+import vo.LoadVO;
+import vo.TransferVO;
 
 public class ArrivalPendingDialog extends JDialog {
 	
@@ -25,21 +37,20 @@ public class ArrivalPendingDialog extends JDialog {
     private static final String[] LABEL_NAMES = {"到达单编号","中转单编号","出发地","到达地","到达日期","到达状况"};
     
     private ArrivalPendingTableModel tableModel;
-    
+    private JTextField[] textFields;
       
-    @SuppressWarnings("deprecation")
     public ArrivalPendingDialog(ArrivalPendingTableModel tm, int modelRow, boolean isEditable) {
         
         this.tableModel = tm;
 
-        JLabel[] labels = new JLabel[5];
+        JLabel[] labels = new JLabel[6];
         for(int i=0;i<labels.length;i++){
             labels[i] = new JLabel();
             labels[i].setText(LABEL_NAMES[i]);
             labels[i].setBounds(20, 10+35*i, 100, 25);
             this.add(labels[i]);
         }
-        JTextField textFields[];
+        
         textFields = new JTextField[2];
         for(int i=0;i<textFields.length;i++){
             textFields[i] = new JTextField();
@@ -47,38 +58,20 @@ public class ArrivalPendingDialog extends JDialog {
             this.add(textFields[i]);
         }
         
-        JComboBox<String> departComboBox = new JComboBox<String>();
-        departComboBox.addItem("南京市栖霞区中转中心");
-        departComboBox.addItem("上海市浦东新区中转中心");
+        OrganizationComboBox departComboBox = new OrganizationComboBox();
+        departComboBox.setEnabled(false);
         departComboBox.setBounds(100, 10+35*2, 180, 25);
         this.add(departComboBox);
         
-        JComboBox<String> destinationComboBox = new JComboBox<String>();
-        destinationComboBox.addItem("南京市栖霞区中转中心");
-        destinationComboBox.addItem("上海市浦东新区中转中心");
+        OrganizationComboBox destinationComboBox = new OrganizationComboBox();
+        destinationComboBox.setSelectedItem(LoginController.getOrganizationName());
+        destinationComboBox.setEnabled(false);
         destinationComboBox.setBounds(100, 10+35*3, 180, 25);
         this.add(destinationComboBox);
-        //set birth chooser
-//        JLabel[] birthLabels = new JLabel[3];
-//        String[] birthLabelNames = {"年","月","日"};
-//        for(int i=0;i<birthLabels.length;i++){
-//            birthLabels[i] = new JLabel();
-//            birthLabels[i].setText(birthLabelNames[i]);
-//            birthLabels[i].setBounds(145+50*i, 8+35*3, 20, 25);
-//            this.add(birthLabels[i]);
-//        }
-        JComboBox<Integer> yearComboBox = new JComboBox<Integer>();
-        JComboBox<Integer> monthComboBox = new JComboBox<Integer>();
-        JComboBox<Integer> dayComboBox = new JComboBox<Integer>();
-        for(int i=1960;i<=2015;i++)  yearComboBox.addItem(i);
-        for(int i=1;i<=12;i++)  monthComboBox.addItem(i);
-        for(int i=1;i<=31;i++)  dayComboBox.addItem(i);
-        yearComboBox.setBounds(100, 10+35*4, 70, 25);
-        monthComboBox.setBounds(170, 10+35*4, 60, 25);
-        dayComboBox.setBounds(230, 10+35*4, 60, 25);
-        this.add(yearComboBox);
-        this.add(monthComboBox);
-        this.add(dayComboBox);
+        
+        RecentDatePickPanel datePickPanel = new RecentDatePickPanel();
+        datePickPanel.setBounds(100, 10+35*4, 200, 25);
+        this.add(datePickPanel);
         
         //set arrival state
         ButtonGroup buttonGroup = new ButtonGroup();
@@ -90,20 +83,54 @@ public class ArrivalPendingDialog extends JDialog {
             buttonGroup.add(jRadioButtons[i]);
             this.add(jRadioButtons[i]);
         }
+        jRadioButtons[0].setSelected(true);
+        DialogLayoutManager.fix(jRadioButtons);
         
         ArrivalVO vo = tableModel.getArrivalVO(modelRow);
         textFields[0].setText(vo.getId());
         textFields[1].setText(vo.getTransferId());
         departComboBox.setSelectedItem(vo.getDepart());
-        destinationComboBox.setSelectedItem(vo.getDepart());
-        yearComboBox.setSelectedItem(vo.getArrivalDate().getYear());
-        monthComboBox.setSelectedItem(vo.getArrivalDate().getMonth());
-        dayComboBox.setSelectedItem(vo.getArrivalDate().getDate());
-        jRadioButtons[0].setSelected(true);
+        destinationComboBox.setSelectedItem(vo.getDestination());
+        datePickPanel.setTime(vo.getArrivalDate());
+        jRadioButtons[vo.getGoodsState().ordinal()].setSelected(true);
 
+        if(isEditable){
+            Checker transferIdChecker = new Checker(textFields[1], new CheckInfoGetter() {
+                
+                @Override
+                public CheckInfo getCheckInfo() {
+                    return new ArrivalTransferId(textFields[1].getText());
+                }
+            });
+            
+            textFields[1].addKeyListener(new KeyListener() {
+                
+                @Override
+                public void keyTyped(KeyEvent e) {
+                }
+                
+                @Override
+                public void keyReleased(KeyEvent e) {
+                    boolean isTransferRight = transferIdChecker.check();
+                    if(isTransferRight){
+                        ArrivalblService arrivalblService = BusinessLogicService.getArrivalblService();
+                        LoadVO loadVO;
+                        TransferVO transferVO;
+                        if((loadVO = arrivalblService.getLoadVO(textFields[1].getText())) != null){
+                            departComboBox.setSelectedItem(loadVO.getDepart());
+                        }else{
+                            transferVO = arrivalblService.getTransferVO(textFields[1].getText());
+                            departComboBox.setSelectedItem(transferVO.getDepart());
+                        }
+                    }
+                }
+                
+                @Override
+                public void keyPressed(KeyEvent e) {
+                }
+            });
+        }
         
-        // 如果textfield的编号和表格列号一一对应，上述代码也可以用for循环 
-        // textFields[i].setText((String) tableModel.getValueAt(modelRow, i));
         
         JButton confirmButton = new JButton("确认");
         confirmButton.setBounds(230, 240, 80, 30);
@@ -115,13 +142,21 @@ public class ArrivalPendingDialog extends JDialog {
                     ArrivalPendingDialog.this.dispose();
                     return;
                 }
-                ArrivalVO vo = new ArrivalVO(textFields[0].getText(), new Date(), textFields[1].getText(), (String)departComboBox.getSelectedItem(), (String)destinationComboBox.getSelectedItem(), GoodsState.COMPLETE);
+                GoodsState goodsState = GoodsState.COMPLETE;
+                if(jRadioButtons[0].isSelected())
+                    goodsState = GoodsState.COMPLETE;
+                else if(jRadioButtons[1].isSelected())
+                    goodsState = GoodsState.BROKEN;
+                else if(jRadioButtons[2].isSelected())
+                    goodsState = GoodsState.LOST;
+                vo.setGoodsState(goodsState);
                 tableModel.modify(modelRow, vo);
                 System.out.println("you've clicked confirm button..");
                 ArrivalPendingDialog.this.dispose();
                 
             }
         });
+        this.add(confirmButton);
         if(isEditable){
             JButton cancleButton = new JButton("取消");
             cancleButton.setBounds(140, 240, 80, 30);
@@ -134,10 +169,10 @@ public class ArrivalPendingDialog extends JDialog {
             });
             this.add(cancleButton);
         }
-        this.add(confirmButton);
+
 
         this.setSize(340, 320);
-        this.setLayout(null);
+        this.setLayout(new DialogLayoutManager());
         this.setLocationRelativeTo(null);
         this.setModalityType(ModalityType.APPLICATION_MODAL);
         this.setVisible(true);

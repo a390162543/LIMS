@@ -3,10 +3,11 @@ package presentation.businesshallui.truckui;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.swing.ImageIcon;
@@ -19,7 +20,17 @@ import javax.swing.filechooser.FileFilter;
 
 import org.jb2011.lnf.beautyeye.widget.border.BERoundBorder;
 
+import presentation.util.CheckInfoGetter;
+import presentation.util.Checker;
+import presentation.util.DatePickPanel;
+import presentation.util.DialogLayoutManager;
+import presentation.util.OrganizationComboBox;
 import businesslogic.BusinessLogicService;
+import businesslogic.checkbl.CheckInfo;
+import businesslogic.checkbl.truckinfo.TruckChassisNumber;
+import businesslogic.checkbl.truckinfo.TruckEngineNumber;
+import businesslogic.checkbl.truckinfo.TruckNumber;
+import businesslogic.userbl.LoginController;
 import businesslogicservice.IdblService;
 import businesslogicservice.TruckblService;
 import vo.TruckVO;
@@ -30,7 +41,8 @@ public class TruckDialog extends JDialog{
      * 
      */
     private static final long serialVersionUID = -5791738856120916225L;
-    private static final String[] LABEL_NAMES = {"车辆编号","所在机构","发动机号","车牌号","底盘号","购买日期","服役时间","车辆图片"};
+    private static final String[] LABEL_NAMES = {"车辆编号","所在机构","车牌号","发动机号","底盘号","购买日期","车辆图片"};
+    private static final String[] CHECK_LABEL_NAMES = {"车辆编号","所在机构","车牌号","发动机号","底盘号","购买日期","服役时间","车辆图片"};
     
     private TruckTableModel tableModel;
     private JTextField[] textFields;
@@ -41,7 +53,7 @@ public class TruckDialog extends JDialog{
         
         this.tableModel = tm;
 
-        JLabel[] labels = new JLabel[8];
+        JLabel[] labels = new JLabel[7];
         for(int i=0;i<labels.length;i++){
             labels[i] = new JLabel();
             labels[i].setText(LABEL_NAMES[i]);
@@ -49,18 +61,32 @@ public class TruckDialog extends JDialog{
             this.add(labels[i]);
         }
         
-        textFields = new JTextField[7];
+        JTextField idTextField = new JTextField();
+        idTextField.setSize(150, 25);
+        this.add(idTextField);
+        idTextField.setEnabled(false);
+        //分配新的id
+        TruckblService truckblService = BusinessLogicService.getTruckblService();
+        IdblService idblService = truckblService.getIdblService();
+        idTextField.setText(idblService.createNewId());
+
+        
+        OrganizationComboBox organizationComboBox = new OrganizationComboBox("营业厅");
+        organizationComboBox.setEnabled(false);
+        organizationComboBox.setSelectedItem(LoginController.getOrganizationName());
+        organizationComboBox.setSize(180, 25);
+        this.add(organizationComboBox);
+        
+        textFields = new JTextField[3];
         for(int i=0;i<textFields.length;i++){
             textFields[i] = new JTextField();
             textFields[i].setBounds(100, 10+35*i, 150, 25);
             this.add(textFields[i]);
         }
-        TruckblService truckblService = BusinessLogicService.getTruckblService();
-        IdblService idblService = truckblService.getIdblService();
-        textFields[0].setText(idblService.createNewId());
-        textFields[0].setEnabled(false);
+
+        DatePickPanel datePickPanel = new DatePickPanel();
+        this.add(datePickPanel);
         
-        textFields[6].setText("此项由系统自动生成");
         imageLabel = 
                new JLabel("<html>  点击此处选择车辆图片<br>图片格式需求：<br>"
                        + "  图片后缀为jpg,png或gif<br>  图片大小为140*90</html>");
@@ -108,14 +134,106 @@ public class TruckDialog extends JDialog{
             }
         });
         this.add(imageLabel);
+        DialogLayoutManager.fix(imageLabel);
         
+        
+        
+        Checker truckNumberChecker = new Checker(textFields[0],new CheckInfoGetter() {
+            
+            @Override
+            public CheckInfo getCheckInfo() {
+                return new TruckNumber(textFields[0].getText());
+            }
+        });
+        textFields[0].addKeyListener(new KeyListener() {
+            
+            @Override
+            public void keyTyped(KeyEvent e) {
+                // TODO Auto-generated method stub
+                
+            }
+            
+            @Override
+            public void keyReleased(KeyEvent e) {
+                truckNumberChecker.check();
+            }
+            
+            @Override
+            public void keyPressed(KeyEvent e) {
+                // TODO Auto-generated method stub
+                
+            }
+        });
+
+        Checker engineNumberChecker = new Checker(textFields[1], new CheckInfoGetter() {
+            
+            @Override
+            public CheckInfo getCheckInfo() {
+                return new TruckEngineNumber(textFields[1].getText());
+            }
+        });
+        textFields[1].addKeyListener(new KeyListener() {
+            
+            @Override
+            public void keyTyped(KeyEvent e) {
+                // TODO Auto-generated method stub
+                
+            }
+            
+            @Override
+            public void keyReleased(KeyEvent e) {
+                engineNumberChecker.check();
+            }
+            
+            @Override
+            public void keyPressed(KeyEvent e) {
+                // TODO Auto-generated method stub
+                
+            }
+        });
+        
+        Checker chassisNumberChecker = new Checker(textFields[2], new CheckInfoGetter() {
+            
+            @Override
+            public CheckInfo getCheckInfo() {
+                return new TruckChassisNumber(textFields[2].getText());
+            }
+        });
+        textFields[2].addKeyListener(new KeyListener() {
+            
+            @Override
+            public void keyTyped(KeyEvent e) {
+                // TODO Auto-generated method stub
+                
+            }
+            
+            @Override
+            public void keyReleased(KeyEvent e) {
+                chassisNumberChecker.check();
+            }
+            
+            @Override
+            public void keyPressed(KeyEvent e) {
+                // TODO Auto-generated method stub
+                
+            }
+        });
+
+
         JButton confirmButton = new JButton("确认");
         confirmButton.setBounds(230, 360, 80, 30);
         confirmButton.addActionListener(new ActionListener() {
             
             @Override
             public void actionPerformed(ActionEvent e) {
-                TruckVO vo = new TruckVO(textFields[0].getText(), textFields[1].getText(), textFields[2].getText(), textFields[3].getText(), textFields[4].getText(), new Date(), image);
+                String id = idTextField.getText();
+                String organization = organizationComboBox.getSelectedOrganization();
+                String truckNumber = textFields[0].getText();
+                String engineNumber = textFields[1].getText();
+                String chassisNumber = textFields[2].getText();
+                Date purchaseDate = datePickPanel.getDate();
+                ImageIcon truckImage = image;
+                TruckVO vo = new TruckVO(id, organization, engineNumber, truckNumber, chassisNumber, purchaseDate, truckImage);
                 tableModel.create(vo);
                 TruckDialog.this.dispose();
             }
@@ -135,7 +253,7 @@ public class TruckDialog extends JDialog{
         
         this.setSize(340, 440);
         this.setTitle("车辆信息");
-        this.setLayout(null);
+        this.setLayout(new DialogLayoutManager());
         this.setLocationRelativeTo(null);
         this.setModalityType(ModalityType.APPLICATION_MODAL);
         this.setVisible(true);
@@ -149,17 +267,36 @@ public class TruckDialog extends JDialog{
         JLabel[] labels = new JLabel[8];
         for(int i=0;i<labels.length;i++){
             labels[i] = new JLabel();
-            labels[i].setText(LABEL_NAMES[i]);
+            labels[i].setText(CHECK_LABEL_NAMES[i]);
             labels[i].setBounds(20, 10+35*i, 100, 25);
             this.add(labels[i]);
         }
         
-        textFields = new JTextField[7];
+        JTextField idTextField = new JTextField();
+        idTextField.setSize(150, 25);
+        this.add(idTextField);
+        idTextField.setEnabled(false);
+        
+        OrganizationComboBox organizationComboBox = new OrganizationComboBox("营业厅");
+        organizationComboBox.setEnabled(false);
+        organizationComboBox.setSelectedItem(LoginController.getOrganizationName());
+        organizationComboBox.setSize(180, 25);
+        this.add(organizationComboBox);
+        
+        textFields = new JTextField[3];
         for(int i=0;i<textFields.length;i++){
             textFields[i] = new JTextField();
             textFields[i].setBounds(100, 10+35*i, 150, 25);
             this.add(textFields[i]);
         }
+
+        DatePickPanel datePickPanel = new DatePickPanel();
+        this.add(datePickPanel);
+        
+        JTextField servedTimeTextField = new JTextField();
+        servedTimeTextField.setSize(60, 25);
+        servedTimeTextField.setEnabled(false);
+        this.add(servedTimeTextField);
         
         imageLabel = 
                new JLabel("<html>  点击此处选择车辆图片<br>图片格式需求：<br>"
@@ -212,20 +349,102 @@ public class TruckDialog extends JDialog{
         }
         
         this.add(imageLabel);
+        DialogLayoutManager.fix(imageLabel);
         
         TruckVO vo = tableModel.getTruckVO(modelRow);
-        textFields[0].setText(vo.getId());
-        textFields[1].setText(vo.getOrganization());
-        textFields[2].setText(vo.getEngineNumber());
-        textFields[3].setText(vo.getTruckNumber());
-        textFields[4].setText(vo.getChassisNumber());
-        textFields[5].setText(new SimpleDateFormat().format(vo.getPurchaseDate()));
-        textFields[6].setText(vo.getServedTime());
+        idTextField.setText(vo.getId());
+        organizationComboBox.setSelectedItem(vo.getOrganization());
+        textFields[0].setText(vo.getTruckNumber());
+        textFields[1].setText(vo.getEngineNumber());
+        textFields[2].setText(vo.getChassisNumber());
+        datePickPanel.setDate(vo.getPurchaseDate());
+        servedTimeTextField.setText(vo.getServedTime());
         imageLabel.setIcon(vo.getTruckImage());
         image = vo.getTruckImage();
         
-        // 如果textfield的编号和表格列号一一对应，上述代码也可以用for循环 
-        // textFields[i].setText((String) tableModel.getValueAt(modelRow, i));
+        if(isEditable){
+            
+            Checker truckNumberChecker = new Checker(textFields[0],new CheckInfoGetter() {
+                
+                @Override
+                public CheckInfo getCheckInfo() {
+                    return new TruckNumber(textFields[0].getText());
+                }
+            });
+            textFields[0].addKeyListener(new KeyListener() {
+                
+                @Override
+                public void keyTyped(KeyEvent e) {
+                    // TODO Auto-generated method stub
+                    
+                }
+                
+                @Override
+                public void keyReleased(KeyEvent e) {
+                    truckNumberChecker.check();
+                }
+                
+                @Override
+                public void keyPressed(KeyEvent e) {
+                    // TODO Auto-generated method stub
+                    
+                }
+            });
+    
+            Checker engineNumberChecker = new Checker(textFields[1], new CheckInfoGetter() {
+                
+                @Override
+                public CheckInfo getCheckInfo() {
+                    return new TruckEngineNumber(textFields[1].getText());
+                }
+            });
+            textFields[1].addKeyListener(new KeyListener() {
+                
+                @Override
+                public void keyTyped(KeyEvent e) {
+                    // TODO Auto-generated method stub
+                    
+                }
+                
+                @Override
+                public void keyReleased(KeyEvent e) {
+                    engineNumberChecker.check();
+                }
+                
+                @Override
+                public void keyPressed(KeyEvent e) {
+                    // TODO Auto-generated method stub
+                    
+                }
+            });
+            
+            Checker chassisNumberChecker = new Checker(textFields[2], new CheckInfoGetter() {
+                
+                @Override
+                public CheckInfo getCheckInfo() {
+                    return new TruckChassisNumber(textFields[2].getText());
+                }
+            });
+            textFields[2].addKeyListener(new KeyListener() {
+                
+                @Override
+                public void keyTyped(KeyEvent e) {
+                    // TODO Auto-generated method stub
+                    
+                }
+                
+                @Override
+                public void keyReleased(KeyEvent e) {
+                    chassisNumberChecker.check();
+                }
+                
+                @Override
+                public void keyPressed(KeyEvent e) {
+                    // TODO Auto-generated method stub
+                    
+                }
+            });
+        }
         
         JButton confirmButton = new JButton("确认");
         confirmButton.setBounds(230, 360, 80, 30);
@@ -237,12 +456,23 @@ public class TruckDialog extends JDialog{
                     TruckDialog.this.dispose();
                     return;
                 }
-                TruckVO vo = new TruckVO(textFields[0].getText(), textFields[1].getText(), textFields[2].getText(), textFields[3].getText(), textFields[4].getText(), new Date(), image);
+
+                String truckNumber = textFields[0].getText();
+                String engineNumber = textFields[1].getText();
+                String chassisNumber = textFields[2].getText();
+                Date purchaseDate = datePickPanel.getDate();
+                ImageIcon truckImage = image;
+                vo.setTruckNumber(truckNumber);
+                vo.setEngineNumber(engineNumber);
+                vo.setChassisNumber(chassisNumber);
+                vo.setPurchaseDate(purchaseDate);
+                vo.setTruckImage(truckImage);
                 tableModel.modify(modelRow, vo);
                 TruckDialog.this.dispose();
                 
             }
         });
+        this.add(confirmButton);
         if(isEditable){
             JButton cancleButton = new JButton("取消");
             cancleButton.setBounds(140, 360, 80, 30);
@@ -255,10 +485,15 @@ public class TruckDialog extends JDialog{
             });
             this.add(cancleButton);
         }
-        this.add(confirmButton);
-
+        if(!isEditable){
+            textFields[0].setEnabled(false);
+            textFields[1].setEnabled(false);
+            textFields[2].setEnabled(false);
+            datePickPanel.setEnabled(false);
+        }
+        this.setTitle("车辆信息");
         this.setSize(340, 440);
-        this.setLayout(null);
+        this.setLayout(new DialogLayoutManager());
         this.setLocationRelativeTo(null);
         this.setModalityType(ModalityType.APPLICATION_MODAL);
         this.setVisible(true);

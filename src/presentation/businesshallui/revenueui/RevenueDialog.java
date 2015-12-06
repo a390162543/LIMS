@@ -3,6 +3,8 @@ package presentation.businesshallui.revenueui;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -17,10 +19,15 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
 import presentation.businesshallui.revenueui.OrderTableModel;
+import presentation.util.CheckInfoGetter;
+import presentation.util.Checker;
+import presentation.util.DialogLayoutManager;
 import presentation.util.OrganizationComboBox;
 import presentation.util.RecentDatePickPanel;
 import vo.RevenueVO;
 import businesslogic.BusinessLogicService;
+import businesslogic.checkbl.CheckInfo;
+import businesslogic.checkbl.revenueinfo.RevenueOrderId;
 import businesslogic.userbl.LoginController;
 import businesslogicservice.IdblService;
 import businesslogicservice.RevenueblService;
@@ -83,11 +90,11 @@ public class RevenueDialog extends JDialog{
         
         
         JScrollPane OrderScrollPane = new JScrollPane(orderTable);
-        OrderScrollPane.setBounds(100, 10+35*4, 150, 75);          
+        OrderScrollPane.setBounds(100, 10+35*4, 200 , 100);          
         JButton addOrderButton = new JButton("添加订单");
-        addOrderButton.setBounds(260, 10+35*4, 70, 20);
+        addOrderButton.setBounds(160, 10+35*7, 70, 20);
         JButton deleteOrderButton = new JButton("删除订单");
-        deleteOrderButton.setBounds(260, 10+35*5, 70, 20);
+        deleteOrderButton.setBounds(230, 10+35*7, 70, 20);
         addOrderButton.addActionListener(new ActionListener() {
                 
             @Override
@@ -115,6 +122,7 @@ public class RevenueDialog extends JDialog{
         this.add(OrderScrollPane);
         this.add(addOrderButton);
         this.add(deleteOrderButton);
+        DialogLayoutManager.fix(OrderScrollPane,addOrderButton,deleteOrderButton);
         
         JLabel costLabel = new JLabel("", JLabel.CENTER);
         costLabel.setText("收款金额");
@@ -163,7 +171,7 @@ public class RevenueDialog extends JDialog{
         
         this.setTitle("装车单");
         this.setSize(340, 370);
-        this.setLayout(null);
+        this.setLayout(new DialogLayoutManager());
         this.setLocationRelativeTo(null);
         this.setModalityType(ModalityType.APPLICATION_MODAL);
         this.setVisible(true);
@@ -185,8 +193,6 @@ public class RevenueDialog extends JDialog{
     
         public AddOrderDialog( ){
             
-            JLabel infoLanel = new JLabel("订单");
-            infoLanel.setBounds(105, 10, 170, 35);
             JLabel orderLabel = new JLabel("订单号");
             orderLabel.setBounds(35, 85, 100, 24);
             JTextField orderField = new JTextField();
@@ -216,12 +222,41 @@ public class RevenueDialog extends JDialog{
                 }
             });
             
-            this.add(infoLanel);
+            this.setTitle("添加订单");
             this.add(orderLabel);
             this.add(orderField);
-            this.add(cancelButton);
             this.add(confirmButton);
-            this.setLayout(null);
+            this.add(cancelButton);
+
+            
+            Checker orderIdChecker = new Checker(orderField,new CheckInfoGetter() {
+                
+                @Override
+                public CheckInfo getCheckInfo() {
+                    return new RevenueOrderId(orderField.getText());
+                }
+            });
+            orderField.addKeyListener(new KeyListener() {
+                
+                @Override
+                public void keyTyped(KeyEvent e) {
+                    // TODO Auto-generated method stub
+                    
+                }
+                
+                @Override
+                public void keyReleased(KeyEvent e) {
+                    orderIdChecker.check();
+                }
+                
+                @Override
+                public void keyPressed(KeyEvent e) {
+                    // TODO Auto-generated method stub
+                    
+                }
+            });
+            
+            this.setLayout(new DialogLayoutManager());
             this.setBounds(100, 100, 380, 240);
             this.setModalityType(ModalityType.APPLICATION_MODAL);
             this.setVisible(true);      
