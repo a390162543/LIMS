@@ -36,6 +36,7 @@ public class DataUtil {
         }
     }
     
+	//这里有问题 ioexception的处理机制
     public static Object readObject(String filePath){
         try {
             ObjectInputStream oos = new ObjectInputStream(new FileInputStream(filePath));
@@ -47,7 +48,7 @@ public class DataUtil {
         } catch (ClassNotFoundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        }
+        } 
         return null;
     }
     

@@ -7,7 +7,6 @@ import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Date;
-
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -15,12 +14,10 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
-
+import businesslogic.BusinessLogicService;
 import businesslogic.checkbl.CheckInfo;
 import businesslogic.checkbl.employeeinfo.EmployeeIdCard;
 import businesslogic.checkbl.employeeinfo.EmployeePhoneNumber;
-import businesslogic.employeebl.Employee;
-import businesslogic.organizationbl.Organization;
 import businesslogicservice.EmployeeblService;
 import businesslogicservice.IdblService;
 import businesslogicservice.OrganizationblService;
@@ -72,19 +69,17 @@ public class EmployeeDialog extends JDialog{
     private EmployeeTableModel tableModel;
     private OrganizationblService organizationblService;
     private EmployeeblService employeeblService;
-
-    //创建员工的Dialog
+    private Checker phoneNumberChecker;
+    private Checker idcardChecker;
+ 
     
-    
+    //创建员工的Dialog   
     public EmployeeDialog(EmployeeTableModel em){
 		init();		
 		
 		tableModel = em;
-		organizationblService = new Organization();
-		employeeblService = new Employee();
-				
+			
 		setId();
-		
 		organizationBox.addItemListener(new ItemListener() {
 			
 			@Override
@@ -93,6 +88,8 @@ public class EmployeeDialog extends JDialog{
 				setId();
 			}
 		});
+				
+		
 		
 		cancleButton.addActionListener(new ActionListener(){	
 			  @Override
@@ -104,13 +101,18 @@ public class EmployeeDialog extends JDialog{
 		sureButton.addActionListener(new ActionListener(){			
 			  @Override
 			  public void actionPerformed(ActionEvent e){
-				  update(true,0);
-				  EmployeeDialog.this.dispose();
+				  boolean isCorrect = idcardChecker.check() && phoneNumberChecker.check();
+				  if(isCorrect){
+					  update(true,0);
+					  EmployeeDialog.this.dispose();
+				  }
+				  else{
+					  return;
+				  }
 			  }
 		});		
 		
-		//添加check	
-		//checkPhoneNumber();
+		
 		
 		
 	}
@@ -218,13 +220,36 @@ public class EmployeeDialog extends JDialog{
 					EmployeeDialog.this.dispose();
 				}
 			}); 
+			
 			sureButton.addActionListener(new ActionListener() {
 				
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
-					update(false, modelRow);
-					EmployeeDialog.this.dispose();
+					 boolean isCorrect = idcardChecker.check() && phoneNumberChecker.check();
+					  if(isCorrect){
+						  if(idField.getText().equals(vo.getId())){
+							  update(false,modelRow);
+							  EmployeeDialog.this.dispose();
+						  }
+						  else{
+							  tableModel.delete(modelRow);
+							  update(true,0);
+							  EmployeeDialog.this.dispose();
+						  }
+						  
+					  }
+					  else{
+						  return;
+					  }
+				}
+			});
+			organizationBox.addItemListener(new ItemListener() {
+				
+				@Override
+				public void itemStateChanged(ItemEvent e) {
+					// TODO Auto-generated method stub
+					setId();
 				}
 			});
 		}	
@@ -237,79 +262,12 @@ public class EmployeeDialog extends JDialog{
 		IdblService idblService = employeeblService.getIdblService();
 		idField.setText(idblService.createNewId(organizationId));		 
 	}
-	
-	public void checkPhoneNumber(){
-		Checker phoneNumberChecker = new Checker(phoneField, new CheckInfoGetter() {
-			
-			@Override
-			public CheckInfo getCheckInfo() {
-				// TODO Auto-generated method stub
-				if(phoneField.getText() == null){
-					return null;
-				}
-				return new EmployeePhoneNumber(phoneField.getText());
-			}
-		});
-		phoneField.addKeyListener(new KeyListener() {
-			
-			@Override
-			public void keyTyped(KeyEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void keyReleased(KeyEvent e) {
-				// TODO Auto-generated method stub
-				phoneNumberChecker.check();
-			}
-			
-			@Override
-			public void keyPressed(KeyEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
-	}
-	
- 
-	public void checkIdcard(){
-			Checker idcardChecker = new Checker(idCardField, new CheckInfoGetter() {
-			
-			@Override
-			public CheckInfo getCheckInfo() {
-				// TODO Auto-generated method stub
-				if(idCardField.getText() == null){
-					return null;
-				}
-				return new EmployeeIdCard(idCardField.getText());
-			}
-		});
-		idCardField.addKeyListener(new KeyListener() {
-			
-			@Override
-			public void keyTyped(KeyEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void keyReleased(KeyEvent e) {
-				// TODO Auto-generated method stub
-				idcardChecker.check();
-			}
-			
-			@Override
-			public void keyPressed(KeyEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
-	}
-	
+		
     
 	public void init(){
- 
+		organizationblService = BusinessLogicService.getOrganizationblService();
+		employeeblService =  BusinessLogicService.getEmployeeblService();
+				
 		positions = new String[]{"总经理","营业厅业务员","中转中心业务员","快递员",
 				 "中转中心仓库管理员","高级财务人员","财务人员","管理员","司机"};
 	  
@@ -442,30 +400,91 @@ public class EmployeeDialog extends JDialog{
 		this.setLayout(null);
 		this.setVisible(true);
 	
+		
+		
+		
 		//添加检查项
-		checkPhoneNumber();
-		checkIdcard();
+		phoneNumberChecker = new Checker(phoneField, new CheckInfoGetter() {
+			
+			@Override
+			public CheckInfo getCheckInfo() {
+				// TODO Auto-generated method stub
+				if(phoneField.getText() == null){
+					return null;
+				}
+				return new EmployeePhoneNumber(phoneField.getText());
+			}
+		});
+		phoneField.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				phoneNumberChecker.check();
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
+		idcardChecker = new Checker(idCardField, new CheckInfoGetter() {
+			
+			@Override
+			public CheckInfo getCheckInfo() {
+				// TODO Auto-generated method stub
+				if(idCardField.getText() == null){
+					return null;
+				}
+				return new EmployeeIdCard(idCardField.getText());
+			}
+		});
+		idCardField.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				idcardChecker.check();
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 	}
 	
-	public void update(boolean isNew,int modelRow){
-
-		  
+	public void update(boolean isNew,int modelRow){		  
 		  String id = idField.getText();		
 		  String name = nameField.getText();
 		  String organization = organizationBox.getSelectedItem().toString();
 		  String phone = phoneField.getText();	
 		  String identityCardNum = new String(idCardField.getText());			 
-		  Date birth =  datePickPanel.getDate();
-			//String idCardNum = new String(idCardField.getText());
-			Sex sex1 ;
-			 if(maleRadioButton.isSelected())
-				 sex1 = Sex.MALE;
-			else 
-				 sex1 = Sex.FAMALE;			 
-			PayVO payvo = null ;						
-			 Position p = null ;
-			 switch (positionBox.getSelectedItem().toString()) {
-			   	case "总经理":
+		  Date birth =  datePickPanel.getDate();		
+		  Sex sex1 ;
+		  if(maleRadioButton.isSelected())
+			 sex1 = Sex.MALE;
+		  else 
+			 sex1 = Sex.FAMALE;			 
+		  PayVO payvo = null ;						
+		  Position p = null ;
+		  switch (positionBox.getSelectedItem().toString()) {
+			  	case "总经理":
 			   		p = Position.MANAGER; 
 			   		payvo = new PayVO(Double.valueOf(basePayField.getText()),
 			   				0.0, 0, 0, 0);
@@ -527,6 +546,4 @@ public class EmployeeDialog extends JDialog{
 			 else
 				 tableModel.modify(modelRow, vo);
 	}
-	
-	
 }

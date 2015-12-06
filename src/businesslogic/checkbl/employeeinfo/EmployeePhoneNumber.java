@@ -19,6 +19,10 @@ public class EmployeePhoneNumber implements CheckInfo{
 	public CheckResultMessage check() {
 		// TODO Auto-generated method stub
 		CheckResultMessage checkResultMessage = new CheckResultMessage();
+		if(phoneNumber.length() == 0){
+			 checkResultMessage.addInfo(CheckResult.FALSE, "电话号码不能为空");
+	         return checkResultMessage;
+		}
 		if(!isNumeric(phoneNumber)){
 			checkResultMessage.addInfo(CheckResult.FALSE, "电话号码不符合格式，应为纯数字");
 	         return checkResultMessage;
@@ -38,6 +42,7 @@ public class EmployeePhoneNumber implements CheckInfo{
 		return m.matches();
 			  
 	} 
+	
 		
 
 }

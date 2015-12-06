@@ -2,6 +2,8 @@ package presentation.businesshallui.deliverui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.Date;
 
 import javax.swing.JButton;
@@ -9,9 +11,14 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import presentation.util.CheckInfoGetter;
+import presentation.util.Checker;
+import presentation.util.DialogLayoutManager;
 import presentation.util.RecentDatePickPanel;
 import vo.DeliverVO;
 import businesslogic.BusinessLogicService;
+import businesslogic.checkbl.CheckInfo;
+import businesslogic.checkbl.deliverinfo.DeliverOrderId;
 import businesslogicservice.DeliverblService;
 import businesslogicservice.IdblService;
 
@@ -56,6 +63,33 @@ public class DeliverDialog extends JDialog{
         datePickPanel.setBounds(100, 10+35*3, 200, 25);
         this.add(datePickPanel);
         
+        Checker orderIdChecker = new Checker(textFields[1], new CheckInfoGetter() {
+            
+            @Override
+            public CheckInfo getCheckInfo() {
+                return new DeliverOrderId(textFields[1].getText());
+            }
+        });
+        textFields[1].addKeyListener(new KeyListener() {
+            
+            @Override
+            public void keyTyped(KeyEvent e) {
+                // TODO Auto-generated method stub
+                
+            }
+            
+            @Override
+            public void keyReleased(KeyEvent e) {
+                orderIdChecker.check();
+            }
+            
+            @Override
+            public void keyPressed(KeyEvent e) {
+                // TODO Auto-generated method stub
+                
+            }
+        });
+        
         JButton confirmButton = new JButton("确认");
         confirmButton.setBounds(230, 160, 80, 30);
         confirmButton.addActionListener(new ActionListener() {
@@ -88,7 +122,7 @@ public class DeliverDialog extends JDialog{
         
         this.setTitle("派件单");
         this.setSize(340, 240);
-        this.setLayout(null);
+        this.setLayout(new DialogLayoutManager());
         this.setLocationRelativeTo(null);
         this.setModalityType(ModalityType.APPLICATION_MODAL);
         this.setVisible(true);

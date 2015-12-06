@@ -1,5 +1,8 @@
 package presentation.util;
 
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
+
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -33,6 +36,31 @@ public class Checker extends JLabel{
     public Checker(JComponent infoComponent, CheckInfoGetter checkInfoGetter){
         this();
         this.setLocation(infoComponent.getX()+infoComponent.getWidth()+10, infoComponent.getY());
+        infoComponent.addComponentListener(new ComponentListener() {
+            
+            @Override
+            public void componentShown(ComponentEvent e) {
+                // TODO Auto-generated method stub
+                
+            }
+            
+            @Override
+            public void componentResized(ComponentEvent e) {
+                // TODO Auto-generated method stub
+                
+            }
+            
+            @Override
+            public void componentMoved(ComponentEvent e) {
+                Checker.this.setLocation(infoComponent.getX()+infoComponent.getWidth()+10, infoComponent.getY());
+            }
+            
+            @Override
+            public void componentHidden(ComponentEvent e) {
+                // TODO Auto-generated method stub
+                
+            }
+        });
         infoComponent.getParent().add(this);
         this.checkInfoGetter = checkInfoGetter;
     }
@@ -68,5 +96,4 @@ public class Checker extends JLabel{
     private boolean isCorrect(){
         return (checkResult != CheckResult.FALSE);
     }
-
 }

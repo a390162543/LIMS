@@ -2,9 +2,10 @@ package presentation.managerui.approvalui.transferui;
 
  
 import java.awt.Dimension;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -22,11 +23,15 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
 import presentation.transitcenterui.transferui.OrderTableModel;
+import presentation.util.CheckInfoGetter;
+import presentation.util.Checker;
 import presentation.util.OrganizationComboBox;
 import presentation.util.RecentDatePickPanel;
 import systemenum.ShipForm;
+import businesslogic.checkbl.CheckInfo;
+import businesslogic.checkbl.transferinfo.OrderChecker;
+import businesslogic.checkbl.transferinfo.TransferNumber;
 import businesslogic.transferbl.Transfer;
-
 import businesslogicservice.TransferblService;
  
 import vo.TransferVO;
@@ -52,7 +57,10 @@ public class TransferPendingDialog extends JDialog {
 	private ButtonGroup way;
 	private OrderTableModel orderTableModel;
 	private TransferblService transferblService;
-      
+	private Checker containerNumberChecker;
+	private Checker flightNumberChecker ;
+	private Checker orderCheck;
+	private Checker nameChecker; 
  
     public TransferPendingDialog(TransferPendingTableModel tm, int modelRow, boolean isEditable) {
     	transferPendingTableModel = tm;
@@ -261,6 +269,113 @@ public class TransferPendingDialog extends JDialog {
 		this.setBounds(0, 0, 380, 550);
 		this.setLayout(null);
 		this.setVisible(true);
+		
+		//添加检查
+		  flightNumberChecker = new Checker(flightNumField, new CheckInfoGetter() {
+			
+			@Override
+			public CheckInfo getCheckInfo() {
+				// TODO Auto-generated method stub
+				if(flightNumField.getText() == null){
+					return null;
+				}
+				else{
+					return new TransferNumber(flightNumField.getText());
+				}
+				 
+			}
+		});
+		flightNumField.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				flightNumberChecker.check();
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		 
+		
+		containerNumberChecker = new Checker(containerIdField, new CheckInfoGetter() {			
+			@Override
+			public CheckInfo getCheckInfo() {
+				// TODO Auto-generated method stub
+				if(containerIdField.getText() == null){
+					return null;
+				}
+				else{
+					return new TransferNumber(containerIdField.getText());
+				}
+				 
+			}
+		});
+		containerIdField.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				containerNumberChecker.check();
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
+		nameChecker = new Checker(loanManField,new CheckInfoGetter() {
+			
+			@Override
+			public CheckInfo getCheckInfo() {
+				// TODO Auto-generated method stub
+				if(loanManField.getText() == null){
+					return null;
+				}
+				else{
+					return null;
+				}
+			}
+		});
+		loanManField.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				nameChecker.check();
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
+
     }
     
     public void setExpensesField(){
@@ -325,7 +440,52 @@ public class TransferPendingDialog extends JDialog {
 			this.add(confirmButton);
 			this.setLayout(null);
 			this.setBounds(100, 100, 380, 240);
-			this.setVisible(true);		
+			this.setVisible(true);	
+			
+			//添加订单检查
+			orderCheck = new Checker(orderField,new CheckInfoGetter() {
+				
+				@Override
+				public CheckInfo getCheckInfo() {
+					// TODO Auto-generated method stub
+					if(orderField.getText() == null){
+						return null;
+					}
+					else {
+						ShipForm shipForm = null;
+						if(trainButton.isSelected())
+							shipForm = ShipForm.TRAIN;
+						else if(flightButton.isSelected())
+							shipForm = ShipForm.PLANE;
+						else 
+							shipForm = ShipForm.CAR;
+						return new OrderChecker(shipForm,(String) destinationBox.getSelectedItem(),
+								orderField.getText());
+					}
+					 
+				}
+			});	
+			
+			orderField.addKeyListener(new KeyListener() {
+				
+				@Override
+				public void keyTyped(KeyEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void keyReleased(KeyEvent e) {
+					// TODO Auto-generated method stub
+					orderCheck.check();
+				}
+				
+				@Override
+				public void keyPressed(KeyEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+			});
 		}
 	}
 

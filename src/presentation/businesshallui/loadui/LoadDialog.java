@@ -3,6 +3,8 @@ package presentation.businesshallui.loadui;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -16,10 +18,15 @@ import javax.swing.JTextField;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
+import presentation.util.CheckInfoGetter;
+import presentation.util.Checker;
+import presentation.util.DialogLayoutManager;
 import presentation.util.OrganizationComboBox;
 import presentation.util.RecentDatePickPanel;
 import vo.LoadVO;
 import businesslogic.BusinessLogicService;
+import businesslogic.checkbl.CheckInfo;
+import businesslogic.checkbl.loadinfo.LoadOrderId;
 import businesslogic.userbl.LoginController;
 import businesslogicservice.IdblService;
 import businesslogicservice.LoadblService;
@@ -106,11 +113,12 @@ public class LoadDialog extends JDialog{
         
         
         JScrollPane OrderScrollPane = new JScrollPane(orderTable);
-        OrderScrollPane.setBounds(100, 10+35*6, 150, 75);          
+        OrderScrollPane.setBounds(100, 10+35*6, 200, 100);          
         JButton addOrderButton = new JButton("添加订单");
-        addOrderButton.setBounds(260, 10+35*6, 70, 20);
+        addOrderButton.setBounds(160, 10+35*9, 70, 20);
         JButton deleteOrderButton = new JButton("删除订单");
-        deleteOrderButton.setBounds(260, 10+35*7, 70, 20);
+        deleteOrderButton.setBounds(230, 10+35*9, 70, 20);
+
         addOrderButton.addActionListener(new ActionListener() {
                 
             @Override
@@ -138,6 +146,7 @@ public class LoadDialog extends JDialog{
         this.add(OrderScrollPane);
         this.add(addOrderButton);
         this.add(deleteOrderButton);
+        DialogLayoutManager.fix(OrderScrollPane,addOrderButton,deleteOrderButton);
         
         JLabel costLabel = new JLabel();
         costLabel.setText("运费");
@@ -189,7 +198,7 @@ public class LoadDialog extends JDialog{
         
         this.setTitle("装车单");
         this.setSize(340, 430);
-        this.setLayout(null);
+        this.setLayout(new DialogLayoutManager());
         this.setLocationRelativeTo(null);
         this.setModalityType(ModalityType.APPLICATION_MODAL);
         this.setVisible(true);
@@ -212,16 +221,15 @@ public class LoadDialog extends JDialog{
     
     public AddOrderDialog( ){
         
-        JLabel infoLanel = new JLabel("订单");
-        infoLanel.setBounds(105, 10, 170, 35);
+
         JLabel orderLabel = new JLabel("订单号");
         orderLabel.setBounds(35, 85, 100, 24);
         JTextField orderField = new JTextField();
         orderField.setBounds(145, 85, 180, 20);
         JButton cancelButton = new JButton("取消");
-        cancelButton.setBounds(190, 150, 70, 30);
+        cancelButton.setBounds(190, 150, 80, 30);
         JButton confirmButton = new JButton("确定");
-        confirmButton.setBounds(275, 150, 70, 30);
+        confirmButton.setBounds(275, 150, 80, 30);
         
         cancelButton.addActionListener(new ActionListener() {
             
@@ -243,12 +251,41 @@ public class LoadDialog extends JDialog{
             }
         });
         
-        this.add(infoLanel);
+        this.setTitle("添加订单");
         this.add(orderLabel);
         this.add(orderField);
-        this.add(cancelButton);
         this.add(confirmButton);
-        this.setLayout(null);
+        this.add(cancelButton);
+        
+        Checker orderIdChecker = new Checker(orderField, new CheckInfoGetter() {
+            
+            @Override
+            public CheckInfo getCheckInfo() {
+                return new LoadOrderId(orderField.getText());
+            }
+        });
+        orderField.addKeyListener(new KeyListener() {
+            
+            @Override
+            public void keyTyped(KeyEvent e) {
+                // TODO Auto-generated method stub
+                
+            }
+            
+            @Override
+            public void keyReleased(KeyEvent e) {
+                orderIdChecker.check();
+            }
+            
+            @Override
+            public void keyPressed(KeyEvent e) {
+                // TODO Auto-generated method stub
+                
+            }
+        });
+
+
+        this.setLayout(new DialogLayoutManager());
         this.setBounds(100, 100, 380, 240);
         this.setModalityType(ModalityType.APPLICATION_MODAL);
         this.setVisible(true);      

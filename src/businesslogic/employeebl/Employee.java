@@ -1,5 +1,6 @@
 package businesslogic.employeebl;
 
+import java.lang.reflect.Executable;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
@@ -186,6 +187,17 @@ public class Employee implements EmployeeblService{
 	public IdblService getIdblService() {
 		// TODO Auto-generated method stub
 		return new IdManager(employeeDataService, 3, false);
+	}
+	
+	public boolean execute(EmployeeVO vo){
+		if(vo == null){
+			return false;
+		}
+		else{
+			creatEmployeePO(vo);
+			return true;
+		}
+		
 	}
 	
 

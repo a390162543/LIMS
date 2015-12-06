@@ -103,7 +103,19 @@ public class Truck implements TruckblService{
     public boolean execute(TruckVO vo){
         return createTruckPO(vo);
     }
-
+    
+    public TruckVO getTruckVOById(String id){
+        try {
+            TruckPO po = truckDataService.find(id);
+            if(po != null)
+                return po.getTruckVO();
+        } catch (RemoteException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
     @Override
     public IdblService getIdblService() {
         return new IdManager(truckDataService, 3, false);

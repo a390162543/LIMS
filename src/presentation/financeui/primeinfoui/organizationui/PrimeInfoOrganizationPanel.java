@@ -2,6 +2,7 @@ package presentation.financeui.primeinfoui.organizationui;
  
  
 import java.awt.Container;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -9,10 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.RowFilter;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
+
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import vo.OrganizationVO;
@@ -50,7 +48,7 @@ public class PrimeInfoOrganizationPanel extends JPanel{
                 if(row == -1)
                     return;
                 int modelRow = OrganizationTable.convertRowIndexToModel(row);
-                new PrimeInfoOrganizationDialog().showQueryDialog(tableModel, modelRow, false);
+                new PrimeInfoOrganizationDialog(tableModel, modelRow, false);
                 
             }
         });
@@ -84,7 +82,7 @@ public class PrimeInfoOrganizationPanel extends JPanel{
             
             @Override
             public void actionPerformed(ActionEvent e) {
-                new PrimeInfoOrganizationDialog().showCreateDialog(tableModel);
+                new PrimeInfoOrganizationDialog(tableModel);
                 
             }
         });
@@ -108,7 +106,7 @@ public class PrimeInfoOrganizationPanel extends JPanel{
                  if(row == -1)
                      return;
                  int modelRow = OrganizationTable.convertRowIndexToModel(row);
-                 new PrimeInfoOrganizationDialog().showQueryDialog(tableModel, modelRow, false);	 
+                 new PrimeInfoOrganizationDialog(tableModel, modelRow, false);	 
             }
         });
         queryButton.addActionListener(new ActionListener() {
@@ -119,7 +117,7 @@ public class PrimeInfoOrganizationPanel extends JPanel{
                 if(row == -1)
                     return;
                 int modelRow = OrganizationTable.convertRowIndexToModel(row);
-                new PrimeInfoOrganizationDialog().showQueryDialog(tableModel, modelRow, false);
+                new PrimeInfoOrganizationDialog(tableModel, modelRow, false);
             }
         });
         confirmButton.addActionListener(new ActionListener() {

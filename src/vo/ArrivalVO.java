@@ -23,7 +23,7 @@ public class ArrivalVO {
         this.transferId = transferId;
         this.depart = depart;
         this.goodsState = gs;
-        if(transferId.length() == 17)
+        if(transferId.length() == 19)
             isTransferId = true;
     }
     
@@ -79,6 +79,10 @@ public class ArrivalVO {
         return goodsState;
     }
     
+    public void setGoodsState(GoodsState goodsState) {
+        this.goodsState = goodsState;
+    }
+
     public String getDestination() {
         return destination;
     }
