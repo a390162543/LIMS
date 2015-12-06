@@ -1,9 +1,18 @@
  package presentation.managerui.approvalui;
 
 import javax.swing.JPanel;
+
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 
+import presentation.managerui.approvalui.arrivalui.ArrivalPendingPanel;
+import presentation.managerui.approvalui.deliverui.DeliverPendingPanel;
+import presentation.managerui.approvalui.loadui.LoadPendingPanel;
+import presentation.managerui.approvalui.orderui.OrderPendingPanel;
+import presentation.managerui.approvalui.paymentui.PaymentPendingPanel;
+import presentation.managerui.approvalui.revenueui.RevenuePendingPanel;
+import presentation.managerui.approvalui.storeinui.StoreinPendingPanel;
+import presentation.managerui.approvalui.storeoutui.StoreoutPendingPanel;
 import presentation.managerui.approvalui.transferui.TransferPendingPanel;
  
 public class ApprovalPanel extends JPanel{
@@ -17,34 +26,17 @@ public class ApprovalPanel extends JPanel{
 	public ApprovalPanel(){
 		JTabbedPane approvalPane = new JTabbedPane(JTabbedPane.TOP);
 		approvalPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
-		JPanel orderPanel = new JPanel();
-		orderPanel.setBounds(0, 25, 560, 370);
-		JPanel deliverPanel = new JPanel();
-		deliverPanel.setBounds(0, 25, 560, 370);		
-		JPanel revenuePanel = new JPanel();
-		revenuePanel.setBounds(0, 25, 560, 370);
-		//JPanel transferPanel = new JPanel();
-		//transferPanel.setBounds(0, 25, 560, 370);
-		JPanel loadPanel = new JPanel();
-		loadPanel.setBounds(0, 25, 560, 370);
-		JPanel storeinPanel = new JPanel();
-		storeinPanel.setBounds(0, 25, 560, 370);
-		JPanel storeoutPanel = new JPanel();
-		storeoutPanel.setBounds(0, 25, 560, 370);
-		JPanel paymentPanel = new JPanel();
-		paymentPanel.setBounds(0, 25, 560, 370);
-		JPanel arrivalPanel = new JPanel();
-		arrivalPanel.setBounds(0, 25, 560, 370);
+		 
 
-		approvalPane.addTab("订单", orderPanel);
-		approvalPane.addTab("派件单", deliverPanel);
-		approvalPane.addTab("收款单", revenuePanel);
+		approvalPane.addTab("订单", new OrderPendingPanel());
+		approvalPane.addTab("派件单", new DeliverPendingPanel());
+		approvalPane.addTab("收款单", new RevenuePendingPanel());
 		approvalPane.addTab("中转单", new TransferPendingPanel());
-		approvalPane.addTab("装车单", loadPanel);
-		approvalPane.addTab("出库单", storeoutPanel);
-		approvalPane.addTab("入库单", storeinPanel);
-		approvalPane.addTab("付款单", paymentPanel);
-		approvalPane.addTab("到达单", arrivalPanel);		
+		approvalPane.addTab("装车单",new LoadPendingPanel());
+		approvalPane.addTab("出库单",new StoreoutPendingPanel());
+		approvalPane.addTab("入库单",new StoreinPendingPanel());
+		approvalPane.addTab("付款单", new PaymentPendingPanel());
+		approvalPane.addTab("到达单", new ArrivalPendingPanel());		
 		approvalPane.setBounds(0, 0,560, 500);
 		
 		this.add(approvalPane);

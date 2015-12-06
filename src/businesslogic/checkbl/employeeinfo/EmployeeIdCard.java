@@ -20,7 +20,10 @@ public class EmployeeIdCard implements CheckInfo{
 	public CheckResultMessage check() {
 		// TODO Auto-generated method stub
 		CheckResultMessage checkResultMessage = new CheckResultMessage();
-		 
+		 if(idCard.length() == 0){
+			 checkResultMessage.addInfo(CheckResult.FALSE, "身份证号码不能为空");
+	         return checkResultMessage;
+		 }
 		if(idCard.length() != 18){
 			 checkResultMessage.addInfo(CheckResult.FALSE, "身份证号码应为18位");
 	         return checkResultMessage;

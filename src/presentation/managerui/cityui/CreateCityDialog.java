@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 
 
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +19,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
+import presentation.util.CheckInfoGetter;
+import presentation.util.Checker;
 import vo.CityVO;
+import businesslogic.checkbl.CheckInfo;
+import businesslogic.checkbl.cityinfo.CityId;
+import businesslogic.checkbl.cityinfo.CityName;
 import businesslogic.citybl.City;
 import businesslogicservice.CityblService;
 
@@ -31,7 +38,8 @@ public class CreateCityDialog extends JDialog{
 	 
 	private CityblService cityblService;
 	private JPanel mainPanel;
-	
+	private Checker nameChecker;
+	private Checker idChecker;
 	
 	public CreateCityDialog( ){
 		 this.setTitle("新增城市");
@@ -85,27 +93,27 @@ public class CreateCityDialog extends JDialog{
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
-					System.out.println("click the surebutton ");
-					if(nameField.getText().equals(""))
-						warnLabel.setText("请输入城市名称");
-						 
-					else{
-						if(cityblService.getAllName().isEmpty()){
-							System.out.println("no city");
-							HashMap<String, Double> map = new HashMap<String, Double>();
-							String name = nameField.getText();
-							String id = idField.getText();
-							map.put(name, 0.0);
-							cityblService.createCityPO(new CityVO(name, id, map));
-						}
-						else{
-							mainPanel.removeAll();
-							System.out.println("removeAll");
-							CreateCityDialog.this.mainPanel.add(
-							new InputDistancePanel(nameField.getText(),idField.getText()));
-							mainPanel.repaint();
-							}
+					 
+					 boolean isRight = idChecker.check() && nameChecker.check();
+					 if(!isRight){
+						 return;
+					 }
+					 
+					if(cityblService.getAllName().isEmpty()){
+						HashMap<String, Double> map = new HashMap<String, Double>();
+						String name = nameField.getText();
+						String id = idField.getText();
+						map.put(name, 0.0);
+						cityblService.createCityPO(new CityVO(name, id, map));
 					}
+					else{
+						mainPanel.removeAll();
+						System.out.println("removeAll");
+						CreateCityDialog.this.mainPanel.add(
+						new InputDistancePanel(nameField.getText(),idField.getText()));
+						mainPanel.repaint();
+						}
+					
 				}
 			});
 			 
@@ -119,6 +127,76 @@ public class CreateCityDialog extends JDialog{
 			this.setLayout(null);
 			this.setVisible(true);
 			
+			//添加检查项
+			nameChecker = new Checker(nameField,new CheckInfoGetter() {
+				
+				@Override
+				public CheckInfo getCheckInfo() {
+					// TODO Auto-generated method stub
+					if(nameField.getText() == null){
+						return null;
+					}
+					else{
+						return new CityName(nameField.getText());
+					}
+				}
+			});
+			nameField.addKeyListener(new KeyListener() {
+				
+				@Override
+				public void keyTyped(KeyEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void keyReleased(KeyEvent e) {
+					// TODO Auto-generated method stub
+					nameChecker.check();
+					 
+				}
+				
+				@Override
+				public void keyPressed(KeyEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+			});
+			
+			idChecker = new Checker(idField,new CheckInfoGetter() {
+				
+				@Override
+				public CheckInfo getCheckInfo() {
+					// TODO Auto-generated method stub
+					if(idField.getText() == null){
+						return null;
+					}
+					else{
+						return new CityId(idField.getText());
+					}
+				}
+			});
+			idField.addKeyListener(new KeyListener() {
+				
+				@Override
+				public void keyTyped(KeyEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void keyReleased(KeyEvent e) {
+					// TODO Auto-generated method stub
+					idChecker.check();
+				 					 
+				}
+				
+				@Override
+				public void keyPressed(KeyEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+			});
 		}
 	}
 

@@ -148,7 +148,7 @@ public class Transfer implements TransferblService{
 		
 	}
 	
-<<<<<<< HEAD
+ 
 	public TransferVO find(String id){
 		try {
 			
@@ -167,7 +167,7 @@ public class Transfer implements TransferblService{
 		// TODO Auto-generated method stub
 	 return new IdManager(transferDataService, 7, true);
 	}
-=======
+ 
     public TransferVO getTransferVO(String id){
         try {
             TransferPO po = transferDataService.find(id);
@@ -179,6 +179,6 @@ public class Transfer implements TransferblService{
         }
         return null;
     }
->>>>>>> 3f6cb6eaed803ccadd947a8619444e70c26cb2b8
+ 
 	
 }

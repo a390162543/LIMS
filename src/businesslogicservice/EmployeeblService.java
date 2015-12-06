@@ -1,6 +1,7 @@
 package businesslogicservice;
 
 import java.util.List;
+
 import vo.EmployeeVO;
 
 public interface EmployeeblService extends Identifiable{
@@ -14,7 +15,7 @@ public interface EmployeeblService extends Identifiable{
 	
 	 public EmployeeVO find(String id);
 	
-	 
+	 public List<EmployeeVO> getDriverVO(String organiztion);
 	
 	 
 }
