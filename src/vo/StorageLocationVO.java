@@ -1,18 +1,25 @@
 package vo;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import po.StorageLocationPO;
 import systemenum.StorageState;
 
-public class StorageLocationVO {
+public class StorageLocationVO implements Serializable{
 	
-	String storageId;
-	int areaNum;
-	int rowNum;
-	int frameNum;
-	int item;
-	StorageState state;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2277487293893101704L;
+	
+	private String storageId;
+	private int areaNum;
+	private int rowNum;
+	private int frameNum;
+	private int item;
+	private StorageState state;
+	private String orderId;
 	
 	public StorageLocationVO(String storageId, int areaNum, int rowNum,
 			int frameNum, int item) {
@@ -35,6 +42,33 @@ public class StorageLocationVO {
 		this.frameNum = frameNum;
 		this.item = item;
 		this.state = state;
+	}
+
+
+	
+	public StorageLocationVO(String storageId, int areaNum, int rowNum,
+			int frameNum, int item, StorageState state, String orderId) {
+		super();
+		this.storageId = storageId;
+		this.areaNum = areaNum;
+		this.rowNum = rowNum;
+		this.frameNum = frameNum;
+		this.item = item;
+		this.state = state;
+		this.orderId = orderId;
+	}
+
+
+	
+
+	public String getOrderId() {
+		return orderId;
+	}
+
+
+
+	public void setOrderId(String orderId) {
+		this.orderId = orderId;
 	}
 
 

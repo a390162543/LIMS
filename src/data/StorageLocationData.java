@@ -415,4 +415,162 @@ public class StorageLocationData extends UnicastRemoteObject implements StorageL
 		return true;
 	}
 
+	@Override
+	public int getMaxAir(String storageId) throws RemoteException {
+		
+		int maxRow = 0;
+		String path = "c:/LIMS/database/LocationData/"+storageId+".txt";
+		File file = new File(path);
+		InputStream in = null;
+		try {
+			in = new FileInputStream(file);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		BufferedReader reader=new BufferedReader(new InputStreamReader(in));
+		String info = "";
+		for (int i = 0; i < 20; i++) {
+			for (int j = 0; j < 10; j++) {
+				for (int j2 = 0; j2 < 100; j2++) {
+					try {
+						
+						info = reader.readLine();
+						
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					if (info.indexOf(StorageState.ISSTORED.toString())!=-1||info.indexOf(StorageState.ISSTORING.toString())!=-1) {
+						
+						maxRow = j;
+					}
+				}
+			}
+		}
+
+		return maxRow;
+	}
+
+	@Override
+	public int getMaxTrain(String storageId) throws RemoteException {
+		
+		int maxRow = 0;
+		String path = "c:/LIMS/database/LocationData/"+storageId+".txt";
+		File file = new File(path);
+		InputStream in = null;
+		try {
+			in = new FileInputStream(file);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		BufferedReader reader=new BufferedReader(new InputStreamReader(in));
+		String info = "";
+		try {
+			reader.skip(38*20000);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		for (int i = 0; i < 20; i++) {
+			for (int j = 0; j < 10; j++) {
+				for (int j2 = 0; j2 < 100; j2++) {
+					try {							
+						info = reader.readLine();						
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					if (info.indexOf(StorageState.ISSTORED.toString())!=-1||info.indexOf(StorageState.ISSTORING.toString())!=-1) {
+						
+						maxRow = j;
+					}
+				}
+			}
+		}
+
+		return maxRow;
+	}
+
+	@Override
+	public int getMaxCar(String storageId) throws RemoteException {
+		int maxRow = 0;
+		String path = "c:/LIMS/database/LocationData/"+storageId+".txt";
+		File file = new File(path);
+		InputStream in = null;
+		try {
+			in = new FileInputStream(file);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		BufferedReader reader=new BufferedReader(new InputStreamReader(in));
+		String info = "";
+		try {
+			reader.skip(38*40000);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		for (int i = 0; i < 20; i++) {
+			for (int j = 0; j < 10; j++) {
+				for (int j2 = 0; j2 < 100; j2++) {
+					try {							
+						info = reader.readLine();						
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					if (info.indexOf(StorageState.ISSTORED.toString())!=-1||info.indexOf(StorageState.ISSTORING.toString())!=-1) {
+						
+						maxRow = j;
+					}
+				}
+			}
+		}
+
+		return maxRow;
+	}
+
+	@Override
+	public int getMaxFree(String storageId) throws RemoteException {
+		int maxRow = 0;
+		String path = "c:/LIMS/database/LocationData/"+storageId+".txt";
+		File file = new File(path);
+		InputStream in = null;
+		try {
+			in = new FileInputStream(file);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		BufferedReader reader=new BufferedReader(new InputStreamReader(in));
+		String info = "";
+		try {
+			reader.skip(38*60000);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		for (int i = 0; i < 20; i++) {
+			for (int j = 0; j < 10; j++) {
+				for (int j2 = 0; j2 < 100; j2++) {
+					try {							
+						info = reader.readLine();						
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					if (info.indexOf(StorageState.ISSTORED.toString())!=-1||info.indexOf(StorageState.ISSTORING.toString())!=-1) {
+						
+						maxRow = j;
+					}
+				}
+			}
+		}
+
+		return maxRow;
+	}
+
 }

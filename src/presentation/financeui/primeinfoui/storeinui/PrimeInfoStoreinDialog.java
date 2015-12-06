@@ -2,6 +2,10 @@ package presentation.financeui.primeinfoui.storeinui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,9 +19,19 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 
+
+
+
+
+
+
+import businesslogic.storeinbl.Storein;
+import businesslogicservice.IdblService;
+import businesslogicservice.StoreinblService;
 import presentation.storageui.storeinui.StoreinGoodsDialog;
 import presentation.util.OrganizationComboBox;
 import presentation.util.RecentDatePickPanel;
+import vo.OrganizationVO;
 import vo.StoreinCreateVO;
 
 public class PrimeInfoStoreinDialog extends JDialog{
@@ -29,11 +43,17 @@ public class PrimeInfoStoreinDialog extends JDialog{
 
 	private PrimeInfoStoreinTableModel primeInfoStoreinTableModel;
 	
+	private JLabel storeinIdLabel;
+	private JTextField storeinIdTextField;
+	
 	private JLabel storeinDateLabel;
 	private RecentDatePickPanel datePickPanel;
 	
 	private JLabel destinationLabel;
 	private OrganizationComboBox destinationComboBox;
+	private JLabel organizationLabel;
+	private OrganizationComboBox organizationComboBox;
+	
 	private JLabel goodsInfoLabel;
 	private JTable goodsInfoTable;
 	
@@ -56,18 +76,28 @@ public class PrimeInfoStoreinDialog extends JDialog{
 		this.setTitle("货物入库");	
 		this.setSize(380, 440);
 		this.setLayout(null);
-			
+		
+		storeinIdLabel = new JLabel("入库单号");
+		storeinIdLabel.setBounds(20, 9, 80, 22);
+		storeinIdTextField = new JTextField();
+		storeinIdTextField.setBounds(110, 9, 180, 22);
+				
 		storeinDateLabel = new JLabel("入库日期");
-		storeinDateLabel.setBounds(20, 64, 80, 22);
+		storeinDateLabel.setBounds(20, 40, 80, 22);
 		datePickPanel = new RecentDatePickPanel();
-		datePickPanel.setBounds(110, 64, 200, 22);
+		datePickPanel.setBounds(110, 40, 200, 22);
         
+		organizationLabel = new JLabel("入库地");
+		organizationLabel.setBounds(28, 72, 60, 22);
+		organizationComboBox = new OrganizationComboBox();
+		organizationComboBox.setBounds(110, 72, 180, 22);
+		
         destinationLabel = new JLabel("目的地");
-        destinationLabel.setBounds(28, 90, 60, 22);
+        destinationLabel.setBounds(28, 105, 60, 22);
         destinationComboBox = new OrganizationComboBox();
-        destinationComboBox.setBounds(110, 92, 180, 22);
+        destinationComboBox.setBounds(110, 105, 180, 22);
         goodsInfoLabel = new JLabel("货物信息");
-        goodsInfoLabel.setBounds(2, 125, 80, 22);
+        goodsInfoLabel.setBounds(2, 140, 80, 22);
         
         goodsInfoTable = new JTable(tableModel);
         goodsInfoTable.setSize(250, 180);  
@@ -84,6 +114,27 @@ public class PrimeInfoStoreinDialog extends JDialog{
         confirmButton.setBounds(295, 360, 70, 30);
         cancleButton = new JButton("取消");
         cancleButton.setBounds(210, 360, 70, 30);
+       
+        organizationComboBox.addItemListener(new ItemListener() {
+			
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+			//需要organiza提供根据名字获取ID的方法
+				StoreinblService storeinblService = new Storein();
+				IdblService idblService = storeinblService.getIdblService();
+				//这里获取ID
+				storeinIdTextField.setText(idblService.createNewId("0250"));
+				storeinIdTextField.setEditable(false);
+				
+			}
+		});
+        
+        
+		this.add(storeinIdLabel);
+		this.add(storeinIdTextField);
+		this.add(organizationLabel);
+		this.add(organizationComboBox);
+		
         this.add(cancleButton);
         this.add(confirmButton);
         this.add(deleteButton);
@@ -102,7 +153,7 @@ public class PrimeInfoStoreinDialog extends JDialog{
 		addButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new StoreinGoodsDialog(tableModel);
+				new PrimeInfoStoreinGoodsDialog(tableModel,storeinIdTextField.getText().substring(0, 5));
 			}			
 		});
 		
@@ -120,8 +171,7 @@ public class PrimeInfoStoreinDialog extends JDialog{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				int totalRow = goodsInfoTable.getRowCount(); //行
-				//int totalColumn = goodsInfoTable.getColumnCount();  //列
+				int totalRow = goodsInfoTable.getRowCount(); 
 				ArrayList<String> orderId = new ArrayList<String>();
 				ArrayList<Integer> areaNum = new ArrayList<Integer>();
 				ArrayList<Integer> rowNum = new ArrayList<Integer>();
@@ -140,8 +190,9 @@ public class PrimeInfoStoreinDialog extends JDialog{
 				Date inDate = datePickPanel.getDate();
 				
 				String destination = destinationComboBox.getItemAt(destinationComboBox.getSelectedIndex());
-				String organization = "南京中转中心";
-				StoreinCreateVO vo = new StoreinCreateVO(new String("2015112000000001"), orderId, inDate, destination, areaNum, rowNum, frameNum, item, organization);
+				
+				StoreinCreateVO vo = new StoreinCreateVO(storeinIdTextField.getText(), orderId, inDate, destination, areaNum, rowNum,
+						frameNum, item, organizationComboBox.getItemAt(organizationComboBox.getSelectedIndex()));
 				primeInfoStoreinTableModel.create(vo);
 				PrimeInfoStoreinDialog.this.dispose();	
 			}

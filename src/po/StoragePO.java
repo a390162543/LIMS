@@ -6,6 +6,7 @@ import java.util.Date;
 import businesslogic.storagebl.StorageHelper;
 import systemenum.StorageState;
 import vo.StorageSetAreaVO;
+import vo.StorageVO;
 
 public class StoragePO implements Serializable {
 	
@@ -118,7 +119,11 @@ public class StoragePO implements Serializable {
 	public StoragePO getUpdateStoragePO(StorageSetAreaVO vo){
 		
 		return new StoragePO(vo.getAirCapacity(), vo.getMotorCapacity(), vo.getCarCapacity(), vo.getTrainCapacity(),
-				vo.getAirCapacity()+vo.getMotorCapacity()+vo.getCarCapacity()+vo.getTrainCapacity(), nowCapacity, alarm, checkDate, storageId);
+				(vo.getAirCapacity()+vo.getMotorCapacity()+vo.getCarCapacity()+vo.getTrainCapacity())*1000, nowCapacity, alarm, checkDate, storageId);
+	}
+	
+	public StorageVO getStorageVO() {
+		return new StorageVO(allCapacity*1000, nowCapacity, alarm);
 	}
 	
 }

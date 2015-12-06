@@ -12,10 +12,13 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
 
+
+import businesslogic.orderbl.Order;
+import businesslogicservice.IdblService;
+import businesslogicservice.OrderblService;
 import systemenum.DeliveryWay;
 import systemenum.GoodsState;
 import systemenum.WrapWay;
-
 import vo.OrderCreateVO;
 
 
@@ -98,6 +101,12 @@ public class PrimeInfoOrderDialog extends JDialog{
 				orderInfoTextFields[i].setBounds(120, 80 + 35 * i, 90, 25);
 			this.add(orderInfoTextFields[i]);
 		}
+		
+		
+		OrderblService orderblService = new Order();
+		IdblService idblService = orderblService.getIdblService();
+		orderInfoTextFields[0].setText(idblService.createNewId());
+		orderInfoTextFields[0].setEditable(false);
 		
 		senderInfoTextFields = new JTextField[4];
 		for (int i = 0; i < senderInfoTextFields.length; i++) {

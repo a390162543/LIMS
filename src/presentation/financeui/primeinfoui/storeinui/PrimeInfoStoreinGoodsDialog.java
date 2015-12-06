@@ -22,6 +22,7 @@ public class PrimeInfoStoreinGoodsDialog extends JDialog {
 	 */
 	private static final long serialVersionUID = 689862824298738060L;
 	
+	
 	private JLabel orderIdLabel;
 	private JTextField orderIdTextField;
 	private JLabel areaNumLabel;
@@ -36,15 +37,15 @@ public class PrimeInfoStoreinGoodsDialog extends JDialog {
 	private JButton confirmButton;
 	private JButton cancleButton;
 	
+	private String storeinId;
+	
 	private DefaultTableModel tableModel;
 
-	public PrimeInfoStoreinGoodsDialog(DefaultTableModel tableModel){
+	public PrimeInfoStoreinGoodsDialog(DefaultTableModel tableModel, String storeinId){
 		this.tableModel = tableModel;
-		init();
-		buttonFunction();
-	}
-	
-	public void init(){
+		this.storeinId = storeinId;
+		
+		
 		this.setTitle("ªıŒÔ»Îø‚");	
 		this.setSize(380, 250);
 		this.setLayout(null);
@@ -91,11 +92,7 @@ public class PrimeInfoStoreinGoodsDialog extends JDialog {
 		this.setLocationRelativeTo(null);
         this.setResizable(false);
         this.setVisible(true);		
-	}
 	
-	
-
-	public void buttonFunction(){
 		confirmButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -103,7 +100,7 @@ public class PrimeInfoStoreinGoodsDialog extends JDialog {
 						rowNumTextField.getText(),frameNumTextField.getText(),
 						itemTextField.getText()};
 				
-				StorageLocationVO vo = new StorageLocationVO("0250", Integer.parseInt(areaNUmTextField.getText()),Integer.parseInt(rowNumTextField.getText()), 
+				StorageLocationVO vo = new StorageLocationVO(storeinId, Integer.parseInt(areaNUmTextField.getText()),Integer.parseInt(rowNumTextField.getText()), 
 						Integer.parseInt(frameNumTextField.getText()), Integer.parseInt(itemTextField.getText()), StorageState.ISSTORING);
 				StoreinblService storeinblService = new Storein();
 				storeinblService.changeLocationState(vo);		

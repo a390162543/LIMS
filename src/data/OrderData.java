@@ -120,6 +120,12 @@ public class OrderData extends UnicastRemoteObject implements OrderDataService{
 	}
 
 
+	@Override
+	public boolean isAvailable(String id) throws RemoteException {
+		return find(id) == null;
+	}
+
+
 	
 	
 

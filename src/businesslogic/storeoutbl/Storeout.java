@@ -19,9 +19,12 @@ import vo.StoreinOrderVO;
 import vo.StoreoutCreateVO;
 import vo.StoreoutQueryVO;
 import vo.OutOrderCheckResultVO;
+import businesslogic.idbl.IdManager;
 import businesslogic.orderbl.Order;
 import businesslogic.storagebl.Storage;
 import businesslogic.storagebl.StorageHelper;
+import businesslogic.userbl.LoginController;
+import businesslogicservice.IdblService;
 import businesslogicservice.StoreoutblService;
 
 public class Storeout implements StoreoutblService{
@@ -196,8 +199,13 @@ public class Storeout implements StoreoutblService{
 	public boolean changeLocationState(String orderId) {
 		Order order = new Order();
 		StoreinOrderVO storeinOrderVO = order.getStorageOrderVO(orderId);
-		StorageLocationVO vo = new StorageLocationVO("0250",storeinOrderVO.getAreaNum(), storeinOrderVO.getRowNum(), 
+		order.storeoutOrderState(orderId);
+		StorageLocationVO vo = new StorageLocationVO(LoginController.getOrganizationId(),storeinOrderVO.getAreaNum(), storeinOrderVO.getRowNum(), 
 				storeinOrderVO.getFrameNum(), storeinOrderVO.getItem(), StorageState.ISSTORINGOUT);
+		StorageHelper helper = new StorageHelper();
+		helper.changeLocationState(vo);
+		Storage storage = new Storage();
+		storage.reduceNowCapacity(vo.getStorageId());
 		return true;
 	}
 
@@ -205,9 +213,30 @@ public class Storeout implements StoreoutblService{
 	public boolean restoreLcationState(String orderId) {
 		Order order = new Order();
 		StoreinOrderVO storeinOrderVO = order.getStorageOrderVO(orderId);
+		order.restoreOrderState(orderId);
 		StorageLocationVO vo = new StorageLocationVO("0250",storeinOrderVO.getAreaNum(), storeinOrderVO.getRowNum(), 
 				storeinOrderVO.getFrameNum(), storeinOrderVO.getItem(), StorageState.ISSTORED);
+		StorageHelper helper = new StorageHelper();
+		helper.changeLocationState(vo);
 		return true;
+	}
+
+	@Override
+	public IdblService getIdblService() {
+		StoreoutDataService storeoutDataService = null;
+		try {
+			storeoutDataService =  (StoreoutDataService) Naming.lookup("rmi://localhost/StoreoutData");	
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NotBoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return new IdManager(storeoutDataService, 6);
 	}
 	
 	 

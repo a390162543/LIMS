@@ -2,6 +2,8 @@ package presentation.storageui.storeoutui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -9,6 +11,10 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import presentation.util.CheckInfoGetter;
+import presentation.util.Checker;
+import businesslogic.checkbl.CheckInfo;
+import businesslogic.checkbl.storeoutinfo.StoreoutOrderId;
 import businesslogic.storeinbl.Storein;
 import businesslogic.storeoutbl.Storeout;
 import businesslogicservice.StoreinblService;
@@ -31,11 +37,7 @@ public class StoreoutGoodsDialog extends JDialog {
 
 	public StoreoutGoodsDialog(DefaultTableModel tableModel){
 		this.tableModel = tableModel;
-		init();
-		buttonFunction();
-	}
-	
-	public void init(){
+		
 		this.setTitle("³ö¿â»õÎï");	
 		this.setSize(380, 160);
 		this.setLayout(null);
@@ -57,10 +59,35 @@ public class StoreoutGoodsDialog extends JDialog {
 		this.setLocationRelativeTo(null);
         this.setResizable(false);
         this.setVisible(true);	
-		
-	}
-	
-	public void buttonFunction(){
+
+        Checker storeoutIdChecker = new Checker(goodsIdTextField, new CheckInfoGetter() {
+			
+			@Override
+			public CheckInfo getCheckInfo() {
+				
+				return new StoreoutOrderId(goodsIdTextField.getText());
+			}
+		});
+        
+        goodsIdTextField.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				storeoutIdChecker.check();
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				
+			}
+		});
 		
 		confirmButton.addActionListener(new ActionListener() {
 			@Override
@@ -76,7 +103,7 @@ public class StoreoutGoodsDialog extends JDialog {
 		cancleButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				StoreoutGoodsDialog.this.dispose();
 				
 			}
 		});

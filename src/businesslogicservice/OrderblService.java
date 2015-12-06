@@ -4,7 +4,7 @@ import vo.OrderCreateVO;
 import vo.OrderQueryVO;
 import vo.OrderSignVO;
 
-public interface OrderblService {
+public interface OrderblService extends Identifiable {
 	
 	
 	public boolean createOrderPO(OrderCreateVO vo);

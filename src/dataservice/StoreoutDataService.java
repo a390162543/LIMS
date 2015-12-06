@@ -6,7 +6,7 @@ import java.util.List;
 
 import po.StoreoutPO;
 
-public interface StoreoutDataService extends Remote {
+public interface StoreoutDataService extends DataIdentifiable,Remote {
 	
 	public void insert(StoreoutPO po) throws RemoteException;
        

@@ -8,7 +8,7 @@ import vo.StoreinCheckVo;
 import vo.StoreinCreateVO;
 import vo.StoreinOrderVO;
 
-public interface StoreinblService {
+public interface StoreinblService extends Identifiable {
 	
 	
 	public boolean createStoreinPO (StoreinCreateVO vo);
@@ -22,6 +22,4 @@ public interface StoreinblService {
 	public boolean restoreLocationState (StorageLocationVO vo);
 	
 	
-
-
 }

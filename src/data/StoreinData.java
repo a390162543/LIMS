@@ -138,4 +138,9 @@ public class StoreinData extends UnicastRemoteObject implements StoreinDataServi
 		
 	}
 
+	@Override
+	public boolean isAvailable(String id) throws RemoteException {
+		return find(id) == null;
+	}
+
 }

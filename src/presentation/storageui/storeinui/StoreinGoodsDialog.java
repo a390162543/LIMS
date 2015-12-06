@@ -6,16 +6,33 @@ import java.awt.event.ActionListener;
 
 
 
+
+
+
+
+
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import presentation.util.CheckInfoGetter;
+import presentation.util.Checker;
 import systemenum.StorageState;
 import vo.StorageLocationVO;
 import vo.StoreinOrderVO;
+import businesslogic.checkbl.CheckInfo;
+import businesslogic.checkbl.storeininfo.AreaNum;
+import businesslogic.checkbl.storeininfo.FrameNum;
+import businesslogic.checkbl.storeininfo.Item;
+import businesslogic.checkbl.storeininfo.RowNum;
+import businesslogic.checkbl.storeininfo.StoreinOrderId;
 import businesslogic.storeinbl.Storein;
+import businesslogic.userbl.LoginController;
 import businesslogicservice.StoreinblService;
 
 public class StoreinGoodsDialog extends JDialog{
@@ -42,12 +59,10 @@ public class StoreinGoodsDialog extends JDialog{
 	private DefaultTableModel tableModel;
 
 	public StoreinGoodsDialog(DefaultTableModel tableModel){
+		
 		this.tableModel = tableModel;
-		init();
-		buttonFunction();
-	}
 	
-	public void init(){
+	
 		this.setTitle("ªıŒÔ»Îø‚");	
 		this.setSize(380, 250);
 		this.setLayout(null);
@@ -94,11 +109,215 @@ public class StoreinGoodsDialog extends JDialog{
 		this.setLocationRelativeTo(null);
         this.setResizable(false);
         this.setVisible(true);		
-	}
 	
-	
+        Checker storeinOrderIdChecker = new Checker(orderIdTextField, new CheckInfoGetter() {
+			
+			@Override
+			public CheckInfo getCheckInfo() {
+				return new StoreinOrderId(orderIdTextField.getText());
+			}
+		});
+        
+        orderIdTextField.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				storeinOrderIdChecker.check();
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+        
+        Checker areaNumChecker = new Checker(areaNUmTextField, new CheckInfoGetter() {
+		
+			@Override
+			public CheckInfo getCheckInfo() {
+				int araeNum = -1;
+				if (!areaNUmTextField.getText().equals("")) {
+					try {
+						araeNum = Integer.valueOf(areaNUmTextField.getText());
+					} catch (Exception e) {
+						araeNum = -1;
+					}
+					return new AreaNum(araeNum);
+				}
+				return new AreaNum(-1);
+			}
+		});
+        
+		Checker rowNumChecker = new Checker(rowNumTextField,
+				new CheckInfoGetter() {
 
-	public void buttonFunction(){
+					@Override
+					public CheckInfo getCheckInfo() {
+						int areaNum = -1;
+						int rowNum = -1;
+						if (!areaNUmTextField.getText().equals("")
+								&& !rowNumTextField.getText().equals("")) {
+							try {
+								areaNum = Integer.valueOf(areaNUmTextField
+										.getText());
+								rowNum = Integer.valueOf(rowNumTextField
+										.getText());
+							} catch (Exception e) {
+								// TODO: handle exception
+							}
+							return new RowNum(areaNum, rowNum);
+						}
+						if (areaNUmTextField.getText().equals("")
+								&& !rowNumTextField.getText().equals("")) {
+							return new RowNum(-1, Integer.valueOf(rowNumTextField.getText()));
+						}
+						
+						if (!areaNUmTextField.getText().equals("")
+								&& rowNumTextField.getText().equals("")) {
+							return new RowNum(Integer.valueOf(areaNUmTextField.getText()), -1);
+						}
+
+						return new RowNum(-1, -1);
+					}
+				});
+        
+        areaNUmTextField.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if (areaNUmTextField.getText()!="") {
+					areaNumChecker.check();
+					if (!rowNumTextField.getText().equals("")) {
+						rowNumChecker.check();
+					}
+					
+					
+				}
+							
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+        
+        
+        
+        rowNumTextField.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				rowNumChecker.check();
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+        
+        
+        Checker frameNumChecker = new Checker(frameNumTextField, new CheckInfoGetter() {
+			
+			@Override
+			public CheckInfo getCheckInfo() {				
+				int frameNum = -1;
+				if (!frameNumTextField.getText().equals("")) {
+					try {
+						frameNum = Integer.valueOf(frameNumTextField.getText());
+					} catch (Exception e) {
+						frameNum = -1;
+					}
+					return new FrameNum(frameNum);
+				}
+				return new FrameNum(-1);
+			}
+		});
+        
+        frameNumTextField.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				frameNumChecker.check();
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+        
+        Checker itemChecker = new Checker(itemTextField, new CheckInfoGetter() {
+			
+			@Override
+			public CheckInfo getCheckInfo() {
+				StorageLocationVO vo = null;
+				if (!areaNUmTextField.getText().equals("")&&!rowNumTextField.getText().equals("")
+						&&!frameNumTextField.getText().equals("")&&!itemTextField.getText().equals("")) {
+					vo = new StorageLocationVO(LoginController.getOrganizationId(),
+							Integer.valueOf(areaNUmTextField.getText()), Integer.valueOf(rowNumTextField.getText()), 
+							Integer.valueOf(frameNumTextField.getText()), Integer.valueOf(itemTextField.getText()));
+					return new Item(vo);
+				}
+				vo = new StorageLocationVO(LoginController.getOrganizationId(), -1, -1, -1, -1);
+				return new Item(vo) ;
+				
+			}
+		});
+        
+        itemTextField.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				itemChecker.check();
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+        
 		confirmButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -106,8 +325,8 @@ public class StoreinGoodsDialog extends JDialog{
 						rowNumTextField.getText(),frameNumTextField.getText(),
 						itemTextField.getText()};
 				
-				StorageLocationVO vo = new StorageLocationVO("0250", Integer.parseInt(areaNUmTextField.getText()),Integer.parseInt(rowNumTextField.getText()), 
-						Integer.parseInt(frameNumTextField.getText()), Integer.parseInt(itemTextField.getText()), StorageState.ISSTORING);
+				StorageLocationVO vo = new StorageLocationVO(LoginController.getOrganizationId(), Integer.parseInt(areaNUmTextField.getText()),Integer.parseInt(rowNumTextField.getText()), 
+						Integer.parseInt(frameNumTextField.getText()), Integer.parseInt(itemTextField.getText()), StorageState.ISSTORING, orderIdTextField.getText());
 				StoreinblService storeinblService = new Storein();
 				storeinblService.changeLocationState(vo);		
 				tableModel.addRow(data);
@@ -119,9 +338,7 @@ public class StoreinGoodsDialog extends JDialog{
 		cancleButton.addActionListener(new ActionListener() {	
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
-				
-				
+				StoreinGoodsDialog.this.dispose();		
 			}
 		});
 		

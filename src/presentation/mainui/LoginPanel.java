@@ -2,12 +2,15 @@ package presentation.mainui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
 import presentation.businesshallui.BusinessHallPanel;
 import presentation.courierui.OrderUI;
+import presentation.courierui.orderqueryui.OrderInfoQueryDialog;
 import presentation.financeui.FinancePanel;
 import presentation.managerui.ManagerPanel;
 import presentation.storageui.StorageUI;
@@ -111,7 +114,7 @@ public class LoginPanel extends JPanel{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				new OrderInfoQueryDialog();
 				
 			}
 		});

@@ -2,6 +2,10 @@ package presentation.storageui.storeinui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,11 +17,19 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import businesslogic.checkbl.CheckInfo;
+import businesslogic.checkbl.storeininfo.AlarmNum;
+import businesslogic.idbl.IdManager;
 import businesslogic.storeinbl.Storein;
+import businesslogic.userbl.LoginController;
+import businesslogicservice.IdblService;
 import businesslogicservice.StoreinblService;
 import po.StoreinPO;
+import presentation.util.CheckInfoGetter;
+import presentation.util.Checker;
 import presentation.util.OrganizationComboBox;
 import presentation.util.RecentDatePickPanel;
 import systemenum.StorageState;
@@ -35,6 +47,8 @@ public class StoreinDialogUI extends JDialog{
 	 * 
 	 */
 	
+	private JLabel storeinIdLabel;
+	private JTextField storeinIdTextField;
 	
 	private JLabel storeinDateLabel;
 	private RecentDatePickPanel datePickPanel;
@@ -61,7 +75,16 @@ public class StoreinDialogUI extends JDialog{
 		this.setTitle("货物入库");	
 		this.setSize(380, 440);
 		this.setLayout(null);
-			
+		
+		storeinIdLabel = new JLabel("入库单号");
+		storeinIdLabel.setBounds(20, 34, 80, 22);
+		storeinIdTextField = new JTextField();
+		storeinIdTextField.setBounds(110, 34, 180, 22);
+		StoreinblService storeinblService = new Storein();
+		IdblService idblService = storeinblService.getIdblService();
+		storeinIdTextField.setText(idblService.createNewId());
+		storeinIdTextField.setEditable(false);
+		
 		storeinDateLabel = new JLabel("入库日期");
 		storeinDateLabel.setBounds(20, 64, 80, 22);
 		datePickPanel = new RecentDatePickPanel();
@@ -83,13 +106,15 @@ public class StoreinDialogUI extends JDialog{
         scrollpane.setBounds(82, 130, 290, 180); 
         
         addButton = new JButton("新增");
-        addButton.setBounds(210, 325, 70, 30);
+        addButton.setBounds(190, 325, 70, 30);
         deleteButton = new JButton("删除");
         deleteButton.setBounds(295, 325, 70, 30);
         confirmButton = new JButton("确定");
         confirmButton.setBounds(295, 360, 70, 30);
         cancleButton = new JButton("取消");
         cancleButton.setBounds(210, 360, 70, 30);
+        this.add(storeinIdLabel);
+        this.add(storeinIdTextField);
         this.add(cancleButton);
         this.add(confirmButton);
         this.add(deleteButton);
@@ -105,6 +130,48 @@ public class StoreinDialogUI extends JDialog{
         this.setResizable(false);
         this.setVisible(true);
 	
+        Checker alarmNumChecker = new Checker(addButton, new CheckInfoGetter() {
+			
+			@Override
+			public CheckInfo getCheckInfo() {
+				
+				return new AlarmNum(tableModel.getRowCount());
+			}
+		});
+        
+        addButton.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				alarmNumChecker.check();
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+        
 		addButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -125,7 +192,7 @@ public class StoreinDialogUI extends JDialog{
 	              int frameNum = Integer.parseInt((String)tableModel.getValueAt(selectedRow, 3));
 	              int item = Integer.parseInt((String)tableModel.getValueAt(selectedRow, 4));
 	              //StoreinOrderVO vo = new StoreinOrderVO(orderId, areaNum, rowNum, frameNum, item);
-	              StorageLocationVO vo = new StorageLocationVO("0250", areaNum, rowNum, frameNum, item, StorageState.ISAVAILABLE);
+	              StorageLocationVO vo = new StorageLocationVO(LoginController.getOrganizationId(), areaNum, rowNum, frameNum, item, StorageState.ISAVAILABLE, orderId);
 	              StoreinblService storeinblService = new Storein();
 	              storeinblService.restoreLocationState(vo);   
 	              tableModel.removeRow(selectedRow); 
@@ -156,8 +223,9 @@ public class StoreinDialogUI extends JDialog{
 				Date inDate = datePickPanel.getDate();
 				
 				String destination = destinationComboBox.getItemAt(destinationComboBox.getSelectedIndex());
-				String organization = "南京中转中心";
-				StoreinCreateVO vo = new StoreinCreateVO(new String("2015112000000001"), orderId, inDate, destination, areaNum, rowNum, frameNum, item, organization);
+				
+				StoreinCreateVO vo = new StoreinCreateVO(storeinIdTextField.getText(), orderId, inDate, 
+						destination, areaNum, rowNum, frameNum, item, LoginController.getOrganizationName());
 				StoreinblService storeinblService = new Storein();
 				storeinblService.createStoreinPO(vo);	
 			}
@@ -171,13 +239,13 @@ public class StoreinDialogUI extends JDialog{
 				//int totalColumn = goodsInfoTable.getColumnCount();  //列
 				
 				for(int i=0;i<totalRow;i++){
-					String orderId = (String) tableModel.getValueAt(i, 0);
+					  String orderId = (String) tableModel.getValueAt(i, 0);
 		              int areaNum = Integer.parseInt((String)tableModel.getValueAt(i, 1));
 		              int rowNum = Integer.parseInt((String)tableModel.getValueAt(i, 2));
 		              int frameNum = Integer.parseInt((String)tableModel.getValueAt(i, 3));
 		              int item = Integer.parseInt((String)tableModel.getValueAt(i, 4));
 		              //StoreinOrderVO vo = new StoreinOrderVO(orderId, areaNum, rowNum, frameNum, item);
-		              StorageLocationVO vo = new StorageLocationVO("0250", areaNum, rowNum, frameNum, item, StorageState.ISAVAILABLE);
+		              StorageLocationVO vo = new StorageLocationVO(LoginController.getOrganizationId(), areaNum, rowNum, frameNum, item, StorageState.ISAVAILABLE, orderId);
 		              StoreinblService storeinblService = new Storein();
 		              //改变库存的位置
 		              storeinblService.restoreLocationState(vo); 

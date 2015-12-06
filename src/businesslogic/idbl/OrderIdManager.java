@@ -24,7 +24,7 @@ public class OrderIdManager extends IdManager{
         String previousId = "";
         String id = "";
         String date = BusinessLogicUtil.getDate();
-        date.substring(4);
+        date = date.substring(4);
         try {
             previousId = idDataService.getId(tag);
         } catch (RemoteException e) {
@@ -34,10 +34,12 @@ public class OrderIdManager extends IdManager{
         if(previousId == null || previousId.equals("")){
             id = date+BusinessLogicUtil.formatByZero("0", ordinalLength);
         }else{
-            String previousDate = previousId.substring(tag.length(), tag.length()+date.length());
+        	
+            //String previousDate = previousId.substring(tag.length(), tag.length()+date.length());
+            String previousDate = previousId.substring(0, 4);
            //判断是否为同一天
             if(previousDate.equals(date)){
-               String previousOrdinal = previousId.substring(tag.length()+date.length());
+               String previousOrdinal = previousId.substring(4,10);
                int tempOrdinal = new Integer(previousOrdinal)+1;
                int divisor = (int) Math.pow(10, ordinalLength);
                for(int i=tempOrdinal%divisor;;i++){

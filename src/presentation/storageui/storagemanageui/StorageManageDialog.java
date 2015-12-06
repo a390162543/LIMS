@@ -2,14 +2,25 @@ package presentation.storageui.storagemanageui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import presentation.util.CheckInfoGetter;
+import presentation.util.Checker;
 import vo.StorageSetAreaVO;
+import businesslogic.checkbl.CheckInfo;
+import businesslogic.checkbl.storageinfo.AirCapacity;
+import businesslogic.checkbl.storageinfo.Alarm;
+import businesslogic.checkbl.storageinfo.CarCapacity;
+import businesslogic.checkbl.storageinfo.FreeCapacity;
+import businesslogic.checkbl.storageinfo.TrainCapacity;
 import businesslogic.storagebl.Storage;
+import businesslogic.userbl.LoginController;
 import businesslogicservice.StorageblService;
 
 public class StorageManageDialog extends JDialog{
@@ -37,12 +48,7 @@ public class StorageManageDialog extends JDialog{
 	private JButton cancleButton;
 	
 	public StorageManageDialog(){
-		init();
-		showData();
-		buttonFunction();
-	}
-	
-	public void init(){
+		
 		this.setTitle("¿â´æ¹æ»®");	
 		this.setSize(380, 380);
 		this.setLayout(null);
@@ -89,13 +95,181 @@ public class StorageManageDialog extends JDialog{
 		this.setLocationRelativeTo(null);
         this.setResizable(false);
         this.setVisible(true);
-	}
 	
-	public void buttonFunction(){
+        Checker airAreaChecker = new Checker(planeAreaTextField, new CheckInfoGetter() {
+			
+			@Override
+			public CheckInfo getCheckInfo() {
+				
+				if (!planeAreaTextField.getText().equals("")&&!planeAreaTextField.getText().contains("-")) {
+					return new AirCapacity(Integer.valueOf(planeAreaTextField.getText()));
+				}
+				return new AirCapacity(-1);
+				
+			}
+		});
+        
+        planeAreaTextField.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				airAreaChecker.check();
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+        
+        Checker trainAreaChecker = new Checker(trainAreaTextField, new CheckInfoGetter() {
+			
+			@Override
+			public CheckInfo getCheckInfo() {
+				
+				if (!trainAreaTextField.getText().equals("")&&!trainAreaTextField.getText().contains("-")) {
+					return new TrainCapacity(Integer.valueOf(trainAreaTextField.getText()));
+				}
+				return new TrainCapacity(-1);
+				
+			}
+		});
+        
+        trainAreaTextField.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				trainAreaChecker.check();
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+        
+        
+        Checker carAreaChecker = new Checker(carAreaTextField, new CheckInfoGetter() {
+			
+			@Override
+			public CheckInfo getCheckInfo() {
+				
+				if (!carAreaTextField.getText().equals("")&&!carAreaTextField.getText().contains("-")) {
+					return new CarCapacity(Integer.valueOf(carAreaTextField.getText()));
+				}
+				return new CarCapacity(-1);
+				
+			}
+		});
+        
+        carAreaTextField.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				carAreaChecker.check();
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+        
+        
+        Checker freeAreaChecker = new Checker(freeAreaTextField, new CheckInfoGetter() {
+			
+			@Override
+			public CheckInfo getCheckInfo() {
+				
+				if (!freeAreaTextField.getText().equals("")&&!freeAreaTextField.getText().contains("-")) {
+					return new FreeCapacity(Integer.valueOf(freeAreaTextField.getText()));
+				}
+				return new FreeCapacity(-1);
+				
+			}
+		});
+        
+        freeAreaTextField.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				freeAreaChecker.check();
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+        
+        Checker alarmChecker = new Checker(warnTextField, new CheckInfoGetter() {
+			
+			@Override
+			public CheckInfo getCheckInfo() {
+				if (!warnTextField.getText().equals("")&&!warnTextField.getText().contains("-")) {
+					return new Alarm(Double.valueOf(warnTextField.getText()));
+				}
+				return new Alarm(-1);
+			}
+		});
+        
+        warnTextField.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				alarmChecker.check();
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+        
 		confirmButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				StorageSetAreaVO vo = new StorageSetAreaVO(new String("0250"), Integer.parseInt(planeAreaTextField.getText()), 
+				StorageSetAreaVO vo = new StorageSetAreaVO(LoginController.getOrganizationId(), Integer.parseInt(planeAreaTextField.getText()), 
 						Integer.parseInt(freeAreaTextField.getText()), Integer.parseInt(carAreaTextField.getText()),
 						Integer.parseInt(trainAreaTextField.getText()), Double.parseDouble(warnTextField.getText()));
 				StorageblService storageblService = new Storage();
@@ -103,11 +277,10 @@ public class StorageManageDialog extends JDialog{
 				StorageManageDialog.this.dispose();
 			}
 		});
-	}
 	
-	public void showData(){
+		
 		StorageblService storageblService = new Storage();
-		StorageSetAreaVO vo = storageblService.getStorageData(new String("0250"));
+		StorageSetAreaVO vo = storageblService.getStorageData(LoginController.getOrganizationId());
 		if (vo == null) {
 			planeAreaTextField.setText("0");
 			carAreaTextField.setText("0");
@@ -123,6 +296,6 @@ public class StorageManageDialog extends JDialog{
 			warnTextField.setText(vo.getAlarm()+"");
 		}
 		
-	}
+}
 
 }

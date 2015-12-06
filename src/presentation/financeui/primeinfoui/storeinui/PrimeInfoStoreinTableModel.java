@@ -25,7 +25,7 @@ public class PrimeInfoStoreinTableModel extends DefaultTableModel {
 	
 	private PrimeInfoblService primeInfoblService;
     private List<StoreinCreateVO> dataList;
-    private static final String[] TABLE_HEADER = {"机构","日期"};
+    private static final String[] TABLE_HEADER = {"入库地","目的地","日期"};
     
     
     public PrimeInfoStoreinTableModel(PrimeInfoblService primeInfoblService) {
@@ -93,8 +93,9 @@ public class PrimeInfoStoreinTableModel extends DefaultTableModel {
     
     private static Vector<Object> convertToVector(StoreinCreateVO vo){
         Vector<Object> rowVector = new Vector<Object>();
+        rowVector.add(vo.getOrganization());
         rowVector.add(vo.getDestination());
-        rowVector.add(vo.getInDate());
+        rowVector.add(vo.getInDate());        
         return rowVector;
     }
     

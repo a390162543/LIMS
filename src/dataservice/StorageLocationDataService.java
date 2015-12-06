@@ -22,4 +22,11 @@ public interface StorageLocationDataService extends Remote{
 
 	public StorageState getLocationState(StorageLocationVO vo) throws RemoteException;
 	
+	public int getMaxAir(String storageId) throws RemoteException;
+	
+	public int getMaxTrain(String storageId) throws RemoteException;
+	
+	public int getMaxCar(String storageId) throws RemoteException;
+	
+	public int getMaxFree(String storageId) throws RemoteException;
 }

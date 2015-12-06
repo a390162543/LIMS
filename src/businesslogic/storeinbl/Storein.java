@@ -12,6 +12,10 @@ import java.util.List;
 
 
 
+
+
+
+
 import po.StoreinPO;
 import systemenum.DocumentState;
 import systemenum.StorageState;
@@ -22,9 +26,11 @@ import vo.StoreinCreateVO;
 import vo.StoreinOrderVO;
 import vo.StoreinQueryVO;
 import vo.InOrderCheckResultVO;
+import businesslogic.idbl.IdManager;
 import businesslogic.orderbl.Order;
 import businesslogic.storagebl.Storage;
 import businesslogic.storagebl.StorageHelper;
+import businesslogicservice.IdblService;
 import businesslogicservice.StoreinblService;
 
 public class Storein implements StoreinblService{
@@ -203,6 +209,10 @@ public class Storein implements StoreinblService{
 	public boolean changeLocationState(StorageLocationVO vo) {
 		StorageHelper helper = new StorageHelper();
 		helper.changeLocationState(vo);
+		Order order = new Order();
+		order.storeinOrderState(vo.getOrderId());
+		Storage storage = new Storage();
+		storage.addNowCapacity(vo.getStorageId());
 		return true;
 	}
 
@@ -210,6 +220,8 @@ public class Storein implements StoreinblService{
 	public boolean restoreLocationState(StorageLocationVO vo) {
 		StorageHelper helper = new StorageHelper();
 		helper.changeLocationState(vo);
+		Order order = new Order();
+		order.restoreOrderState(vo.getOrderId());
 		return true;
 	}
 	
@@ -234,5 +246,24 @@ public class Storein implements StoreinblService{
 		
 		return true;
 	}
+
+	@Override
+	public IdblService getIdblService() {
+		StoreinDataService storeinDataService = null;
+		try {
+			storeinDataService =  (StoreinDataService) Naming.lookup("rmi://localhost/StoreinData");	
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NotBoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return new IdManager(storeinDataService, 6);
+	}
+
 	
 }

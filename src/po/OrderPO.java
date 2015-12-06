@@ -3,9 +3,11 @@ package po;
 import java.io.Serializable;
 import java.util.Date;
 
+import businesslogic.storagebl.Storage;
 import systemenum.DeliveryWay;
 import systemenum.DocumentState;
 import systemenum.ShipForm;
+import systemenum.StorageState;
 import systemenum.WrapWay;
 import systemenum.GoodsState;
 import vo.GoodsVO;
@@ -151,8 +153,19 @@ public class OrderPO implements Serializable{
    	private String organization;
    	
 
+   	private StorageState storageState = null;
    	
-   	public String getOrganization() {
+   	
+   	
+   	public StorageState getStorageState() {
+		return storageState;
+	}
+
+	public void setStorageState(StorageState storageState) {
+		this.storageState = storageState;
+	}
+
+	public String getOrganization() {
 		return organization;
 	}
 
@@ -387,5 +400,9 @@ public class OrderPO implements Serializable{
 	
 	public OrderRevenueVO getOrderRevenueVO() {
 		return new OrderRevenueVO(id, organization, cost, goodsInfo);
+	}
+	
+	public OrderSignVO getOrderSignVO () {
+		return new OrderSignVO(id, signName, signData);
 	}
 }

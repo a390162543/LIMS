@@ -1,10 +1,9 @@
 package businesslogicservice;
 
-
-
 import vo.StoreoutCreateVO;
 
-public interface StoreoutblService {
+
+public interface StoreoutblService extends Identifiable{
 
 	
 	public boolean createStoreoutPO (StoreoutCreateVO vo);

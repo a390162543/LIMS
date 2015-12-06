@@ -19,6 +19,8 @@ import javax.swing.table.DefaultTableModel;
 import presentation.util.OrganizationComboBox;
 import presentation.util.RecentDatePickPanel;
 import businesslogic.storeoutbl.Storeout;
+import businesslogic.userbl.LoginController;
+import businesslogicservice.IdblService;
 import businesslogicservice.StoreoutblService;
 import systemenum.ShipForm;
 import vo.StoreoutCreateVO;
@@ -35,6 +37,8 @@ public class StoreoutDialogUI extends JDialog{
 	 * 
 	 */
 	
+	private JLabel storeoutIdLabel;
+	private JTextField storeoutIdTextField;
 	
 	private JLabel storeoutDateLabel;
 	private RecentDatePickPanel datePickPanel;
@@ -63,14 +67,22 @@ public class StoreoutDialogUI extends JDialog{
     private DefaultTableModel tableModel = new DefaultTableModel(null, column);
     
 	public StoreoutDialogUI(){
-		init();
-		buttonFunction();
-	}
+		
 	
-	public void init(){
+
 		this.setTitle("出库单");	
 		this.setSize(380, 460);
 		this.setLayout(null);
+		
+		
+		storeoutIdLabel = new JLabel("出库单号");
+		storeoutIdLabel.setBounds(20, 12, 80, 22);
+		storeoutIdTextField = new JTextField();
+		storeoutIdTextField.setBounds(110, 12, 180, 22);
+		StoreoutblService storeoutblService = new Storeout();
+		IdblService idblService = storeoutblService.getIdblService();
+		storeoutIdTextField.setText(idblService.createNewId());
+		storeoutIdTextField.setEditable(false);
 		
 		storeoutDateLabel = new JLabel("出库日期");
 		storeoutDateLabel.setBounds(20, 44, 80, 22);
@@ -116,6 +128,10 @@ public class StoreoutDialogUI extends JDialog{
         cancleButton = new JButton("取消");
         cancleButton.setBounds(210, 360, 70, 30);
         
+        
+        this.add(storeoutIdLabel);
+        this.add(storeoutIdTextField);
+        
         this.add(cancleButton);
         this.add(confirmButton);
         this.add(deleteButton);
@@ -136,9 +152,7 @@ public class StoreoutDialogUI extends JDialog{
 		this.setLocationRelativeTo(null);
         this.setResizable(false);
         this.setVisible(true);
-	}
-
-	public void buttonFunction(){
+	
 		
 		addButton.addActionListener(new ActionListener() {
 			@Override
@@ -162,7 +176,7 @@ public class StoreoutDialogUI extends JDialog{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				String id = new String("2015111700000005");
+				
 				int totalRow = goodsInfoTable.getRowCount();
 				ArrayList<String> orderId = new ArrayList<String>();
 				for(int i=0;i<totalRow;i++){
@@ -181,9 +195,8 @@ public class StoreoutDialogUI extends JDialog{
 				else
 					shipForm = ShipForm.TRAIN;
 				
-				String transferId = new String(transferIdTextField.getText());
-				String organization = "南京中转中心";
-				StoreoutCreateVO vo = new StoreoutCreateVO(id, orderId, date, destination, shipForm, transferId,organization);
+				String transferId = transferIdTextField.getText();
+				StoreoutCreateVO vo = new StoreoutCreateVO(storeoutIdTextField.getText(), orderId, date, destination, shipForm, transferId,LoginController.getOrganizationName());
 				StoreoutblService storeoutblService = new Storeout();
 				storeoutblService.createStoreoutPO(vo);
 			}

@@ -6,6 +6,8 @@ import java.awt.event.ContainerEvent;
 import java.awt.event.ContainerListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -14,7 +16,13 @@ import javax.swing.JLabel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
+import presentation.util.CheckInfoGetter;
+import presentation.util.Checker;
+import businesslogic.checkbl.CheckInfo;
+import businesslogic.checkbl.orderinfo.Name;
+import businesslogic.checkbl.orderinfo.OrderAddress;
 import businesslogic.orderbl.Order;
+import businesslogicservice.IdblService;
 import businesslogicservice.OrderblService;
 import systemenum.DeliveryWay;
 import systemenum.GoodsState;
@@ -83,20 +91,10 @@ public class OrderCreateDialog extends JDialog{
 	private JButton cancleButton;
 	
 	public OrderCreateDialog(){
-		init();	
-		buttonFunction();
 		
-	}
-	
-	
-	public void init(){
 		this.setTitle("新建订单");
 		this.setSize(380, 800);
 		this.setLayout(null);
-		
-		orderInfoInit();
-		recipientInfoInit();
-		senderInfoinit();
 		
 		confirmButton = new JButton("确定");
 		cancleButton = new JButton("取消");
@@ -108,32 +106,40 @@ public class OrderCreateDialog extends JDialog{
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         this.setVisible(true);
-        this.repaint();
-	}
-	
-	public void orderInfoInit(){
+      
+
 		orderinfoLabel = new JLabel("订单信息");
 		orderinfoLabel.setBounds(10,52,80,22);
 		orderIdLabel = new JLabel("订单号");
 		orderIdLabel.setBounds(50, 86, 60, 22);
+		
+		
 		orderIdTextField = new JTextField();
 		orderIdTextField.setBounds(105, 82, 180, 22);
+		OrderblService orderblService = new Order();
+		IdblService idblService = orderblService.getIdblService();
+		orderIdTextField.setText(idblService.createNewId());
+		orderIdTextField.setEditable(false);
+		
 		weightLabel = new JLabel("重量");
 		weightLabel.setBounds(54, 121, 40, 22);
 		weighTextField = new JTextField();
 		weighTextField.setBounds(105, 118, 60, 22);
+		weighTextField.setText("0");
 		weightUnitLabel = new JLabel("Kg");
 		weightUnitLabel.setBounds(170, 118, 30, 22);
 		volumeLabel = new JLabel("体积");
 		volumeLabel.setBounds(54, 152, 40, 22);
 		volumeTextField = new JTextField();
 		volumeTextField.setBounds(105, 152, 60, 22);
+		volumeTextField.setText("0");
 		volumnUnitLabel = new JLabel("m^3");
 		volumnUnitLabel.setBounds(165, 153, 30, 22);
 		goodsInfoLabel = new JLabel("物品信息");
 		goodsInfoLabel.setBounds(35, 184, 80, 22);
 		goodsInfoTextField = new JTextField();
 		goodsInfoTextField.setBounds(105, 184, 180, 22);
+		goodsInfoTextField.setText("");
 		wrapWayLabel = new JLabel("包装方式");
 		wrapWayLabel.setBounds(35, 218, 80, 22);
 		woodenWrapButton = new JRadioButton("木箱");
@@ -189,28 +195,29 @@ public class OrderCreateDialog extends JDialog{
 		this.add(orderIdTextField);
 		this.add(orderIdLabel);
 		this.add(orderinfoLabel);
-	}
-
 	
-	public void recipientInfoInit(){
 		recipientInfoLabel = new JLabel("收件人信息");
 		recipientInfoLabel.setBounds(10, 293, 100, 22);
 		recipientNameLabel = new JLabel("姓名");
 		recipientNameLabel.setBounds(39, 333, 40, 22);
 		recipientNameTextField = new JTextField();
 		recipientNameTextField.setBounds(89, 330, 60, 22);
+		recipientNameTextField.setText("");
 		recipientTelLabel = new JLabel("电话");
 		recipientTelLabel.setBounds(39, 364, 40, 22);
 		recipientTeltTextField = new JTextField();
 		recipientTeltTextField.setBounds(89, 362, 180, 22);
+		recipientTeltTextField.setText("");
 		recipientCellLabel = new JLabel("手机");
 		recipientCellLabel.setBounds(39, 396, 40, 22);
 		recipientCellTextField = new JTextField();
 		recipientCellTextField.setBounds(89, 396, 180, 22);
+		recipientCellTextField.setText("");
 		recipientAddressLabel = new JLabel("地址");
 		recipientAddressLabel.setBounds(39, 439, 40, 22);
 		recipientAdressTextField = new JTextField();
 		recipientAdressTextField.setBounds(89, 439, 180, 22);
+		recipientAdressTextField.setText("");
 		this.add(recipientAdressTextField);
 		this.add(recipientAddressLabel);
 		this.add(recipientCellTextField); 
@@ -220,28 +227,160 @@ public class OrderCreateDialog extends JDialog{
 		this.add(recipientNameTextField);
 		this.add(recipientNameLabel);
 		this.add(recipientInfoLabel);	
-	}
 	
-	
-	public void senderInfoinit(){
 		senderInfoLabel = new JLabel("寄件人信息");
 		senderInfoLabel.setBounds(10, 488, 100, 22);
 		senderNameLabel = new JLabel("姓名");
 		senderNameLabel.setBounds(39, 531, 40, 22);
 		senderNameTextField = new JTextField();
 		senderNameTextField.setBounds(89, 531, 60, 22);
+		senderNameTextField.setText("");
 		senderTelLabel = new JLabel("电话");
 		senderTelLabel.setBounds(39, 566, 40, 22);
 		senderTeltTextField = new JTextField();
 		senderTeltTextField.setBounds(89, 566, 180, 22);
+		senderTeltTextField.setText("");
 		senderCellLabel = new JLabel("手机");
 		senderCellLabel.setBounds(39, 600, 40, 22);
 		senderCellTextField = new JTextField();
 		senderCellTextField.setBounds(89, 600, 180, 22);
+		senderCellTextField.setText("");
 		senderAddressLabel = new JLabel("地址");
 		senderAddressLabel.setBounds(39, 631, 40, 22);
 		senderAdressTextField = new JTextField();
 		senderAdressTextField.setBounds(89, 631, 180, 22);
+		senderAdressTextField.setText("");
+		
+		
+		this.add(senderAdressTextField);
+		this.add(senderAddressLabel);
+		this.add(senderCellTextField); 
+		this.add(senderCellLabel);
+		this.add(senderTelLabel);
+		this.add(senderTeltTextField);
+		this.add(senderNameTextField);
+		this.add(senderNameLabel);
+		this.add(senderInfoLabel);
+		
+		Checker senderNameChecker = new Checker(senderNameTextField, new CheckInfoGetter() {		
+			@Override
+			public CheckInfo getCheckInfo() {				
+				return new Name(senderNameTextField.getText());
+			}
+		});	
+		
+		senderNameTextField.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				senderNameChecker.check();
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
+		
+		Checker receiverNameChecker = new Checker(recipientNameTextField, new CheckInfoGetter() {			
+			@Override
+			public CheckInfo getCheckInfo() {
+				
+				return new Name(recipientNameTextField.getText());
+			}
+		});
+		
+		recipientNameTextField.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				receiverNameChecker.check();
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
+		
+		Checker senderAddressChecker = new Checker(senderAdressTextField, new CheckInfoGetter() {
+			
+			@Override
+			public CheckInfo getCheckInfo() {
+				// TODO Auto-generated method stub
+				return new OrderAddress(senderAdressTextField.getText());
+			}
+		});
+		
+		senderAdressTextField.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				senderAddressChecker.check();
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
+		
+		Checker receiverAddressChecker = new Checker(recipientAdressTextField, new CheckInfoGetter() {
+			
+			@Override
+			public CheckInfo getCheckInfo() {
+				return new OrderAddress(recipientAdressTextField.getText());
+			}
+		});
+		
+		recipientAdressTextField.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				receiverAddressChecker.check();
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
 		
 		senderAdressTextField.addFocusListener(new FocusListener() {
 			@Override
@@ -281,20 +420,8 @@ public class OrderCreateDialog extends JDialog{
 			}
 		});
 		
-		this.add(senderAdressTextField);
-		this.add(senderAddressLabel);
-		this.add(senderCellTextField); 
-		this.add(senderCellLabel);
-		this.add(senderTelLabel);
-		this.add(senderTeltTextField);
-		this.add(senderNameTextField);
-		this.add(senderNameLabel);
-		this.add(senderInfoLabel);
-	}
-	
-	
-	public void buttonFunction(){
 		
+			
 		confirmButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -317,7 +444,7 @@ public class OrderCreateDialog extends JDialog{
 				else
 					deliverWay = DeliveryWay.FAST;
 				
-				OrderCreateVO orderCreateVO = new OrderCreateVO(new String(orderIdTextField.getText()),
+				OrderCreateVO orderCreateVO = new OrderCreateVO(orderIdTextField.getText(),
 						senderNameTextField.getText(),senderAdressTextField.getText(), 
 						senderTeltTextField.getText(), senderCellTextField.getText(), 
 						recipientNameTextField.getText(), recipientAdressTextField.getText(), 

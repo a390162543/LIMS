@@ -52,6 +52,6 @@ public class StorageSetAreaVO {
 
 	public StoragePO getInitialStoragePO(){
 		return new StoragePO(airCapacity, motorCapacity, carCapacity, trainCapacity, 
-				airCapacity+motorCapacity+carCapacity+trainCapacity, 0, alarm, new Date(), storageId);
+				(airCapacity+motorCapacity+carCapacity+trainCapacity)*1000, 0, alarm, new Date(), storageId);
 	}
 }

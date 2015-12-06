@@ -10,6 +10,8 @@ import java.util.List;
 import po.OrderPO;
 import systemenum.DeliveryWay;
 import systemenum.DocumentState;
+import systemenum.Position;
+import systemenum.StorageState;
 import systemenum.WrapWay;
 import dataservice.OrderDataService;
 import vo.GoodsVO;
@@ -22,6 +24,9 @@ import vo.InOrderCheckResultVO;
 import vo.OutOrderCheckResultVO;
 import vo.StoreinOrderVO;
 import businesslogic.citybl.City;
+import businesslogic.idbl.IdManager;
+import businesslogic.idbl.OrderIdManager;
+import businesslogicservice.IdblService;
 import businesslogicservice.OrderblService;
 
 public class Order implements OrderblService{
@@ -91,6 +96,9 @@ public class Order implements OrderblService{
 		try {
 			OrderDataService ods = (OrderDataService)Naming.lookup("rmi://localhost/OrderData");
 			OrderPO po = ods.find(orderId);
+			if (po == null) {
+				return null;
+			}
 			orderQueryVO = po.getOrderQueryVO();
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
@@ -106,6 +114,7 @@ public class Order implements OrderblService{
 		return orderQueryVO;
 	}
 
+	//库存查看时
 	public OutOrderCheckResultVO findStoreout(String id){
 		
 		OutOrderCheckResultVO outCheckResultVO = null;
@@ -128,10 +137,10 @@ public class Order implements OrderblService{
 		return outCheckResultVO;
 	}
 	
+	//库存查看时
 	public InOrderCheckResultVO findStorein(String id) {
 		
-		InOrderCheckResultVO inCheckResultVO = null;
-		
+		InOrderCheckResultVO inCheckResultVO = null;		
 		try {
 			OrderDataService orderDataService = (OrderDataService)Naming.lookup("rmi://localhost/OrderData");
 			OrderPO po = orderDataService.find(id);
@@ -238,11 +247,16 @@ public class Order implements OrderblService{
 		return orderPendingVOs;
 	}
 	
+	
+	//返回在库存里面的订单，库存盘点
 	public StoreinOrderVO getStorageOrderVO(String orderId) {
 		StoreinOrderVO storeinOrderVO = null;
 		try {
 			OrderDataService ods = (OrderDataService) Naming.lookup("rmi://localhost/OrderData");
 			OrderPO po = ods.find(orderId);
+			if (po == null) {
+				return null;
+			}
 			storeinOrderVO = po.getStorageOrderVO();
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
@@ -257,6 +271,8 @@ public class Order implements OrderblService{
 		return storeinOrderVO;
 	}
 	
+	
+	//入库单执行时改变订单的位置信息
 	public boolean setStorageState(StoreinOrderVO vo){
 		try {
 			OrderDataService ods = (OrderDataService) Naming.lookup("rmi://localhost/OrderData");
@@ -276,6 +292,8 @@ public class Order implements OrderblService{
 		return true;
 	}
 	
+	
+	//出库单执行时改变订单的库存信息
 	public boolean setStoreoutState (String orderId) {
 		try {
 			OrderDataService ods = (OrderDataService) Naming.lookup("rmi://localhost/OrderData");
@@ -294,6 +312,7 @@ public class Order implements OrderblService{
 		}
 		return true;
 	}
+	
 	
 	public boolean modifyDeliverInfo (OrderDeliverInfoVO vo) {
 		try {
@@ -314,6 +333,29 @@ public class Order implements OrderblService{
 		return true;
 	}
 	
+	public OrderSignVO getOrderSignVO (String orderId) {
+		OrderSignVO orderSignVO = null;
+		try {
+			OrderDataService ods = (OrderDataService) Naming.lookup("rmi://localhost/OrderData");
+			OrderPO po = ods.find(orderId);
+			if (po == null) {
+				return null;
+			}
+			orderSignVO = po.getOrderSignVO();	
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NotBoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return orderSignVO;
+	}
+	
+	
 	public GoodsVO getGoodsVO (String orderId) {
 		GoodsVO goodsVO = null;
 		try {
@@ -332,6 +374,8 @@ public class Order implements OrderblService{
 		}
 		return goodsVO;
 	} 
+	
+	
 	
 	public OrderRevenueVO getOrderRevenueVO (String orderId) {
 		OrderRevenueVO orderRevenueVO = null;
@@ -371,5 +415,109 @@ public class Order implements OrderblService{
 			e.printStackTrace();
 		}
 		return true;
+	}
+
+
+	@Override
+	public IdblService getIdblService() {
+		OrderDataService orderDataService = null;
+		try {
+			orderDataService = (OrderDataService) Naming.lookup("rmi://localhost/OrderData");	
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NotBoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return new OrderIdManager(orderDataService, 6);
+	}
+	
+	//改变正在入库订单的状态
+	public boolean storeinOrderState(String orderId) {
+		OrderDataService orderDataService = null;
+		try {
+			orderDataService = (OrderDataService) Naming.lookup("rmi://localhost/OrderData");	
+			OrderPO po = orderDataService.find(orderId);
+			if (po == null) {
+				return false;
+			}
+			po.setStorageState(StorageState.ISSTORING);
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NotBoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return true;
+	}
+	
+	//恢复订单的库存状态null
+	public boolean restoreOrderState(String orderId) {
+		OrderDataService orderDataService = null;
+		try {
+			orderDataService = (OrderDataService) Naming.lookup("rmi://localhost/OrderData");	
+			OrderPO po = orderDataService.find(orderId);
+			po.setStorageState(null);
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NotBoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return true;
+	}
+	
+	//正在出库时订单状态的改变
+	public boolean storeoutOrderState(String orderId) {
+		OrderDataService orderDataService = null;
+		try {
+			orderDataService = (OrderDataService) Naming.lookup("rmi://localhost/OrderData");	
+			OrderPO po = orderDataService.find(orderId);
+			po.setStorageState(StorageState.ISSTORINGOUT);
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NotBoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return true;
+	}
+	
+	public StorageState getStorageState (String orderId){
+		OrderPO po = null;
+		OrderDataService orderDataService = null;
+		try {
+			orderDataService = (OrderDataService) Naming.lookup("rmi://localhost/OrderData");	
+			po = orderDataService.find(orderId);
+			if (po == null) {
+				return null;
+			}
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NotBoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return po.getStorageState();
 	}
 }

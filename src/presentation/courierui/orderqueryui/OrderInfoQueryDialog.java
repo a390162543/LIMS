@@ -2,13 +2,19 @@ package presentation.courierui.orderqueryui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import presentation.util.CheckInfoGetter;
+import presentation.util.Checker;
 import vo.OrderQueryVO;
+import businesslogic.checkbl.CheckInfo;
+import businesslogic.checkbl.orderinfo.OrderQueryId;
 import businesslogic.orderbl.Order;
 import businesslogicservice.OrderblService;
 
@@ -29,11 +35,7 @@ public class OrderInfoQueryDialog extends JDialog{
 	private JButton confirmButton;
 	
 	public OrderInfoQueryDialog(){
-		init();
-		buttonFuncton();
-	}
-	
-	public void init(){
+		
 		this.setTitle("∂©µ•≤È—Ø");	
 		this.setSize(380, 210);
 		this.setLayout(null);
@@ -49,9 +51,35 @@ public class OrderInfoQueryDialog extends JDialog{
 		this.setLocationRelativeTo(null);
         this.setResizable(false);
         this.setVisible(true);
-	}
 	
-	public void buttonFuncton(){
+		Checker orderIdChecker = new Checker(orderInfoTextField, new CheckInfoGetter() {			
+			@Override
+			public CheckInfo getCheckInfo() {	
+				return new OrderQueryId(orderInfoTextField.getText());
+			}
+		});
+        
+		orderInfoTextField.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				orderIdChecker.check();
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
 		
 		confirmButton.addActionListener(new ActionListener() {	
 			@Override
