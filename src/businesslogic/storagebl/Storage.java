@@ -21,6 +21,7 @@ import dataservice.StorageDataService;
 import vo.StorageCheckVO;
 import vo.StorageQueryResultVO;
 import vo.StorageSetAreaVO;
+import vo.StorageVO;
 import vo.StoreinCheckVo;
 import vo.StoreinCreateVO;
 import vo.StoreinOrderVO;
@@ -33,6 +34,7 @@ import businesslogic.ExcelExporter;
 import businesslogic.orderbl.Order;
 import businesslogic.storeinbl.Storein;
 import businesslogic.storeoutbl.Storeout;
+import businesslogic.userbl.LoginController;
 import businesslogicservice.StorageblService;
 
 public class Storage implements StorageblService{
@@ -46,7 +48,7 @@ public class Storage implements StorageblService{
 			if (po==null) {
 				po = vo.getInitialStoragePO();
 				//在库存里添加辅助类，用于TXT的初始化，更新
-				storageHelper.initLocationInfo("0250", vo.getAirCapacity(), vo.getCarCapacity(), vo.getTrainCapacity(), vo.getMotorCapacity());
+				storageHelper.initLocationInfo(LoginController.getOrganizationId(), vo.getAirCapacity(), vo.getCarCapacity(), vo.getTrainCapacity(), vo.getMotorCapacity());
 				storageDataService.update(po);
 				return true;
 			}
@@ -205,5 +207,67 @@ public class Storage implements StorageblService{
 		return storageQueryResultVOs;
 	}
 	
+	public boolean addNowCapacity(String storageId) {
+		try {
+			StorageDataService storageDataService = (StorageDataService) Naming.lookup("rmi://localhost/StorageData");
+			StoragePO po = storageDataService.find(storageId);
+			int nowCapacity = po.getNowCapacity();
+			nowCapacity++;
+			po.setNowCapacity(nowCapacity);
+			storageDataService.update(po);
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NotBoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return true;
+	}
 	
+	public boolean reduceNowCapacity(String storageId){
+		try {
+			StorageDataService storageDataService = (StorageDataService) Naming.lookup("rmi://localhost/StorageData");
+			StoragePO po = storageDataService.find(storageId);
+			int nowCapacity = po.getNowCapacity();
+			nowCapacity--;
+			po.setNowCapacity(nowCapacity);
+			storageDataService.update(po);
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NotBoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return true;
+	}
+	
+	public StorageVO getStorageVO (String storageId){
+		StorageVO storageVO = null;
+		try {
+			StorageDataService storageDataService = (StorageDataService) Naming.lookup("rmi://localhost/StorageData");
+			StoragePO po = storageDataService.find(storageId);
+			if (po == null) {
+				return null;
+			}
+			storageVO = po.getStorageVO();
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NotBoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return storageVO;
+	}
 }

@@ -88,5 +88,80 @@ public class StorageHelper {
 		return true;
 	}
 	
+	public int getMaxAir(String storageId) {
+		int max = 0;
+		try {
+			StorageLocationDataService storageLocationDataService = (StorageLocationDataService) Naming.lookup("rmi://localhost/LocationData");
+			max = storageLocationDataService.getMaxAir(storageId);
+			
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NotBoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return max;
+	}
+	
+	public int getMaxTrain(String storageId) {
+		int max = 0;
+		try {
+			StorageLocationDataService storageLocationDataService = (StorageLocationDataService) Naming.lookup("rmi://localhost/LocationData");
+			max = storageLocationDataService.getMaxTrain(storageId);
+			
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NotBoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return max;
+	}
+	
 
+	public int getMaxCar(String storageId) {
+		int max = 0;
+		try {
+			StorageLocationDataService storageLocationDataService = (StorageLocationDataService) Naming.lookup("rmi://localhost/LocationData");
+			max = storageLocationDataService.getMaxCar(storageId);
+			
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NotBoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return max;
+	}
+	
+	public int getMaxFree(String storageId) {
+		int max = 0;
+		try {
+			StorageLocationDataService storageLocationDataService = (StorageLocationDataService) Naming.lookup("rmi://localhost/LocationData");
+			max = storageLocationDataService.getMaxFree(storageId);
+			
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NotBoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return max;
+	}
 }
