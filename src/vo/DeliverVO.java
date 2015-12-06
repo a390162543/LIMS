@@ -47,6 +47,10 @@ public class DeliverVO {
         return courierId;
     }
 
+    public void setCourierId(String courierId) {
+        this.courierId = courierId;
+    }
+
     public DeliverPO getDeliverPO() {
         return new DeliverPO(id, deliverDate, orderId, courierId);
     }

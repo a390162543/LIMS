@@ -18,9 +18,9 @@ public class OrderTableModel extends DefaultTableModel{
 	 * 
 	 */
 	private static final long serialVersionUID = 3918481690066300511L;
- 
+
     private List<GoodsVO> dataList;
-    private static final String[] TABLE_HEADER = {"订单编号","重量","出发地","目的地"};
+    private static final String[] TABLE_HEADER = {"订单编号","重量","出发地"};
     private LoadblService loadblService;
  
     
@@ -93,9 +93,6 @@ public class OrderTableModel extends DefaultTableModel{
         rowVector.add(vo.getId()); 
         rowVector.add(vo.getWeight());
         rowVector.add(vo.getDepart());
-        rowVector.add(vo.getDestination());
-       
-        
         return rowVector;
     }
 //    

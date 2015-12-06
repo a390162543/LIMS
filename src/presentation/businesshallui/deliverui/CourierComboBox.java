@@ -10,7 +10,7 @@ import vo.EmployeeVO;
 import businesslogic.BusinessLogicService;
 import businesslogicservice.DeliverblService;
 
-class CourierComboBox extends JComboBox<String>{
+public class CourierComboBox extends JComboBox<String>{
 
 	/**
 	 * 
@@ -41,5 +41,6 @@ class CourierComboBox extends JComboBox<String>{
 	    EmployeeVO vo = couriersList.get(getSelectedIndex());
 	    return vo.getId();
 	}
+	
 
 }

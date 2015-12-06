@@ -45,7 +45,7 @@ public class ArrivalPendingTableModel extends DefaultTableModel {
     
     @SuppressWarnings({ "unchecked", "rawtypes" })
     public Class getColumnClass(int column) {  
-        Class returnValue;  
+        Class returnValue;
         if ((column >= 0) && (column < getColumnCount())) {  
             returnValue = getValueAt(0, column).getClass();  
         } else {  

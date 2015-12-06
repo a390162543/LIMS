@@ -5,8 +5,16 @@ import java.util.Date;
 import po.ArrivalPO;
 import systemenum.GoodsState;
 
+/**
+ * {@code ArrivalVO}是到达单界面与业务逻辑层之间传递的值对象，
+ * 记录了到达单的所有信息
+ * @author 林祖华
+ * @version 1.6
+ * @see systemenum.GoodsState
+ */
 public class ArrivalVO {
     
+
     private String id;
     private Date arrivalDate;
     private String transferId;
@@ -14,8 +22,8 @@ public class ArrivalVO {
     private String depart;
     private String destination;
     private GoodsState goodsState;
-
     
+    @Deprecated
     public ArrivalVO(String id, Date arrivalDate, String transferId,
             String depart, GoodsState gs){
         this.id = id;
@@ -37,22 +45,6 @@ public class ArrivalVO {
         this.goodsState = goodsState;
         if(transferId.length() == 17)
             isTransferId = true;
-    }
-
-    public String getIdString(){
-        if(destination.contains("中转中心"))
-            return String.format("%016d", id);
-        else
-            return String.format("%018d", id);
-    }
-    
-    public String getTransferIdString(){
-        if(depart.contains("中转中心") && destination.contains("中转中心"))
-            return String.format("%017d", transferId);
-        else if(depart.contains("中转中心"))
-            return String.format("%016d", transferId);
-        else
-            return String.format("%018d", transferId);
     }
     
     public String getId() {
@@ -87,6 +79,10 @@ public class ArrivalVO {
         return destination;
     }
     
+    /**
+     * 获取一个{@code ArrivalVO}对应的{@code ArrivalPO}对象
+     * @return {@code ArrivalPO}对象
+     */
     public ArrivalPO getArrivalPO() {
         return new ArrivalPO(id, arrivalDate, transferId, depart, destination, goodsState);
     }

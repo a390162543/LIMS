@@ -15,7 +15,7 @@ public class LoadPendingTableModel extends DefaultTableModel {
      */
     private static final long serialVersionUID = -5943766483972270998L;
     private List<LoadVO> dataList;
-    private static final String[] TABLE_HEADER = {"装车单编号","汽运编号","车辆代号","出发地","目的地","装车日期"};
+    private static final String[] TABLE_HEADER = {"装车单编号","车辆编号","出发地","目的地","装车日期"};
     private Load load;
     
     public LoadPendingTableModel() {
@@ -73,7 +73,6 @@ public class LoadPendingTableModel extends DefaultTableModel {
     private static Vector<Object> convertToVector(LoadVO vo){
         Vector<Object> rowVector = new Vector<Object>();
         rowVector.add(vo.getId());
-        rowVector.add(vo.getTransportId());
         rowVector.add(vo.getTruckId());
         rowVector.add(vo.getDepart());
         rowVector.add(vo.getDestination());

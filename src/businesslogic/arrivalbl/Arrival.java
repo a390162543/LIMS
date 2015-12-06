@@ -20,8 +20,17 @@ import businesslogic.transferbl.Transfer;
 import businesslogicservice.ArrivalblService;
 import businesslogicservice.IdblService;
 
+/**
+ * {@code Arrival}是到达单业务逻辑的实现类，提供所有有关到达单的业务逻辑服务
+ * @author 林祖华
+ * @version 1.6
+ * @see dataservice.ArrivalDataService
+ */
 public class Arrival implements ArrivalblService{
 
+    /**
+     * {@code Arrival}的数据层服务引用
+     */
     private ArrivalDataService arrivalDataService;
     
     public Arrival(){
@@ -85,7 +94,12 @@ public class Arrival implements ArrivalblService{
         }
         return false;
     }
-
+    
+    /**
+     * 获取所有待审批的{@code ArrivalVO}
+     * @return {@code Arrival}的列表，如果没有符合条件的{@code ArrivalVO}，或者查询
+     * 失败，则返回一个空列表
+     */
     public List<ArrivalVO> getPendingArrivalVO(){
         List<ArrivalPO> pos = null;
         List<ArrivalVO> vos = new ArrayList<ArrivalVO>();
@@ -101,7 +115,15 @@ public class Arrival implements ArrivalblService{
         return vos;
     }
     
-    
+    /**
+     * 获取符合条件的{@code ArrivalVO}
+     * 
+     * <p><Strong>该方法不推荐使用</Strong>
+     * @param field {@code ArrivalPO}对应的变量名
+     * @param value {@code ArrivalPO}对应的变量值
+     * @return 符合条件的{@code ArrivalVO}列表，如果不存在或者查询失败，则返回空列表
+     */
+    @Deprecated
     public List<ArrivalVO> finds(String field, Object value){
         List<ArrivalPO> pos = null;
         List<ArrivalVO> vos = new ArrayList<ArrivalVO>();

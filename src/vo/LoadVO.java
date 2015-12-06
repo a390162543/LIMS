@@ -98,6 +98,14 @@ public class LoadVO {
         return transman;
     }
 
+    public void setLoadMan(String loadMan) {
+        this.loadMan = loadMan;
+    }
+
+    public void setTransman(String transman) {
+        this.transman = transman;
+    }
+
     public List<String> getOrderId() {
         return orderId;
     }

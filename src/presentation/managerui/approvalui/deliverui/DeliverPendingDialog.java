@@ -2,14 +2,14 @@ package presentation.managerui.approvalui.deliverui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Date;
 
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import presentation.util.DialogLayoutManager;
+import presentation.util.RecentDatePickPanel;
 import vo.DeliverVO;
 
 public class DeliverPendingDialog extends JDialog {
@@ -24,9 +24,8 @@ public class DeliverPendingDialog extends JDialog {
     private static final String[] LABEL_NAMES = {"派件单编号","订单编号","快递员编号","派件日期"};
     
     private DeliverPendingTableModel tableModel;
-    
+    private JTextField[] textFields;
       
-    @SuppressWarnings("deprecation")
     public DeliverPendingDialog(DeliverPendingTableModel tm, int modelRow, boolean isEditable) {
         
         this.tableModel = tm;
@@ -39,46 +38,30 @@ public class DeliverPendingDialog extends JDialog {
             this.add(labels[i]);
         }
         
-        JTextField textFields[];
-        textFields = new JTextField[3];
+        textFields = new JTextField[2];
         for(int i=0;i<textFields.length;i++){
             textFields[i] = new JTextField();
             textFields[i].setBounds(100, 10+35*i, 150, 25);
+            textFields[i].setEnabled(false);
             this.add(textFields[i]);
         }
-        //set birth chooser
-//        JLabel[] birthLabels = new JLabel[3];
-//        String[] birthLabelNames = {"年","月","日"};
-//        for(int i=0;i<birthLabels.length;i++){
-//            birthLabels[i] = new JLabel();
-//            birthLabels[i].setText(birthLabelNames[i]);
-//            birthLabels[i].setBounds(145+50*i, 8+35*3, 20, 25);
-//            this.add(birthLabels[i]);
-//        }
-        JComboBox<Integer> yearComboBox = new JComboBox<Integer>();
-        JComboBox<Integer> monthComboBox = new JComboBox<Integer>();
-        JComboBox<Integer> dayComboBox = new JComboBox<Integer>();
-        for(int i=1960;i<=2015;i++)  yearComboBox.addItem(i);
-        for(int i=1;i<=12;i++)  monthComboBox.addItem(i);
-        for(int i=1;i<=31;i++)  dayComboBox.addItem(i);
-        yearComboBox.setBounds(100, 10+35*3, 70, 25);
-        monthComboBox.setBounds(170, 10+35*3, 60, 25);
-        dayComboBox.setBounds(230, 10+35*3, 60, 25);
-        this.add(yearComboBox);
-        this.add(monthComboBox);
-        this.add(dayComboBox);
+        
+        JTextField courierIdTextField = new JTextField();
+        courierIdTextField.setBounds(100, 10+35*2, 150, 25);
+        courierIdTextField.setEnabled(false);
+        this.add(courierIdTextField);
+        
+        RecentDatePickPanel datePickPanel = new RecentDatePickPanel();
+        datePickPanel.setBounds(100, 10+35*3, 200, 25);
+        datePickPanel.setEnabled(false);
+        this.add(datePickPanel);
         
         DeliverVO vo = tableModel.getDeliverVO(modelRow);
         textFields[0].setText(vo.getId());
         textFields[1].setText(vo.getOrderId());
-        textFields[2].setText(vo.getCourierId());
-        yearComboBox.setSelectedItem(vo.getDeliverDate().getYear());
-        monthComboBox.setSelectedItem(vo.getDeliverDate().getMonth());
-        dayComboBox.setSelectedItem(vo.getDeliverDate().getDate());
+        courierIdTextField.setText(vo.getCourierId());
+        datePickPanel.setTime(vo.getDeliverDate());
 
-        
-        // 如果textfield的编号和表格列号一一对应，上述代码也可以用for循环 
-        // textFields[i].setText((String) tableModel.getValueAt(modelRow, i));
         
         JButton confirmButton = new JButton("确认");
         confirmButton.setBounds(230, 240, 80, 30);
@@ -90,13 +73,13 @@ public class DeliverPendingDialog extends JDialog {
                     DeliverPendingDialog.this.dispose();
                     return;
                 }
-                DeliverVO vo = new DeliverVO(textFields[0].getText(), new Date(), textFields[1].getText(), textFields[2].getText());
                 tableModel.modify(modelRow, vo);
                 System.out.println("you've clicked confirm button..");
                 DeliverPendingDialog.this.dispose();
                 
             }
         });
+        this.add(confirmButton);
         if(isEditable){
             JButton cancleButton = new JButton("取消");
             cancleButton.setBounds(140, 240, 80, 30);
@@ -109,10 +92,10 @@ public class DeliverPendingDialog extends JDialog {
             });
             this.add(cancleButton);
         }
-        this.add(confirmButton);
+
 
         this.setSize(340, 320);
-        this.setLayout(null);
+        this.setLayout(new DialogLayoutManager());
         this.setLocationRelativeTo(null);
         this.setModalityType(ModalityType.APPLICATION_MODAL);
         this.setVisible(true);

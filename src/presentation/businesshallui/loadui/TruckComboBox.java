@@ -10,7 +10,7 @@ import vo.TruckVO;
 import businesslogic.BusinessLogicService;
 import businesslogicservice.TruckblService;
 
-class TruckComboBox extends JComboBox<String>{
+public class TruckComboBox extends JComboBox<String>{
 
 	/**
 	 * 

@@ -55,6 +55,7 @@ public class ArrivalPendingDialog extends JDialog {
         for(int i=0;i<textFields.length;i++){
             textFields[i] = new JTextField();
             textFields[i].setBounds(100, 10+35*i, 150, 25);
+            textFields[i].setEnabled(false);
             this.add(textFields[i]);
         }
         
@@ -70,6 +71,7 @@ public class ArrivalPendingDialog extends JDialog {
         this.add(destinationComboBox);
         
         RecentDatePickPanel datePickPanel = new RecentDatePickPanel();
+        datePickPanel.setEnabled(false);
         datePickPanel.setBounds(100, 10+35*4, 200, 25);
         this.add(datePickPanel);
         
@@ -169,7 +171,11 @@ public class ArrivalPendingDialog extends JDialog {
             });
             this.add(cancleButton);
         }
-
+        if(!isEditable){
+            jRadioButtons[0].setEnabled(false);
+            jRadioButtons[1].setEnabled(false);
+            jRadioButtons[2].setEnabled(false);
+        }
 
         this.setSize(340, 320);
         this.setLayout(new DialogLayoutManager());

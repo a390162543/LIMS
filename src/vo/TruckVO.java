@@ -45,6 +45,10 @@ public class TruckVO {
         return id;
     }
     
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public String getOrganization() {
         return organization;
     }
