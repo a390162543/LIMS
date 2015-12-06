@@ -2,6 +2,8 @@ package presentation.financeui.paymentui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -10,9 +12,15 @@ import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import presentation.util.CheckInfoGetter;
+import presentation.util.Checker;
 import presentation.util.DatePickPanel;
-import businesslogic.IdManagementService;
-import businesslogic.paymentbl.Payment;
+import businesslogic.BusinessLogicService;
+import businesslogic.checkbl.CheckInfo;
+import businesslogic.checkbl.accountinfo.AccountId;
+import businesslogic.checkbl.paymentinfo.PayeeAccountId;
+import businesslogic.checkbl.paymentinfo.PayeeName;
+import businesslogic.checkbl.paymentinfo.Remarks;
 import businesslogicservice.IdblService;
 import businesslogicservice.PaymentblService;
 import systemenum.Entry;
@@ -26,6 +34,7 @@ public class PaymentDialog extends JDialog{
 	 */
 	private static final long serialVersionUID = -165240080512733546L;
 
+	private PaymentblService paymentblService;
 	private JTextField paymentIdField;
  	private JTextField moneyField;
  	private JTextField nameField;
@@ -36,6 +45,7 @@ public class PaymentDialog extends JDialog{
  	private DatePickPanel datePickPanel;
  	
 	public PaymentDialog(){
+		paymentblService = BusinessLogicService.getPaymentblService();
 		int dialogx=380;
 		int dialogy=500;
 		this.setSize(dialogx+10, dialogy+30);
@@ -87,11 +97,11 @@ public class PaymentDialog extends JDialog{
 		paymentIdField.setLocation(textFieldx, textFieldy);
 		paymentIdField.setEditable(false);
 
-		IdblService paymentIdManager = IdManagementService.getPaymentIdManager();	
-		paymentIdField.setText(paymentIdManager.createNewId());
+		IdblService idblService = paymentblService.getIdblService();
+		paymentIdField.setText(idblService.createNewId());
 	
 		datePickPanel  = new DatePickPanel();
-		datePickPanel.setLocation(textFieldx+shortWidth+5,textFieldy+(interval2+textFieldHeight)*1);
+		datePickPanel.setLocation(textFieldx,textFieldy+(interval2+textFieldHeight)*1);
 		
 		moneyField=new JTextField();
 		moneyField.setSize(shortWidth,textFieldHeight);
@@ -113,18 +123,7 @@ public class PaymentDialog extends JDialog{
 		remarksArea=new JTextArea();
 		remarksArea.setSize(longWidth,85);
 		remarksArea.setLocation(textFieldx, textFieldy+(interval2+textFieldHeight)*7);
-		
-		JButton confirmButton=new JButton("确认");
-		confirmButton.setBounds(280,450, 70, 30);
-		confirmButton.addActionListener(new ConfirmButtonListener());
-		JButton cancelButton=new JButton("取消");
-		cancelButton.setBounds(190,450, 70, 30);
-		cancelButton.addActionListener(new ActionListener(){
-
-			public void actionPerformed(ActionEvent arg0) {
-				PaymentDialog.this.dispose();
-			}
-		});
+	
 		
 		this.setLayout(null);
 		this.add(paymentLabel);
@@ -145,7 +144,118 @@ public class PaymentDialog extends JDialog{
 		this.add(payerAccountBox);
 		this.add(entryBox);
 		this.add(remarksArea);
-		
+				
+		//检查机制
+      
+		Checker payeeNameChecker = new Checker(nameField , new CheckInfoGetter(){
+
+			@Override
+			public CheckInfo getCheckInfo() {
+				return new PayeeName(nameField.getText());
+			}
+        	
+        });
+        nameField.addKeyListener(new KeyListener(){
+
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+				payeeNameChecker.check();
+			}
+
+			@Override
+			public void keyTyped(KeyEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+        	
+        });
+        Checker payeeAccountIdChecker = new Checker(payeeAccountField , new CheckInfoGetter(){
+
+ 			@Override
+ 			public CheckInfo getCheckInfo() {
+ 				return new PayeeAccountId(payeeAccountField.getText());
+ 			}
+         	
+         });
+        payeeAccountField.addKeyListener(new KeyListener(){
+
+ 			@Override
+ 			public void keyPressed(KeyEvent arg0) {
+ 				// TODO Auto-generated method stub
+ 				
+ 			}
+
+ 			@Override
+ 			public void keyReleased(KeyEvent arg0) {
+ 				payeeAccountIdChecker.check();
+ 			}
+
+ 			@Override
+ 			public void keyTyped(KeyEvent arg0) {
+ 				// TODO Auto-generated method stub
+ 				
+ 			}
+         	
+         });
+         Checker remarksChecker = new Checker(remarksArea , new CheckInfoGetter(){
+
+ 			@Override
+ 			public CheckInfo getCheckInfo() {
+ 				return new Remarks(remarksArea.getText());
+ 			}
+         	
+         });
+         remarksArea.addKeyListener(new KeyListener(){
+
+ 			@Override
+ 			public void keyPressed(KeyEvent arg0) {
+ 				// TODO Auto-generated method stub
+ 				
+ 			}
+
+ 			@Override
+ 			public void keyReleased(KeyEvent arg0) {
+ 				remarksChecker.check();
+ 			}
+
+ 			@Override
+ 			public void keyTyped(KeyEvent arg0) {
+ 				// TODO Auto-generated method stub
+ 				
+ 			}
+         	
+         });
+ 		
+ 		JButton confirmButton=new JButton("确认");
+ 		confirmButton.setBounds(280,450, 70, 30);
+ 		confirmButton.addActionListener(new ActionListener(){
+
+ 			@Override
+ 			public void actionPerformed(ActionEvent arg0) {			
+ 				if(payeeNameChecker.check()&&payeeAccountIdChecker.check()&&remarksChecker.check()){
+ 					double money = Double.parseDouble(moneyField.getText());
+ 					new java.text.DecimalFormat("#.00").format(money);
+ 					PaymentVO vo = new PaymentVO( paymentIdField.getText(), datePickPanel.getDate() , money ,nameField.getText() , payeeAccountField.getText(), payerAccountBox.getSelectedItem().toString() , 	Entry.values()[entryBox.getSelectedIndex()] , remarksArea.getText());
+ 					paymentblService.createPaymentPO(vo);
+ 					PaymentDialog.this.dispose();
+ 				}		
+ 			}
+ 			
+ 		});
+ 		JButton cancelButton=new JButton("取消");
+ 		cancelButton.setBounds(190,450, 70, 30);
+ 		cancelButton.addActionListener(new ActionListener(){
+
+ 			public void actionPerformed(ActionEvent arg0) {
+ 				PaymentDialog.this.dispose();
+ 			}
+ 		});
 		this.add(confirmButton);
 		this.add(cancelButton);
 	
@@ -153,15 +263,5 @@ public class PaymentDialog extends JDialog{
         this.setVisible(true);
 	}
 	
-	class ConfirmButtonListener implements ActionListener{
 
-		public void actionPerformed(ActionEvent e) {			
-			double money = Double.parseDouble(moneyField.getText());
-			new java.text.DecimalFormat("#.00").format(money);
-			PaymentVO vo = new PaymentVO( paymentIdField.getText(), datePickPanel.getDate() , money ,nameField.getText() , payeeAccountField.getText(), payerAccountBox.getSelectedItem().toString() , 	Entry.values()[entryBox.getSelectedIndex()] , remarksArea.getText());
-			PaymentblService pbl = new Payment();
-			pbl.createPaymentPO(vo);
-			PaymentDialog.this.dispose();
-		}		
-	}
 }

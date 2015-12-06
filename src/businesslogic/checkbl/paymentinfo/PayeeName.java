@@ -1,21 +1,21 @@
-package businesslogic.checkbl.accountinfo;
+package businesslogic.checkbl.paymentinfo;
 
 import systemenum.CheckResult;
 import businesslogic.checkbl.CheckInfo;
 import businesslogic.checkbl.CheckResultMessage;
 
-public class AccountId implements CheckInfo{
+public class PayeeName implements CheckInfo{
 
-	private String accountId;
+	private String payeeName;
 	
-	public AccountId(String accountId){
-		this.accountId = accountId;
+	public PayeeName(String payeeName){
+		this.payeeName = payeeName;
 	}
 	@Override
 	public CheckResultMessage check() {
 		CheckResultMessage checkResultMessage = new CheckResultMessage();
-		if(!accountId.matches("[0-9]{19}")){
-			checkResultMessage.addInfo(CheckResult.FALSE, "账户编号长度应为19位数字");
+		if(!payeeName.matches("[\\u4e00-\\u9fa5]")){
+			checkResultMessage.addInfo(CheckResult.FALSE, "收款人姓名应由中英文组成");
 			return checkResultMessage;
 		}
 			

@@ -3,6 +3,7 @@ package presentation.financeui.primeinfoui.storeinui;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -11,6 +12,7 @@ import javax.swing.JTable;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
+import vo.StoreinCreateVO;
 import businesslogicservice.PrimeInfoblService;
 
 public class PrimeInfoStoreinPanel extends JPanel{
@@ -33,6 +35,41 @@ public class PrimeInfoStoreinPanel extends JPanel{
     private JButton queryButton;
     private JButton modifyButton;
     
+    
+    public PrimeInfoStoreinPanel(List<StoreinCreateVO> vos ){	
+        //build up account table
+        tableModel = new PrimeInfoStoreinTableModel(vos);  
+        tableSorter = new TableRowSorter<TableModel>(tableModel);
+        storeinTable = new JTable(tableModel);
+        storeinTable.setSize(800, 500);
+        storeinTable.setRowSorter(tableSorter);        
+        //set scroll pane
+        storeinScrollPane = new JScrollPane(storeinTable);
+        storeinScrollPane.setBounds(0, 10, 560, 370);
+        
+        queryButton = new JButton("详情");
+        queryButton.addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int row = storeinTable.getSelectedRow();
+                if(row == -1)
+                    return;
+                int modelRow = storeinTable.convertRowIndexToModel(row);
+                new PrimeInfoStoreinDialog(tableModel ,modelRow , false);
+                
+            }
+        });
+  
+        queryButton.setBounds(485, 390, 70, 30);
+        //set panel
+        this.setBounds(0, 15, 560, 470);
+        this.setLayout(null);
+        this.add(storeinScrollPane);
+        this.add(queryButton);
+
+    }
+    
     public PrimeInfoStoreinPanel(PrimeInfoblService primeInfoblService2){	
     	this.primeInfoblService = primeInfoblService2;
         //build up account table
@@ -47,7 +84,7 @@ public class PrimeInfoStoreinPanel extends JPanel{
         
         addButton = new JButton("添加");
         deleteButton = new JButton("删除");
-        createButton = new JButton("完成建账");
+        createButton = new JButton("新建账单");
         queryButton = new JButton("查询");
         modifyButton = new JButton("修改");
         addButton.addActionListener(new ActionListener() {

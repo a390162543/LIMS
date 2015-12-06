@@ -13,8 +13,8 @@ private String accountName;
 	@Override
 	public CheckResultMessage check() {
 		CheckResultMessage checkResultMessage = new CheckResultMessage();
-		if(accountName.matches("[0-9a-zA-z ()\\u4e00-\\u9fa5]+")){
-			checkResultMessage.addInfo(CheckResult.FALSE, "账户编号长度应为19位");
+		if(!accountName.matches("([0-9a-zA-z ()]|[\\u4e00-\\u9fa5])+")){
+			checkResultMessage.addInfo(CheckResult.FALSE, "账户名称应由数字，中英文，空格或括号组成");
 			return checkResultMessage;
 		}			
 		return checkResultMessage;

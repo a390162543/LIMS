@@ -3,6 +3,7 @@ package presentation.financeui.primeinfoui.orderui;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -11,6 +12,9 @@ import javax.swing.JTable;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
+
+
+import vo.OrderCreateVO;
 import businesslogicservice.PrimeInfoblService;
 
 public class PrimeInfoOrderPanel extends JPanel{
@@ -33,6 +37,41 @@ public class PrimeInfoOrderPanel extends JPanel{
     private JButton modifyButton;
     
 
+    public PrimeInfoOrderPanel(List<OrderCreateVO> vos ){	
+        //build up account table
+        tableModel = new PrimeInfoOrderTableModel(vos);  
+        tableSorter = new TableRowSorter<TableModel>(tableModel);
+        orderTable = new JTable(tableModel);
+        orderTable.setSize(800, 500);
+        orderTable.setRowSorter(tableSorter);        
+        //set scroll pane
+        orderScrollPane = new JScrollPane(orderTable);
+        orderScrollPane.setBounds(0, 10, 560, 370);
+        
+        queryButton = new JButton("详情");
+        queryButton.addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int row = orderTable.getSelectedRow();
+                if(row == -1)
+                    return;
+                int modelRow = orderTable.convertRowIndexToModel(row);
+                new PrimeInfoOrderDialog(tableModel ,modelRow , false);
+                
+            }
+        });
+  
+        queryButton.setBounds(485, 390, 70, 30);
+        //set panel
+        this.setBounds(0, 15, 560, 470);
+        this.setLayout(null);
+        this.add(orderScrollPane);
+        this.add(queryButton);
+
+    }
+    
+    
     
     public PrimeInfoOrderPanel(PrimeInfoblService primeInfoblService2){	
     	this.primeInfoblService = primeInfoblService2;
@@ -48,7 +87,7 @@ public class PrimeInfoOrderPanel extends JPanel{
         
         addButton = new JButton("添加");
         deleteButton = new JButton("删除");
-        createButton = new JButton("完成建账");
+        createButton = new JButton("新建账单");
         queryButton = new JButton("查询");
         modifyButton = new JButton("修改");
         addButton.addActionListener(new ActionListener() {

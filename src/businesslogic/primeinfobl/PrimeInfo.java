@@ -18,6 +18,7 @@ import vo.PrimeInfoVO;
 import vo.StoreinCreateVO;
 import vo.TruckVO;
 import businesslogic.accountbl.Account;
+import businesslogic.employeebl.Employee;
 import businesslogic.orderbl.Order;
 import businesslogic.organizationbl.Organization;
 import businesslogic.storeinbl.Storein;
@@ -160,8 +161,20 @@ public class PrimeInfo implements PrimeInfoblService{
 	}		
 	@Override
 	public boolean modifyEmployeeVO(EmployeeVO vo) {
-		// TODO Auto-generated method stub
-		return false;
+		List<EmployeeVO> employeeVOs = primeInfoVO.getEmployee();
+		for(EmployeeVO employeeVO :employeeVOs){
+			if(employeeVO.getId().equals(vo.getId())){
+				employeeVO.setName(vo.getName());
+				employeeVO.setOrganization(vo.getOrganization());
+				employeeVO.setPosition(vo.getPosition());
+				employeeVO.setTelephone(vo.getTelephone());
+				employeeVO.setBirthday(vo.getBirthday());
+				employeeVO.setIdentityCardNum(vo.getIdentityCardNum());
+				employeeVO.setSex(vo.getSex());
+				employeeVO.setPay(vo.getPay()); 
+			}
+		}
+		return true;
 	}
 	
 	@Override
@@ -178,8 +191,13 @@ public class PrimeInfo implements PrimeInfoblService{
 	}
 	@Override
 	public boolean modifyStoreinVO(StoreinCreateVO vo) {
-		// TODO Auto-generated method stub
-		return false;
+		List<StoreinCreateVO> storeinCreateVOs = primeInfoVO.getStorage();
+		for(StoreinCreateVO storeinCreateVO :storeinCreateVOs){
+			if(storeinCreateVO.getId().equals(vo.getId())){
+				storeinCreateVO.setOrganization(vo.getOrganization());
+			}
+		}
+		return true;
 	}
 	@Override
 	public boolean addOrderCheckResultVO(OrderCreateVO vo) {
@@ -195,8 +213,13 @@ public class PrimeInfo implements PrimeInfoblService{
 	}
 	@Override
 	public boolean modifyOrderVO(OrderCreateVO vo) {
-		// TODO Auto-generated method stub
-		return false;
+		List<OrderCreateVO> orderCreateVOs = primeInfoVO.getOrder();
+		for(OrderCreateVO orderCreateVO :orderCreateVOs){
+			if(orderCreateVO.getId().equals(vo.getId())){
+				orderCreateVO.setOrganization(vo.getOrganization());
+			}
+		}
+		return true;
 	}
 
 	@Override
@@ -210,10 +233,17 @@ public class PrimeInfo implements PrimeInfoblService{
 		Truck truck = new Truck();
 		for(TruckVO vo :truckVOs)
 			truck.execute(vo);
-//		Employee employee = new Employee();
-//		employee.execute(primeInfoVO.getEmployee());
-//		Organization organization = new Organization();
-//		organization.execute(primeInfoVO.getOrganization());
+		
+		List<EmployeeVO> employeeVOs = primeInfoVO.getEmployee();
+		Employee employee = new Employee();
+		for(EmployeeVO vo: employeeVOs)
+			employee.execute(vo);
+			
+		List<OrganizationVO> organizationVOs = primeInfoVO.getOrganization();
+		Organization organization = new Organization();
+		for(OrganizationVO vo: organizationVOs)
+			organization.execute(vo);
+		
 		List<StoreinCreateVO> vos = primeInfoVO.getStorage();
 		Storein Storein = new Storein();
 		for(StoreinCreateVO vo : vos)

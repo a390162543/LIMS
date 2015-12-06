@@ -37,10 +37,11 @@ public class Checker extends JLabel{
         this.checkInfoGetter = checkInfoGetter;
     }
     
-    public void check(){
+    public boolean check(){
         CheckInfo checkInfo = checkInfoGetter.getCheckInfo();
         CheckResultMessage checkResultMessage = checkInfo.check();
         showResult(checkResultMessage);
+        return isCorrect();
     }
     
     private void showResult(CheckResultMessage checkResultMessage){
@@ -64,7 +65,7 @@ public class Checker extends JLabel{
         this.setIcon(imageIcon);
     }
    
-    public boolean isCorrect(){
+    private boolean isCorrect(){
         return (checkResult != CheckResult.FALSE);
     }
 

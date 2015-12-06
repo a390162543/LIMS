@@ -9,11 +9,16 @@ import javax.swing.table.DefaultTableModel;
 
 
 
-import vo.AccountVO;
+
 import vo.OrderCreateVO;
 import businesslogicservice.PrimeInfoblService;
 
 public class PrimeInfoOrderTableModel extends DefaultTableModel {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2698293662866780331L;
 	
 	private PrimeInfoblService primeInfoblService;
     private List<OrderCreateVO> dataList;
@@ -24,6 +29,10 @@ public class PrimeInfoOrderTableModel extends DefaultTableModel {
     	this.primeInfoblService = primeInfoblService;
     	dataList = new ArrayList<OrderCreateVO>();
         setDataVector(convertToVectorData(dataList), getColumnNamesVector());
+    }
+    public PrimeInfoOrderTableModel(List<OrderCreateVO> vos) {  
+	    dataList = vos;
+	    setDataVector(convertToVectorData(dataList), getColumnNamesVector());
     }
     
     public void create(OrderCreateVO vo){

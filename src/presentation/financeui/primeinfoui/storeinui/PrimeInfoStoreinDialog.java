@@ -1,6 +1,5 @@
 package presentation.financeui.primeinfoui.storeinui;
 
-import java.awt.Dialog.ModalityType;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Date;
@@ -8,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
@@ -17,22 +15,9 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 
-
-
-
-
-
-import businesslogic.storeinbl.Storein;
-import businesslogicservice.StoreinblService;
-import presentation.financeui.primeinfoui.orderui.PrimeInfoOrderDialog;
-import presentation.financeui.primeinfoui.orderui.PrimeInfoOrderTableModel;
-import presentation.managerui.approvalui.storeinui.StoreinPendingDialog;
-import presentation.managerui.approvalui.storeinui.StoreinPendingTableModel;
 import presentation.storageui.storeinui.StoreinGoodsDialog;
 import presentation.util.OrganizationComboBox;
 import presentation.util.RecentDatePickPanel;
-import systemenum.StorageState;
-import vo.StorageLocationVO;
 import vo.StoreinCreateVO;
 
 public class PrimeInfoStoreinDialog extends JDialog{

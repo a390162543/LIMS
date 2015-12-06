@@ -2,7 +2,7 @@ package businesslogicservice;
 
 import vo.PaymentVO;
 
-public interface PaymentblService {
+public interface PaymentblService extends Identifiable{
 
 	public boolean createPaymentPO(PaymentVO vo);
 	

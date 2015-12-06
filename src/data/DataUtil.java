@@ -43,8 +43,7 @@ public class DataUtil {
             oos.close();
             return obj;
         } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            return null;
         } catch (ClassNotFoundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

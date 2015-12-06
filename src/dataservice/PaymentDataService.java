@@ -5,7 +5,7 @@ import java.rmi.RemoteException;
 import java.util.List;
 import po.PaymentPO;
 
-public interface PaymentDataService extends Remote{
+public interface PaymentDataService extends DataIdentifiable, Remote{
 	
 	public void insert(PaymentPO po) throws RemoteException;
 	

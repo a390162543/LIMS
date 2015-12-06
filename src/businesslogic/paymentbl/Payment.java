@@ -14,22 +14,33 @@ import systemenum.DocumentState;
 import dataservice.PaymentDataService;
 import vo.PaymentVO;
 import businesslogic.accountbl.Account;
+import businesslogic.idbl.PaymentIdManager;
+import businesslogicservice.IdblService;
 import businesslogicservice.PaymentblService;
 
 public class Payment implements PaymentblService{
 
+	private PaymentDataService paymentDataService;
+	
+	 public Payment(){
+	        try {
+	            paymentDataService = (PaymentDataService) Naming.lookup("rmi://localhost/PaymentData");
+	        } catch (MalformedURLException e) {
+	            // TODO Auto-generated catch block
+	            e.printStackTrace();
+	        } catch (RemoteException e) {
+	            // TODO Auto-generated catch block
+	            e.printStackTrace();
+	        } catch (NotBoundException e) {
+	            // TODO Auto-generated catch block
+	            e.printStackTrace();
+	        }
+	    }
 	@Override
 	public boolean createPaymentPO(PaymentVO vo) {
-        try {
-        	PaymentDataService pds = (PaymentDataService) Naming.lookup("rmi://localhost/PaymentData");
-            pds.insert(vo.getPaymentPO());
-        } catch (MalformedURLException e) {
-        	
-            e.printStackTrace();
+        try {     
+        	paymentDataService.insert(vo.getPaymentPO());
         } catch (RemoteException e) {
-        	
-            e.printStackTrace();
-        } catch (NotBoundException e) {
         	
             e.printStackTrace();
         }
@@ -39,17 +50,10 @@ public class Payment implements PaymentblService{
 	@Override
 	public boolean modifyPaymentPO(PaymentVO vo) {
         try {
-        	PaymentDataService pds = (PaymentDataService) Naming.lookup("rmi://localhost/PaymentData");
-            PaymentPO po = pds.find(vo.getId());
+            PaymentPO po = paymentDataService.find(vo.getId());
             po.update(vo);      	
-        	pds.update(po);
-        } catch (MalformedURLException e) {
-        	
-            e.printStackTrace();
+            paymentDataService.update(po);
         } catch (RemoteException e) {
-        	
-            e.printStackTrace();
-        } catch (NotBoundException e) {
         	
             e.printStackTrace();
         }
@@ -59,20 +63,13 @@ public class Payment implements PaymentblService{
 	@Override
 	public boolean execute(PaymentVO vo) {
 		 try {	        	
-			PaymentDataService pds = (PaymentDataService) Naming.lookup("rmi://localhost/PaymentData");
-			PaymentPO po = pds.find(vo.getId());
+			PaymentPO po = paymentDataService.find(vo.getId());
 			po.setDocumentState(DocumentState.PASS);
-	    	pds.update(po);
+			paymentDataService.update(po);
 	    	
 	    	Account account = new Account(); 
 	    	account.updateAccountBalance(po.getAccountId(), -po.getMoney());
-	    } catch (MalformedURLException e) {
-	    	
-	        e.printStackTrace();
 	    } catch (RemoteException e) {
-	    	
-	        e.printStackTrace();
-	    } catch (NotBoundException e) {
 	    	
 	        e.printStackTrace();
 	    }
@@ -83,17 +80,10 @@ public class Payment implements PaymentblService{
 	public List<PaymentVO> getPendingPaymentVO() {
 		List<PaymentVO> vos = new ArrayList<PaymentVO>() ;
         try {
-        	PaymentDataService pds = (PaymentDataService) Naming.lookup("rmi://localhost/PaymentData");
-        	List<PaymentPO> pos = pds.finds("documentState", DocumentState.PENDING);
+        	List<PaymentPO> pos = paymentDataService.finds("documentState", DocumentState.PENDING);
         	for(PaymentPO po: pos)
         		vos.add(po.getPaymentVO());
-        } catch (MalformedURLException e) {
-        	
-            e.printStackTrace();
         } catch (RemoteException e) {
-        	
-            e.printStackTrace();
-        } catch (NotBoundException e) {
         	
             e.printStackTrace();
         }
@@ -103,23 +93,22 @@ public class Payment implements PaymentblService{
 	public List<PaymentVO> queryPaymentVO(Date begindate, Date enddate){
 		 List<PaymentVO> vos = new ArrayList<PaymentVO>();
 	        try {
-	        	PaymentDataService pds = (PaymentDataService) Naming.lookup("rmi://localhost/PaymentData");
-	            List<PaymentPO> pos = pds.finds("date", begindate);
+	            List<PaymentPO> pos = paymentDataService.finds("date", begindate);
 	            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	            for(PaymentPO po : pos){
 	            	if((po.getDate().before(enddate)||sdf.format(po.getDate()).equals(sdf.format(enddate)))&&po.getDocumentState().equals(DocumentState.PASS))
 	            		vos.add(po.getPaymentVO());
 	            }
-	        } catch (MalformedURLException e) {
-
-	            e.printStackTrace();
 	        } catch (RemoteException e) {
 
 	            e.printStackTrace();
-	        } catch (NotBoundException e) {
-	  
-	            e.printStackTrace();
 	        }
 	        return vos;
+	}
+
+	@Override
+	public IdblService getIdblService() {
+		
+		return new PaymentIdManager(paymentDataService ,6);
 	}
 }

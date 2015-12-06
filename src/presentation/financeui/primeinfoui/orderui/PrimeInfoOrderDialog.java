@@ -11,22 +11,24 @@ import javax.swing.JLabel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
-import presentation.financeui.primeinfoui.primeinfoaccount.PrimeInfoAccountDialog;
-import presentation.financeui.primeinfoui.primeinfoaccount.PrimeInfoAccountTableModel;
-import presentation.financeui.primeinfoui.storeinui.PrimeInfoStoreinDialog;
-import presentation.financeui.primeinfoui.storeinui.PrimeInfoStoreinTableModel;
+
 import systemenum.DeliveryWay;
 import systemenum.GoodsState;
 import systemenum.WrapWay;
-import vo.AccountVO;
+
 import vo.OrderCreateVO;
-import businesslogic.orderbl.Order;
-import businesslogicservice.OrderblService;
+
 
 public class PrimeInfoOrderDialog extends JDialog{
 	
 	
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8288036146935771766L;
+	
+
 	private PrimeInfoOrderTableModel primeInfoOrderTableModel;
 	
 	private static final String[] LABEL_NAMES = {"订单号","重量","体积","物品信息","包装方式","运送方式",

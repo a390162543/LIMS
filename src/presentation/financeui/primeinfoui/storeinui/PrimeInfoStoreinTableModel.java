@@ -11,6 +11,8 @@ import javax.swing.table.DefaultTableModel;
 
 
 
+
+import vo.AccountVO;
 import vo.OrderCreateVO;
 import vo.StoreinCreateVO;
 import businesslogicservice.PrimeInfoblService;
@@ -30,6 +32,11 @@ public class PrimeInfoStoreinTableModel extends DefaultTableModel {
     	this.primeInfoblService = primeInfoblService;
     	dataList = new ArrayList<StoreinCreateVO>();
         setDataVector(convertToVectorData(dataList), getColumnNamesVector());
+    }
+    
+    public PrimeInfoStoreinTableModel(List<StoreinCreateVO> vos) {  
+	    dataList = vos;
+	    setDataVector(convertToVectorData(dataList), getColumnNamesVector());
     }
     
     public void create(StoreinCreateVO vo){

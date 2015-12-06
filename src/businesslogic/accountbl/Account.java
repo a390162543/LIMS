@@ -135,8 +135,8 @@ public class Account implements AccountblService {
 		return accountId;
 	}
 	
-	public boolean execute(List<AccountVO> vos){
+	public boolean execute(AccountVO vo){
 		
-		return true;
+		return createAccountPO(vo);
 	}
 }

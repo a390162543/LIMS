@@ -57,4 +57,6 @@ public interface PrimeInfoblService {
 	public boolean modifyOrderVO( OrderCreateVO vo);
 
 	public List<String> getOrganizationName();
+
+	public String getOrganizationId(String name);
 }
