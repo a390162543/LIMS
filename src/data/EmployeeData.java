@@ -15,7 +15,11 @@ import java.util.List;
 import po.EmployeePO;
 import dataservice.EmployeeDataService;
  
-
+/**
+ * {@code EmployeeData}是员工数据层的实现类，提供数据层所有服务
+ * @author 刘航伸
+ *@version 1.2
+ */
 public class EmployeeData extends UnicastRemoteObject implements EmployeeDataService{
 
 	/**

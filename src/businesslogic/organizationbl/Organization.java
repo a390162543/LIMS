@@ -1,12 +1,10 @@
 package businesslogic.organizationbl;
 
-import java.net.MalformedURLException;
-import java.rmi.Naming;
-import java.rmi.NotBoundException;
+
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
-
+import dataservice.DataService;
 import dataservice.OrganizationDataService; 
 import po.OrganizationPO;
 import vo.OrganizationVO;
@@ -15,36 +13,28 @@ import businesslogic.idbl.IdManager;
 import businesslogicservice.IdblService;
 import businesslogicservice.OrganizationblService;
 
+/**
+ * {@code Organization}是机构管理业务逻辑层的实现类，有所有机构管理的业务逻辑服务
+ * @author 刘航伸
+ * @version 1.6
+ *@see dataorganizaion.OrganizaionDataService
+ */
 public class Organization implements OrganizationblService{
 	
 	private OrganizationDataService organizationDataService;
+	private City city;
 	
 	public Organization() {
 		// TODO Auto-generated constructor stub
-		try { 
-        	 organizationDataService = (OrganizationDataService) Naming.lookup
-        			("rmi://localhost/OrganizationData");
-			 
-			} catch (MalformedURLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (NotBoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();		
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		city = new City();
+		organizationDataService = DataService.getOrganizationDataService();
 	}
 	
 	@Override
-	public boolean CreatOrganizationPO(OrganizationVO vo) {
+	public boolean createOrganizationPO(OrganizationVO vo) {
 		// TODO Auto-generated method stub
-		  try { 
-	        	 
-				organizationDataService.insert(vo.getOrganizationPO());
-				 
-			 	
+		  try {         	 
+				organizationDataService.insert(vo.getOrganizationPO());			 		 	
 			} catch (RemoteException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -123,6 +113,12 @@ public class Organization implements OrganizationblService{
 		return id;		
 	}
 	
+	/**
+	 * 根据机构名称获取距离的方法
+	 * @param organization1， 机构名称
+	 * @param organization2， 机构名称
+	 * @return 成功查询到两地距离返回其距离，否则返回0
+	 */
 	public double getDistanceByOrganizatioName(String organization1, String organization2){
 		City city = new City();
 		List<OrganizationVO> vos = getOrganizationVO();
@@ -154,6 +150,29 @@ public class Organization implements OrganizationblService{
 	public IdblService getIdblService() {
 		// 1TODO Auto-generated method stub
 		return new IdManager(organizationDataService, 2, false);
+	}
+
+	@Override
+	public String getCityId(String name) {
+		// TODO Auto-generated method stub
+		 
+		String id = city.getId(name);
+		return id;
+	}
+
+	@Override
+	public List<String> getAllCityName() {
+		// TODO Auto-generated method stub
+		List<String> names = new ArrayList<>();
+		names = city.getAllName();
+		return names;
+	}
+	
+	public void execute(OrganizationVO vo){
+		if(vo != null){
+			creatOrganizationPO(vo);
+		}
+		
 	}
 
 	 

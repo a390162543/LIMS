@@ -17,9 +17,16 @@ import vo.EmployeeVO;
 import vo.OrganizationVO;
 import vo.UserVO;
 
+/**
+ * 登录的辅助类，负责记录当前用户信息和提供相应业务逻辑服务
+ * @author 刘航伸
+ *@version 1.6
+ */
 public class LoginController {
  
- 
+	/**
+	 *{@code LoginController}的逻辑层引用 
+	 */
 	private static EmployeeVO employeeVO;
 	private static OrganizationVO organizationVO;
 	private UserblService userblService;

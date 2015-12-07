@@ -3,9 +3,13 @@ package po;
 import java.io.Serializable;
 
 import vo.PayVO;
-
  
-
+/**
+ * {@code PayPO}是员工业务逻辑层与数据层管理工资时之间传递的持久化对象，
+ * 记录了工资的所有信息
+ * @author 刘航伸
+ * @see vo.EmployeeVO
+ */
 public class PayPO implements Serializable{
 	
 	/**

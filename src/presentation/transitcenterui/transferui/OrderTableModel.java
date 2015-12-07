@@ -8,10 +8,12 @@ import javax.swing.table.DefaultTableModel;
 
 import businesslogicservice.TransferblService;
 import vo.GoodsVO;
- 
- 
- 
 
+/**
+ * 订单数据管理服务
+ * @author 刘航伸
+ * @version 1.3
+ */
 public class OrderTableModel extends DefaultTableModel{
 	 
 	/**

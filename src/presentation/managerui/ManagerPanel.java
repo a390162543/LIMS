@@ -10,10 +10,14 @@ import java.awt.event.ActionListener;
 
 
 
+
+
 import javax.swing.JButton;
  
 import javax.swing.JPanel;
 
+import presentation.financeui.paymentui.PaymentDialog;
+import presentation.financeui.settlementui.RevenuePanel;
 import presentation.managerui.approvalui.ApprovalPanel;
 import presentation.managerui.cityui.CreateCityDialog;
 import presentation.managerui.cityui.QueryDistanceDialog;
@@ -22,7 +26,11 @@ import presentation.managerui.employeeui.EmployeePanel;
 import presentation.managerui.organizationui.OrganizationPanel;
 
  
-
+/**
+ * 总经理的业务界面
+ * @author 刘航伸
+ * @version 1.2
+ */
 public class ManagerPanel  extends JPanel{
 	
 	 
@@ -37,7 +45,8 @@ public class ManagerPanel  extends JPanel{
 	private JButton approvalButton;
 	private JButton employeeButton;
 	private JButton organizationButton;
-	 
+	private JButton paymentButton;
+	private JButton revenueButton;
 	
 	
 	public ManagerPanel() {
@@ -49,6 +58,31 @@ public class ManagerPanel  extends JPanel{
 		int buttonWidth = 150;
 		int buttonHeight = 40;	
 		
+		paymentButton = new JButton("成本管理");
+		paymentButton.setBounds(30, 70, buttonWidth, buttonHeight);
+		paymentButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				new PaymentDialog();
+				 ManagerPanel.this.repaint();
+			}
+		});
+		
+		revenueButton = new JButton("查看经营情况表");
+		revenueButton.setBounds(30, 10, buttonWidth, buttonHeight);
+		revenueButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				 mainPanel.removeAll();
+				 mainPanel.add(new RevenuePanel(mainPanel));
+				 mainPanel.repaint();
+			}
+		});
+		
 		JButton addCityButton = new JButton("新增城市");
 		addCityButton.setBounds(30, 130, buttonWidth, buttonHeight);
 		addCityButton.addActionListener(new ActionListener() {
@@ -57,6 +91,7 @@ public class ManagerPanel  extends JPanel{
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				new CreateCityDialog();
+				 ManagerPanel.this.repaint();
 			}
 		});
 		
@@ -132,6 +167,8 @@ public class ManagerPanel  extends JPanel{
 		this.add(approvalButton);
 		this.add(employeeButton);
 		this.add(organizationButton);
+		this.add(revenueButton);
+		this.add(paymentButton);
 		this.add(mainPanel);
 	}
 	 

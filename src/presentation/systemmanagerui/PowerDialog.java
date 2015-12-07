@@ -14,12 +14,18 @@ import presentation.util.CheckInfoGetter;
 import presentation.util.Checker;
 import systemenum.Power;
 import vo.UserVO;
+import businesslogic.BusinessLogicService;
 import businesslogic.checkbl.CheckInfo;
 import businesslogic.checkbl.userinfo.UserId;
 import businesslogic.userbl.User;
 import businesslogicservice.UserblService;
  
-
+/**
+ * 查询，修改用户权限的界面
+ * @author 刘航伸
+ * @see UserblService
+ * @version 1.2
+ */
 public class PowerDialog extends JDialog{
 
 	/**
@@ -31,7 +37,7 @@ public class PowerDialog extends JDialog{
 	private Checker idChecker;
 	
 	public PowerDialog(){
-		userblService = new User();
+		userblService = BusinessLogicService.getUserblService();
 		String[] powerStr = new String[]{"总经理","营业厅业务员","中转中心业务员","快递员",
 				 "中转中心仓库管理员","高级财务人员","财务人员","管理员","司机"};
 	 

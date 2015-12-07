@@ -16,7 +16,12 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
 
-
+/**
+ * 员工管理界面
+ * @author 刘航伸
+ * @see presentation.employeeui.EmployeeDialog 
+ * @version 1.2
+ */
 public class EmployeePanel extends JPanel{
     
     /**

@@ -7,6 +7,14 @@ import po.PayPO;
 import systemenum.Position;
 import systemenum.Sex;
 
+/**
+ * {@code EmployeePO}是员工业务逻辑层与界面层之间传递的 对象，
+ * 记录了员工的所有信息
+ * @author 刘航伸
+ * @see po.PayPO
+ * @see systemenum.Sex
+ * @see systemenum.Position
+ */
 public class EmployeeVO {
 	private String id;
 	private String name;

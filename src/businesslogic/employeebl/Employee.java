@@ -1,63 +1,55 @@
 package businesslogic.employeebl;
 
-import java.lang.reflect.Executable;
-import java.net.MalformedURLException;
-import java.rmi.Naming;
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
-
 import po.EmployeePO;
 import systemenum.Position;
 import systemenum.Power;
+import dataservice.DataService;
 import dataservice.EmployeeDataService;
 import vo.EmployeeVO;
 import vo.PayVO;
 import vo.UserVO;
+import businesslogic.BusinessLogicService;
 import businesslogic.idbl.IdManager;
 import businesslogic.userbl.User;
 import businesslogicservice.EmployeeblService;
 import businesslogicservice.IdblService;
-import businesslogicservice.UserblService;
- 
+import businesslogicservice.OrganizationblService;
 
+ 
+/**
+ * {@code Employee}是员工业务逻辑的实现类，提供所有有关员工的业务逻辑服务
+ * @author 刘航伸
+ *
+ */
 public class Employee implements EmployeeblService{
 
 	private EmployeeDataService employeeDataService;
+	private User  user;
+	
 	 public Employee() {
 		// TODO Auto-generated constructor stub
-
-        try { 
-        	employeeDataService = (EmployeeDataService) Naming.lookup("rmi://localhost/EmployeeData");			 
-			} catch (MalformedURLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (NotBoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();		
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		 user = new User();       
+		 employeeDataService =  DataService.getEmployeeDataService();		 
+			 
 	}
+	  
 	@Override
 	public boolean creatEmployeePO(EmployeeVO vo) {
 		// TODO Auto-generated method stub
 		
-         try { 
-        	 
-			employeeDataService.insert(vo.getEmployeePO());
-			 
+         try {        	 
+			employeeDataService.insert(vo.getEmployeePO());			 
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
- 
-		 UserVO uservo = new UserVO(vo.getId(), "000000", Power.valueOf(vo.getPosition().toString()));
-		 UserblService userblService = new User();			  		 
-		 userblService.creatUserPO(uservo);
-
+         
+         //新建一个用户
+		 UserVO uservo = new UserVO(vo.getId(), "000000", Power.valueOf(vo.getPosition().toString()));		  	  		 
+		 user.creatUserPO(uservo);
 		return true;
 	}
 
@@ -70,8 +62,11 @@ public class Employee implements EmployeeblService{
 			 } catch (RemoteException e) {
 	            // TODO Auto-generated catch block
 	            e.printStackTrace();
-	        }  
-		return true;
+	        } 
+		 
+		 //删除用户帐号信息  	  		 
+		 user.deleteUserPO(vo.getId());
+		 return true;
 	}
 
 	@Override
@@ -105,13 +100,17 @@ public class Employee implements EmployeeblService{
 	}
 	 
 
- 
+  /**
+   * 获取一机构的司机信息
+   * @param organization, 机构名称
+   * @return {@code List<EmployeeVO}对象
+   */
 	public List<EmployeeVO> getDriverVO(String organiztion ) {
 		// TODO Auto-generated method stub
 		List<EmployeeVO> vos = new ArrayList<EmployeeVO>();
 		try {
 			 
-			 List<EmployeePO> pos= employeeDataService.finds("organiztion", organiztion);
+			 List<EmployeePO> pos= employeeDataService.finds("organization", organiztion);
 			 for(EmployeePO po : pos){
 				 if(po.getPosition().equals(Position.DRIVER))
 					 vos.add(po.getEmployeeVO());
@@ -165,7 +164,12 @@ public class Employee implements EmployeeblService{
 	}
 
 	
-//add pay
+/**
+ * 增加提成工资员工的销售额
+ * @param id, 员工id
+ * @param salesCommission， 销售额
+ * @return 成功添加返回true, 否则返回false
+ */
 	public boolean addPay(String id, double salesCommission){
 		EmployeeVO vo = find(id);
 		PayVO payvo = vo.getPay();
@@ -174,7 +178,11 @@ public class Employee implements EmployeeblService{
 		modifyEmployeePO(vo);
 		return true;
 	}
-	
+	/**
+	 * 增加 按次计费员工一次计数
+	 * @param id, 员工id
+	 * @return 成功增加返回true, 否则返回false
+	 */
 	public boolean addPay(String id){
 		EmployeeVO vo = find(id);
 		PayVO payvo = vo.getPay();
@@ -196,6 +204,25 @@ public class Employee implements EmployeeblService{
 		else{
 			creatEmployeePO(vo);
 			return true;
+		}
+		
+	}
+	@Override
+	public String getOrganizationId(String name) {
+		// TODO Auto-generated method stub
+	     OrganizationblService organizationblService = BusinessLogicService.getOrganizationblService();
+	     String id = organizationblService.getId(name);
+		return id;
+	}
+	@Override
+	public boolean createUserPO(UserVO vo) {
+		// TODO Auto-generated method stub
+		if(vo != null){
+			user.creatUserPO(vo);
+			return true;
+		}
+		else{
+			return false;
 		}
 		
 	}

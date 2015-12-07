@@ -6,6 +6,12 @@ import javax.swing.table.DefaultTableModel;
 import vo.TransferVO;
 import businesslogic.transferbl.Transfer;
 
+/**
+ * 审批中转单界面的数据服务
+ * @author 刘航伸
+ * @see Transfer ；
+ * @version 1.2
+ */
 public class TransferPendingTableModel extends DefaultTableModel {
 
     /**
@@ -43,17 +49,7 @@ public class TransferPendingTableModel extends DefaultTableModel {
         return getRowData(row);
     }
     
-//    @SuppressWarnings({ "unchecked", "rawtypes" })
-//    public Class getColumnClass(int column) {  
-//        Class returnValue;  
-//        if ((column >= 0) && (column < getColumnCount())) {  
-//            returnValue = getValueAt(0, column).getClass();  
-//        } else {  
-//            returnValue = Object.class;  
-//        }  
-//        return returnValue;  
-//    }  
-    
+
     public boolean isCellEditable(int row, int column) { 
         return false;
     }

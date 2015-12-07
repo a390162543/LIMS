@@ -2,12 +2,10 @@ package presentation.financeui.primeinfoui.organizationui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
- 
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
- 
 import java.util.List;
 
 import javax.swing.JButton;
@@ -15,21 +13,14 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
- 
 
-
-
-
- 
 import presentation.util.CheckInfoGetter;
 import presentation.util.Checker;
- 
 import vo.OrganizationVO;
+import businesslogic.BusinessLogicService;
 import businesslogic.checkbl.CheckInfo;
 import businesslogic.checkbl.organizationinfo.OrganizationName;
-import businesslogic.citybl.City;
-import businesslogic.organizationbl.Organization;
-import businesslogicservice.CityblService;
+import businesslogic.organizationbl.Organization; 
 import businesslogicservice.IdblService;
 import businesslogicservice.OrganizationblService;
 
@@ -49,8 +40,6 @@ public class PrimeInfoOrganizationDialog extends JDialog{
 	private JButton cancleButton;
 	private JButton sureButton;
 	private PrimeInfoOrganizationTableModel tableModel;
-	private CityblService cityblService;
- 
 	private OrganizationblService organizationblService;
 	private Checker organizationNameChecker;
  
@@ -62,19 +51,12 @@ public class PrimeInfoOrganizationDialog extends JDialog{
 		init();
 		tableModel = tm;		
 		cancleButton.addActionListener(new ActionListener() {
-
-			 
-			public void itemStateChanged(ItemEvent e) {
-				// TODO Auto-generated method stub			
-				setId(nameField.getText());
-				organizationNameChecker.check();
-			}
- 
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				
+				setId(nameField.getText());
+				organizationNameChecker.check();
+
 			}
 		});
 		
@@ -108,7 +90,7 @@ public class PrimeInfoOrganizationDialog extends JDialog{
 		});
 	}
 	public void setId(String organizationName){
-		String cityId = cityblService.getId
+		String cityId =  organizationblService.getCityId
 				((String)cityBox.getSelectedItem());
 		if(organizationName.contains("中转中心")){
 			IdblService idblService = organizationblService.getIdblService(1);
@@ -127,8 +109,8 @@ public class PrimeInfoOrganizationDialog extends JDialog{
  
 	
 	public void init(){		 
-		cityblService = new City();
-		List<String> cityList = cityblService.getAllName();
+		organizationblService = BusinessLogicService.getOrganizationblService();
+		List<String> cityList = organizationblService.getAllCityName();
 		String[] cityStr = cityList.toArray(new String[cityList.size()]);
 		 
 		nameLabel = new JLabel();

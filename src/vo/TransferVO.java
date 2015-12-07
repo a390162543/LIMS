@@ -2,11 +2,16 @@ package vo;
 
 import java.util.Date;
 import java.util.List;
-
 import po.TransferPO;
-import systemenum.DocumentState;
 import systemenum.ShipForm;
 
+/**
+ * {@code TransferPO}是中转单业务逻辑层与界面层之间传递的对象，
+ * 记录了中转单的所有信息
+ * @author 刘航伸
+ * @see systemenum.DocumentState
+ * @see systemenum.ShipForm shipForm
+ */
 public class TransferVO {
 	public ShipForm getShipForm() {
 		return shipForm;

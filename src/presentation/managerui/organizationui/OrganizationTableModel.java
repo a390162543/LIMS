@@ -1,17 +1,20 @@
 package presentation.managerui.organizationui;
 
- 
-
-
 import java.util.List;
 import java.util.Vector;
 
 import javax.swing.table.DefaultTableModel;
 
+import businesslogic.BusinessLogicService;
 import businesslogic.organizationbl.Organization;
 import businesslogicservice.OrganizationblService;
 import vo.OrganizationVO;
 
+/**
+ * 机构管理界面的数据管理
+ * @author 刘航伸
+ * @version 1.2
+ */
 public class OrganizationTableModel extends DefaultTableModel{
 
  
@@ -26,7 +29,7 @@ public class OrganizationTableModel extends DefaultTableModel{
     
     
     public OrganizationTableModel() {
-        OrganizationblService = new Organization();
+        OrganizationblService = BusinessLogicService.getOrganizationblService();
         dataList = OrganizationblService.getOrganizationVO();
         setDataVector(convertToVectorData(dataList), getColumnNamesVector());
     }
@@ -34,7 +37,7 @@ public class OrganizationTableModel extends DefaultTableModel{
     public void create(OrganizationVO vo){
         addRow(convertToVector(vo));
         dataList.add(vo);
-        OrganizationblService.CreatOrganizationPO(vo);
+        OrganizationblService.createOrganizationPO(vo);
     }
     
     public void delete(int row){

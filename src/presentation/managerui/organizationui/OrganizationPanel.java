@@ -16,7 +16,12 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
 
-
+/**
+ * 机构管理界面
+ * @author 刘航伸
+ * @see presentation.employeeui. OrganizationDialog 
+ * @version 1.2
+ */
 public class OrganizationPanel extends JPanel{
     
     
@@ -43,10 +48,12 @@ public class OrganizationPanel extends JPanel{
         tableSorter = new TableRowSorter<TableModel>(tableModel);
         OrganizationTable = new JTable(tableModel);
         OrganizationTable.setSize(800, 500);
-        OrganizationTable.setRowSorter(tableSorter);        
+        OrganizationTable.setRowSorter(tableSorter);   
+        
         //set scroll pane
         OrganizationScrollPane = new JScrollPane(OrganizationTable);
         OrganizationScrollPane.setBounds(0, 40, 560, 370);
+        
         //set other components on panel
         filterTextField = new JTextField();
         filterTextField.setToolTipText("请输入模糊查找字段");

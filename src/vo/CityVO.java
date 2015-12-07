@@ -4,6 +4,11 @@ import java.util.Map;
 
 import po.CityPO;
 
+/**
+ * {@code CityVO}是城市业务逻辑层与界面层之间传递的对象，
+ * 记录了城市的所有信息
+ * @author 刘航伸
+ */
 public class CityVO {
 	private String name;
 	private String id;

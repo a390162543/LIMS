@@ -1,5 +1,10 @@
 package vo;
 
+/**
+ * {@code GoodsVO}是 相关单据业务逻辑层与界面层之间传递的对象，
+ * 记录了订单id、货物重量、出发地和目的地等信息
+ * @author 刘航伸
+ */
 public class GoodsVO {
 	private String id;
 	private double weight;

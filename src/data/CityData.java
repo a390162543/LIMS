@@ -12,8 +12,11 @@ import java.util.List;
 import po.CityPO;
 import dataservice.CityDataService;
  
- 
-
+ /**
+  *{@code CityData}是城市管理数据区的具体实现类，提供数据层所有服务
+  * @author 刘航伸
+  *@version 1.3
+  */
 public class CityData extends UnicastRemoteObject implements CityDataService{
 
 	/**

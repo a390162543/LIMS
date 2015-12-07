@@ -7,7 +7,13 @@ import java.util.List;
 import systemenum.DocumentState;
 import systemenum.ShipForm;
 import vo.TransferVO;
-
+/**
+ * {@code TransferPO}是中转单业务逻辑层与数据层之间传递的持久化对象，
+ * 记录了中转单的所有信息
+ * @author 刘航伸
+ * @see systemenum.DocumentState
+ * @see systemenum.ShipForm shipForm
+ */
 public class TransferPO implements Serializable{
 	/**
 	 * 

@@ -16,7 +16,11 @@ import po.OrganizationPO;
  
 import dataservice.OrganizationDataService;
 
- 
+/**
+ * {@code OrganizationData}是机构数据层的实现类，提供数据层所有服务
+ * @author 刘航伸
+ *@version 1.2
+ */
 public class OrganizationData extends UnicastRemoteObject implements OrganizationDataService{
 
 	/**

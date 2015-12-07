@@ -4,7 +4,11 @@ import java.io.Serializable;
 
 import vo.ConstantVO;
 
-
+/**
+ * {@code ConstantPO}是价格业务逻辑层与数据层之间传递的持久化对象，
+ * 记录了价格的所有信息
+ * @author 刘航伸
+ */
 public class ConstantPO implements Serializable{
 	/**
 	 * 

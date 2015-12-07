@@ -27,6 +27,7 @@ import presentation.util.OrganizationComboBox;
 import presentation.util.RecentDatePickPanel;
 import systemenum.ShipForm;
 import vo.TransferVO;
+import businesslogic.BusinessLogicService;
 import businesslogic.checkbl.CheckInfo;
 import businesslogic.checkbl.transferinfo.OrderChecker;
 import businesslogic.checkbl.transferinfo.TransferNumber;
@@ -35,6 +36,12 @@ import businesslogic.userbl.LoginController;
 import businesslogicservice.IdblService;
 import businesslogicservice.TransferblService;
 
+/**
+ * 创建中转单界面
+ * @author 刘航伸
+ * @see TransferblService 
+ * @version 1.4
+ */
 public class TransferDialog extends JDialog{
 	/**
 	 * 
@@ -56,8 +63,9 @@ public class TransferDialog extends JDialog{
 	private Checker nameChecker;
 	
 	public TransferDialog(){
-		transferblService = new Transfer();	
+		transferblService = BusinessLogicService.getTransferblService();
 		
+		//设置组件
 		JLabel wayLabel = new JLabel("货运方式");
 		wayLabel.setBounds(20, 50, 80, 20);
 		flightButton = new JRadioButton("航空");
@@ -339,7 +347,8 @@ public class TransferDialog extends JDialog{
 		});
 		
 	}
-	
+
+	//显示运费
 	public void setExpensesField(){
 		double distance = 0.0;
 		String wayStr = "";
@@ -366,7 +375,7 @@ public class TransferDialog extends JDialog{
 			private static final long serialVersionUID = -5436641251910399740L;
 		 
 		
-		
+	//添加订单的界面
 		public AddOrderDialog( ){
 			 
 			 

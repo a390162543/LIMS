@@ -9,27 +9,24 @@ import java.util.List;
 
 import po.CityPO;
 import dataservice.CityDataService;
+import dataservice.DataService;
 import vo.CityVO;
 import businesslogicservice.CityblService;
 
+/**
+ * {@code City}是城市业务逻辑层的实现类， 提供所有城市相关的业务逻辑服务
+ * @author 刘航伸
+ * @version 1.6
+ *@see dataservice.CityDataService
+ */
 public class City implements CityblService{
-
+	/**
+	 * {@code City}的数据层服务引用
+	 */
 	private CityDataService cityDataService;
 	
-	public City(){
-		try { 
-        	 cityDataService = (CityDataService) Naming.lookup("rmi://localhost/CityData");
-			 
-			} catch (MalformedURLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (NotBoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();		
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public City(){	 
+		cityDataService =  DataService.getcCityDataService();		 	 
 	}
 	@Override
 	public boolean createCityPO(CityVO vo) {
@@ -128,7 +125,12 @@ public class City implements CityblService{
 			return nameList;
 			}		
 		}
-	
+	/**
+	 * 
+	 * @param city1, 
+	 * @param city2
+	 * @return	如果城市存在返回城市间距离，否则返回0
+	 */
 	public double getDistance(String city1, String city2){
 		CityPO po = null;
 		try {
@@ -143,7 +145,7 @@ public class City implements CityblService{
 		}
 		return 0;
 	}
-	@Override
+ 
 	public String getId(String name) {
 		// TODO Auto-generated method stub
 		String id = "";

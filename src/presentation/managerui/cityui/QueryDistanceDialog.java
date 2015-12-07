@@ -15,7 +15,11 @@ import javax.swing.JTextField;
 import vo.CityVO;
 import businesslogic.citybl.City;
 import businesslogicservice.CityblService;
-
+/**
+ * 查询、修改城市间距离的界面
+ * @author 刘航伸
+ * @version 1.2
+ */
 public class QueryDistanceDialog extends JDialog{
 	
 	/**

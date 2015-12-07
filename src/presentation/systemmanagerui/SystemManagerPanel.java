@@ -6,6 +6,11 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+/**
+ * 管理员的业务界面
+ * @author 刘航伸
+ * @version 1.3
+ */
 public class SystemManagerPanel extends JPanel{
 
 	/**

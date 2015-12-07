@@ -28,6 +28,12 @@ import businesslogic.checkbl.cityinfo.CityName;
 import businesslogic.citybl.City;
 import businesslogicservice.CityblService;
 
+/**
+ * 新建城市的Dialog
+ * @author 刘航伸
+ *@see businesslogic.City
+ *@version 1.2
+ */
 public class CreateCityDialog extends JDialog{
 
 	/**
@@ -54,6 +60,11 @@ public class CreateCityDialog extends JDialog{
 		 this.setVisible(true);
 	}
 	
+	/**
+	 * 输出城市名称，编号的Panel
+	 * @author 刘航伸
+	 *	
+	 */
 	private class InputCityPanel extends JPanel{
 
 
@@ -63,8 +74,7 @@ public class CreateCityDialog extends JDialog{
 		private static final long serialVersionUID = 3840173390122307371L;
 
 		public InputCityPanel(){
-			this.setBounds(0, 0, 400, 250);		
-			 
+			this.setBounds(0, 0, 400, 250);					 
 			JLabel nameLabel = new JLabel("城市名称");
 			nameLabel.setBounds(50, 50, 100, 25);
 			JTextField nameField = new JTextField();
@@ -200,6 +210,9 @@ public class CreateCityDialog extends JDialog{
 		}
 	}
 
+	/*
+	 * 输入城市间距离的panel
+	 */
 	private class InputDistancePanel extends JPanel{
 
 		
@@ -222,7 +235,7 @@ public class CreateCityDialog extends JDialog{
 				System.out.println(data[i][0]);
 			}
 			JButton cancelButton = new JButton("取消");
-			cancelButton.setBounds(100, 250, 80, 20);		
+			cancelButton.setBounds(10, 250, 80, 20);		
 			JTable cityTabel = new JTable(data,citySrt);
 			JScrollPane cityScrollpane = new JScrollPane(cityTabel);
 			cityScrollpane.setBounds(0, 0, 200, 200);
@@ -231,12 +244,14 @@ public class CreateCityDialog extends JDialog{
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
-					
+					mainPanel.removeAll();
+					 mainPanel.add(new InputCityPanel());
+					 mainPanel.repaint();
 				}
 			});
 
 			JButton sureButton = new JButton("确定");
-			sureButton.setBounds(200, 250, 80, 20);
+			sureButton.setBounds(100, 250, 80, 20);
 			sureButton.addActionListener(new ActionListener() {
 				
 			 

@@ -10,7 +10,11 @@ import java.rmi.server.UnicastRemoteObject;
 import po.ConstantPO; 
 import dataservice.ConstantDataService;
  
-
+/**
+ * {@code ConstantData}是价格数据层的实现类，提供数据层所有服务
+ * @author 刘航伸
+ *@version 1.2
+ */
 public class ConstantData extends UnicastRemoteObject implements ConstantDataService{
 
 	/**

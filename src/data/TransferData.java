@@ -15,6 +15,11 @@ import po.TransferPO;
  
 import dataservice.TransferDataService;
 
+/**
+ * {@code TransferData}是中转单数据层的实现类，提供数据层所有服务
+ * @author 刘航伸
+ *@version 1.2
+ */
 public class TransferData extends UnicastRemoteObject implements TransferDataService{
  
 	/**
@@ -66,17 +71,17 @@ public class TransferData extends UnicastRemoteObject implements TransferDataSer
 		String path = "c:/LIMS/database/"+this.getClass().getSimpleName();
         List<TransferPO> pos = new ArrayList<TransferPO>();
         try{
-            File[] files = DataUtil.getAll(path);
+            File[] files = DataUtil.getAll(path);          
             for(File f : files){
-                TransferPO po = (TransferPO) DataUtil.readObject(f.getAbsolutePath());
-                switch (field) {
-                case "documentState": 
-                	if(po.getDocumentState().equals(value))
-                		pos.add(po);
-                	break;
+            	TransferPO po = (TransferPO) DataUtil.readObject(f.getAbsolutePath());
+            	switch (field) {
+            	case "documentState": 
+            		if(po.getDocumentState().equals(value))
+            			pos.add(po);
+            		break;
                 	
-                }
-                
+            	}
+            	    
             }
         }catch(NullPointerException e){
             return pos;
