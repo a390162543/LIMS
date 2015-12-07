@@ -12,10 +12,14 @@ import javax.swing.JPanel;
 
 import presentation.util.DatePickPanel;
 import presentation.util.OrganizationComboBox;
-import businesslogic.settlementbl.Settlement;
+import businesslogic.BusinessLogicService;
 import businesslogicservice.SettlementblService;
 import vo.RevenueVO;
-
+/**
+ * {@code SettlementDialog}继承{@code JDialog}，是查询收款单的界面层对话框展示
+ * @author 刘德宽
+ *
+ */
 public class SettlementDialog extends JDialog{
 
 	/**
@@ -89,7 +93,7 @@ public class SettlementDialog extends JDialog{
 	class ConfirmButtonListener implements ActionListener{
 
 		public void actionPerformed(ActionEvent e) {
-			SettlementblService sbs = new Settlement();
+			SettlementblService sbs = BusinessLogicService.getSettlementblService();
 			List<RevenueVO> ros = sbs.queryRevenueVO( datePickPanel.getDate(), businessHallBox.getSelectedItem().toString());
 
 			@SuppressWarnings("unused")

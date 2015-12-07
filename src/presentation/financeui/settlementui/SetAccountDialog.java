@@ -9,11 +9,15 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 
-import businesslogic.settlementbl.Settlement;
+import businesslogic.BusinessLogicService;
 import businesslogicservice.SettlementblService;
 import vo.RevenueVO;
 
-
+/**
+ * {@code SetAccountDialog}继承{@code JDialog}，是设置收款账户的界面层对话框展示
+ * @author 刘德宽
+ *
+ */
 public class SetAccountDialog extends JDialog{
 
 	/**
@@ -44,7 +48,7 @@ public class SetAccountDialog extends JDialog{
 		accountLabel.setSize(labelWidth,labelHeight);
 		accountLabel.setLocation(labelx, labely);
 		
-		SettlementblService settlementblService = new Settlement();
+		SettlementblService settlementblService = BusinessLogicService.getSettlementblService();
 		String[] account = settlementblService.getAllAccountId();
 		JComboBox<String> accountBox = new JComboBox<String>(account);
 		accountBox.setSize(180, 25);
@@ -57,7 +61,7 @@ public class SetAccountDialog extends JDialog{
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				SettlementblService settlementblService = new Settlement();
+				SettlementblService settlementblService = BusinessLogicService.getSettlementblService();
 				settlementblService.setAccountId(vo, accountBox.getSelectedItem().toString());
 				tableModel.delete(modelrow);
 				SetAccountDialog.this.dispose();

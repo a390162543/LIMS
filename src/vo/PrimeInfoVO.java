@@ -12,7 +12,12 @@ import po.PrimeInfoPO;
 import po.StoreinPO;
 import po.TruckPO;
 
-
+/**
+ * {@code PrimeInfoVO}是期初建账界面与业务逻辑层之间传递的值对象，
+ * 记录期初账单的所有信息
+ * @author 刘德宽
+ * @version 1.6
+ */
 public class PrimeInfoVO {
 
 	private List<OrganizationVO>  organization;
@@ -78,7 +83,10 @@ public class PrimeInfoVO {
 	public void setDate(Date date){
 		this.date = date;
 	}
-	
+    /**
+     * 获取一个{@code PrimeInfoVO}对应的{@code PrimeInfoPO}对象
+     * @return {@code PrimeInfoPO}对象
+     */
 	public PrimeInfoPO getPrimeInfoPO() {
 		List<OrganizationPO> organizationPOs = new ArrayList<OrganizationPO>();
 		for(OrganizationVO vo: organization)

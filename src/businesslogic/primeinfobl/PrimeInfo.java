@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 import po.PrimeInfoPO;
+import dataservice.DataService;
 import dataservice.PrimeInfoDataService;
 import vo.AccountVO;
 import vo.EmployeeVO;
@@ -25,27 +26,28 @@ import businesslogic.storeinbl.Storein;
 import businesslogic.truckbl.Truck;
 import businesslogicservice.PrimeInfoblService;
 
+/**
+ * {@code PrimeInfo}是期初建账的业务逻辑的实现类，提供所有有关期初建账的业务逻辑服务
+ * @author 刘德宽
+ * @version 1.6
+ * @see dataservice.PrimeInfoDataService
+ */
 public class PrimeInfo implements PrimeInfoblService{
     
 	private PrimeInfoVO primeInfoVO;
+	private PrimeInfoDataService primeInfoDataService;
 	
 	public PrimeInfo(){
 		this.primeInfoVO = new PrimeInfoVO();
+		primeInfoDataService = DataService.getPrimeInfoDataService();
 	}
 	@Override
 	public boolean createPrimeInfoPO() {
 		
 		 try {
 			 	primeInfoVO.setDate(new Date());
-	        	PrimeInfoDataService ads = (PrimeInfoDataService) Naming.lookup("rmi://localhost/PrimeInfoData");
-	            ads.insert(primeInfoVO.getPrimeInfoPO());
-	        } catch (MalformedURLException e) {
-	            // TODO Auto-generated catch block
-	            e.printStackTrace();
+			 	primeInfoDataService.insert(primeInfoVO.getPrimeInfoPO());
 	        } catch (RemoteException e) {
-	            // TODO Auto-generated catch block
-	            e.printStackTrace();
-	        } catch (NotBoundException e) {
 	            // TODO Auto-generated catch block
 	            e.printStackTrace();
 	        }
@@ -56,17 +58,10 @@ public class PrimeInfo implements PrimeInfoblService{
 	public List<PrimeInfoVO> QueryPrimeInfoVO() {
 		List<PrimeInfoVO> vos = new ArrayList<PrimeInfoVO>();
 		 try {
-	        	PrimeInfoDataService ads = (PrimeInfoDataService) Naming.lookup("rmi://localhost/PrimeInfoData");
-	            List<PrimeInfoPO> pos = ads.getAll();
+	            List<PrimeInfoPO> pos = primeInfoDataService.getAll();
 	            for(PrimeInfoPO po : pos)
 	            	vos.add(po.getPrimeInfoVO());
-	        } catch (MalformedURLException e) {
-	            // TODO Auto-generated catch block
-	            e.printStackTrace();
 	        } catch (RemoteException e) {
-	            // TODO Auto-generated catch block
-	            e.printStackTrace();
-	        } catch (NotBoundException e) {
 	            // TODO Auto-generated catch block
 	            e.printStackTrace();
 	        }

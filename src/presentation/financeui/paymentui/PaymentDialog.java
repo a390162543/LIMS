@@ -25,7 +25,11 @@ import businesslogicservice.PaymentblService;
 import systemenum.Entry;
 import vo.PaymentVO;
 
-
+/**
+ * {@code PaymentDialog}继承{@code JDialog}，是创建付款单的界面层对话框展示
+ * @author 刘德宽
+ *
+ */
 public class PaymentDialog extends JDialog{
 	
 	/**

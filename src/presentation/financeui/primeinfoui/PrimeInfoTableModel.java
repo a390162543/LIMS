@@ -7,7 +7,7 @@ import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 
 import vo.PrimeInfoVO;
-import businesslogic.primeinfobl.PrimeInfo;
+import businesslogic.BusinessLogicService;
 import businesslogicservice.PrimeInfoblService;
 
 public class PrimeInfoTableModel extends DefaultTableModel{
@@ -19,7 +19,7 @@ public class PrimeInfoTableModel extends DefaultTableModel{
 	   private List<PrimeInfoVO> dataList;
 	   private PrimeInfoblService primeInfoblService;
 	    public PrimeInfoTableModel() {
-	    	primeInfoblService = new PrimeInfo();
+	    	primeInfoblService = BusinessLogicService.getPrimeInfoblService();
 	        dataList = primeInfoblService.QueryPrimeInfoVO();
 	        setDataVector(convertToVectorData(dataList), getColumnNamesVector());
 	    }

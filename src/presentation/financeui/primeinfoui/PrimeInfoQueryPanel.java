@@ -48,10 +48,11 @@ public class PrimeInfoQueryPanel extends JPanel{
 		pane.addTab("’Àªß", primeInfoAccountPanel );
 		pane.setBounds(0, 0, 560, 500);
 
-
+		this.setLayout(null);
 		this.add(pane);
 		this.setBounds(0, 0, 560, 540);
 		
+		panel.setLayout(null);
 		panel.setLayout(null);
 		panel.add(this);
 		panel.setVisible(true);

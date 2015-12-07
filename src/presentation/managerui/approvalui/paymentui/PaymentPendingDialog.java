@@ -12,7 +12,11 @@ import javax.swing.JTextField;
 
 import systemenum.Entry;
 import vo.PaymentVO;
-
+/**
+ * {@code PaymentPendingDialog}继承{@code JDialog}，是待审批付款单增删改查的界面层对话框展示
+ * @author 刘德宽
+ *
+ */
 public class PaymentPendingDialog extends JDialog{
 
 /**

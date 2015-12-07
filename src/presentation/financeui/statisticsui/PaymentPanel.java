@@ -11,10 +11,14 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
-import businesslogic.statisticsbl.Statistics;
+import businesslogic.BusinessLogicService;
 import businesslogicservice.StatisticsblService;
 import vo.PaymentVO;
-
+/**
+ * {@code PaymentPanel}继承{@code JPanel}，是已通过审批的付款单的界面层面板展示
+ * @author 刘德宽
+ *
+ */
 public class PaymentPanel extends JPanel{
 
     /**
@@ -80,7 +84,7 @@ public class PaymentPanel extends JPanel{
     }
     
     public Double getTotalExpenditure(){
-    	StatisticsblService sbs = new Statistics(); 	
+    	StatisticsblService sbs = BusinessLogicService.getStatisticsblService(); 	
     	return sbs.getTotalExpenditure(paymentVOs);
     }
     

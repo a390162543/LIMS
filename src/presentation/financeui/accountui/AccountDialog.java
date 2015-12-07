@@ -16,7 +16,11 @@ import businesslogic.checkbl.accountinfo.AccountName;
 import presentation.util.CheckInfoGetter;
 import presentation.util.Checker;
 import vo.AccountVO;
-
+/**
+ * {@code AccountDialog}继承{@code JDialog}，是账户增删改查的界面层对话框展示
+ * @author 刘德宽
+ *
+ */
 public class AccountDialog extends JDialog{
 	 /**
 	 * 

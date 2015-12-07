@@ -6,7 +6,12 @@ import java.util.Date;
 import systemenum.DocumentState;
 import systemenum.Entry;
 import vo.PaymentVO;
-
+/**
+ * {@code PaymentPO}是付款单业务逻辑层与数据层之间传递的持久化对象，
+ * 记录了付款单的所有信息
+ * @author 刘德宽
+ * @see systemenum.DocumentState
+ */
 public class PaymentPO implements Serializable{
 	
 	/**
@@ -75,12 +80,19 @@ public class PaymentPO implements Serializable{
 		this.documentState = documentState;
 	}
 
+    /**
+     * 获取该{@code PaymentPO}对应的{@code PaymentVO}对象
+     * @return {@code PaymentVO}对象
+     */
 	public PaymentVO getPaymentVO(){
 		PaymentVO vo = new PaymentVO(id, date , money , name , accountId , payeeAccountId , entry , remarks );
 		return vo;
 	}
 
-
+    /**
+     * 用一个{@code PaymentVO}对象更新{@code PaymentPO}的信息
+     * @param vo {@code PaymentVO}对象
+     */
 	public void update(PaymentVO vo){
 		this.id = vo.getId();
 		this.date = vo.getDate();

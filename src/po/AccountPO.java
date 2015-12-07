@@ -3,7 +3,12 @@ package po;
 import java.io.Serializable;
 
 import vo.AccountVO;
-
+/**
+ * {@code AccountPO}是账户业务逻辑层与数据层之间传递的持久化对象，
+ * 记录了账户的所有信息
+ * @author 刘德宽
+ *
+ */
 public class AccountPO implements Serializable{
 	
 	/**
@@ -37,11 +42,19 @@ public class AccountPO implements Serializable{
 		this.money = money;
 		return true;
 	}
+    /**
+     * 获取该{@code AccountPO}对应的{@code AccountVO}对象
+     * @return {@code AccountVO}对象
+     */
 	public AccountVO getAccountVO(){
 		AccountVO vo = new AccountVO(id,name,money);
 		return vo;		
 	}
 
+    /**
+     * 用一个{@code AccountVO}对象更新{@code AccountPO}的信息
+     * @param vo {@code AccountVO}对象
+     */
 	public  void update(AccountVO vo){
 		this.id = vo.getId();
 		this.name = vo.getName();

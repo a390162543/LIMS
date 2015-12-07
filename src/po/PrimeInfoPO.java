@@ -12,7 +12,12 @@ import vo.OrganizationVO;
 import vo.PrimeInfoVO;
 import vo.StoreinCreateVO;
 import vo.TruckVO;
-
+/**
+ * {@code PrimeInfoPO}是期初建账业务逻辑层与数据层之间传递的持久化对象，
+ * 记录了期初账单的所有信息
+ * @author 刘德宽
+ *
+ */
 public class PrimeInfoPO implements Serializable{
 
 	/**
@@ -80,6 +85,10 @@ public class PrimeInfoPO implements Serializable{
 	public Date getDate(){
 		return date;
 	}
+    /**
+     * 获取该{@code PrimeInfoPO}对应的{@code PrimeInfoVO}对象
+     * @return {@code PrimeInfoVO}对象
+     */
 	public PrimeInfoVO getPrimeInfoVO() {
 		List<OrganizationVO> organizationVOs = new ArrayList<OrganizationVO>();
 		for(OrganizationPO po: organization)

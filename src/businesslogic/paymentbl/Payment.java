@@ -1,8 +1,5 @@
 package businesslogic.paymentbl;
 
-import java.net.MalformedURLException;
-import java.rmi.Naming;
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -11,6 +8,7 @@ import java.util.List;
 
 import po.PaymentPO;
 import systemenum.DocumentState;
+import dataservice.DataService;
 import dataservice.PaymentDataService;
 import vo.PaymentVO;
 import businesslogic.accountbl.Account;
@@ -18,24 +16,19 @@ import businesslogic.idbl.PaymentIdManager;
 import businesslogicservice.IdblService;
 import businesslogicservice.PaymentblService;
 
+/**
+ * {@code Payment}是付款单的业务逻辑的实现类，提供所有有关付款单的业务逻辑服务
+ * @author 刘德宽
+ * @version 1.6
+ * @see dataservice.PaymentDataService
+ */
 public class Payment implements PaymentblService{
 
 	private PaymentDataService paymentDataService;
 	
-	 public Payment(){
-	        try {
-	            paymentDataService = (PaymentDataService) Naming.lookup("rmi://localhost/PaymentData");
-	        } catch (MalformedURLException e) {
-	            // TODO Auto-generated catch block
-	            e.printStackTrace();
-	        } catch (RemoteException e) {
-	            // TODO Auto-generated catch block
-	            e.printStackTrace();
-	        } catch (NotBoundException e) {
-	            // TODO Auto-generated catch block
-	            e.printStackTrace();
-	        }
-	    }
+	public Payment(){
+		paymentDataService = DataService.getPaymentDataService();
+	}
 	@Override
 	public boolean createPaymentPO(PaymentVO vo) {
         try {     
@@ -76,7 +69,10 @@ public class Payment implements PaymentblService{
 		return true;
 	}
 
-
+    /**
+     * 获取所有的待审批的付款单信息
+     * @return {@code PaymentVO}的列表，如果没有付款单信息或获取失败，则返回空列表
+     */
 	public List<PaymentVO> getPendingPaymentVO() {
 		List<PaymentVO> vos = new ArrayList<PaymentVO>() ;
         try {
@@ -89,7 +85,13 @@ public class Payment implements PaymentblService{
         }
         return vos;
 	}
-
+	
+    /**
+     * 根据起始日期获取所有的付款单信息
+     * @param  begindate  {@code Date} 
+     * @param  enddate {@code Date}
+     * @return {@code PaymentVO}的列表，如果没有付款单信息或获取失败，则返回空列表
+     */
 	public List<PaymentVO> queryPaymentVO(Date begindate, Date enddate){
 		 List<PaymentVO> vos = new ArrayList<PaymentVO>();
 	        try {

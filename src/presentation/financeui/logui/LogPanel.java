@@ -6,10 +6,14 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-import businesslogic.logbl.Log;
+import businesslogic.BusinessLogicService;
 import businesslogicservice.LogblService;
 import vo.LogVO;
-
+/**
+ * {@code LogPanel}继承{@code JPanel}，是日志记录的界面层面板展示
+ * @author 刘德宽
+ *
+ */
 public class LogPanel extends JPanel{
 
 	/**
@@ -22,7 +26,7 @@ public class LogPanel extends JPanel{
 		this.setBounds(0, 40, 560, 360);
 
 		String contents="";
-		LogblService logblService = new Log();
+		LogblService logblService = BusinessLogicService.getLogblService();
 		for( LogVO vo : vos)
 			 contents += logblService.getLogInfo(vo);
         

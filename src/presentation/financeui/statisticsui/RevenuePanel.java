@@ -12,9 +12,13 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
 import vo.RevenueVO;
-import businesslogic.statisticsbl.Statistics;
+import businesslogic.BusinessLogicService;
 import businesslogicservice.StatisticsblService;
-
+/**
+ * {@code RevenuePanel}继承{@code JPanel}，是已通过审批的收款单的界面层面板展示
+ * @author 刘德宽
+ *
+ */
 public class RevenuePanel extends JPanel{
 
 	/**
@@ -76,7 +80,7 @@ private JScrollPane revenueScrollPane;
     }
     
     public Double getTotalIncome(){
-    	StatisticsblService sbs = new Statistics(); 	
+    	StatisticsblService sbs = BusinessLogicService.getStatisticsblService(); 	
     	return sbs.getTotalIncome(revenueVOs);
     }
     

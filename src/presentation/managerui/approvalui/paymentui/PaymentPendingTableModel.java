@@ -8,7 +8,11 @@ import javax.swing.table.DefaultTableModel;
 import vo.PaymentVO;
 import businesslogic.paymentbl.Payment;
 
-
+/**
+ * {@code PaymentPendingTableModel}继承{@code DefaultTableModel}，持有待审批的付款单数据，提供界面层数据操作业务
+ * @author 刘德宽
+ *
+ */
 public class PaymentPendingTableModel extends DefaultTableModel{
 	/**
 	 * 

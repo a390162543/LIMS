@@ -13,7 +13,11 @@ import javax.swing.table.TableRowSorter;
 
 import presentation.financeui.statisticsui.RevenueTableModel;
 import vo.RevenueVO;
-
+/**
+ * {@code SettlementPanel}继承{@code JPanel}，是已通过审批的收款单的界面层面板展示
+ * @author 刘德宽
+ *
+ */
 public class SettlementPanel extends JPanel{
 
 	/**
