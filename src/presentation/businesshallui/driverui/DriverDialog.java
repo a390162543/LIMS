@@ -165,12 +165,8 @@ public class DriverDialog extends JDialog {
 		  PayVO paypo = new PayVO(0,Double.valueOf(basePayField.getText()), 0, 0, 0);
 		  EmployeeVO vo = new EmployeeVO(id, name, organization,
 					 p, phone, birth, identityCardNum, sex1, paypo);
-		  Power power = Power.valueOf(p.toString());
-		  UserVO uservo = new UserVO(id, "000000", power);
-		  UserblService userblService = new User();
 		  if(isNew){
 		      tableModel.create(vo);
-		      userblService.creatUserPO(uservo);
 		  }
 		  else
 		      tableModel.modify(modelRow, vo);

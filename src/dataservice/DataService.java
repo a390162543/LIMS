@@ -6,7 +6,6 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
 import dataservice.AccountDataService;
-import dataservice.ApprovalDataService;
 import dataservice.ArrivalDataService;
 import dataservice.CityDataService;
 import dataservice.ConstantDataService;
@@ -36,22 +35,6 @@ public class DataService {
     public static AccountDataService getAccountDataService(){
         try {
             return (AccountDataService) Naming.lookup("rmi://localhost/AccountData");
-        } catch (MalformedURLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (RemoteException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (NotBoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return null;
-    }
-    
-    public static ApprovalDataService getApprovalDataService(){
-        try {
-            return (ApprovalDataService) Naming.lookup("rmi://localhost/ApprovalData");
         } catch (MalformedURLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -273,21 +256,7 @@ public class DataService {
         return null;
     }
     
-    public static StorageLocationDataService getStorageLocationDataService(){
-    	 try {
-             return (StorageLocationDataService) Naming.lookup("rmi://localhost/LocationData");
-         } catch (MalformedURLException e) {
-             // TODO Auto-generated catch block
-             e.printStackTrace();
-         } catch (RemoteException e) {
-             // TODO Auto-generated catch block
-             e.printStackTrace();
-         } catch (NotBoundException e) {
-             // TODO Auto-generated catch block
-             e.printStackTrace();
-         }
-         return null;
-    }
+
     
     public static StoreinDataService getStoreinDataService(){
         try {

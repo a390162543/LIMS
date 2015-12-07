@@ -243,7 +243,7 @@ public class PrimeInfoOrganizationDialog extends JDialog{
 		String city = (String) cityBox.getSelectedItem();
 		String id = idField.getText();
 		OrganizationVO vo= new OrganizationVO(id, name, city);
-		organizationblService.CreatOrganizationPO(vo);	 
+		organizationblService.createOrganizationPO(vo);	 
 		if(isNew)
 			tableModel.create(vo);
 		else

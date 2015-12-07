@@ -248,7 +248,7 @@ public class OrganizationDialog extends JDialog{
 		String city = (String) cityBox.getSelectedItem();
 		String id = idField.getText();
 		OrganizationVO vo= new OrganizationVO(id, name, city);
-		organizationblService.creatOrganizationPO(vo);
+		organizationblService.createOrganizationPO(vo);
 		if(isNew)
 			tableModel.create(vo);
 		else
