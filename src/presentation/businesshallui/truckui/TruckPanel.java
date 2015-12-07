@@ -14,7 +14,12 @@ import javax.swing.event.DocumentListener;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
-
+/**
+ * 维护车辆信息列表的{@code JPanel}，提供了车辆信息的增删改查服务
+ * @author 林祖华
+ * @version 1.5
+ *
+ */
 
 public class TruckPanel extends JPanel{
     

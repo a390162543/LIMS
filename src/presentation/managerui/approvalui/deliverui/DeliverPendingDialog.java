@@ -12,6 +12,12 @@ import presentation.util.DialogLayoutManager;
 import presentation.util.RecentDatePickPanel;
 import vo.DeliverVO;
 
+/**
+ * 审批时派件单的{@code Jdialog}
+ * @author 林祖华
+ * @version 1.3
+ * @see businesslogicservice.ApprovalblService
+ */
 public class DeliverPendingDialog extends JDialog {
 	
 

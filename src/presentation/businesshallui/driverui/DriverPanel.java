@@ -16,7 +16,13 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
 
-
+/**
+ * 司机信息的{@code JPanel}，提供了一个{@code Jtable}用以表格显示信息
+ * <p>提供了司机信息增删改查的功能
+ * @author 林祖华
+ * @version 1.6
+ * @see businesslogicservice.EmployeeblService
+ */
 public class DriverPanel extends JPanel{
     
     /**

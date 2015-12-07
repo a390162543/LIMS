@@ -8,6 +8,13 @@ import javax.swing.ImageIcon;
 import systemenum.DocumentState;
 import vo.TruckVO;
 
+/**
+ * {@code TruckPO}是车辆业务逻辑层与数据层之间传递的持久化对象，
+ * 记录了车辆的所有信息
+ * @author 林祖华
+ * @see systemenum.DocumentState
+ * @see vo.TruckVO
+ */
 public class TruckPO implements Serializable{
     /**
      * 
@@ -23,6 +30,7 @@ public class TruckPO implements Serializable{
     private String organization;
     private DocumentState documentState;
     
+    @Deprecated
     public TruckPO(String id, String engineNumber, String truckNumber,
             String chassisNumber, Date purchaseDate, ImageIcon truckImage) {
         this.id = id;
@@ -44,10 +52,6 @@ public class TruckPO implements Serializable{
         this.purchaseDate = purchaseDate;
         this.truckImage = truckImage;
         this.documentState = DocumentState.PENDING;
-    }
-
-    public String getIdString(){
-        return String.format("%09d", id);
     }
     
     public String getId() {
@@ -110,10 +114,18 @@ public class TruckPO implements Serializable{
         this.documentState = documentState;
     }
 
+    /**
+     * 获取该{@code TruckPO}对应的{@code TruckVO}对象
+     * @return {@code TruckVO}对象
+     */
     public TruckVO getTruckVO(){
         return new TruckVO(this.id, this.organization, this.engineNumber, this.truckNumber, this.chassisNumber, this.purchaseDate, this.truckImage);
     }
     
+    /**
+     * 用一个{@code TruckVO}对象更新{@code TruckPO}的信息
+     * @param vo {@code TruckVO}对象
+     */
     public void update(TruckVO vo){
         this.id = vo.getId();
         this.organization = vo.getOrganization();

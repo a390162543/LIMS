@@ -27,6 +27,12 @@ import businesslogic.userbl.LoginController;
 import businesslogicservice.LoadblService;
 import vo.LoadVO;
 
+/**
+ * 审批时装车单的{@code Jdialog}
+ * @author 林祖华
+ * @version 1.8
+ * @see businesslogicservice.ApprovalblService
+ */
 public class LoadPendingDialog extends JDialog {
 	
 	/**

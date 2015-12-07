@@ -13,6 +13,7 @@ import vo.ArrivalVO;
  * @author ÁÖ×æ»ª
  * @see systemenum.GoodsState
  * @see systemenum.DocumentState
+ * @see vo.ArrivalVO
  */
 public class ArrivalPO implements Serializable{
     

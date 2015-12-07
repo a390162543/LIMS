@@ -21,8 +21,16 @@ import data.TransferData;
 import data.TruckData;
 import data.UserData;
 
+/**
+ * {@code Database}提供了初始化数据层服务的方法
+ * @author 林祖华
+ * @version 1.0
+ */
 public class DataBase {
     
+    /**
+     * 初始化数据层服务
+     */
     public static void initDataBase(){
         try {
             AccountData accountData = new AccountData();

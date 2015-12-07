@@ -6,8 +6,15 @@ import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 
 import vo.ArrivalVO;
-import businesslogic.arrivalbl.Arrival;
+import businesslogic.BusinessLogicService;
+import businesslogicservice.ApprovalblService;
 
+/**
+ * 审批时到达单的{@code TableModel}，维护到达单信息列表的数据
+ * @author 林祖华
+ * @version 1.5
+ * @see businesslogicservice.ApprovalblService
+ */
 public class ArrivalPendingTableModel extends DefaultTableModel {
 
 	/**
@@ -16,11 +23,11 @@ public class ArrivalPendingTableModel extends DefaultTableModel {
     private static final long serialVersionUID = -5943766483972270998L;
     private List<ArrivalVO> dataList;
     private static final String[] TABLE_HEADER = {"到达单编号","到达日期","中转单编号","出发地","到达地","货物状态"};
-    private Arrival arrival;
+    private ApprovalblService approvalblService;
     
     public ArrivalPendingTableModel() {
-        arrival = new Arrival();
-        dataList = arrival.getPendingArrivalVO();
+        approvalblService = BusinessLogicService.getApprovalblService();
+        dataList = approvalblService.getArrivalVO();
         setDataVector(convertToVectorData(dataList), getColumnNamesVector());
     }
     
@@ -29,14 +36,14 @@ public class ArrivalPendingTableModel extends DefaultTableModel {
         insertRow(row, convertToVector(vo));
         dataList.remove(row);
         dataList.add(row, vo);
-        arrival.modifyArrivalPO(vo);
+        approvalblService.modifyArrivalVO(vo);
     }
     
     public void approve(int row){
         ArrivalVO vo = dataList.get(row);
         removeRow(row);
         dataList.remove(row);
-        arrival.execute(vo);
+        approvalblService.approveArrivalVO(vo);
     }
     
     public ArrivalVO getArrivalVO(int row){

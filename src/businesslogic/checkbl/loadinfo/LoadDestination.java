@@ -7,6 +7,11 @@ import businesslogic.checkbl.CheckResultMessage;
 import businesslogic.truckbl.Truck;
 import businesslogic.userbl.LoginController;
 
+/**
+ * 装车单的目的地的{@code CheckInfo}的实现类
+ * @author 林祖华
+ * @version 1.1
+ */
 public class LoadDestination implements CheckInfo{
     
     private String truckId;

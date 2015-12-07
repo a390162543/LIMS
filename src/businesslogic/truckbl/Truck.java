@@ -14,8 +14,17 @@ import businesslogicservice.IdblService;
 import businesslogicservice.TruckblService;
 import dataservice.TruckDataService;
 
+/**
+ * {@code Truck}是车辆业务逻辑的实现类，提供所有有关车辆的业务逻辑服务
+ * @author 林祖华
+ * @version 1.6
+ * @see dataservice.TruckDataService
+ */
 public class Truck implements TruckblService{
     
+    /**
+     * {@code Truck}的数据层服务引用
+     */
     private TruckDataService truckDataService;
     
     public Truck(){
@@ -85,6 +94,7 @@ public class Truck implements TruckblService{
         return vos;
     }
     
+    @Override
     public List<TruckVO> getTruckVO(String organization) {
         List<TruckVO> vos = new ArrayList<TruckVO>();
         List<TruckPO> pos;
@@ -100,10 +110,20 @@ public class Truck implements TruckblService{
         return vos;
     }
     
+    /**
+     * 记录车辆信息
+     * @param vo 需要记录的{@code TruckVO}
+     * @return 成功则返回{@code true}，否则返回{@code false}
+     */
     public boolean execute(TruckVO vo){
         return createTruckPO(vo);
     }
     
+    /**
+     * 根据{@code id}标识返回一个{@code TruckVO}
+     * @param id 需要查找的{@code TruckVO}的{@code id}标识
+     * @return 对应的{@code TruckVO}，如果查找失败或不存在，则返回{@code null}
+     */
     public TruckVO getTruckVOById(String id){
         try {
             TruckPO po = truckDataService.find(id);

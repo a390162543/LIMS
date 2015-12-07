@@ -11,6 +11,7 @@ import systemenum.GoodsState;
  * @author ÁÖ×æ»ª
  * @version 1.6
  * @see systemenum.GoodsState
+ * @see po.ArrivalPO
  */
 public class ArrivalVO {
     

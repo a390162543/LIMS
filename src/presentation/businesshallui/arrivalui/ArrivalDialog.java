@@ -29,6 +29,12 @@ import vo.ArrivalVO;
 import vo.LoadVO;
 import vo.TransferVO;
 
+/**
+ * 创建到达单的{@code Jdialog}
+ * @author 林祖华
+ * @version 1.6
+ * @see businesslogicservice.ArrivalblService
+ */
 public class ArrivalDialog extends JDialog{
 
     /**

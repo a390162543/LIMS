@@ -10,6 +10,12 @@ import javax.swing.JTable;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
+/**
+ * 审批时装车单的{@code Jpanel}，提供装车单的查看、修改、审批功能
+ * @author 林祖华
+ * @version 1.4
+ *
+ */
 public class LoadPendingPanel extends JPanel {
 
 	/**

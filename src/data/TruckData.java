@@ -12,6 +12,11 @@ import java.util.List;
 import po.TruckPO;
 import dataservice.TruckDataService;
 
+/**
+ * {@code TruckData}是车辆信息数据层服务的实现类
+ * @author 林祖华
+ * @version 1.3
+ */
 public class TruckData extends UnicastRemoteObject implements TruckDataService {
 
     /**

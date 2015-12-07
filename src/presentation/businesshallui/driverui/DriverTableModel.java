@@ -6,10 +6,17 @@ import java.util.Vector;
 
 import javax.swing.table.DefaultTableModel;
 
-import businesslogic.employeebl.Employee;
+import businesslogic.BusinessLogicService;
+import businesslogic.userbl.LoginController;
 import businesslogicservice.EmployeeblService;
 import vo.EmployeeVO;
 
+/**
+ * 司机信息的{@code TableModel}，维护司机信息的列表，用以表格显示
+ * @author 林祖华
+ * @version 1.3
+ * @see businesslogicservice.EmployeeblService
+ */
 public class DriverTableModel extends DefaultTableModel{
 
  
@@ -25,8 +32,8 @@ public class DriverTableModel extends DefaultTableModel{
     
     
     public DriverTableModel() {
-        EmployeeblService = new Employee();
-        dataList = EmployeeblService.getEmployeeVO();
+        EmployeeblService = BusinessLogicService.getEmployeeblService();
+        dataList = EmployeeblService.getDriverVO(LoginController.getOrganizationName());
         setDataVector(convertToVectorData(dataList), getColumnNamesVector());
     }
     

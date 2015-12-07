@@ -6,6 +6,13 @@ import java.util.Date;
 import systemenum.DocumentState;
 import vo.DeliverVO;
 
+/**
+ * {@code DeliverPO}是派件单业务逻辑层与数据层之间传递的持久化对象，
+ * 记录了派件单的所有信息
+ * @author 林祖华
+ * @see systemenum.DocumentState
+ * @see vo.DeliverVO
+ */
 public class DeliverPO implements Serializable{
     
     /**
@@ -28,17 +35,6 @@ public class DeliverPO implements Serializable{
         this.documentState = DocumentState.PENDING;
     }
 
-    public String getIdString(){
-        return String.format("%018d", id);
-    }
-    
-    public String getOrderIdString(){
-        return String.format("%010d", orderId);
-    }
-    
-    public String getCourierIdString(){
-        return String.format("%09d", courierId);
-    }
     
     public String getId() {
         return id;
@@ -64,6 +60,10 @@ public class DeliverPO implements Serializable{
         this.documentState = documentState;
     }
 
+    /**
+     * 用一个{@code DeliverVO}对象更新{@code DeliverPO}的信息
+     * @param vo {@code DeliverVO}对象
+     */
     public void update(DeliverVO vo) {
         this.id = vo.getId();
         this.deliverDate = vo.getDeliverDate();
@@ -71,6 +71,10 @@ public class DeliverPO implements Serializable{
         this.courierId = vo.getCourierId();
     }
     
+    /**
+     * 获取该{@code DeliverPO}对应的{@code DeliverVO}对象
+     * @return {@code DeliverVO}对象
+     */
     public DeliverVO getDeliverVO(){
         return new DeliverVO(id, deliverDate, orderId, courierId);
     }

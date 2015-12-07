@@ -8,6 +8,11 @@ import java.util.Date;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 
+/**
+ * 日期选择控件，可选择当前年份+[-70,+20]之间的日期
+ * @author 林祖华
+ * @version 1.7
+ */
 
 public class DatePickPanel extends JPanel{
        

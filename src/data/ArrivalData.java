@@ -12,6 +12,11 @@ import java.util.List;
 import po.ArrivalPO;
 import dataservice.ArrivalDataService;
 
+/**
+ * {@code ArrivalData}是到达单数据层服务的实现类
+ * @author 林祖华
+ * @version 1.4
+ */
 public class ArrivalData extends UnicastRemoteObject implements ArrivalDataService {
 
     /**
@@ -58,18 +63,19 @@ public class ArrivalData extends UnicastRemoteObject implements ArrivalDataServi
         List<ArrivalPO> arrivalPOs = new ArrayList<ArrivalPO>();
         
         File[] files = DataUtil.getAll(path);
-        for(File f : files){
-            ArrivalPO po = (ArrivalPO)DataUtil.readObject(f.getAbsolutePath());
-            switch (field) {
-            case "documentState":
-                if(po.getDocumentState().equals(value)){
-                    arrivalPOs.add(po);
+        if(files != null){
+            for(File f : files){
+                ArrivalPO po = (ArrivalPO)DataUtil.readObject(f.getAbsolutePath());
+                switch (field) {
+                case "documentState":
+                    if(po.getDocumentState().equals(value)){
+                        arrivalPOs.add(po);
+                    }
+                    break;
+                default:
                 }
-                break;
-            default:
             }
         }
-            
         return arrivalPOs;
     }
 

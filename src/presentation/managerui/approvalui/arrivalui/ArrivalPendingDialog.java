@@ -27,6 +27,12 @@ import vo.ArrivalVO;
 import vo.LoadVO;
 import vo.TransferVO;
 
+/**
+ * 审批时到达单的{@code Jdialog}
+ * @author 林祖华
+ * @version 1.7
+ * @see businesslogicservice.ApprovalblService
+ */
 public class ArrivalPendingDialog extends JDialog {
 	
 	/**

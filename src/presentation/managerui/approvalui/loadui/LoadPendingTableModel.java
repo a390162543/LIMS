@@ -6,8 +6,15 @@ import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 
 import vo.LoadVO;
-import businesslogic.loadbl.Load;
+import businesslogic.BusinessLogicService;
+import businesslogicservice.ApprovalblService;
 
+/**
+ * 审批时装车单的{@code TableModel}，维护装车单信息列表的数据
+ * @author 林祖华
+ * @version 1.7
+ * @see businesslogicservice.ApprovalblService
+ */
 public class LoadPendingTableModel extends DefaultTableModel {
 
 	/**
@@ -16,11 +23,11 @@ public class LoadPendingTableModel extends DefaultTableModel {
     private static final long serialVersionUID = -5943766483972270998L;
     private List<LoadVO> dataList;
     private static final String[] TABLE_HEADER = {"装车单编号","车辆编号","出发地","目的地","装车日期"};
-    private Load load;
+    private ApprovalblService approvalblService;
     
     public LoadPendingTableModel() {
-        load = new Load();
-        dataList = load.getPendingLoadVO();
+        approvalblService = BusinessLogicService.getApprovalblService();
+        dataList = approvalblService.getLoadVO();
         setDataVector(convertToVectorData(dataList), getColumnNamesVector());
     }
     
@@ -29,14 +36,14 @@ public class LoadPendingTableModel extends DefaultTableModel {
         insertRow(row, convertToVector(vo));
         dataList.remove(row);
         dataList.add(row, vo);
-        load.modifyLoadPO(vo);
+        approvalblService.modifyLoadVO(vo);
     }
     
     public void approve(int row){
         LoadVO vo = dataList.get(row);
         removeRow(row);
         dataList.remove(row);
-        load.execute(vo);
+        approvalblService.approveLoadVO(vo);
     }
     
     public LoadVO getLoadVO(int row){

@@ -11,7 +11,12 @@ import vo.OrderRevenueVO;
  
  
  
-
+/**
+ * 收款单信息中订单列表所需要的{@code TableModel}
+ * @author 林祖华
+ * @version 1.3
+ * @see businesslogicservice.RevenueblService
+ */
 public class OrderTableModel extends DefaultTableModel{
 	 
 	/**

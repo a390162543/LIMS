@@ -12,6 +12,11 @@ import java.util.List;
 import po.LoadPO;
 import dataservice.LoadDataService;
 
+/**
+ * {@code LoadData}是装车单数据层服务的实现类
+ * @author 林祖华
+ * @version 1.4
+ */
 public class LoadData extends UnicastRemoteObject implements LoadDataService {
   
     /**
@@ -58,18 +63,19 @@ public class LoadData extends UnicastRemoteObject implements LoadDataService {
         List<LoadPO> loadPOs = new ArrayList<LoadPO>();
         
         File[] files = DataUtil.getAll(path);
-        for(File f : files){
-            LoadPO po = (LoadPO)DataUtil.readObject(f.getAbsolutePath());
-            switch (field) {
-            case "documentState":
-                if(po.getDocumentState().equals(value)){
-                    loadPOs.add(po);
+        if(files != null){
+            for(File f : files){
+                LoadPO po = (LoadPO)DataUtil.readObject(f.getAbsolutePath());
+                switch (field) {
+                case "documentState":
+                    if(po.getDocumentState().equals(value)){
+                        loadPOs.add(po);
+                    }
+                    break;
+                default:
                 }
-                break;
-            default:
             }
-        }
-            
+        }   
         return loadPOs;
     }
 

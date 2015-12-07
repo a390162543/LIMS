@@ -1,13 +1,19 @@
 package po;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import systemenum.DocumentState;
 import vo.LoadVO;
 
+/**
+ * {@code LoadPO}是装车单业务逻辑层与数据层之间传递的持久化对象，
+ * 记录了装车单的所有信息
+ * @author 林祖华
+ * @see systemenum.DocumentState
+ * @see vo.LoadVO
+ */
 public class LoadPO implements Serializable{
     
     /**
@@ -27,6 +33,7 @@ public class LoadPO implements Serializable{
     private double cost;
     private DocumentState documentState;
     
+    @Deprecated
     public LoadPO(String id, Date loadingDate, String transportId, String arrive,
             String truckId, String loadMan, String transman, List<String> orderId,
             double cost) {
@@ -58,26 +65,6 @@ public class LoadPO implements Serializable{
         this.orderId = orderId;
         this.cost = cost;
         this.documentState = DocumentState.PENDING;
-    }
-
-    public String getIdString(){
-        return String.format("%018d", id);
-    }
-    
-    public String getTransportIdString(){
-        return String.format("%010d", transportId);
-    }
-    
-    public String getTruckIdString(){
-        return String.format("%09d", truckId);
-    }
-    
-    public List<String> getOrderIdStringList(){
-        List<String> orderIdStrings = new ArrayList<String>();
-        for(String id : orderId){
-            orderIdStrings.add(String.format("%010d", id));
-        }
-        return orderIdStrings;
     }
     
     public String getId() {
@@ -128,6 +115,10 @@ public class LoadPO implements Serializable{
         this.documentState = documentState;
     }
 
+    /**
+     * 用一个{@code LoadVO}对象更新{@code LoadPO}的信息
+     * @param vo {@code LoadVO}对象
+     */
     public void update(LoadVO vo) {
         this.id = vo.getId();
         this.loadingDate = vo.getLoadingDate();
@@ -141,6 +132,10 @@ public class LoadPO implements Serializable{
         this.cost = vo.getCost();
     }
 
+    /**
+     * 获取该{@code LoadPO}对应的{@code LoadVO}对象
+     * @return {@code LoadVO}对象
+     */
     public LoadVO getLoadVO(){
         return new LoadVO(id, loadingDate, transportId, depart, destination, truckId, loadMan, transman, orderId, cost);
     }

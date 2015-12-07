@@ -7,6 +7,11 @@ import businesslogic.checkbl.CheckResultMessage;
 import businesslogic.orderbl.Order;
 import businesslogic.userbl.LoginController;
 
+/**
+ * 装车单的订单编号的{@code CheckInfo}的实现类
+ * @author 林祖华
+ * @version 1.1
+ */
 public class LoadOrderId implements CheckInfo{
     
     private String orderId;

@@ -12,6 +12,11 @@ import java.rmi.server.UnicastRemoteObject;
 import dataservice.DataIdentifiable;
 import dataservice.IdDataService;
 
+/**
+ * {@code IdData}是id数据层服务的实现类
+ * @author 林祖华
+ * @version 1.4
+ */
 public class IdData extends UnicastRemoteObject implements IdDataService{
 
     /**

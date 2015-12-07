@@ -6,8 +6,15 @@ import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 
 import vo.RevenueVO;
-import businesslogic.revenuebl.Revenue;
+import businesslogic.BusinessLogicService;
+import businesslogicservice.ApprovalblService;
 
+/**
+ * 审批时收款单的{@code TableModel}，维护收款单信息列表的数据
+ * @author 林祖华
+ * @version 1.4
+ * @see businesslogicservice.ApprovalblService
+ */
 public class RevenuePendingTableModel extends DefaultTableModel {
     /**
      * 
@@ -15,11 +22,11 @@ public class RevenuePendingTableModel extends DefaultTableModel {
     private static final long serialVersionUID = -5731347015059326420L;
     private List<RevenueVO> dataList;
     private static final String[] TABLE_HEADER = {"收款单编号","快递员编号","收款营业厅","收款日期","收款订单号"};
-    private Revenue revenue;
+    private ApprovalblService approvalblService;
     
     public RevenuePendingTableModel() {
-        revenue = new Revenue();
-        dataList = revenue.getPendingRevenueVO();
+        approvalblService = BusinessLogicService.getApprovalblService();
+        dataList = approvalblService.getRevenueVO();
         setDataVector(convertToVectorData(dataList), getColumnNamesVector());
     }
     
@@ -28,14 +35,14 @@ public class RevenuePendingTableModel extends DefaultTableModel {
         insertRow(row, convertToVector(vo));
         dataList.remove(row);
         dataList.add(row, vo);
-        revenue.modifyRevenuePO(vo);
+        approvalblService.modifyRevenueVO(vo);
     }
     
     public void approve(int row){
         RevenueVO vo = dataList.get(row);
         removeRow(row);
         dataList.remove(row);
-        revenue.execute(vo);
+        approvalblService.approveRevenueVO(vo);
     }
     
     public RevenueVO getRevenueVO(int row){

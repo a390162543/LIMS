@@ -6,6 +6,14 @@ import java.util.List;
 
 import po.RevenuePO;
 
+/**
+ * {@code RevenueVO}是收款单界面与业务逻辑层之间传递的值对象，
+ * 记录了收款单的所有信息
+ * @author 林祖华
+ * @version 1.6
+ * @see systemenum.GoodsState
+ * @see po.RevenuePO
+ */
 public class RevenueVO {
     
     private String id;
@@ -16,6 +24,7 @@ public class RevenueVO {
     private String accountId;
     private String organization;
     
+    @Deprecated
     public RevenueVO(String id, Date revenueDate, String courierId, double revenue,
             List<String> orderId) {
         this.id = id;
@@ -103,6 +112,10 @@ public class RevenueVO {
         return organization;
     }
     
+    /**
+     * 获取一个{@code RevenueVO}对应的{@code RevenuePO}对象
+     * @return {@code RevenuePO}对象
+     */
     public RevenuePO getRevenuePO() {
         return new RevenuePO(id, revenueDate, courierId, revenue, orderId, organization);
     }

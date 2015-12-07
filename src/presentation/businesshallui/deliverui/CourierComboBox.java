@@ -10,6 +10,12 @@ import vo.EmployeeVO;
 import businesslogic.BusinessLogicService;
 import businesslogicservice.DeliverblService;
 
+/**
+ * 快递员的{@code JComboBox}，显示可选的快递员信息
+ * @author 林祖华
+ * @version 1.1
+ * @see businesslogicservice.DeliverblService
+ */
 public class CourierComboBox extends JComboBox<String>{
 
 	/**

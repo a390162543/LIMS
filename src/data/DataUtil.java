@@ -8,6 +8,11 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
+/**
+ * 数据层实现的工具类，提供数据层通用方法
+ * @author 林祖华
+ * @version 1.3
+ */
 public class DataUtil {
 	
 	public static void writeObject(Object obj,String filePath){

@@ -22,6 +22,12 @@ import vo.EmployeeVO;
 import vo.PayVO;
 import vo.UserVO;
 
+/**
+ * 司机信息的{@code Jdialog}
+ * @author 林祖华
+ * @version 1.2
+ * @see businesslogicservice.EmployeeblService
+ */
 public class DriverDialog extends JDialog {
 	/**
      * 

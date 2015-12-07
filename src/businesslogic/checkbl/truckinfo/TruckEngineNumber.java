@@ -4,6 +4,11 @@ import systemenum.CheckResult;
 import businesslogic.checkbl.CheckInfo;
 import businesslogic.checkbl.CheckResultMessage;
 
+/**
+ * 车辆的发动机号的{@code CheckInfo}的实现类
+ * @author 林祖华
+ * @version 1.0
+ */
 public class TruckEngineNumber implements CheckInfo{
     private String engineNumber;
     

@@ -11,6 +11,12 @@ import businesslogic.userbl.LoginController;
 import businesslogicservice.TruckblService;
 import vo.TruckVO;
 
+/**
+ * 车辆信息列表的{@code TableModel}
+ * @author 林祖华
+ * @version 1.8
+ * @see businesslogicservice.TruckblService
+ */
 public class TruckTableModel extends DefaultTableModel{
 
     /**

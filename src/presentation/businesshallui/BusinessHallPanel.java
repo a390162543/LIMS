@@ -13,6 +13,11 @@ import presentation.businesshallui.loadui.LoadDialog;
 import presentation.businesshallui.revenueui.RevenueDialog;
 import presentation.businesshallui.truckui.TruckPanel;
 
+/**
+ * 营业厅业务员进行业务操作需要的{@code JPanel}
+ * @author 林祖华
+ * @version 1.6
+ */
 public class BusinessHallPanel extends JPanel{
 
     /**

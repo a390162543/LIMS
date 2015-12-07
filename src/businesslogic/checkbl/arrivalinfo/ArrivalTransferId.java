@@ -9,6 +9,11 @@ import businesslogic.loadbl.Load;
 import businesslogic.transferbl.Transfer;
 import businesslogic.userbl.LoginController;
 
+/**
+ * 到达单的中转单编号的{@code CheckInfo}的实现类
+ * @author 林祖华
+ * @version 1.4
+ */
 public class ArrivalTransferId implements CheckInfo{
     
     private String transferId;

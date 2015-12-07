@@ -6,6 +6,14 @@ import javax.swing.ImageIcon;
 
 import po.TruckPO;
 
+/**
+ * {@code TruckVO}是车辆界面与业务逻辑层之间传递的值对象，
+ * 记录了车辆的所有信息
+ * @author 林祖华
+ * @version 1.4
+ * @see systemenum.GoodsState
+ * @see po.TruckPO
+ */
 public class TruckVO {
     
     private String id;
@@ -35,10 +43,6 @@ public class TruckVO {
         this.chassisNumber = chassisNumber;
         this.purchaseDate = purchaseDate;
         this.truckImage = truckImage;
-    }
-
-    public String getIdString(){
-        return String.format("%09d", id);
     }
     
     public String getId() {
@@ -101,6 +105,10 @@ public class TruckVO {
         this.truckImage = truckImage;
     }
 
+    /**
+     * 获取一个{@code TruckVO}对应的{@code TruckPO}对象
+     * @return {@code TruckPO}对象
+     */
     public TruckPO getTruckPO(){
         return new TruckPO(this.id, this.getOrganization(), this.engineNumber, this.truckNumber, this.chassisNumber, this.purchaseDate, this.truckImage);
     }

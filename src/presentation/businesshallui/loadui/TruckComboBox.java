@@ -10,6 +10,11 @@ import vo.TruckVO;
 import businesslogic.BusinessLogicService;
 import businesslogicservice.TruckblService;
 
+/**
+ * 车辆信息选择的{@code JComboBox}
+ * @author 林祖华
+ * @version 1.2
+ */
 public class TruckComboBox extends JComboBox<String>{
 
 	/**

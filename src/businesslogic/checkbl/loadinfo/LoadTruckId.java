@@ -7,6 +7,11 @@ import businesslogic.checkbl.CheckResultMessage;
 import businesslogic.truckbl.Truck;
 import businesslogic.userbl.LoginController;
 
+/**
+ * 装车单的车辆编号的{@code CheckInfo}的实现类
+ * @author 林祖华
+ * @version 1.0
+ */
 public class LoadTruckId implements CheckInfo{
     
     private String truckId;

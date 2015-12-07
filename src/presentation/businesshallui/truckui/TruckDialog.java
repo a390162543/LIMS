@@ -35,6 +35,12 @@ import businesslogicservice.IdblService;
 import businesslogicservice.TruckblService;
 import vo.TruckVO;
 
+/**
+ * 车辆信息的{@code Jdialog}
+ * @author 林祖华
+ * @version 1.8
+ * 
+ */
 public class TruckDialog extends JDialog{
 
     /**

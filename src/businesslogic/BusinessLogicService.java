@@ -45,6 +45,11 @@ import businesslogicservice.TransferblService;
 import businesslogicservice.TruckblService;
 import businesslogicservice.UserblService;
 
+/**
+ * {@code BusinessLogicService}是业务逻辑服务的工厂，提供给界面需要获取的业务逻辑服务
+ * @author 林祖华
+ * @version 1.1
+ */
 public class BusinessLogicService {
     
     public static AccountblService getAccountblService(){

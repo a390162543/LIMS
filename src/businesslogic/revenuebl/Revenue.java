@@ -24,9 +24,21 @@ import businesslogic.userbl.LoginController;
 import businesslogicservice.IdblService;
 import businesslogicservice.RevenueblService;
 
+/**
+ * {@code Revenue}是收款单业务逻辑的实现类，提供所有有关收款单的业务逻辑服务
+ * @author 林祖华
+ * @version 1.7
+ * @see dataservice.RevenueDataService
+ */
 public class Revenue implements RevenueblService{
 
+    /**
+     * {@code Revenue}的数据层服务引用
+     */
     private RevenueDataService revenueDataService;
+    /**
+     * 一次收款所维护的订单列表
+     */
     private OrderList orderList;
     
     public Revenue(){
@@ -70,6 +82,11 @@ public class Revenue implements RevenueblService{
         return true;
     }
     
+    /**
+     * 修改并且提交收款单
+     * @param vo 需要修改的{@code RevenuePO}对应的{@code RevenueVO}
+     * @return 修改成功返回{@code true}，否则返回false
+     */
     public boolean modifyAndCommitRevenuePO(RevenueVO vo) {
         RevenuePO po;
         try {
@@ -88,9 +105,11 @@ public class Revenue implements RevenueblService{
     @Override
     public boolean execute(RevenueVO vo) {
         try {
+            //更改收款单的状态
             RevenuePO po = revenueDataService.find(vo.getId());
             po.setDocumentState(DocumentState.PASS);
             revenueDataService.update(po);
+            //执行收款单内容，即对相应的账户进行扣款
             Account account = new Account();
             account.updateAccountBalance(vo.getAccountId(), vo.getRevenue());
         } catch (RemoteException e) {
@@ -130,6 +149,11 @@ public class Revenue implements RevenueblService{
         return null;
     }
     
+    /**
+     * 获取所有待审批的{@code RevenueVO}
+     * @return {@code Revenue}的列表，如果没有符合条件的{@code RevenueVO}，或者查询
+     * 失败，则返回一个空列表
+     */
     public List<RevenueVO> getPendingRevenueVO(){
         List<RevenuePO> pos = null;
         List<RevenueVO> vos = new ArrayList<RevenueVO>();
@@ -145,6 +169,11 @@ public class Revenue implements RevenueblService{
         return vos;
     }
     
+    /**
+     * 获取所有未提交的{@code RevenueVO}
+     * @return {@code Revenue}的列表，如果没有符合条件的{@code RevenueVO}，或者查询
+     * 失败，则返回一个空列表
+     */
     public List<RevenueVO> getUncommittedRevenueVO(){
         List<RevenuePO> pos = null;
         List<RevenueVO> vos = new ArrayList<RevenueVO>();
@@ -160,6 +189,12 @@ public class Revenue implements RevenueblService{
         return vos;
     }
     
+    /**
+     * 根据给定的日期和机构查找所有符合条件的{@code RevenueVO}
+     * @param date 查找日期
+     * @param organization 查找机构名
+     * @return 符合条件的{@code RevenueVO}的列表，如果查找失败或者不存在，则返回一个空列表
+     */
     public List<RevenueVO> queryRevenueVO(Date date, String organization) {
         List<RevenueVO> vos = new ArrayList<RevenueVO>();
         try {
@@ -184,6 +219,12 @@ public class Revenue implements RevenueblService{
         
     }
     
+    /**
+     * 根据给定的日期查找所有符合条件的{@code RevenueVO}
+     * @param begindate 起始日期
+     * @param enddate 结束日期
+     * @return 符合条件的{@code RevenueVO}的列表，如果查找失败或者不存在，则返回一个空列表
+     */
     public List<RevenueVO> queryRevenueVO(Date begindate, Date enddate) {
         List<RevenueVO> vos = new ArrayList<RevenueVO>();
         try {
@@ -208,6 +249,7 @@ public class Revenue implements RevenueblService{
         
     }
 
+    
     @Override
     public boolean add(OrderRevenueVO vo) {
         orderList.add(vo);

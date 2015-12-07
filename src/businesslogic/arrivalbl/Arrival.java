@@ -66,9 +66,12 @@ public class Arrival implements ArrivalblService{
     @Override
     public boolean execute(ArrivalVO vo) {
         try {
+            //更改到达单的状态
             ArrivalPO po = arrivalDataService.find(vo.getId());
             po.setDocumentState(DocumentState.PASS);
             arrivalDataService.update(po);
+            
+            //获取订单列表，要先判断ArrivalVO的transferId是否是中转单
             List<String> orders;
 
             if(vo.isTransferId()){
@@ -81,10 +84,11 @@ public class Arrival implements ArrivalblService{
                 orders = loadVO.getOrderId();
             }
 
+            //获取订单业务逻辑，并且更新订单状态
             Order orderbl = new Order();
             for(String orderId : orders){
                 String deliverInfo = BusinessLogicUtil.getTime(vo.getArrivalDate())+
-                        " 货物已到达"+vo.getDestination()+"\n";   
+                        " 货物已到达"+vo.getDestination();   
                 OrderDeliverInfoVO orderDeliverInfoVO = new OrderDeliverInfoVO(orderId, vo.getDestination(), vo.getDestination(), deliverInfo);
                 orderbl.modifyDeliverInfo(orderDeliverInfoVO);
             }

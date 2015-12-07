@@ -2,17 +2,19 @@ package presentation.util;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.GradientPaint;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 
 import javax.swing.JDialog;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JRootPane;
 
 import org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper;
 
+/**
+ * ÔÝÊ±·ÏÆú
+ * @author ÁÖ×æ»ª
+ *
+ */
+@Deprecated
 public class ScreenMassage{
     
     @SuppressWarnings("restriction")

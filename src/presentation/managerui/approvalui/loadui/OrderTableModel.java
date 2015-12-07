@@ -10,7 +10,12 @@ import businesslogicservice.LoadblService;
 import vo.GoodsVO;
  
  
- 
+/**
+ * 维护装车信息的订单列表
+ * @author 林祖华
+ * @version 1.0
+ * @see businesslogicservice.LoadblService
+ */
 
 public class OrderTableModel extends DefaultTableModel{
 	 

@@ -14,6 +14,17 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+/**
+ * 专门为{@code JDialog}设计的一种{@code LayoutManager}的实现类
+ * <p>将除了{@code JLabel}，{@code JButton}之外的组件由右上方往下
+ *排开，{@code JLabel}从左上方往下排开，与右边的组件对齐。{@code JButton}
+ *则会从右下方往左排列
+ *
+ *<p><strong>需要注意组件在{@code JDialog}的添加顺序</strong>
+ * @author 林祖华
+ * @version 1.9
+ *
+ */
 public class DialogLayoutManager implements LayoutManager{
     //边距
     private static final int LEFT_DISTANCE = 0;
@@ -129,6 +140,10 @@ public class DialogLayoutManager implements LayoutManager{
         }
     }
     
+    /**
+     * 固定一个或多个{@code JComponent}的相对位置
+     * @param components 需要固定相对位置的组件
+     */
     public static void fix(JComponent ...components){
         if(components.length == 0)
             return;

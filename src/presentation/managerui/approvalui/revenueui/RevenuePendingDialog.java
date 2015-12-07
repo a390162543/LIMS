@@ -21,6 +21,12 @@ import presentation.util.DialogLayoutManager;
 import presentation.util.RecentDatePickPanel;
 import vo.RevenueVO;
 
+/**
+ * 审批时收款单的{@code Jdialog}
+ * @author 林祖华
+ * @version 1.5
+ * @see businesslogicservice.ApprovalblService
+ */
 public class RevenuePendingDialog extends JDialog {
 
     /**

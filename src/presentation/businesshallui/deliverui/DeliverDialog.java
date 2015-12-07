@@ -22,6 +22,12 @@ import businesslogic.checkbl.deliverinfo.DeliverOrderId;
 import businesslogicservice.DeliverblService;
 import businesslogicservice.IdblService;
 
+/**
+ * 创建派件单的{@code Jdialog}
+ * @author 林祖华
+ * @version 1.3
+ * @see businesslogicservice.DeliverblService
+ */
 public class DeliverDialog extends JDialog{
 
     /**

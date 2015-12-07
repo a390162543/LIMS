@@ -12,6 +12,11 @@ import java.util.List;
 import po.DeliverPO;
 import dataservice.DeliverDataService;
 
+/**
+ * {@code DeliverData}是派件单数据层服务的实现类
+ * @author 林祖华
+ * @version 1.3
+ */
 public class DeliverData extends UnicastRemoteObject implements DeliverDataService {  
 
     /**
@@ -56,20 +61,21 @@ public class DeliverData extends UnicastRemoteObject implements DeliverDataServi
             throws RemoteException {
         String path = "c:/LIMS/database/"+this.getClass().getSimpleName();
         List<DeliverPO> deliverPOs = new ArrayList<DeliverPO>();
-        
+ 
         File[] files = DataUtil.getAll(path);
-        for(File f : files){
-            DeliverPO po = (DeliverPO)DataUtil.readObject(f.getAbsolutePath());
-            switch (field) {
-            case "documentState":
-                if(po.getDocumentState().equals(value)){
-                    deliverPOs.add(po);
+        if(files != null){
+            for(File f : files){
+                DeliverPO po = (DeliverPO)DataUtil.readObject(f.getAbsolutePath());
+                switch (field) {
+                case "documentState":
+                    if(po.getDocumentState().equals(value)){
+                        deliverPOs.add(po);
+                    }
+                    break;
+                default:
                 }
-                break;
-            default:
             }
         }
-            
         return deliverPOs;
     }
 

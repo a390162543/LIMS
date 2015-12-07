@@ -10,6 +10,12 @@ import javax.swing.JTable;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
+/**
+ * 审批时收款单的{@code Jpanel}，提供收款单的查看、修改、审批功能
+ * @author 林祖华
+ * @version 1.2
+ *
+ */
 public class RevenuePendingPanel extends JPanel {
 
     /**
@@ -77,9 +83,9 @@ public class RevenuePendingPanel extends JPanel {
 				new RevenuePendingDialog(tableModel, modelRow, false);
 			}
 		});
-		approveButton.setBounds(315, 420, 70, 30);
-		modifyButton.setBounds(400, 420, 70, 30);
-		queryButton.setBounds(485, 420, 70, 30);
+        approveButton.setBounds(315, 390, 70, 30);
+        modifyButton.setBounds(400, 390, 70, 30);
+        queryButton.setBounds(485, 390, 70, 30);
 		// set panel
 		this.setBounds(0, 0, 560, 470);
 		this.setLayout(null);

@@ -11,6 +11,15 @@ import systemenum.CheckResult;
 import businesslogic.checkbl.CheckInfo;
 import businesslogic.checkbl.CheckResultMessage;
 
+/**
+ * 界面层的检查类，提供了检查服务的界面展示以及调用检查业务逻辑的入口
+ * @author 林祖华
+ * @version 1.7
+ * @see businesslogic.checkbl.CheckInfo
+ * @see businesslogic.checkbl.CheckResultMessage
+ * @see CheckInfoGetter
+ *
+ */
 public class Checker extends JLabel{
 
     /**

@@ -4,6 +4,11 @@ import systemenum.CheckResult;
 import businesslogic.checkbl.CheckInfo;
 import businesslogic.checkbl.CheckResultMessage;
 
+/**
+ * 车辆的底盘号的{@code CheckInfo}的实现类
+ * @author 林祖华
+ * @version 1.0
+ */
 public class TruckChassisNumber implements CheckInfo{
     
     private String chassisNumber;

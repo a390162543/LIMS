@@ -26,6 +26,11 @@ import dataservice.TransferDataService;
 import dataservice.TruckDataService;
 import dataservice.UserDataService;
 
+/**
+ * {@code DataService}是数据层服务的工厂，提供了获取所有数据层服务实例的静态方法
+ * @author 林祖华
+ * @version 1.2
+ */
 public class DataService {
     
     public static AccountDataService getAccountDataService(){
@@ -284,6 +289,21 @@ public class DataService {
         return null;
     }
     
+    public static StorageLocationDataService getStorageLocationDataService(){
+        try {
+            return (StorageLocationDataService) Naming.lookup("rmi://localhost/StorageLocationData");
+        } catch (MalformedURLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (RemoteException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (NotBoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return null;
+    }
     public static StoreoutDataService getStoreoutDataService(){
         try {
             return (StoreoutDataService) Naming.lookup("rmi://localhost/StoreoutData");

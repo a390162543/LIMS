@@ -11,7 +11,12 @@ import vo.GoodsVO;
  
  
  
-
+/**
+ * 装车单信息中订单列表所需要的{@code TableModel}
+ * @author 林祖华
+ * @version 1.4
+ * @see businesslogicservice.LoadblService
+ */
 public class OrderTableModel extends DefaultTableModel{
 	 
 	/**

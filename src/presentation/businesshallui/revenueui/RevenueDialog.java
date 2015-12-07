@@ -32,6 +32,12 @@ import businesslogic.userbl.LoginController;
 import businesslogicservice.IdblService;
 import businesslogicservice.RevenueblService;
 
+/**
+ * 收款单的{@code Jdialog}
+ * @author 林祖华
+ * @version 1.4
+ * @see businesslogicservice.RevenueblService
+ */
 public class RevenueDialog extends JDialog{
 
     /**

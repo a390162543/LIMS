@@ -10,6 +10,12 @@ import javax.swing.JTable;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
+/**
+ * 审批时派件单的{@code Jpanel}，提供派件单的查看、修改、审批功能
+ * @author 林祖华
+ * @version 1.4
+ *
+ */
 public class DeliverPendingPanel extends JPanel {
 
 
@@ -79,9 +85,12 @@ public class DeliverPendingPanel extends JPanel {
 				new DeliverPendingDialog(tableModel, modelRow, false);
 			}
 		});
-		approveButton.setBounds(315, 420, 70, 30);
-		modifyButton.setBounds(400, 420, 70, 30);
-		queryButton.setBounds(485, 420, 70, 30);
+        approveButton.setBounds(315, 390, 70, 30);
+        modifyButton.setBounds(400, 390, 70, 30);
+        queryButton.setBounds(485, 390, 70, 30);
+        
+
+
 		// set panel
 		this.setBounds(0, 0, 560, 470);
 		this.setLayout(null);

@@ -21,8 +21,17 @@ import businesslogic.userbl.LoginController;
 import businesslogicservice.DeliverblService;
 import businesslogicservice.IdblService;
 
+/**
+ * {@code Deliver}是派件单业务逻辑的实现类，提供所有有关派件单的业务逻辑服务
+ * @author 林祖华
+ * @version 1.3
+ * @see dataservice.DeliverDataService
+ */
 public class Deliver implements DeliverblService{
     
+    /**
+     * {@code Deliver}的数据层服务引用
+     */
     private DeliverDataService deliverDataService;
     
     public Deliver(){
@@ -68,13 +77,24 @@ public class Deliver implements DeliverblService{
     @Override
     public boolean execute(DeliverVO vo) {
         try {
+            //更改派件单的状态
             DeliverPO po = deliverDataService.find(vo.getId());
             po.setDocumentState(DocumentState.PASS);
             deliverDataService.update(po);
 
+
+            //由快递员id获取姓名
+            Employee employeebl = new Employee();
+            EmployeeVO employeeVO = employeebl.find(vo.getCourierId());
+            String courier = vo.getCourierId();
+            if(employeeVO != null){
+                courier = employeeVO.getName()+"("+vo.getId()+")";
+            }
+            
+            //获取订单业务逻辑，并且更新订单状态
             Order orderbl = new Order();
             String deliverInfo = BusinessLogicUtil.getTime(vo.getDeliverDate())+
-                    " 货物正在由快递员"+vo.getCourierId()+"派件\n";
+                    " 货物正在由快递员"+courier+"派件";
             OrderDeliverInfoVO orderDeliverInfoVO = new OrderDeliverInfoVO(vo.getOrderId(), LoginController.getOrganizationName(), "", deliverInfo);
             orderbl.modifyDeliverInfo(orderDeliverInfoVO);
                 
@@ -86,6 +106,11 @@ public class Deliver implements DeliverblService{
         return false;
     }
     
+    /**
+     * 获取所有待审批的{@code DeliverVO}
+     * @return {@code Deliver}的列表，如果没有符合条件的{@code DeliverVO}，或者查询
+     * 失败，则返回一个空列表
+     */
     public List<DeliverVO> getPendingDeliverVO(){
         List<DeliverPO> pos = null;
         List<DeliverVO> vos = new ArrayList<DeliverVO>();

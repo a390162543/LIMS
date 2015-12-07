@@ -10,7 +10,13 @@ import businesslogicservice.RevenueblService;
 import vo.OrderRevenueVO;
  
  
- 
+/**
+ * 维护收款单信息中的订单表格
+ * @author 林祖华
+ * @version 1.1
+ * @see businesslogicservice.RevenueblService
+ *
+ */
 
 public class OrderTableModel extends DefaultTableModel{
 	 

@@ -8,6 +8,11 @@ import businesslogic.BusinessLogicUtil;
 import businesslogic.userbl.LoginController;
 import businesslogicservice.IdblService;
 
+/**
+ * {@code IdblService}的实现类，提供了创建新{@code id}的具体方法
+ * @author 林祖华
+ * @version 1.3
+ */
 public class IdManager implements IdblService{
 
     protected DataIdentifiable dataService;

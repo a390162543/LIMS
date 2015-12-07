@@ -1,13 +1,19 @@
 package po;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import systemenum.DocumentState;
 import vo.RevenueVO;
 
+/**
+ * {@code RevenuePO}是收款单业务逻辑层与数据层之间传递的持久化对象，
+ * 记录了收款单的所有信息
+ * @author 林祖华
+ * @see systemenum.DocumentState
+ * @see vo.RevenueVO
+ */
 public class RevenuePO implements Serializable{
      
     /**
@@ -24,6 +30,7 @@ public class RevenuePO implements Serializable{
     private String organization;
     private DocumentState documentState;
     
+    @Deprecated
     public RevenuePO(String id, Date revenueDate, String courierId, double revenue,
             List<String> orderId) {
         this.id = id;
@@ -44,32 +51,6 @@ public class RevenuePO implements Serializable{
         this.accountId = "";
         this.organization = organization;
         this.documentState = DocumentState.UNCOMMITTED;
-    }
-    
-
-
-    public String getIdString(){
-        return String.format("%018d", id);
-    }
-    
-    public String getAccountIdString(){
-        return String.format("%019d", accountId);
-    }
-    
-    public String getcourierIdString(){
-        return String.format("%09d", courierId);
-    }
-    
-    public List<String> getOrderIdStringList(){
-        List<String> orderIdStrings = new ArrayList<String>();
-        for(String id : orderId){
-            orderIdStrings.add(String.format("%010d", id));
-        }
-        return orderIdStrings;
-    }
-    
-    public double getRevenue() {
-        return revenue;
     }
 
     public void setRevenue(double revenue) {
@@ -112,6 +93,10 @@ public class RevenuePO implements Serializable{
         return organization;
     }
     
+    /**
+     * 用一个{@code RevenueVO}对象更新{@code RevenuePO}的信息
+     * @param vo {@code RevenueVO}对象
+     */
     public void update(RevenueVO vo) {
         this.id = vo.getId();
         this.revenueDate = vo.getRevenueDate();
@@ -122,6 +107,10 @@ public class RevenuePO implements Serializable{
         this.organization = vo.getOrganization();
     }
 
+    /**
+     * 获取该{@code RevenuePO}对应的{@code RevenueVO}对象
+     * @return {@code RevenueVO}对象
+     */
     public RevenueVO getRevenueVO(){
         return new RevenueVO(id, revenueDate, courierId, revenue, orderId, accountId, organization);
     }

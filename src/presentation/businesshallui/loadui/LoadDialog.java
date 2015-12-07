@@ -31,6 +31,12 @@ import businesslogic.userbl.LoginController;
 import businesslogicservice.IdblService;
 import businesslogicservice.LoadblService;
 
+/**
+ * 装车单的{@code Jdialog}
+ * @author 林祖华
+ * @version 1.3
+ * @see businesslogicservice.LoadblService
+ */
 public class LoadDialog extends JDialog{
 
     /**

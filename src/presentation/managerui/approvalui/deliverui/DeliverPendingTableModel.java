@@ -8,6 +8,12 @@ import javax.swing.table.DefaultTableModel;
 import vo.DeliverVO;
 import businesslogic.deliverbl.Deliver;
 
+/**
+ * 审批时派件单的{@code TableModel}，维护派件单信息列表的数据
+ * @author 林祖华
+ * @version 1.3
+ * @see businesslogicservice.ApprovalblService
+ */
 public class DeliverPendingTableModel extends DefaultTableModel {
     /**
      * 

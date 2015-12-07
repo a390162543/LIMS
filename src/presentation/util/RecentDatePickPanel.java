@@ -20,6 +20,11 @@ import javax.swing.WindowConstants;
 
 import org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper;
 
+/**
+ * 日期选择控件，用于近期日期选择
+ * @author 林祖华
+ * @version 1.1
+ */
 public class RecentDatePickPanel extends JPanel{
     
     

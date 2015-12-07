@@ -13,6 +13,11 @@ import java.util.List;
 import po.RevenuePO;
 import dataservice.RevenueDataService;
 
+/**
+ * {@code RevenueData}是收款单数据层服务的实现类
+ * @author 林祖华
+ * @version 1.3
+ */
 public class RevenueData extends UnicastRemoteObject implements RevenueDataService {
 
     /**
@@ -59,27 +64,28 @@ public class RevenueData extends UnicastRemoteObject implements RevenueDataServi
         List<RevenuePO> revenuePOs = new ArrayList<RevenuePO>();
         
         File[] files = DataUtil.getAll(path);
-        for(File f : files){
-            RevenuePO po = (RevenuePO)DataUtil.readObject(f.getAbsolutePath());
-            switch (field) {
-            case "documentState":
-                if(po.getDocumentState().equals(value)){
-                    revenuePOs.add(po);
+        if(files != null){
+            for(File f : files){
+                RevenuePO po = (RevenuePO)DataUtil.readObject(f.getAbsolutePath());
+                switch (field) {
+                case "documentState":
+                    if(po.getDocumentState().equals(value)){
+                        revenuePOs.add(po);
+                    }
+                    break;
+                case "organization":
+                    if(po.getOrganization().equals(value)){
+                        revenuePOs.add(po);
+                    }
+                    break;
+                case "date" :
+                    if(po.getRevenueDate().after((Date)value)||po.getRevenueDate().equals((Date)value))
+                        revenuePOs.add(po);
+                    break;
+                default:
                 }
-                break;
-            case "organization":
-                if(po.getOrganization().equals(value)){
-                    revenuePOs.add(po);
-                }
-                break;
-            case "date" :
-                if(po.getRevenueDate().after((Date)value)||po.getRevenueDate().equals((Date)value))
-                    revenuePOs.add(po);
-                break;
-            default:
             }
-        }
-            
+        }   
         return revenuePOs;
     }
 

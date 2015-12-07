@@ -1,11 +1,18 @@
 package vo;
 
-import java.util.ArrayList;
+
 import java.util.Date;
 import java.util.List;
 
 import po.LoadPO;
-
+/**
+ * {@code LoadVO}是装车单界面与业务逻辑层之间传递的值对象，
+ * 记录了装车单的所有信息
+ * @author 林祖华
+ * @version 1.5
+ * @see systemenum.GoodsState
+ * @see po.LoadPO
+ */
 public class LoadVO {
     
     private String id;
@@ -19,6 +26,7 @@ public class LoadVO {
     private List<String> orderId;
     private double cost;
     
+    @Deprecated
     public LoadVO(String id, Date loadingDate, String transportId, String arrive,
             String truckId, String loadMan, String transman, List<String> orderId,
             double cost) {
@@ -48,26 +56,6 @@ public class LoadVO {
         this.transman = transman;
         this.orderId = orderId;
         this.cost = cost;
-    }
-    
-    public String getIdString(){
-        return String.format("%018d", id);
-    }
-    
-    public String getTransportIdString(){
-        return String.format("%010d", transportId);
-    }
-    
-    public String getTruckIdString(){
-        return String.format("%09d", truckId);
-    }
-    
-    public List<String> getOrderIdStringList(){
-        List<String> orderIdStrings = new ArrayList<String>();
-        for(String id : orderId){
-            orderIdStrings.add(String.format("%010d", id));
-        }
-        return orderIdStrings;
     }
     
     public String getId() {
@@ -118,6 +106,10 @@ public class LoadVO {
         return depart;
     }
     
+    /**
+     * 获取一个{@code LoadVO}对应的{@code LoadPO}对象
+     * @return {@code LoadPO}对象
+     */
     public LoadPO getLoadPO() {
         return new LoadPO(id, loadingDate, transportId, depart, destination, truckId, loadMan, transman, orderId, cost);
     }
