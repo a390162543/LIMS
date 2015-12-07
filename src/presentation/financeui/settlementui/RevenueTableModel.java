@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Vector;
 
 import javax.swing.table.DefaultTableModel;
-
-import vo.AccountVO;
 import vo.RevenueVO;
 
 public class RevenueTableModel extends DefaultTableModel{
@@ -39,8 +37,7 @@ public class RevenueTableModel extends DefaultTableModel{
     
     public void delete(int row){
         removeRow(row);
-        RevenueVO vo = dataList.get(row);
-        dataList.remove(row);
+        dataList.remove(row);       
     }
     private static Vector<Object> convertToVector(RevenueVO vo){
         Vector<Object> rowVector = new Vector<Object>();

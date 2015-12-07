@@ -6,7 +6,6 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -26,7 +25,7 @@ public class SettlementDialog extends JDialog{
 	private JPanel parent;
 	
 	private DatePickPanel datePickPanel;
-	private JComboBox businessHallBox;
+	private OrganizationComboBox businessHallBox;
 	
 	public SettlementDialog(JPanel panel){
 		this.parent = panel;
@@ -53,7 +52,6 @@ public class SettlementDialog extends JDialog{
 		businessHallLabel.setLocation(labelx, labely+70-labelHeight);
 		
 		
-		int longWidth = 180;
 		int textFieldHeight = 25;
 		int textFieldx = 123;
 		int textFieldy = 70;

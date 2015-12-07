@@ -46,7 +46,7 @@ public class SetAccountDialog extends JDialog{
 		
 		SettlementblService settlementblService = new Settlement();
 		String[] account = settlementblService.getAllAccountId();
-		JComboBox accountBox = new JComboBox(account);
+		JComboBox<String> accountBox = new JComboBox<String>(account);
 		accountBox.setSize(180, 25);
 		accountBox.setLocation(140, 75);
 		
