@@ -3,12 +3,16 @@ package businesslogic.settlementbl;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import vo.RevenueVO;
 import businesslogic.accountbl.Account;
 import businesslogic.revenuebl.Revenue;
 import businesslogicservice.SettlementblService;
 
+/**
+ * {@code Settlement}是结算管理的业务逻辑的实现类，提供所有有关结算管理的业务逻辑服务
+ * @author 刘德宽
+ * @version 1.6
+ */
 public class Settlement implements SettlementblService{
 
 	@Override

@@ -1,5 +1,11 @@
 package vo;
 
+/**
+ * 该VO保存订单的运送信息
+ * @author lc
+ * @version 1.3
+ *
+ */
 public class OrderDeliverInfoVO {
 	
 	private String orderId;

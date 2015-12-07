@@ -11,7 +11,11 @@ import java.util.List;
 
 import po.UserPO;
 import dataservice.UserDataService;
-
+/**
+ * {@code USerData}是用户数据层的实现类，提供数据层所有服务
+ * @author 刘航伸
+ *@version 1.2
+ */
 public class UserData extends UnicastRemoteObject implements UserDataService{
 
 	protected UserData() throws RemoteException {
@@ -34,9 +38,9 @@ public class UserData extends UnicastRemoteObject implements UserDataService{
 	}
 
 	@Override
-	public void delete(UserPO po) throws RemoteException {
+	public void delete(String id) throws RemoteException {
 		// TODO Auto-generated method stub
-		String fileName = po.getId();
+		String fileName = id;
         String path = "c:/LIMS/database/"+this.getClass().getSimpleName()+"/"+fileName+".ser";
         new File(path).delete();
 	}

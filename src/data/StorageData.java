@@ -8,9 +8,16 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.server.UnicastRemoteObject;
 
 import po.StoragePO;
-import dataservice.OrderDataService;
 import dataservice.StorageDataService;
 
+
+
+/**
+ * 实现StorageDataService，提供对库存数据操作的方法
+ * @author lc
+ * @version 1.3
+ *
+ */
 public class StorageData extends UnicastRemoteObject implements StorageDataService{
 
 	/**

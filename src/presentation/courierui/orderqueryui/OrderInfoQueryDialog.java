@@ -13,12 +13,19 @@ import javax.swing.JTextField;
 import presentation.util.CheckInfoGetter;
 import presentation.util.Checker;
 import vo.OrderQueryVO;
+import businesslogic.BusinessLogicService;
 import businesslogic.checkbl.CheckInfo;
 import businesslogic.checkbl.orderinfo.OrderQueryId;
-import businesslogic.orderbl.Order;
 import businesslogicservice.OrderblService;
 
 
+
+/**
+ * 这是物流信息详情的界面
+ * @author lc
+ * @version 1.4
+ *
+ */
 public class OrderInfoQueryDialog extends JDialog{
 
 	/**
@@ -86,7 +93,7 @@ public class OrderInfoQueryDialog extends JDialog{
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				OrderDetailDialog  deliveryDialog = new OrderDetailDialog();
-				OrderblService orderblService = new Order();
+				OrderblService orderblService = BusinessLogicService.getOrderblService();
 				OrderQueryVO orderQueryVO = orderblService.returnOrderQueryVO(new String(orderInfoTextField.getText()));
 				deliveryDialog.setInfo(orderQueryVO);
 				deliveryDialog.repaint();

@@ -13,7 +13,11 @@ import presentation.financeui.primeinfoui.PrimeInfoDialog;
 import presentation.financeui.settlementui.RevenuePanel;
 import presentation.financeui.settlementui.SettlementDialog;
 import presentation.financeui.statisticsui.StatisticsDialog;
-
+/**
+ * {@code FinancePanel}继承{@code JPanel}，是财务人员主界面的界面层面板展示
+ * @author 刘德宽
+ *
+ */
 public class FinancePanel extends JPanel {
 	/**
 	 * 

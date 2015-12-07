@@ -10,8 +10,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import po.OrderPO;
-import systemenum.DocumentState;
 import dataservice.OrderDataService;
+
+/**
+ * 实现OrderDataService的方法，提供对订单数据操作的相应方法
+ * 
+ * @author lc
+ * @version 1.4
+ *
+ */
 
 public class OrderData extends UnicastRemoteObject implements OrderDataService{
 
@@ -20,10 +27,7 @@ public class OrderData extends UnicastRemoteObject implements OrderDataService{
 	 */
 	private static final long serialVersionUID = -5524954244047458118L;
 
-
 	
-
-
 	protected OrderData() throws RemoteException {
 		super();
 		// TODO Auto-generated constructor stub

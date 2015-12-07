@@ -1,6 +1,7 @@
 package presentation.managerui.employeeui;
 
 import java.awt.event.ActionEvent;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
@@ -20,7 +21,6 @@ import businesslogic.checkbl.employeeinfo.EmployeeIdCard;
 import businesslogic.checkbl.employeeinfo.EmployeePhoneNumber;
 import businesslogicservice.EmployeeblService;
 import businesslogicservice.IdblService;
-import businesslogicservice.OrganizationblService;
 import presentation.util.CheckInfoGetter;
 import presentation.util.Checker;
 import presentation.util.DatePickPanel;
@@ -30,7 +30,12 @@ import systemenum.Sex;
 import vo.EmployeeVO;
 import vo.PayVO;
 
-
+/**
+ * 创建、修改和查询员工界面
+ * @author 刘航伸
+ * @see @see presentation.employeeui.EmployeeTableModel
+ * @version 1.2
+ */
 public class EmployeeDialog extends JDialog{
 	/**
 	 * 
@@ -67,7 +72,6 @@ public class EmployeeDialog extends JDialog{
 	private JButton cancleButton;
 	private JButton sureButton;
     private EmployeeTableModel tableModel;
-    private OrganizationblService organizationblService;
     private EmployeeblService employeeblService;
     private Checker phoneNumberChecker;
     private Checker idcardChecker;
@@ -124,6 +128,8 @@ public class EmployeeDialog extends JDialog{
 		init();
 		tableModel = em;
 		EmployeeVO vo = tableModel.getEmployeeVO(modelRow);
+		
+		// 显示相应员工信息
 		nameField.setText(vo.getName());
 		idField.setText(""+vo.getId());
 		idField.setEnabled(false);
@@ -188,7 +194,7 @@ public class EmployeeDialog extends JDialog{
 		}
 			
 	 
-		
+		//查询时将界面设定成不可修改
 		if(!isEdit){
 			nameField.setEnabled(false);
 			maleRadioButton.setEnabled(false);
@@ -255,19 +261,22 @@ public class EmployeeDialog extends JDialog{
 		}	
 	}
 	
-	
+	/**
+	 * 生成id的方法
+	 */
 	public void setId(){
-		String organizationId = organizationblService.getId
+		String organizationId = employeeblService.getOrganizationId
 				(organizationBox.getSelectedOrganization());
 		IdblService idblService = employeeblService.getIdblService();
 		idField.setText(idblService.createNewId(organizationId));		 
 	}
 		
-    
+    /**
+     * 将界面组件添加到界面中
+     */
 	public void init(){
-		organizationblService = BusinessLogicService.getOrganizationblService();
-		employeeblService =  BusinessLogicService.getEmployeeblService();
-				
+	 
+		employeeblService =  BusinessLogicService.getEmployeeblService();				
 		positions = new String[]{"总经理","营业厅业务员","中转中心业务员","快递员",
 				 "中转中心仓库管理员","高级财务人员","财务人员","管理员","司机"};
 	  
@@ -469,7 +478,9 @@ public class EmployeeDialog extends JDialog{
 		});
 	}
 	
-	public void update(boolean isNew,int modelRow){		  
+	//讲界面数据更新到数据区
+	public void update(boolean isNew,int modelRow){	
+		//获取界面信息
 		  String id = idField.getText();		
 		  String name = nameField.getText();
 		  String organization = organizationBox.getSelectedItem().toString();

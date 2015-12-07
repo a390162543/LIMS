@@ -11,11 +11,15 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import presentation.util.DatePickPanel;
-import businesslogic.statisticsbl.Statistics;
+import businesslogic.BusinessLogicService;
 import businesslogicservice.StatisticsblService;
 import vo.PaymentVO;
 import vo.RevenueVO;
-
+/**
+ * {@code StatisticsDialog}继承{@code JDialog}，是查询统计报表的界面层对话框展示
+ * @author 刘德宽
+ *
+ */
 public class StatisticsDialog extends JDialog{
 
 	/**
@@ -89,7 +93,7 @@ public class StatisticsDialog extends JDialog{
 	class ConfirmButtonListener implements ActionListener{
 
 		public void actionPerformed(ActionEvent e) {		
-			StatisticsblService sbs = new Statistics();
+			StatisticsblService sbs = BusinessLogicService.getStatisticsblService();
 			List<RevenueVO> ros = sbs.queryRevenueVO( datePickPanel1.getDate(),datePickPanel2.getDate());
 			RevenuePanel revenuePanel = new RevenuePanel(ros);
 			List<PaymentVO> vos = sbs.queryPaymentVO( datePickPanel1.getDate(),datePickPanel2.getDate());

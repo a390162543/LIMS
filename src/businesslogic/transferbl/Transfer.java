@@ -1,14 +1,11 @@
 package businesslogic.transferbl;
 
-import java.net.MalformedURLException;
-import java.rmi.Naming;
-import java.rmi.NotBoundException;
+ 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
-
+import dataservice.DataService;
 import dataservice.TransferDataService; 
-import po.TransferPO;
 import po.TransferPO;
 import systemenum.DocumentState; 
 import businesslogic.idbl.IdManager;
@@ -17,37 +14,34 @@ import businesslogic.organizationbl.Organization;
 import businesslogicservice.IdblService;
 import businesslogicservice.TransferblService; 
 import vo.GoodsVO;
-import vo.TransferVO;
+import vo.OrderDeliverInfoVO;
 import vo.TransferVO;
 
+/**
+ * {@code Transfer}是中转单业务逻辑的实现类，提供所有有关中转单的业务逻辑服务
+ * @author 刘航伸
+ *
+ */
 public class Transfer implements TransferblService{
+	/**
+	 * {@code Transfer}的数据层引用和逻辑层引用
+	 */
 	private GoodsList goodsList;
 	private TransferDataService transferDataService ;
 	
 	public Transfer(){
 		goodsList = new GoodsList();
-		try { 
-        	 transferDataService = (TransferDataService) Naming.lookup
-        			("rmi://localhost/TransferData");
-        	 
-			} catch (MalformedURLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (NotBoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();		
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		transferDataService = DataService.getTransferDataService();
 	}
 	
-	public void addGoods(GoodsVO vo){
+	public boolean addGoods(GoodsVO vo){
 		goodsList.add(vo);
+		return true;
 	}
 	
-	public void deleteGoods(GoodsVO vo){
+	public boolean  deleteGoods(GoodsVO vo){
 		goodsList.delete(vo);
+		return true;
 	}
 	
 	public double getCost(String location1, String location2,String way){
@@ -111,11 +105,27 @@ public class Transfer implements TransferblService{
 	}
 
 	@Override
+	/**
+	 * 中转单的执行方法
+	 *@param vo, TransferVO
+	 *@return 成功执行返回true， 否则返回false
+	 */
 	public boolean execute(TransferVO vo) {
 		// TODO Auto-generated method stub
-		TransferPO po = vo.getTransferPO();
-		po.setDocumentState(DocumentState.PASS);
+		//更改物流信息
+		Order order = new Order();
+		
+		String depart = vo.getDepart();
+		String distination = vo.getDestination();
+		String info = "正发往 " + vo.getDestination() + "中";
+		for(String s : vo.getOrderId()){
+			OrderDeliverInfoVO infoVO = new OrderDeliverInfoVO(s, depart, distination, info);
+			order.modifyDeliverInfo(infoVO);
+		}
+		//更改中转单单据状态
 		try {
+			TransferPO po = vo.getTransferPO();
+			po.setDocumentState(DocumentState.PASS);
 			transferDataService.update(po);
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
@@ -132,7 +142,12 @@ public class Transfer implements TransferblService{
 		 return vo;
 			 		 
 	}
-	
+	 
+    /**
+     * 获取所有待审批的{@code TransferVO}
+     * @return {@code Transfer}的列表，如果没有符合条件的{@code TransferVO}，或者查询
+     * 失败，则返回一个空列表
+     */
 	public List<TransferVO> getPendingTransferVO(){
 		List<TransferVO> vos =  new ArrayList<TransferVO>();
 		 try {

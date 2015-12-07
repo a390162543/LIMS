@@ -17,7 +17,6 @@ import presentation.util.Checker;
 import presentation.util.DatePickPanel;
 import businesslogic.BusinessLogicService;
 import businesslogic.checkbl.CheckInfo;
-import businesslogic.checkbl.accountinfo.AccountId;
 import businesslogic.checkbl.paymentinfo.PayeeAccountId;
 import businesslogic.checkbl.paymentinfo.PayeeName;
 import businesslogic.checkbl.paymentinfo.Remarks;
@@ -26,7 +25,11 @@ import businesslogicservice.PaymentblService;
 import systemenum.Entry;
 import vo.PaymentVO;
 
-
+/**
+ * {@code PaymentDialog}继承{@code JDialog}，是创建付款单的界面层对话框展示
+ * @author 刘德宽
+ *
+ */
 public class PaymentDialog extends JDialog{
 	
 	/**
@@ -39,8 +42,8 @@ public class PaymentDialog extends JDialog{
  	private JTextField moneyField;
  	private JTextField nameField;
  	private JTextField payeeAccountField;
- 	private JComboBox payerAccountBox;
- 	private JComboBox entryBox;
+ 	private JComboBox<String> payerAccountBox;
+ 	private JComboBox<String> entryBox;
  	private JTextArea remarksArea;
  	private DatePickPanel datePickPanel;
  	
@@ -113,11 +116,11 @@ public class PaymentDialog extends JDialog{
 		payeeAccountField.setSize(longWidth,textFieldHeight);
 		payeeAccountField.setLocation(textFieldx, textFieldy+(interval2+textFieldHeight)*4);
 		String[] payerAccount=new String[]{"6222110000000000000","6222110000000000001"};
-		payerAccountBox=new JComboBox(payerAccount);
+		payerAccountBox=new JComboBox<String>(payerAccount);
 		payerAccountBox.setSize(longWidth, textFieldHeight);
 		payerAccountBox.setLocation(textFieldx, textFieldy+(interval2+textFieldHeight)*5);
 		String[] entry=new String[]{"租金","运费","人员工资","奖励"};
-		entryBox=new JComboBox(entry);
+		entryBox = new JComboBox<String>(entry);
 		entryBox.setSize(shortWidth+40, textFieldHeight);
 		entryBox.setLocation(textFieldx, textFieldy+(interval2+textFieldHeight)*6);
 		remarksArea=new JTextArea();

@@ -13,13 +13,17 @@ import javax.swing.table.DefaultTableModel;
 
 import presentation.util.CheckInfoGetter;
 import presentation.util.Checker;
+import businesslogic.BusinessLogicService;
 import businesslogic.checkbl.CheckInfo;
 import businesslogic.checkbl.storeoutinfo.StoreoutOrderId;
-import businesslogic.storeinbl.Storein;
-import businesslogic.storeoutbl.Storeout;
-import businesslogicservice.StoreinblService;
 import businesslogicservice.StoreoutblService;
 
+/**
+ * 这是添加出库货物显示的界面
+ * @author lc
+ * @version 1.4
+ *
+ */
 public class StoreoutGoodsDialog extends JDialog {
 
 	/**
@@ -33,6 +37,7 @@ public class StoreoutGoodsDialog extends JDialog {
 	private JButton confirmButton;
 	private JButton cancleButton;
 	
+	@SuppressWarnings("unused")
 	private DefaultTableModel tableModel;
 
 	public StoreoutGoodsDialog(DefaultTableModel tableModel){
@@ -93,7 +98,7 @@ public class StoreoutGoodsDialog extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String[] data = {goodsIdTextField.getText()};
-				StoreoutblService storeoutblService = new Storeout();
+				StoreoutblService storeoutblService = BusinessLogicService.getStoreoutblService();
 				storeoutblService.changeLocationState(goodsIdTextField.getText());
 				tableModel.addRow(data);
 				StoreoutGoodsDialog.this.dispose();

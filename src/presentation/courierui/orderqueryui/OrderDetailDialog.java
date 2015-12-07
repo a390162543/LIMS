@@ -11,6 +11,13 @@ import javax.swing.JTextField;
 
 import vo.OrderQueryVO;
 
+
+/**
+ * 这是查询订单物流信息的VO
+ * @author lc
+ * @version 1.5
+ *
+ */
 public class OrderDetailDialog extends JDialog{
 
 	/**
@@ -28,11 +35,7 @@ public class OrderDetailDialog extends JDialog{
 	private JButton confirmButton;
 	
 	public OrderDetailDialog(){
-		init();
-		buttonFunction();
-	}
-	
-	public void init(){
+		
 		this.setTitle("货物信息");	
 		this.setSize(380, 460);
 		this.setLayout(null);
@@ -63,15 +66,6 @@ public class OrderDetailDialog extends JDialog{
 		this.setLocationRelativeTo(null);
         this.setResizable(false);
         this.setVisible(true);
-	}
-	
-	public void setInfo(OrderQueryVO vo){
-		goodsStateTextField.setText(vo.getState().getName());
-		orderIdTextField.setText(vo.getId());
-		deliveryInfoTestTextArea.setText(vo.getDeliverInfo()+"\n"+vo.getNowLocation()+"发往"+vo.getNextLocation());	
-	}
-	
-	public void buttonFunction(){
 		
 		confirmButton.addActionListener(new ActionListener() {
 			@Override
@@ -82,4 +76,10 @@ public class OrderDetailDialog extends JDialog{
 		});
 	}
 
+	public void setInfo(OrderQueryVO vo) {
+		goodsStateTextField.setText(vo.getState().getName());
+		orderIdTextField.setText(vo.getId());
+		deliveryInfoTestTextArea.setText(vo.getDeliverInfo() + "\n"
+				+ vo.getNowLocation() + "发往" + vo.getNextLocation());
+	}
 }

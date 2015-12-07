@@ -15,6 +15,13 @@ import javax.swing.table.TableRowSorter;
 
 import vo.InOrderCheckResultVO;
 
+
+/**
+ * 这是库存查看时符合条件的入库单的显示的面板
+ * @author lc
+ * @version 1.3
+ *
+ */
 public class StoreinCheckPanel extends JPanel{
 	
 	/**

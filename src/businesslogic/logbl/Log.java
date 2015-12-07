@@ -1,8 +1,5 @@
 package businesslogic.logbl;
 
-import java.net.MalformedURLException;
-import java.rmi.Naming;
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -10,24 +7,29 @@ import java.util.Date;
 import java.util.List;
 
 import po.LogPO;
+import dataservice.DataService;
 import dataservice.LogDataService;
 import vo.LogVO;
 import businesslogicservice.LogblService;
 
+/**
+ * {@code Log}是主要操作记录的业务逻辑的实现类，提供所有有关主要操作记录的业务逻辑服务
+ * @author 刘德宽
+ * @version 1.6
+ * @see dataservice.LogDataService
+ */
 public class Log implements LogblService{
 
+	private LogDataService logDataService;
+	
+	public Log(){
+		logDataService = DataService.getLogDataService();
+	}
 	@Override
 	public boolean createLogPO(LogVO vo) {
         try {
-            LogDataService lds = (LogDataService) Naming.lookup("rmi://localhost/LogData");
-            lds.insert(vo.getLogPO());
-        } catch (MalformedURLException e) {
-        	
-            e.printStackTrace();
+        	logDataService.insert(vo.getLogPO());
         } catch (RemoteException e) {
-        	
-            e.printStackTrace();
-        } catch (NotBoundException e) {
         	
             e.printStackTrace();
         }
@@ -38,19 +40,12 @@ public class Log implements LogblService{
 	public List<LogVO> queryLogVO(Date date) {
         List<LogVO> vos = new ArrayList<LogVO>();
         try {
-        	LogDataService lds = (LogDataService) Naming.lookup("rmi://localhost/LogData");
-            List<LogPO> pos = lds.finds("date", date);
+            List<LogPO> pos = logDataService.finds("date", date);
             for(LogPO po : pos){
                 vos.add(po.getLogVO());
             }
-        } catch (MalformedURLException e) {
-
-            e.printStackTrace();
         } catch (RemoteException e) {
 
-            e.printStackTrace();
-        } catch (NotBoundException e) {
-  
             e.printStackTrace();
         }
         return vos;

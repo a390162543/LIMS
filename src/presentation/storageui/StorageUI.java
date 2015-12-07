@@ -6,20 +6,23 @@ import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.UIManager;
-
-
-
 
 import presentation.storageui.storagecheckui.StorageCheckDialog;
 import presentation.storageui.storagemanageui.StorageManageDialog;
 import presentation.storageui.storagequeryui.StorageQueryPanel;
 import presentation.storageui.storeinui.StoreinDialogUI;
 import presentation.storageui.storeoutui.StoreoutDialogUI;
-import businesslogic.storagebl.Storage;
+import businesslogic.BusinessLogicService;
 import businesslogicservice.StorageblService;
 import vo.StorageQueryResultVO;
 
+
+/**
+ * 这是库存管理人员登录后显示的操作界面
+ * @author lc
+ * @version 1.4
+ *
+ */
 public class StorageUI extends JPanel{
 	
 	/**
@@ -38,17 +41,7 @@ public class StorageUI extends JPanel{
 
 	public StorageUI(){
 		
-		try {
-			UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		init();
-		buttonFunction();
-	}
 	
-	public void init(){
 		this.setSize(800, 540);
         this.setLayout(null);
         contentPanel = new JPanel();
@@ -71,9 +64,7 @@ public class StorageUI extends JPanel{
         this.add(storeinButton);
         
         this.setVisible(true);
-	}
-
-	public void buttonFunction(){
+	
 		
 		storeinButton.addActionListener(new ActionListener() {
 			@Override
@@ -112,7 +103,7 @@ public class StorageUI extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				StorageblService storageblService = new Storage();
+				StorageblService storageblService = BusinessLogicService.getStorageblService();
 				List<StorageQueryResultVO> storageQueryResultVOs = storageblService.storageQuery("organization", "南京中转中心");
 				StorageQueryPanel storageQueryPanel = new StorageQueryPanel(storageQueryResultVOs);
 				storageQueryPanel.setBounds(10, 40, 540, 400);

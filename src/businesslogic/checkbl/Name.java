@@ -1,4 +1,4 @@
-package businesslogic.checkbl.orderinfo;
+package businesslogic.checkbl;
 
 import systemenum.CheckResult;
 import businesslogic.checkbl.CheckInfo;

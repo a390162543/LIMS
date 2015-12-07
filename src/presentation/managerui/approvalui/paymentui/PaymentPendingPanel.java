@@ -9,7 +9,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
-
+/**
+ * {@code PaymentPendingPanel}继承{@code JPanel}，是显示待审批付款单和对待审批付款单操作的界面层面板展示
+ * @author 刘德宽
+ *
+ */
 public class PaymentPendingPanel extends JPanel{
 
 	/**

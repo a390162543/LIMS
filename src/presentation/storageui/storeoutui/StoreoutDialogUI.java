@@ -7,7 +7,6 @@ import java.util.Date;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JRadioButton;
@@ -18,6 +17,7 @@ import javax.swing.table.DefaultTableModel;
 
 import presentation.util.OrganizationComboBox;
 import presentation.util.RecentDatePickPanel;
+import businesslogic.BusinessLogicService;
 import businesslogic.storeoutbl.Storeout;
 import businesslogic.userbl.LoginController;
 import businesslogicservice.IdblService;
@@ -25,6 +25,12 @@ import businesslogicservice.StoreoutblService;
 import systemenum.ShipForm;
 import vo.StoreoutCreateVO;
 
+/**
+ * 这是创建出库单的界面
+ * @author lc
+ * @version 1.4
+ *
+ */
 public class StoreoutDialogUI extends JDialog{
 	
 	
@@ -197,7 +203,7 @@ public class StoreoutDialogUI extends JDialog{
 				
 				String transferId = transferIdTextField.getText();
 				StoreoutCreateVO vo = new StoreoutCreateVO(storeoutIdTextField.getText(), orderId, date, destination, shipForm, transferId,LoginController.getOrganizationName());
-				StoreoutblService storeoutblService = new Storeout();
+				StoreoutblService storeoutblService = BusinessLogicService.getStoreoutblService();
 				storeoutblService.createStoreoutPO(vo);
 			}
 		});
@@ -205,7 +211,7 @@ public class StoreoutDialogUI extends JDialog{
 		cancleButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				StoreoutblService storeoutblService = new Storeout();
+				StoreoutblService storeoutblService = BusinessLogicService.getStoreoutblService();
 				int totalRow = goodsInfoTable.getRowCount();
 				for (int i = 0; i < totalRow; i++) {
 					String orderId = (String) tableModel.getValueAt(i, 0);

@@ -1,9 +1,18 @@
 package vo;
 
+
+
+/**
+ * 该VO是入库单添加一项货物时，将创建的VO传给storeinblService相应的方法来改变库存的位置
+ *	货物出库也传该VO
+ *
+ * @author lc
+ * @version 1.4
+ *
+ */
 public class StoreinOrderVO {
 	
-	//该VO是入库单添加一项货物时，将创建的VO传给storeinblService相应的方法来改变库存的位置
-	//货物出库也传该VO
+	//
 	private String storageId;
 	private String orderId;
 	private int areaNum;

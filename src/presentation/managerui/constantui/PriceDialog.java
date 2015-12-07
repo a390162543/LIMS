@@ -1,17 +1,23 @@
 package presentation.managerui.constantui;
 
 import java.awt.event.ActionEvent;
-
 import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 import vo.ConstantVO;
+import businesslogic.BusinessLogicService;
 import businesslogic.constantbl.Constant;
 import businesslogicservice.ConstantblService;
 
+/**
+ * 查询，修改价格界面
+ * @author 刘航伸
+ * @version 1.2
+ */
 public class PriceDialog extends JDialog{
 	 
 	/**
@@ -44,7 +50,7 @@ public class PriceDialog extends JDialog{
 	
 	 
 	 
-		ConstantblService constantblService = new Constant();
+		ConstantblService constantblService =  BusinessLogicService.getConstantblService();
 		ConstantVO vo1 = constantblService.getPrice();
 		priceField.setText(""+vo1.getPrice());
 		cancelButton.addActionListener(new ActionListener() {

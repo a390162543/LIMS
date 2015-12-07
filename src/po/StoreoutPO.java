@@ -11,15 +11,19 @@ import vo.StoreoutCheckResultVO;
 import vo.StoreoutCreateVO;
 import vo.StoreoutQueryVO;
 
+
+/**
+ * 保存一份出库单的数据
+ * 
+ * @author lc
+ * @version 1.3
+ */
 public class StoreoutPO implements Serializable {
 	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -3110687625240396461L;
-	/**
-	 * 
-	 */
 	
 	
 	private String id;
@@ -99,6 +103,11 @@ public class StoreoutPO implements Serializable {
 		return transferId;
 	}
 	
+	/**
+	 * 获取出库货物的信息
+	 * 
+	 * @return 返回一个{@code List<StoreoutCheckResultVO>}
+	 */
 	public List<StoreoutCheckResultVO> getStoreoutCheckResultVOs(){
 		
 		List<StoreoutCheckResultVO> storeoutCheckResultVOs = new ArrayList<StoreoutCheckResultVO>();
@@ -110,12 +119,23 @@ public class StoreoutPO implements Serializable {
 		return storeoutCheckResultVOs;
 	}
 
+	/**
+	 * 获取修改后的出库单数据
+	 * 
+	 * @param vo {@code StoreoutCreateVO}
+	 * @return 返回一个{@code StoreoutPO}
+	 */
 	public StoreoutPO updateModifyInfo(StoreoutCreateVO vo) {
 		
 		
 		return this;
 	}
 	
+	/**
+	 * 获取订单创建的信息
+	 * 
+	 * @return 返回一个{@code StoreinCreateVO}
+	 */
 	public StoreoutCreateVO getStoreoutCreateVO() {
 		return new StoreoutCreateVO(id, orderId, date, destination, shipForm, transferId, organization);
 	}

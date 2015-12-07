@@ -13,7 +13,11 @@ import businesslogic.ExcelExporter;
 import businesslogicservice.ExcelExporterService;
 
 
-
+/**
+ * {@code StatisticsPanel}继承{@code JPanel}，是统计报表的界面层面板展示
+ * @author 刘德宽
+ *
+ */
 public class StatisticsPanel extends JPanel{
 	
 	/**

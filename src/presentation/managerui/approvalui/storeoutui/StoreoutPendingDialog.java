@@ -1,6 +1,6 @@
 package presentation.managerui.approvalui.storeoutui;
 
-import java.awt.Dialog.ModalityType;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Date;
@@ -17,9 +17,14 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import systemenum.ShipForm;
-import vo.StoreinCreateVO;
 import vo.StoreoutCreateVO;
 
+/**
+ * 这是总经理审批时点击获取详情显示的界面
+ * @author lc
+ * @version 1.3
+ *
+ */
 public class StoreoutPendingDialog extends JDialog {
 	
 	

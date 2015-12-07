@@ -2,6 +2,12 @@ package vo;
 
 import po.PayPO;
 
+/**
+ * {@code PayPO}是员工业务逻辑层与界面层管理工资时之间传递的对象，
+ * 记录了工资的所有信息
+ * @author 刘航伸
+ * @see po.EmployeePO
+ */
 public class PayVO {
 	private double basePay;
 	private double payByCount;

@@ -14,6 +14,14 @@ import po.StoreinPO;
 import systemenum.DocumentState;
 import dataservice.StoreinDataService;
 
+
+/**
+ * 实现StoreinDataService，提供对入库单数据操作的方法
+ * 
+ * @author lc
+ * @version 1.3
+ *
+ */
 public class StoreinData extends UnicastRemoteObject implements StoreinDataService{
 
 	/**
@@ -34,17 +42,19 @@ public class StoreinData extends UnicastRemoteObject implements StoreinDataServi
 	}
 
 	@Override
-	public void insert(StoreinPO po) throws RemoteException {
+	public boolean insert(StoreinPO po) throws RemoteException {
 		String fileName = po.getStoreinId();
 		String path = "c:/LIMS/database/"+this.getClass().getSimpleName()+"/"+fileName+".ser";
 		DataUtil.writeObject(po, path);
+		return true;
 	}
 
 	@Override
-	public void update(StoreinPO po) throws RemoteException {
+	public boolean update(StoreinPO po) throws RemoteException {
 		String fileName = po.getStoreinId();
 		String path = "c:/LIMS/database/"+this.getClass().getSimpleName()+"/"+fileName+".ser";
 		DataUtil.writeObject(po, path);	
+		return true;
 	}
 
 	@Override

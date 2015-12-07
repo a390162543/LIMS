@@ -1,9 +1,13 @@
 package po;
 
 import java.io.Serializable;
-
 import vo.OrganizationVO;
 
+/**
+ * {@code OrganizationPO}是员工业务逻辑层与数据层之间传递的持久化对象，
+ * 记录了机构的所有信息
+ * @author 刘航伸
+ */
 public class OrganizationPO implements Serializable{
 	/**
 	 * 

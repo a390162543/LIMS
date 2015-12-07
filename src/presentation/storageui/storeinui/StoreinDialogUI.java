@@ -2,17 +2,12 @@ package presentation.storageui.storeinui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Date;
 import java.util.ArrayList;
-import java.util.List;
 
-import javax.swing.CellEditor;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
@@ -20,14 +15,13 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import businesslogic.BusinessLogicService;
 import businesslogic.checkbl.CheckInfo;
 import businesslogic.checkbl.storeininfo.AlarmNum;
-import businesslogic.idbl.IdManager;
 import businesslogic.storeinbl.Storein;
 import businesslogic.userbl.LoginController;
 import businesslogicservice.IdblService;
 import businesslogicservice.StoreinblService;
-import po.StoreinPO;
 import presentation.util.CheckInfoGetter;
 import presentation.util.Checker;
 import presentation.util.OrganizationComboBox;
@@ -35,8 +29,14 @@ import presentation.util.RecentDatePickPanel;
 import systemenum.StorageState;
 import vo.StorageLocationVO;
 import vo.StoreinCreateVO;
-import vo.StoreinOrderVO;
 
+
+/**
+ * 这是创建入库单的界面
+ * @author lc
+ * @version 1.4
+ *
+ */
 public class StoreinDialogUI extends JDialog{
 	
 	/**
@@ -193,7 +193,7 @@ public class StoreinDialogUI extends JDialog{
 	              int item = Integer.parseInt((String)tableModel.getValueAt(selectedRow, 4));
 	              //StoreinOrderVO vo = new StoreinOrderVO(orderId, areaNum, rowNum, frameNum, item);
 	              StorageLocationVO vo = new StorageLocationVO(LoginController.getOrganizationId(), areaNum, rowNum, frameNum, item, StorageState.ISAVAILABLE, orderId);
-	              StoreinblService storeinblService = new Storein();
+	              StoreinblService storeinblService = BusinessLogicService.getStoreinblService();
 	              storeinblService.restoreLocationState(vo);   
 	              tableModel.removeRow(selectedRow); 
 			}
@@ -217,8 +217,7 @@ public class StoreinDialogUI extends JDialog{
 					frameNum.add(Integer.parseInt((String)tableModel.getValueAt(i, 3)));
 					item.add(Integer.parseInt((String)tableModel.getValueAt(i, 4)));
 				}
-				for(int i=0;i<totalRow;i++)
-					System.out.println(orderId.get(i));
+				
 				
 				Date inDate = datePickPanel.getDate();
 				
@@ -226,7 +225,7 @@ public class StoreinDialogUI extends JDialog{
 				
 				StoreinCreateVO vo = new StoreinCreateVO(storeinIdTextField.getText(), orderId, inDate, 
 						destination, areaNum, rowNum, frameNum, item, LoginController.getOrganizationName());
-				StoreinblService storeinblService = new Storein();
+				StoreinblService storeinblService = BusinessLogicService.getStoreinblService();
 				storeinblService.createStoreinPO(vo);	
 			}
 		});
@@ -246,7 +245,7 @@ public class StoreinDialogUI extends JDialog{
 		              int item = Integer.parseInt((String)tableModel.getValueAt(i, 4));
 		              //StoreinOrderVO vo = new StoreinOrderVO(orderId, areaNum, rowNum, frameNum, item);
 		              StorageLocationVO vo = new StorageLocationVO(LoginController.getOrganizationId(), areaNum, rowNum, frameNum, item, StorageState.ISAVAILABLE, orderId);
-		              StoreinblService storeinblService = new Storein();
+		              StoreinblService storeinblService = BusinessLogicService.getStoreinblService();
 		              //改变库存的位置
 		              storeinblService.restoreLocationState(vo); 
 				}

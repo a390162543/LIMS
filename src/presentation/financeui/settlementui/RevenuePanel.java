@@ -14,11 +14,15 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
-import businesslogic.settlementbl.Settlement;
+import businesslogic.BusinessLogicService;
 import businesslogicservice.SettlementblService;
 import presentation.financeui.settlementui.RevenueTableModel;
 import vo.RevenueVO;
-
+/**
+ * {@code RevenuePanel}继承{@code JPanel}，是未设置收款账户的收款单的界面层面板展示
+ * @author 刘德宽
+ *
+ */
 public class RevenuePanel extends JPanel{
 	/**
 	 * 
@@ -31,7 +35,7 @@ public class RevenuePanel extends JPanel{
 	public RevenuePanel(JPanel panel){
 		panel.removeAll();
 
-		SettlementblService settlementblService = new Settlement();
+		SettlementblService settlementblService = BusinessLogicService.getSettlementblService();
 		List<RevenueVO> vos = settlementblService.getUncommittedRevenueVO();
 		tableModel = new RevenueTableModel(vos);  
         tableSorter = new TableRowSorter<TableModel>(tableModel);

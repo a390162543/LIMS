@@ -9,7 +9,7 @@ import presentation.financeui.primeinfoui.orderui.PrimeInfoOrderPanel;
 import presentation.financeui.primeinfoui.organizationui.PrimeInfoOrganizationPanel;
 import presentation.financeui.primeinfoui.storeinui.PrimeInfoStoreinPanel;
 import presentation.financeui.primeinfoui.truckui.PrimeInfoTruckPanel;
-import businesslogic.primeinfobl.PrimeInfo;
+import businesslogic.BusinessLogicService;
 import businesslogicservice.PrimeInfoblService;
 
 
@@ -23,7 +23,7 @@ public class PrimeInfoPanel extends JPanel{
 	public PrimeInfoPanel(JPanel panel){
 		panel.removeAll();
 		
-		PrimeInfoblService primeInfoblService = new PrimeInfo(); 
+		PrimeInfoblService primeInfoblService = BusinessLogicService.getPrimeInfoblService(); 
 
 		PrimeInfoAccountPanel primeInfoAccountPanel = new PrimeInfoAccountPanel(primeInfoblService);
 		primeInfoAccountPanel.setLocation(0, 0);

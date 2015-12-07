@@ -3,11 +3,17 @@ package po;
 import java.io.Serializable;
 import java.util.Date;
 
-import businesslogic.storagebl.StorageHelper;
-import systemenum.StorageState;
 import vo.StorageSetAreaVO;
 import vo.StorageVO;
 
+
+/**
+ * 保存库存的信息
+ * 
+ * @author lc
+ * @version 1.3
+ *
+ */
 public class StoragePO implements Serializable {
 	
 	/**
@@ -112,16 +118,32 @@ public class StoragePO implements Serializable {
 		return storageId;
 	}
 
+	/**
+	 * 获取当前库存各个区的大小
+	 * 
+	 * @return 返回一个{@code StorageSetAreaVO}
+	 */
 	public StorageSetAreaVO getStorageSetAreaVO(){
 		return new StorageSetAreaVO(storageId, airCapacity, motorCapacity, carCapacity, trainCapacity, alarm);
 	}
 
+	/**
+	 * 更新库存各个区的大小
+	 * 
+	 * @param vo {@code StorageSetAreaVO}
+	 * @return StoragePO
+	 */
 	public StoragePO getUpdateStoragePO(StorageSetAreaVO vo){
 		
 		return new StoragePO(vo.getAirCapacity(), vo.getMotorCapacity(), vo.getCarCapacity(), vo.getTrainCapacity(),
 				(vo.getAirCapacity()+vo.getMotorCapacity()+vo.getCarCapacity()+vo.getTrainCapacity())*1000, nowCapacity, alarm, checkDate, storageId);
 	}
 	
+	/**
+	 * 返回该库存的信息
+	 * 
+	 * @return StorageVO
+	 */
 	public StorageVO getStorageVO() {
 		return new StorageVO(allCapacity*1000, nowCapacity, alarm);
 	}

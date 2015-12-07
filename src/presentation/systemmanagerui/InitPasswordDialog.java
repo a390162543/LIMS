@@ -16,6 +16,11 @@ import businesslogic.checkbl.userinfo.UserId;
 import businesslogic.userbl.User;
 import businesslogicservice.UserblService;
 
+/**
+ * 初始化用户密码界面
+ * @author 刘航伸
+ * @version 1.2
+ */
 public class InitPasswordDialog extends JDialog{
 
 	/**

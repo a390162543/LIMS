@@ -6,6 +6,14 @@ import java.util.Date;
 
 import systemenum.StorageState;
 
+
+/**
+ * 保存库存中该位置的存储状态
+ * 
+ * @author lc
+ * @version 1.4
+ *
+ */
 public class StorageLocationPO implements Serializable {
 
 	/**
@@ -118,6 +126,11 @@ public class StorageLocationPO implements Serializable {
 	}
 	
 	
+	/**
+	 * 获取库存位置的信息
+	 * 
+	 * @return 返回库存信息{@code String}
+	 */
 	public String getStorageLocationInfo() {
 		String stateString = state.toString();
 		int length = state.toString().length();

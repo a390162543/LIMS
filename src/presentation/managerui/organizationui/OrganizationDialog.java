@@ -16,15 +16,21 @@ import javax.swing.JTextField;
 
 import presentation.util.CheckInfoGetter;
 import presentation.util.Checker;
+import businesslogic.BusinessLogicService;
 import businesslogic.checkbl.CheckInfo;
 import businesslogic.checkbl.organizationinfo.OrganizationName;
-import businesslogic.citybl.City;
 import businesslogic.organizationbl.Organization;
-import businesslogicservice.CityblService;
 import businesslogicservice.IdblService;
 import businesslogicservice.OrganizationblService;
 import vo.OrganizationVO;
 
+
+/**
+ * 创建、修改和查询机构界面
+ * @author 刘航伸
+ * @see presentation.employeeui.OrganizationTableModel
+ * @version 1.2
+ */
 public class OrganizationDialog extends JDialog{
 
  
@@ -43,14 +49,13 @@ public class OrganizationDialog extends JDialog{
 	private JButton cancleButton;
 	private JButton sureButton;
 	private OrganizationTableModel tableModel;
-	private CityblService cityblService;
 	private OrganizationblService organizationblService;
 	private Checker organizationNameChecker;
 
 	public OrganizationDialog(OrganizationTableModel tm){
 		init();
 		tableModel = tm;	
-		organizationblService = new Organization();	 
+		organizationblService =  BusinessLogicService.getOrganizationblService();
 		cityBox.addItemListener(new ItemListener() {
 			
 			@Override
@@ -134,7 +139,7 @@ public class OrganizationDialog extends JDialog{
 	}
 	
 	public void setId(String organizationName){
-		String cityId = cityblService.getId
+		String cityId = organizationblService.getCityId
 				((String)cityBox.getSelectedItem());
 		if(organizationName.contains("中转中心")){
 			IdblService idblService = organizationblService.getIdblService(1);
@@ -152,9 +157,9 @@ public class OrganizationDialog extends JDialog{
 	}
 	
 	public void init(){		 
-		cityblService = new City();
+		 
 		this.setTitle("机构信息");
-		List<String> cityList = cityblService.getAllName();
+		List<String> cityList = organizationblService.getAllCityName();
 		String[] cityStr = cityList.toArray(new String[cityList.size()]);
 		 
 		nameLabel = new JLabel();
@@ -243,7 +248,7 @@ public class OrganizationDialog extends JDialog{
 		String city = (String) cityBox.getSelectedItem();
 		String id = idField.getText();
 		OrganizationVO vo= new OrganizationVO(id, name, city);
-		organizationblService.CreatOrganizationPO(vo);
+		organizationblService.creatOrganizationPO(vo);
 		if(isNew)
 			tableModel.create(vo);
 		else

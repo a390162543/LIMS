@@ -28,6 +28,7 @@ import presentation.util.Checker;
 import presentation.util.OrganizationComboBox;
 import presentation.util.RecentDatePickPanel;
 import systemenum.ShipForm;
+import businesslogic.BusinessLogicService;
 import businesslogic.checkbl.CheckInfo;
 import businesslogic.checkbl.transferinfo.OrderChecker;
 import businesslogic.checkbl.transferinfo.TransferNumber;
@@ -36,6 +37,12 @@ import businesslogicservice.TransferblService;
  
 import vo.TransferVO;
 
+/**
+ * 查看，修改中转单界面
+ * @author 刘航伸
+ * @see TransferblService 
+ * @version 1.4
+ */
 public class TransferPendingDialog extends JDialog {
 	
 	 
@@ -64,9 +71,9 @@ public class TransferPendingDialog extends JDialog {
  
     public TransferPendingDialog(TransferPendingTableModel tm, int modelRow, boolean isEditable) {
     	transferPendingTableModel = tm;
-    	transferblService = new Transfer();
+    	transferblService = BusinessLogicService.getTransferblService();
 		 
-	 
+	 //设置组件
 		JLabel wayLabel = new JLabel("货运方式");
 		wayLabel.setBounds(20, 50, 80, 20);
 		flightButton = new JRadioButton("航空");
@@ -116,7 +123,7 @@ public class TransferPendingDialog extends JDialog {
 		expensesField = new JTextField();
 		expensesField.setBounds(105, 370, 60, 20);
 		
-		//set Information
+		// 显示中转单信息
 		TransferVO vo = transferPendingTableModel.getTransferVO(modelRow);
 		idField.setText(vo.getId());
 		switch (vo.getShipForm()) {

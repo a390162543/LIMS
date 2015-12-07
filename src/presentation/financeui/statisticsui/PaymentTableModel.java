@@ -7,7 +7,11 @@ import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 
 import vo.PaymentVO;
-
+/**
+ * {@code PaymentTableModel}继承{@code DefaultTableModel}，持有付款单数据，提供界面层数据操作业务
+ * @author 刘德宽
+ *
+ */
 public class PaymentTableModel extends DefaultTableModel{
 
 	/**

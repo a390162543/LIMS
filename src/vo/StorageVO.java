@@ -1,5 +1,12 @@
 package vo;
 
+
+/**
+ * 该VO包含的库存的各个属性，用于传递库存信息
+ * @author lc
+ * @version 1.4
+ *
+ */
 public class StorageVO {
 	
 	private int allCapacity;	

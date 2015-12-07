@@ -2,10 +2,16 @@ package vo;
 
 import java.io.Serializable;
 import java.util.Date;
-
 import po.StorageLocationPO;
 import systemenum.StorageState;
 
+
+/**
+ * 该VO是库存一个存储位置的信息
+ * 
+ * @author lc
+ * @version 1.4
+ */
 public class StorageLocationVO implements Serializable{
 	
 	/**
@@ -123,7 +129,11 @@ public class StorageLocationVO implements Serializable{
 	}
 
 
-
+	/**
+	 * 获取VO对应的PO
+	 * 
+	 * @return 返回一个的{@code StorageLocationPO}
+	 */
 	public StorageLocationPO getStorageLocationPO() {
 		return new StorageLocationPO(areaNum, rowNum, frameNum, item, new Date(), state, storageId);
 	}

@@ -3,6 +3,12 @@ package vo;
 import po.UserPO;
 import systemenum.Power;
 
+/**
+ * {@code UserVO}是用户业务逻辑层与界面层之间传递的对象，
+ * 记录了用户的所有信息
+ * @author 刘航伸
+ * @see systemenum.Power
+ */
 public class UserVO {
 	private String id;
 	private String password;

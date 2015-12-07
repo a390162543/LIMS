@@ -20,9 +20,9 @@ public class Manager_tester {
 	    {
 	        //TODO exception
 	    }			 
-		  DataBase.initDataBase();
+		DataBase.initDataBase();
 		JFrame testFrame = new JFrame();
-		testFrame.add(new ManagerPanel(   ));
+		testFrame.add(new ManagerPanel());
 		testFrame.setBounds(100, 100, 800, 540);
 		testFrame.setVisible(true);
 		testFrame.setLayout(null);		 

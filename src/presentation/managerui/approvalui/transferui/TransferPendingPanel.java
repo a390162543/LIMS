@@ -11,6 +11,12 @@ import javax.swing.JTable;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
+/**
+ * 审批中转单界面
+ * @author 刘航伸
+ * @see TransferPendingTableModel
+ * @version 1.2
+ */
 public class TransferPendingPanel extends JPanel {
 
 	/**

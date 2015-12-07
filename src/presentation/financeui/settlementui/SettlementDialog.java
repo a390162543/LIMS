@@ -6,17 +6,20 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import presentation.util.DatePickPanel;
 import presentation.util.OrganizationComboBox;
-import businesslogic.settlementbl.Settlement;
+import businesslogic.BusinessLogicService;
 import businesslogicservice.SettlementblService;
 import vo.RevenueVO;
-
+/**
+ * {@code SettlementDialog}继承{@code JDialog}，是查询收款单的界面层对话框展示
+ * @author 刘德宽
+ *
+ */
 public class SettlementDialog extends JDialog{
 
 	/**
@@ -26,7 +29,7 @@ public class SettlementDialog extends JDialog{
 	private JPanel parent;
 	
 	private DatePickPanel datePickPanel;
-	private JComboBox businessHallBox;
+	private OrganizationComboBox businessHallBox;
 	
 	public SettlementDialog(JPanel panel){
 		this.parent = panel;
@@ -53,7 +56,6 @@ public class SettlementDialog extends JDialog{
 		businessHallLabel.setLocation(labelx, labely+70-labelHeight);
 		
 		
-		int longWidth = 180;
 		int textFieldHeight = 25;
 		int textFieldx = 123;
 		int textFieldy = 70;
@@ -91,7 +93,7 @@ public class SettlementDialog extends JDialog{
 	class ConfirmButtonListener implements ActionListener{
 
 		public void actionPerformed(ActionEvent e) {
-			SettlementblService sbs = new Settlement();
+			SettlementblService sbs = BusinessLogicService.getSettlementblService();
 			List<RevenueVO> ros = sbs.queryRevenueVO( datePickPanel.getDate(), businessHallBox.getSelectedItem().toString());
 
 			@SuppressWarnings("unused")

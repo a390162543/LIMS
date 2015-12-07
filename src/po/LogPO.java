@@ -6,6 +6,12 @@ import java.util.Date;
 import systemenum.Position;
 import vo.LogVO;
 
+/**
+ * {@code LogPO}是日志记录业务逻辑层与数据层之间传递的持久化对象，
+ * 记录了日志记录的所有信息
+ * @author 刘德宽
+ *
+ */
 public class LogPO implements Serializable{
 	
 	/**
@@ -46,6 +52,10 @@ public class LogPO implements Serializable{
 		return date;
 	}
 	
+    /**
+     * 获取该{@code LogPO}对应的{@code LogVO}对象
+     * @return {@code LogVO}对象
+     */
 	public LogVO getLogVO(){
 		LogVO vo = new LogVO(operation ,employeeId ,employeeName ,employeePosition, date );
 		return vo;

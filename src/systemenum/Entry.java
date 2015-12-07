@@ -1,5 +1,9 @@
 package systemenum;
-
+/**
+ * 付款单条目的枚举类
+ * @author 刘德宽
+ *
+ */
 public enum Entry {
       
 	RENT("租金"),

@@ -3,6 +3,11 @@ package vo;
  
 import po.OrganizationPO;
 
+/**
+ * {@code OrganizationPO}是员工业务逻辑层与界面层之间传递的对象，
+ * 记录了机构的所有信息
+ * @author 刘航伸
+ */
 public class OrganizationVO {
 	private String id;
 	private String name;

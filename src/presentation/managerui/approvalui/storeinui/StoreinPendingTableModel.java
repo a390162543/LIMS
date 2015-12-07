@@ -6,9 +6,15 @@ import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 
 import vo.StoreinCreateVO;
-import businesslogic.orderbl.Order;
 import businesslogic.storeinbl.Storein;
 
+
+/**
+ * 该TableModel用于记录审批的入库单的信息
+ * @author lc
+ * @version 1.4
+ *
+ */
 public class StoreinPendingTableModel extends DefaultTableModel {
 
 	/**

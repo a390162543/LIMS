@@ -10,8 +10,14 @@ import javax.swing.JTable;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
-import businesslogic.orderbl.Order;
 
+
+/**
+ * 这是总经理审批订单显示在界面上的面板
+ * @author lc
+ * @version 1.3
+ *
+ */
 public class OrderPendingPanel extends JPanel{
 
 	/**
@@ -38,7 +44,7 @@ public class OrderPendingPanel extends JPanel{
 		orderPendingTable.setRowSorter(tableSorter);
 
 		orderPendingScrollPane = new JScrollPane(orderPendingTable);
-		orderPendingScrollPane.setBounds(0, 40, 560, 370);
+		orderPendingScrollPane.setBounds(0, 0, 560, 370);
 
 		pendingButton = new JButton("审批");
 		modifyButton = new JButton("修改");
@@ -77,9 +83,9 @@ public class OrderPendingPanel extends JPanel{
 				new OrderPendingDialog(tableModel, modelRow, false);
 			}
 		});
-		pendingButton.setBounds(315, 420, 70, 30);
-		modifyButton.setBounds(400, 420, 70, 30);
-		queryButton.setBounds(485, 420, 70, 30);
+		pendingButton.setBounds(315, 390, 70, 30);
+		modifyButton.setBounds(400, 390, 70, 30);
+		queryButton.setBounds(485, 390, 70, 30);
 		// set panel
 		this.setBounds(0, 0, 560, 470);
 		this.setLayout(null);

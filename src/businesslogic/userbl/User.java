@@ -7,6 +7,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
+import dataservice.DataService;
 import dataservice.UserDataService;
 import po.UserPO;
  
@@ -14,20 +15,29 @@ import vo.UserVO;
  
 import businesslogicservice.UserblService;
 
+/**
+ * {@code User}是用户管理业务逻辑层的实现类，提供所有有关用户业务逻辑服务
+ * @author 刘航伸
+ * @version 1.6
+ * @see dataservice.UserDataService
+ */
 public class User implements UserblService{
-
-	@Override
+	/**
+	 * {@code User}的数据层引用
+	 */
+	private UserDataService userDataService;
+	
+	public User() {
+		// TODO Auto-generated constructor stub
+		userDataService = DataService.getUserDataService();
+	}
+	
+	
 	public boolean creatUserPO(UserVO vo) {
 		// TODO Auto-generated method stub
-		try { 
-        	UserDataService eds = (UserDataService) Naming.lookup("rmi://localhost/UserData");
-			eds.insert(vo.getUserPO());
-			} catch (MalformedURLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (NotBoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();		
+		try { 			 
+			userDataService.insert(vo.getUserPO());
+			 
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -35,22 +45,15 @@ public class User implements UserblService{
 		return true;
 	}
 
-	@Override
-	public boolean deleteUserPO(UserVO vo) {
+ 
+	public boolean deleteUserPO(String id) {
 		// TODO Auto-generated method stub
-		try {
-			 UserDataService eds = (UserDataService) Naming.lookup("rmi://localhost/UserData");
-			 eds.delete(vo.getUserPO());
-	           
-	        } catch (MalformedURLException e) {
-	            // TODO Auto-generated catch block
-	            e.printStackTrace();
+		try {		 
+			 userDataService.delete(id);          
+	       
 	        } catch (RemoteException e) {
 	            // TODO Auto-generated catch block
-	            e.printStackTrace();
-	        } catch (NotBoundException e) {
-	            // TODO Auto-generated catch block
-	            e.printStackTrace();
+	            e.printStackTrace();        
 	        }
 		return true;
 	}
@@ -61,25 +64,19 @@ public class User implements UserblService{
 		UserVO vo = find(id);
 		return passWord.equals(vo.getPassword());
 	}
-
+	
 	@Override
 	public boolean initialize(String id) {
 		// TODO Auto-generated method stub
 		UserVO vo = find(id);
 		vo.setPassword("000000");
-		try {
-			 UserDataService eds = (UserDataService) Naming.lookup("rmi://localhost/UserData");
-			 eds.update(vo.getUserPO());
-	           
-	        } catch (MalformedURLException e) {
-	            // TODO Auto-generated catch block
-	            e.printStackTrace();
+		try {			  
+			 userDataService.update(vo.getUserPO());
+	           	        
 	        } catch (RemoteException e) {
 	            // TODO Auto-generated catch block
 	            e.printStackTrace();
-	        } catch (NotBoundException e) {
-	            // TODO Auto-generated catch block
-	            e.printStackTrace();
+	        
 	        }
 		return true;
 	}
@@ -87,20 +84,12 @@ public class User implements UserblService{
 	@Override
 	public boolean modifyPower(UserVO vo) {
 		// TODO Auto-generated method stub
-
-		try {
-			 UserDataService eds = (UserDataService) Naming.lookup("rmi://localhost/UserData");
-			 eds.update(vo.getUserPO());
-	           
-	        } catch (MalformedURLException e) {
-	            // TODO Auto-generated catch block
-	            e.printStackTrace();
+		try {		 
+			 userDataService.update(vo.getUserPO());   
 	        } catch (RemoteException e) {
 	            // TODO Auto-generated catch block
 	            e.printStackTrace();
-	        } catch (NotBoundException e) {
-	            // TODO Auto-generated catch block
-	            e.printStackTrace();
+	         
 	        }
 		return true;
 	}
@@ -109,22 +98,14 @@ public class User implements UserblService{
 	public List<UserVO> getUserVO() {
 		// TODO Auto-generated method stub
 		List<UserVO> vos =  new ArrayList<UserVO>();
-		 try {
-			 UserDataService eds = (UserDataService) Naming.lookup("rmi://localhost/UserData");
-			 List<UserPO> pos= eds.getAll();
+		 try {			 
+			 List<UserPO> pos= userDataService.getAll();
 			 for(UserPO po : pos){
 				 vos.add(po.getUserVO());
-			 }
-	           
-	        } catch (MalformedURLException e) {
-	            // TODO Auto-generated catch block
-	            e.printStackTrace();
+			 }           	       
 	        } catch (RemoteException e) {
 	            // TODO Auto-generated catch block
-	            e.printStackTrace();
-	        } catch (NotBoundException e) {
-	            // TODO Auto-generated catch block
-	            e.printStackTrace();
+	            e.printStackTrace();	        
 	        }
 		return vos;
 	}
@@ -133,25 +114,16 @@ public class User implements UserblService{
 	public UserVO find(String id) {
 		// TODO Auto-generated method stub
 	 
-		try {
-			 UserDataService eds = (UserDataService) Naming.lookup("rmi://localhost/UserData");
-			 if(eds.find(id) == null)
+		try {			 
+			 if(userDataService.find(id) == null)
 				 return null;
 			 else{
-				 UserVO vo = eds.find(id).getUserVO();
+				 UserVO vo =  userDataService.find(id).getUserVO();
 			     return vo; 
 			 }
-			 
-	        } catch (MalformedURLException e) {
-	            // TODO Auto-generated catch block
-	            e.printStackTrace();
-	        } catch (RemoteException e) {
-	            // TODO Auto-generated catch block
-	            e.printStackTrace();
-	        } catch (NotBoundException e) {
-	            // TODO Auto-generated catch block        	
-	            e.printStackTrace();
-	            return null;
+			 	      
+	    } catch (RemoteException e) {
+	            // TODO Auto-generated catch block	       
 	        }
 		return null;
 	}
@@ -159,7 +131,12 @@ public class User implements UserblService{
 	@Override
 	public boolean modifyPassword(UserVO vo) {
 		// TODO Auto-generated method stub
-		
+		try {
+			userDataService.update(vo.getUserPO());
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return false;
 	}
 

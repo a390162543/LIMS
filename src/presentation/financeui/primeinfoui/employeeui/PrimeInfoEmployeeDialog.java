@@ -1,28 +1,19 @@
 package presentation.financeui.primeinfoui.employeeui;
 
 import java.awt.event.ActionEvent;
-
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
- 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Date;
-import java.util.List;
-
 import javax.swing.ButtonGroup;
- 
- 
-import javax.swing.ButtonGroup;
- 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
- 
 import businesslogic.BusinessLogicService;
 import businesslogic.checkbl.CheckInfo;
 import businesslogic.checkbl.employeeinfo.EmployeeIdCard;
@@ -31,8 +22,6 @@ import businesslogicservice.EmployeeblService;
 import businesslogicservice.IdblService;
 import presentation.util.CheckInfoGetter;
 import presentation.util.Checker;
-import presentation.util.DatePickPanel;
- 
 import presentation.util.OrganizationComboBox;
 import systemenum.Position;
 import systemenum.Sex;

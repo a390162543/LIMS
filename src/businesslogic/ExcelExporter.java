@@ -8,7 +8,11 @@ import javax.swing.JTable;
 import javax.swing.table.TableModel;
 
 import businesslogicservice.ExcelExporterService;
-
+/**
+ * {@code ExcelExporterService}的实现类
+ * @author 刘德宽
+ *
+ */
 public class ExcelExporter implements ExcelExporterService{
 
 	@Override

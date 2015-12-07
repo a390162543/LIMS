@@ -4,7 +4,12 @@ import java.util.Date;
 
 import po.PaymentPO;
 import systemenum.Entry;
-
+/**
+ * {@code PaymentVO}是付款单界面与业务逻辑层之间传递的值对象，
+ * 记录付款单的所有信息
+ * @author 刘德宽
+ * @version 1.6
+ */
 public class PaymentVO {
 	private String id;
 	private Date date;
@@ -57,7 +62,10 @@ public class PaymentVO {
 	public String getRemarks(){
 		return remarks;
 	}
-	
+    /**
+     * 获取一个{@code PaymentVO}对应的{@code PaymentogPO}对象
+     * @return {@code PaymentPO}对象
+     */
 	public PaymentPO getPaymentPO(){
 		PaymentPO po = new PaymentPO(id, date , money , name , accountId , payeeAccountId , entry , remarks );
 		return po;

@@ -15,6 +15,12 @@ import javax.swing.table.DefaultTableModel;
 
 import vo.StoreinCreateVO;
 
+/**
+ * 这是总经理审批时点击获取详情显示的界面
+ * @author lc
+ * @version 1.3
+ *
+ */
 public class StoreinPendingDialog extends JDialog {
 	
 	/**

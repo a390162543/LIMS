@@ -13,6 +13,7 @@ import javax.swing.JTextField;
 import presentation.util.CheckInfoGetter;
 import presentation.util.Checker;
 import vo.StorageSetAreaVO;
+import businesslogic.BusinessLogicService;
 import businesslogic.checkbl.CheckInfo;
 import businesslogic.checkbl.storageinfo.AirCapacity;
 import businesslogic.checkbl.storageinfo.Alarm;
@@ -23,8 +24,14 @@ import businesslogic.storagebl.Storage;
 import businesslogic.userbl.LoginController;
 import businesslogicservice.StorageblService;
 
+
+/**
+ * 库存分区调整的界面
+ * @author lc
+ * @version 1.3
+ *
+ */
 public class StorageManageDialog extends JDialog{
-	
 	
 	
 	/**
@@ -272,7 +279,7 @@ public class StorageManageDialog extends JDialog{
 				StorageSetAreaVO vo = new StorageSetAreaVO(LoginController.getOrganizationId(), Integer.parseInt(planeAreaTextField.getText()), 
 						Integer.parseInt(freeAreaTextField.getText()), Integer.parseInt(carAreaTextField.getText()),
 						Integer.parseInt(trainAreaTextField.getText()), Double.parseDouble(warnTextField.getText()));
-				StorageblService storageblService = new Storage();
+				StorageblService storageblService = BusinessLogicService.getStorageblService();
 				storageblService.setArea(vo);
 				StorageManageDialog.this.dispose();
 			}

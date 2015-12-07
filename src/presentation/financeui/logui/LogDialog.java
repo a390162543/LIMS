@@ -11,10 +11,14 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import presentation.util.DatePickPanel;
-import businesslogic.logbl.Log;
+import businesslogic.BusinessLogicService;
 import businesslogicservice.LogblService;
 import vo.LogVO;
-
+/**
+ * {@code LogDialog}继承{@code JDialog}，是查询日志记录的界面层对话框展示
+ * @author 刘德宽
+ *
+ */
 public class LogDialog extends JDialog{
 
 	/**
@@ -76,7 +80,7 @@ public class LogDialog extends JDialog{
 	
 	class ConfirmButtonListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {		
-			LogblService lbs = new Log();
+			LogblService lbs = BusinessLogicService.getLogblService();
 			List<LogVO> vos = lbs.queryLogVO(datePickPanel.getDate());
 			
 			@SuppressWarnings("unused")

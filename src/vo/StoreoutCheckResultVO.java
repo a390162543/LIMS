@@ -2,6 +2,15 @@ package vo;
 
 import java.util.Date;
 
+
+
+/**
+ * 用于显示在库存查看时出库货物的信息的VO
+ * 
+ * @author lc
+ * @version 1.3
+ *
+ */
 public class StoreoutCheckResultVO {
 
 	

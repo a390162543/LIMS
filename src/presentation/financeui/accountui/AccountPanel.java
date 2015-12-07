@@ -13,7 +13,11 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
-
+/**
+ * {@code AccountPanel}继承{@code JPanel}，是显示账户信息和对账户操作的界面层面板展示
+ * @author 刘德宽
+ *
+ */
 public class AccountPanel extends JPanel{
 
 	 /**

@@ -1,5 +1,12 @@
 package vo;
 
+
+/**
+ * 该VO用于在装车单获取相应的订单信息
+ * @author lc
+ * @version 1.3
+ *
+ */
 public class OrderRevenueVO {
 	
 	private String orderId;

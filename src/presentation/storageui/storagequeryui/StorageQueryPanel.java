@@ -15,12 +15,18 @@ import javax.swing.event.DocumentListener;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
-import businesslogic.storagebl.Storage;
-import businesslogicservice.ExcelExporterService;
+import businesslogic.BusinessLogicService;
 import businesslogicservice.StorageblService;
 import vo.StorageQueryResultVO;
 
 
+
+/**
+ * 库存盘点时显示在库存中货物的面板
+ * @author lc
+ * @version 1.4
+ *
+ */
 public class StorageQueryPanel extends JPanel{
 	
 	/**
@@ -84,7 +90,7 @@ public class StorageQueryPanel extends JPanel{
         getExcelButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				StorageblService storageblService = new Storage();
+				StorageblService storageblService = BusinessLogicService.getStorageblService();
 				storageblService.gainExcel(storageQueryTable);	
 			}
 		});

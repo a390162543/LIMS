@@ -4,6 +4,13 @@ import java.util.Date;
 
 import po.StoragePO;
 
+
+/**
+ * 库存分区调整是用于传递信息的VO
+ * @author lc
+ * @version 1.3
+ *
+ */
 public class StorageSetAreaVO {
 	
 	private String storageId;
@@ -50,6 +57,11 @@ public class StorageSetAreaVO {
 		return alarm;
 	}
 
+	/**
+	 * 初始化库存的信息
+	 * 
+	 * @return 返回一个{@code StoragePO}
+	 */
 	public StoragePO getInitialStoragePO(){
 		return new StoragePO(airCapacity, motorCapacity, carCapacity, trainCapacity, 
 				(airCapacity+motorCapacity+carCapacity+trainCapacity)*1000, 0, alarm, new Date(), storageId);

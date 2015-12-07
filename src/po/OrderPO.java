@@ -3,7 +3,6 @@ package po;
 import java.io.Serializable;
 import java.util.Date;
 
-import businesslogic.storagebl.Storage;
 import systemenum.DeliveryWay;
 import systemenum.DocumentState;
 import systemenum.ShipForm;
@@ -20,6 +19,14 @@ import vo.InOrderCheckResultVO;
 import vo.OutOrderCheckResultVO;
 import vo.StoreinOrderVO;
 
+
+
+/**
+ * 用于保存订单的信息
+ * @author lc
+ * @version 1.3
+ *
+ */
 public class OrderPO implements Serializable{
 	
 	
@@ -55,7 +62,7 @@ public class OrderPO implements Serializable{
 		this.documentState = DocumentState.PENDING;
 	}
 	
-	//add the total time to deliver
+	
 	public OrderPO(String id, WrapWay wrapWay, DeliveryWay deliverWay,
 			String senderName, String senderAddress,
 			String senderTel, String senderCell, String receiverName,
@@ -338,17 +345,36 @@ public class OrderPO implements Serializable{
 		return deliverWay;
 	}
 	
+	/**
+	 * 更新修改的订单的信息
+	 * 
+	 * @param vo {@code OrderCreateVO}
+	 * @return 返回一个{@code OrderPO}
+	 */
 	public OrderPO updateModifyInfo(OrderCreateVO vo) {
 		setCost(vo.getCost());	
 		return this;
 	}
 	
+	
+	/**
+	 * 更新订单的签收信息
+	 * 
+	 * @param vo {@code OrderSignVO}
+	 * @return 返回一个{@code OrderPO}
+	 */
 	public OrderPO updateSignInfo(OrderSignVO vo){
 		setSignName(vo.getSignName());
 		setSignData(vo.getSignData());
 		return this;
 	}
 	
+	/**
+	 * 入库后更新订单的库存位置信息
+	 * 
+	 * @param vo {@code StoreinOrderVO}
+	 * @return 返回一个{@code OrderPO}
+	 */
 	public OrderPO updateStoreinOrderPo(StoreinOrderVO vo) {
 		setAreaNum(vo.getAreaNum());
 		setRowNum(vo.getRowNum());
@@ -357,6 +383,12 @@ public class OrderPO implements Serializable{
 		return this;
 	}
 	
+	/**
+	 * 
+	 * 出库后更新订单的库存位置信息
+	 * 
+	 * @return 返回一个{@code OrderPO}
+	 */
 	public OrderPO updateOrderLoction() {
 		setAreaNum(-1);
 		setRowNum(-1);
@@ -365,6 +397,13 @@ public class OrderPO implements Serializable{
 		return this;
 	}
 	
+	/**
+	 * 
+	 * 装运过程更新订单的运送信息
+	 * 
+	 * @param vo {@code OrderDeliverInfoVO}
+	 * @return 返回一个{@code OrderPO}
+	 */
 	public OrderPO updateOrderDeliverInfo(OrderDeliverInfoVO vo) {
 		setNowLocation(vo.getNowLocation());
 		setNextLocation(vo.getNextLocation());
@@ -372,36 +411,68 @@ public class OrderPO implements Serializable{
 		return this;
 	}
 	
+	/**
+	 * 获取订单相应的信息
+	 * 
+	 * @return 返回一个{@code OrderQueryVO}
+	 */
 	public OrderQueryVO getOrderQueryVO(){
-		return new OrderQueryVO(id, state, deliverInfo, nowLocation, nextLocation);
+		return new OrderQueryVO(id, state, deliverInfo, nowLocation, nextLocation, shipForm);
 	}
 	
+	/**
+	 * 获取出库货物相应的信息
+	 * 
+	 * @return 返回一个{@code OutOrderCheckResultVO}
+	 */
 	public OutOrderCheckResultVO getOutOrderCheckResultVO(){
 		return new OutOrderCheckResultVO(id, areaNum, rowNum, frameNum, item, weight, size);
 	}
 	
+	/**
+	 * 获取入库货物相应的信息
+	 * 
+	 * @return 返回一个{@code OutOrderCheckResultVO}
+	 */
 	public InOrderCheckResultVO getInOrderCheckResultVO() {
 		return new InOrderCheckResultVO(id, areaNum, rowNum, frameNum, item, weight, size);
 	}
 	
+	/**
+	 * 返回带审批的订单
+	 * 
+	 * @return 返回一个{@code OrderCreateVO}
+	 */
 	public OrderCreateVO getOrderPendingVO() {
 		return new OrderCreateVO(id, senderName, senderAddress, senderTel, senderCell, receiverName,
 				receiverAddress, receiverTel, receiverCell, goodsInfo, weight, size, cost, wrapWay, deliverWay,
 				totalTime);
 	}
 	
+	/**
+	 * 返回在库存中获取的信息
+	 * 
+	 * @return 返回一个{@code OrderCreateVO}
+	 */
 	public StoreinOrderVO getStorageOrderVO() {
 		return new StoreinOrderVO(id, areaNum, rowNum, frameNum, item);
 	}
+	
 	
 	public GoodsVO getGoodsVO() {
 		return new GoodsVO(id, weight, nowLocation, nextLocation);
 	}
 	
+	
 	public OrderRevenueVO getOrderRevenueVO() {
 		return new OrderRevenueVO(id, organization, cost, goodsInfo);
 	}
 	
+	/**
+	 * 返回订单的签收的信息
+	 * 
+	 * @return 返回一个{@code OrderSignVO}
+	 */
 	public OrderSignVO getOrderSignVO () {
 		return new OrderSignVO(id, signName, signData);
 	}

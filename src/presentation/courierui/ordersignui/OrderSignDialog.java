@@ -6,36 +6,37 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.sql.Date;
 
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 import presentation.util.CheckInfoGetter;
 import presentation.util.Checker;
-import presentation.util.DatePickPanel;
 import presentation.util.RecentDatePickPanel;
+import businesslogic.BusinessLogicService;
 import businesslogic.checkbl.CheckInfo;
-import businesslogic.checkbl.orderinfo.Name;
+import businesslogic.checkbl.Name;
 import businesslogic.checkbl.orderinfo.OrderSignId;
-import businesslogic.orderbl.Order;
 import businesslogicservice.OrderblService;
 import vo.OrderSignVO;
 
+
+/**
+ * 这是订单签收的界面
+ * @author lc
+ * @version 1.4
+ *
+ */
 public class OrderSignDialog extends JDialog{
 	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 20144494769692224L;
-	/**
-	 * 
-	 */
 	
-
+	
 	private JLabel orderIdLabel;
 	private JTextField orderIdTextField;
 	
@@ -160,7 +161,7 @@ public class OrderSignDialog extends JDialog{
 				
 				OrderSignVO orderSignVO = new OrderSignVO(orderIdTextField.getText(), 
 						signNameTextField.getText(),datePickPanel.getDate());
-				OrderblService orderblService = new Order();
+				OrderblService orderblService = BusinessLogicService.getOrderblService();
 				orderblService.signOrder(orderSignVO);	
 			}
 		});
@@ -168,7 +169,7 @@ public class OrderSignDialog extends JDialog{
 		cancleButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				OrderSignDialog.this.dispose();
 				
 			}
 		});

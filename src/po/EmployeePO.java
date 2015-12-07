@@ -8,9 +8,14 @@ import systemenum.Sex;
 import vo.EmployeeVO;
 import vo.PayVO;
 
- 
-
- 
+/**
+ * {@code EmployeePO}是员工业务逻辑层与数据层之间传递的持久化对象，
+ * 记录了员工的所有信息
+ * @author 刘航伸
+ * @see po.PayPO
+ * @see systemenum.Sex
+ * @see systemenum.Position
+ */
 public class EmployeePO implements Serializable{
 	/**
 	 * 

@@ -2,10 +2,16 @@ package vo;
 
 import po.OrderPO;
 import systemenum.DeliveryWay;
-import systemenum.DocumentState;
 import systemenum.GoodsState;
 import systemenum.WrapWay;
 
+
+/**
+ * 订单创建的VO
+ * @author lc
+ * @version 1.2
+ *
+ */
 public class OrderCreateVO {
 	
 	private String id;
@@ -117,6 +123,10 @@ public class OrderCreateVO {
 	
 	
 	
+	public void setCost(double cost) {
+		this.cost = cost;
+	}
+
 	public String getOrganization() {
 		return organization;
 	}
@@ -217,5 +227,6 @@ public class OrderCreateVO {
     			goodsInfo, weight, size, cost);
     }
 	
+    
 
 }

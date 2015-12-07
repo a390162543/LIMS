@@ -6,11 +6,16 @@ import java.util.Vector;
 
 import javax.swing.table.DefaultTableModel;
 
-import systemenum.GoodsState;
 import vo.OrderCreateVO;
 import businesslogic.orderbl.Order;
 
 
+/**
+ * 该TableModel用于记录审批的订单的信息
+ * @author lc
+ * @version 1.4
+ *
+ */
 public class OrderPendingTableModel extends DefaultTableModel{
 	
 	/**

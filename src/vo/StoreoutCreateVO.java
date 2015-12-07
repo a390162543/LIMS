@@ -6,6 +6,13 @@ import java.util.List;
 import po.StoreoutPO;
 import systemenum.ShipForm;
 
+
+/**
+ * 创建出库单是从界面传来的VO 
+ * @author lc
+ * @version 1.4
+ *
+ */
 public class StoreoutCreateVO {
 	
 	private String id;
@@ -84,6 +91,11 @@ public class StoreoutCreateVO {
 		return transferId;
 	}
 	
+	/**
+	 * 根据VO获取相应的PO
+	 * 
+	 * @return 返回一个{@code StoreoutPO}
+	 */
 	public StoreoutPO getStoreoutPO(){
 		return new StoreoutPO(id, orderId, date, destination, shipForm, transferId, organization);
 	}

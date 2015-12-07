@@ -6,14 +6,20 @@ import java.util.Vector;
 
 import javax.swing.table.DefaultTableModel;
 
+import businesslogic.BusinessLogicService;
 import businesslogic.employeebl.Employee;
+import businesslogic.userbl.User;
 import businesslogicservice.EmployeeblService;
+import systemenum.Power;
 import vo.EmployeeVO;
+import vo.UserVO;
 
-public class EmployeeTableModel extends DefaultTableModel{
-
- 
-    
+/**
+ * 员工管理界面的数据管理
+ * @author 刘航伸
+ * @version 1.5
+ */
+public class EmployeeTableModel extends DefaultTableModel{   
     /**
 	 * 
 	 */
@@ -25,7 +31,7 @@ public class EmployeeTableModel extends DefaultTableModel{
     
     
     public EmployeeTableModel() {
-        EmployeeblService = new Employee();
+        EmployeeblService = BusinessLogicService.getEmployeeblService();
         dataList = EmployeeblService.getEmployeeVO();
         setDataVector(convertToVectorData(dataList), getColumnNamesVector());
     }
@@ -34,6 +40,11 @@ public class EmployeeTableModel extends DefaultTableModel{
         addRow(convertToVector(vo));
         dataList.add(vo);
         EmployeeblService.creatEmployeePO(vo);
+        Power power = vo.getPosition().getPower();
+     	 
+        UserVO uservo = new UserVO(vo.getId(), "000000", power);
+        User user = new User();
+        user.creatUserPO(uservo);
     }
     
     public void delete(int row){
