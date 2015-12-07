@@ -2,17 +2,21 @@ package presentation.managerui.approvalui.orderui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.SimpleDateFormat;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-import systemenum.GoodsState;
 import vo.OrderCreateVO;
 
 
+/**
+ * 这是总经理审批时点击获取详情显示的界面
+ * @author lc
+ * @version 1.3
+ *
+ */
 public class OrderPendingDialog extends JDialog{
 
 	/**

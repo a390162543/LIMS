@@ -268,6 +268,22 @@ public class DataService {
         return null;
     }
     
+    public static StorageLocationDataService getStorageLocationDataService(){
+    	 try {
+             return (StorageLocationDataService) Naming.lookup("rmi://localhost/LocationData");
+         } catch (MalformedURLException e) {
+             // TODO Auto-generated catch block
+             e.printStackTrace();
+         } catch (RemoteException e) {
+             // TODO Auto-generated catch block
+             e.printStackTrace();
+         } catch (NotBoundException e) {
+             // TODO Auto-generated catch block
+             e.printStackTrace();
+         }
+         return null;
+    }
+    
     public static StoreinDataService getStoreinDataService(){
         try {
             return (StoreinDataService) Naming.lookup("rmi://localhost/StoreinData");

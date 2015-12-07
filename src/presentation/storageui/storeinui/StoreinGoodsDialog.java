@@ -24,17 +24,24 @@ import presentation.util.CheckInfoGetter;
 import presentation.util.Checker;
 import systemenum.StorageState;
 import vo.StorageLocationVO;
-import vo.StoreinOrderVO;
+import businesslogic.BusinessLogicService;
 import businesslogic.checkbl.CheckInfo;
 import businesslogic.checkbl.storeininfo.AreaNum;
 import businesslogic.checkbl.storeininfo.FrameNum;
 import businesslogic.checkbl.storeininfo.Item;
 import businesslogic.checkbl.storeininfo.RowNum;
 import businesslogic.checkbl.storeininfo.StoreinOrderId;
-import businesslogic.storeinbl.Storein;
 import businesslogic.userbl.LoginController;
 import businesslogicservice.StoreinblService;
 
+
+
+/**
+ * 这是添加入库货物显示的界面
+ * @author lc
+ * @version 1.4
+ *
+ */
 public class StoreinGoodsDialog extends JDialog{
 	
 	/**
@@ -56,6 +63,7 @@ public class StoreinGoodsDialog extends JDialog{
 	private JButton confirmButton;
 	private JButton cancleButton;
 	
+	@SuppressWarnings("unused")
 	private DefaultTableModel tableModel;
 
 	public StoreinGoodsDialog(DefaultTableModel tableModel){
@@ -327,7 +335,7 @@ public class StoreinGoodsDialog extends JDialog{
 				
 				StorageLocationVO vo = new StorageLocationVO(LoginController.getOrganizationId(), Integer.parseInt(areaNUmTextField.getText()),Integer.parseInt(rowNumTextField.getText()), 
 						Integer.parseInt(frameNumTextField.getText()), Integer.parseInt(itemTextField.getText()), StorageState.ISSTORING, orderIdTextField.getText());
-				StoreinblService storeinblService = new Storein();
+				StoreinblService storeinblService = BusinessLogicService.getStoreinblService();
 				storeinblService.changeLocationState(vo);		
 				tableModel.addRow(data);
 				StoreinGoodsDialog.this.dispose();

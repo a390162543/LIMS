@@ -14,6 +14,12 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import vo.OutOrderCheckResultVO;
 
+/**
+ * 这是库存查看时符合条件的出库单的显示的面板
+ * @author lc
+ * @version 1.3
+ *
+ */
 public class StoreoutCheckPanel extends JPanel{
 	
 	/**

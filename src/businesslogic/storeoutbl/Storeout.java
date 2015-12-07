@@ -1,17 +1,15 @@
 package businesslogic.storeoutbl;
 
-import java.net.MalformedURLException;
-import java.rmi.Naming;
-import java.rmi.NotBoundException;
+
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import po.StoreinPO;
 import po.StoreoutPO;
 import systemenum.DocumentState;
 import systemenum.StorageState;
+import dataservice.DataService;
 import dataservice.StoreoutDataService;
 import vo.StorageLocationVO;
 import vo.StoreinCheckVo;
@@ -27,22 +25,23 @@ import businesslogic.userbl.LoginController;
 import businesslogicservice.IdblService;
 import businesslogicservice.StoreoutblService;
 
+
+/**
+ * 
+ * @author lc
+ *
+ */
 public class Storeout implements StoreoutblService{
 
 	@Override
 	public boolean createStoreoutPO(StoreoutCreateVO vo) {
+		StoreoutDataService storeoutDataService = DataService.getStoreoutDataService();
+		
+		StoreoutPO po = vo.getStoreoutPO();
+		po.setDocumentState(DocumentState.PENDING);
 		try {
-			StoreoutDataService storeoutDataService = (StoreoutDataService) Naming.lookup("rmi://localhost/StoreoutData");
-			StoreoutPO po = vo.getStoreoutPO();
-			po.setDocumentState(DocumentState.PENDING);
 			storeoutDataService.insert(po);
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NotBoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -52,149 +51,162 @@ public class Storeout implements StoreoutblService{
 
 	@Override
 	public boolean modifyStoreout(StoreoutCreateVO vo) {
+		StoreoutDataService storeoutDataService = DataService.getStoreoutDataService();
+	
+		StoreoutPO storeoutPO = vo.getStoreoutPO();
+		StoreoutPO updatePO = storeoutPO.updateModifyInfo(vo);
+		updatePO.setDocumentState(DocumentState.PASS);
 		try {
-			StoreoutDataService storeoutDataService = (StoreoutDataService) Naming.lookup("rmi://localhost/StoreoutData");
-			StoreoutPO storeoutPO = vo.getStoreoutPO();
-			StoreoutPO updatePO = storeoutPO.updateModifyInfo(vo);
-			updatePO.setDocumentState(DocumentState.PASS);
 			storeoutDataService.insert(updatePO);
-			List<String> orderIdList = updatePO.getOrderId();
-			Order order = new Order();
-			StorageHelper helper = new StorageHelper();
-			for (int i = 0; i < orderIdList.size(); i++) {
-				StoreinOrderVO storeinOrderVO = order.getStorageOrderVO(orderIdList.get(i));
-				StorageLocationVO storageLocationVO = new StorageLocationVO("0250", storeinOrderVO.getAreaNum(), 
-						storeinOrderVO.getRowNum(), storeinOrderVO.getFrameNum(), storeinOrderVO.getItem(), StorageState.ISAVAILABLE);
-				helper.changeLocationState(storageLocationVO);
-				order.setStoreoutState(orderIdList.get(i));
-			}
-			
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (NotBoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
+		List<String> orderIdList = updatePO.getOrderId();
+		Order order = new Order();
+		StorageHelper helper = new StorageHelper();
+		for (int i = 0; i < orderIdList.size(); i++) {
+			StoreinOrderVO storeinOrderVO = order.getStorageOrderVO(orderIdList
+					.get(i));
+			StorageLocationVO storageLocationVO = new StorageLocationVO("0250",
+					storeinOrderVO.getAreaNum(), storeinOrderVO.getRowNum(),
+					storeinOrderVO.getFrameNum(), storeinOrderVO.getItem(),
+					StorageState.ISAVAILABLE);
+			helper.changeLocationState(storageLocationVO);
+			order.setStoreoutState(orderIdList.get(i));
+		}
+
 		return false;
 	}
 
+	
 	@Override
 	public boolean execute(StoreoutCreateVO vo) {
+		StoreoutDataService storeoutDataService = DataService.getStoreoutDataService();
+		
+		StoreoutPO storeoutPO = null;
 		try {
-			StoreoutDataService storeoutDataService = (StoreoutDataService) Naming.lookup("rmi://localhost/StoreoutData");
-			StoreoutPO storeoutPO = storeoutDataService.find(vo.getId());
-			storeoutPO.setDocumentState(DocumentState.PASS);
-			storeoutDataService.update(storeoutPO);
-			StorageHelper helper = new StorageHelper();
-			Order order = new Order();
-			List<String> orderIdList = storeoutPO.getOrderId();
-			
-			
-			for (int i = 0; i < orderIdList.size(); i++) {
-				StoreinOrderVO storeinOrderVO = order.getStorageOrderVO(orderIdList.get(i));
-				StorageLocationVO storageLocationVO = new StorageLocationVO("0250", storeinOrderVO.getAreaNum(), 
-						storeinOrderVO.getRowNum(), storeinOrderVO.getFrameNum(), storeinOrderVO.getItem(), StorageState.ISAVAILABLE);
-				helper.changeLocationState(storageLocationVO);
-				order.setStoreoutState(orderIdList.get(i));
-			}
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			storeoutPO = storeoutDataService.find(vo.getId());
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (NotBoundException e) {
+		}
+		storeoutPO.setDocumentState(DocumentState.PASS);
+		try {
+			storeoutDataService.update(storeoutPO);
+		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		StorageHelper helper = new StorageHelper();
+		Order order = new Order();
+		List<String> orderIdList = storeoutPO.getOrderId();
+
+		for (int i = 0; i < orderIdList.size(); i++) {
+			StoreinOrderVO storeinOrderVO = order.getStorageOrderVO(orderIdList
+					.get(i));
+			StorageLocationVO storageLocationVO = new StorageLocationVO("0250",
+					storeinOrderVO.getAreaNum(), storeinOrderVO.getRowNum(),
+					storeinOrderVO.getFrameNum(), storeinOrderVO.getItem(),
+					StorageState.ISAVAILABLE);
+			helper.changeLocationState(storageLocationVO);
+			order.setStoreoutState(orderIdList.get(i));
+		}
+
 		return true;
 	}
 
+	/**
+	 * 库存盘点时，该方法提供满足条件的出库的货物
+	 * 
+	 * @param vo {@code StoreoutCheckVo}
+	 * @return 成功则返回一个{@code List<OutOrderCheckResultVO>}，失败则返回{@code null}
+	 */
 	public List<OutOrderCheckResultVO> storeoutCheck(StoreinCheckVo vo) {
+		StoreoutDataService storeoutDataService = DataService.getStoreoutDataService();
 		String field = vo.getFiled();
 		Date value = vo.getFromDate();
 		Date toDate = vo.getToDate();
 		List<OutOrderCheckResultVO> outCheckResultVOs = new ArrayList<OutOrderCheckResultVO>();
 		List<StoreoutPO> storeoutPOs = null;
+
 		try {
-			StoreoutDataService storeoutDataService = (StoreoutDataService) Naming.lookup("rmi://localhost/StoreoutData");
-			storeoutPOs = storeoutDataService.finds(field, value);	
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			storeoutPOs = storeoutDataService.finds(field, value);
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (NotBoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
-		
-		for(StoreoutPO po : storeoutPOs) {
-			if (po.getDate().compareTo(toDate)<=0) {
+
+		for (StoreoutPO po : storeoutPOs) {
+			if (po.getDate().compareTo(toDate) <= 0) {
 				for (int i = 0; i < po.getOrderId().size(); i++) {
 					Order order = new Order();
-					OutOrderCheckResultVO checkResultVO = order.findStoreout(po.getOrderId().get(i));
+					OutOrderCheckResultVO checkResultVO = order.findStoreout(po
+							.getOrderId().get(i));
 					checkResultVO.setDate(po.getDate());
 					checkResultVO.setDestination(po.getDestination());
 					outCheckResultVOs.add(checkResultVO);
 				}
-				
+
 			}
 		}
-		
+
 		return outCheckResultVOs;	
 	}
 	
+	
+	/**
+	 * 库存查看时，该方法提供符合条件的出库单相应的信息
+	 * 
+	 * @param field {@code String}
+	 * @param value {@code Object}
+	 * @return 成功则返回一个{@code List<StoreoutQueryVO>}，失败则返回{@code null}
+	 */
 	public List<StoreoutQueryVO> getStoreoutQueryVOs(String field, Object value) {
+		StoreoutDataService storeoutDataService = DataService.getStoreoutDataService();
 		List<StoreoutQueryVO> storeoutQueryVOs = new ArrayList<StoreoutQueryVO>();
 		List<StoreoutPO> storeoutPOs = null;
+
 		try {
-			StoreoutDataService storeoutDataService = (StoreoutDataService) Naming.lookup("rmi://localhost/StoreoutData");
-			storeoutPOs = storeoutDataService.finds(field, value);	
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			storeoutPOs = storeoutDataService.finds(field, value);
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (NotBoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
+
 		for (StoreoutPO po : storeoutPOs) {
 			storeoutQueryVOs.add(po.getStoreoutQueryVO());
 		}
 		return storeoutQueryVOs;
-		
+
 	}
 	
+	/**
+	 * 获取待审批的出库单
+	 * 
+	 * @return 成功则返回一个{@code List<StoreoutCreateVO>},失败则返回{@code null}
+	 */
 	public List<StoreoutCreateVO> getPendingStoreoutCreateVO () {
+		StoreoutDataService storeoutDataService = DataService.getStoreoutDataService();
 		List<StoreoutCreateVO> storeoutPendingVOs = new ArrayList<StoreoutCreateVO>();
 		List<StoreoutPO> pendingStoreoutPOs = null;
+
 		try {
-			StoreoutDataService storeoutDataService =  (StoreoutDataService) Naming.lookup("rmi://localhost/StoreoutData");
-			pendingStoreoutPOs = storeoutDataService.finds("documentState", DocumentState.PENDING);
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			pendingStoreoutPOs = storeoutDataService.finds("documentState",
+					DocumentState.PENDING);
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (NotBoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
+
 		for (StoreoutPO po : pendingStoreoutPOs) {
 			storeoutPendingVOs.add(po.getStoreoutCreateVO());
 		}
 		return storeoutPendingVOs;
 	}
 
+	
+	
 	@Override
 	public boolean changeLocationState(String orderId) {
 		Order order = new Order();
@@ -209,12 +221,13 @@ public class Storeout implements StoreoutblService{
 		return true;
 	}
 
+	
 	@Override
 	public boolean restoreLcationState(String orderId) {
 		Order order = new Order();
 		StoreinOrderVO storeinOrderVO = order.getStorageOrderVO(orderId);
 		order.restoreOrderState(orderId);
-		StorageLocationVO vo = new StorageLocationVO("0250",storeinOrderVO.getAreaNum(), storeinOrderVO.getRowNum(), 
+		StorageLocationVO vo = new StorageLocationVO(LoginController.getOrganizationId(),storeinOrderVO.getAreaNum(), storeinOrderVO.getRowNum(), 
 				storeinOrderVO.getFrameNum(), storeinOrderVO.getItem(), StorageState.ISSTORED);
 		StorageHelper helper = new StorageHelper();
 		helper.changeLocationState(vo);
@@ -223,19 +236,7 @@ public class Storeout implements StoreoutblService{
 
 	@Override
 	public IdblService getIdblService() {
-		StoreoutDataService storeoutDataService = null;
-		try {
-			storeoutDataService =  (StoreoutDataService) Naming.lookup("rmi://localhost/StoreoutData");	
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NotBoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		StoreoutDataService storeoutDataService = DataService.getStoreoutDataService();
 		return new IdManager(storeoutDataService, 6);
 	}
 	

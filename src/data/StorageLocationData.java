@@ -22,10 +22,18 @@ import java.util.Date;
 
 import po.StorageLocationPO;
 import po.StoragePO;
-import dataservice.StorageDataService;
 import dataservice.StorageLocationDataService;
 import systemenum.StorageState;
 import vo.StorageLocationVO;
+
+
+
+/**
+ * 实现StorageLocationDataService相应的方法，提供对库存位置数据的操作
+ * @author lc
+ * @version 1.4
+ *
+ */
 
 public class StorageLocationData extends UnicastRemoteObject implements StorageLocationDataService{
 	
@@ -58,6 +66,7 @@ public class StorageLocationData extends UnicastRemoteObject implements StorageL
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		@SuppressWarnings("resource")
 		BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out));
 			for (int j = 0; j < airNum; j++) {
 				for (int m = 0; m < 10; m++) {
@@ -211,8 +220,10 @@ public class StorageLocationData extends UnicastRemoteObject implements StorageL
 	@Override
 	public boolean update(StorageLocationPO po) throws RemoteException {
 		String path = "c:/LIMS/database/LocationData/"+po.getStorageId()+".txt";
+		@SuppressWarnings("unused")
 		File file = new File(path);
 		StorageData storageData = new StorageData();
+		@SuppressWarnings("unused")
 		StoragePO storagePO = storageData.find(po.getStorageId());
 		int areaNum = po.getAreaNum();
 		int rowNum = po.getRowNum();
@@ -236,6 +247,7 @@ public class StorageLocationData extends UnicastRemoteObject implements StorageL
 			break;
 		}
 		try {
+			@SuppressWarnings("resource")
 			RandomAccessFile randomAccessFile = new RandomAccessFile(path,"rw");
 			randomAccessFile.seek(38*checkline);
 			randomAccessFile.skipBytes(0);
@@ -262,8 +274,10 @@ public class StorageLocationData extends UnicastRemoteObject implements StorageL
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		@SuppressWarnings("resource")
 		BufferedReader reader=new BufferedReader(new InputStreamReader(in));
 		StorageData storageData = new StorageData();
+		@SuppressWarnings("unused")
 		StoragePO storagePO = storageData.find(vo.getStorageId());
 		int areaNum = vo.getAreaNum();
 		int rowNum = vo.getRowNum();
@@ -324,6 +338,7 @@ public class StorageLocationData extends UnicastRemoteObject implements StorageL
 	@Override
 	public boolean changeLocationInfo(StoragePO orginalPO,StoragePO updatePO) throws RemoteException {
 		String path = "c:/LIMS/database/LocationData/"+orginalPO.getStorageId()+".txt";
+		@SuppressWarnings("unused")
 		File file = new File(path);
 		
 		int orginalAirNum = orginalPO.getAirCapacity();
@@ -363,6 +378,7 @@ public class StorageLocationData extends UnicastRemoteObject implements StorageL
 			System.out.println(changeRow);
 				for (int i = 0; i < changeRow*1000; i++) {
 					try {
+						@SuppressWarnings("resource")
 						RandomAccessFile randomAccessFile = new RandomAccessFile(path, "rw");
 						randomAccessFile.seek(38 * checkLine);
 						randomAccessFile.skipBytes(8);
@@ -396,10 +412,11 @@ public class StorageLocationData extends UnicastRemoteObject implements StorageL
 				changeRow = updateFreeNum - orginalFreeNum;
 				break;
 			}
-			System.out.println(changeRow);
+	
 			for (int i = 0; i < changeRow*1000; i++) {
 				try {
 					
+					@SuppressWarnings("resource")
 					RandomAccessFile randomAccessFile = new RandomAccessFile(path, "rw");
 					randomAccessFile.seek(38 * checkLine);
 					randomAccessFile.skipBytes(8);
@@ -428,6 +445,7 @@ public class StorageLocationData extends UnicastRemoteObject implements StorageL
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		@SuppressWarnings("resource")
 		BufferedReader reader=new BufferedReader(new InputStreamReader(in));
 		String info = "";
 		for (int i = 0; i < 20; i++) {
@@ -465,6 +483,7 @@ public class StorageLocationData extends UnicastRemoteObject implements StorageL
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		@SuppressWarnings("resource")
 		BufferedReader reader=new BufferedReader(new InputStreamReader(in));
 		String info = "";
 		try {
@@ -505,6 +524,7 @@ public class StorageLocationData extends UnicastRemoteObject implements StorageL
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		@SuppressWarnings("resource")
 		BufferedReader reader=new BufferedReader(new InputStreamReader(in));
 		String info = "";
 		try {
@@ -545,6 +565,7 @@ public class StorageLocationData extends UnicastRemoteObject implements StorageL
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		@SuppressWarnings("resource")
 		BufferedReader reader=new BufferedReader(new InputStreamReader(in));
 		String info = "";
 		try {

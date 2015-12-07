@@ -5,6 +5,12 @@ import java.util.List;
 
 import po.StoreinPO;
 
+
+/**
+ * 订单创建时传递的VO
+ * @author lc
+ * @version 1.3
+ */
 public class StoreinCreateVO {
 	
 	private String id;
@@ -109,6 +115,10 @@ public class StoreinCreateVO {
 		return item;
 	}
 	
+	/**
+	 * 根据VO获取对应的PO信息
+	 * @return 返回一个{@code StoreinPO}
+	 */
 	public StoreinPO getStoreinPO(){
 		return new StoreinPO(id, orderId, inDate, destination, areaNum, rowNum, frameNum, item, organization);
 	}

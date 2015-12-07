@@ -1,14 +1,17 @@
 package vo;
 
-import java.net.MalformedURLException;
-import java.rmi.Naming;
-import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
-import java.util.Date;
 
-import dataservice.OrderDataService;
+import java.util.Date;
 import po.OrderPO;
 
+
+/**
+ * 该VO包含订单创建时的信息
+ * 
+ * @author lc
+ * @version 1.3
+ *
+ */
 public class OrderSignVO {
 	
 	private String id;
@@ -34,6 +37,10 @@ public class OrderSignVO {
 		return signData;
 	}
 	
+	/**
+	 * 获取相应的OrderPO
+	 * @return 返回一个{@code OrderPO}
+	 */
 	public OrderPO getOrderPO(){
 		
 		OrderPO po = null;

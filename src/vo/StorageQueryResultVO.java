@@ -3,6 +3,12 @@ package vo;
 import java.util.Date;
 
 
+/**
+ * 库存查看时的VO，用于传递库存货物的信息
+ * @author lc
+ * @version 1.3
+ *
+ */
 public class StorageQueryResultVO {
 
 	private String orderId;

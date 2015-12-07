@@ -2,8 +2,6 @@ package presentation.courierui.ordercreateui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ContainerEvent;
-import java.awt.event.ContainerListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
@@ -18,8 +16,9 @@ import javax.swing.JTextField;
 
 import presentation.util.CheckInfoGetter;
 import presentation.util.Checker;
+import businesslogic.BusinessLogicService;
 import businesslogic.checkbl.CheckInfo;
-import businesslogic.checkbl.orderinfo.Name;
+import businesslogic.checkbl.Name;
 import businesslogic.checkbl.orderinfo.OrderAddress;
 import businesslogic.orderbl.Order;
 import businesslogicservice.IdblService;
@@ -29,16 +28,21 @@ import systemenum.GoodsState;
 import systemenum.WrapWay;
 import vo.OrderCreateVO;
 
+
+
+/**
+ * 这是订单创建的界面
+ * @author lc
+ * @version 1.5
+ *
+ */
 public class OrderCreateDialog extends JDialog{
 	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -6318650343755451715L;
-	/**
-	 * 
-	 */
-	
+
 	
 	private JLabel orderinfoLabel;
 	private JLabel orderIdLabel;
@@ -453,7 +457,7 @@ public class OrderCreateDialog extends JDialog{
 						Double.parseDouble(volumeTextField.getText()), tempcost, wrapWay,
 						deliverWay,  Integer.parseInt(totalTimeTextField.getText()));
 				orderCreateVO.setGoodsState(GoodsState.COMPLETE);
-				OrderblService orderblService = new Order();
+				OrderblService orderblService = BusinessLogicService.getOrderblService();
 				orderblService.createOrderPO(orderCreateVO);
 			}
 		});

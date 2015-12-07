@@ -2,6 +2,13 @@ package vo;
 
 import java.util.Date;
 
+
+/**
+ * 入库单查询时传递的VO，用于查询符合条件的VO
+ * @author lc
+ * @version 1.3
+ *
+ */
 public class StoreinCheckVo {
 	
 	String filed;

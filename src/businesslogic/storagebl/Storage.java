@@ -2,10 +2,7 @@ package businesslogic.storagebl;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.nio.file.Path;
-import java.rmi.Naming;
-import java.rmi.NotBoundException;
+
 import java.rmi.RemoteException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -15,89 +12,89 @@ import java.util.List;
 import javax.swing.JTable;
 
 import po.StoragePO;
-import presentation.storageui.storagequeryui.StorageQueryTableModel;
-import systemenum.StorageState;
+import dataservice.DataService;
 import dataservice.StorageDataService;
-import vo.StorageCheckVO;
 import vo.StorageQueryResultVO;
 import vo.StorageSetAreaVO;
 import vo.StorageVO;
 import vo.StoreinCheckVo;
-import vo.StoreinCreateVO;
-import vo.StoreinOrderVO;
 import vo.StoreinQueryVO;
-import vo.StoreoutCreateVO;
 import vo.StoreoutQueryVO;
 import vo.InOrderCheckResultVO;
 import vo.OutOrderCheckResultVO;
 import businesslogic.ExcelExporter;
-import businesslogic.orderbl.Order;
 import businesslogic.storeinbl.Storein;
 import businesslogic.storeoutbl.Storeout;
 import businesslogic.userbl.LoginController;
 import businesslogicservice.StorageblService;
 
+
+/**
+ * 实现StorageblService中的方法，并提供与其他模块交互的方法
+ * 
+ * @author lc
+ * @version 1.5
+ *
+ */
 public class Storage implements StorageblService{
 
 
 	public boolean setArea(StorageSetAreaVO vo) {
-		try {
-			StorageDataService storageDataService = (StorageDataService) Naming.lookup("rmi://localhost/StorageData");
-			StoragePO po = storageDataService.find(vo.getStorageId());
-			StorageHelper storageHelper = new StorageHelper();
-			if (po==null) {
-				po = vo.getInitialStoragePO();
-				//在库存里添加辅助类，用于TXT的初始化，更新
-				storageHelper.initLocationInfo(LoginController.getOrganizationId(), vo.getAirCapacity(), vo.getCarCapacity(), vo.getTrainCapacity(), vo.getMotorCapacity());
-				storageDataService.update(po);
-				return true;
-			}
 		
-			
-			StoragePO updatePo = po.getUpdateStoragePO(vo);
-			storageHelper.changeLocationInfo(po, updatePo);
-			storageDataService.update(updatePo);
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		StorageDataService storageDataService = DataService.getStorageDataService();
+
+		StoragePO po = null;
+		try {
+			po = storageDataService.find(vo.getStorageId());
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (NotBoundException e) {
+		}
+		StorageHelper storageHelper = new StorageHelper();
+		if (po == null) {
+			po = vo.getInitialStoragePO();
+			// 在库存里添加辅助类，用于TXT的初始化，更新
+			storageHelper.initLocationInfo(LoginController.getOrganizationId(),
+					vo.getAirCapacity(), vo.getCarCapacity(),
+					vo.getTrainCapacity(), vo.getMotorCapacity());
+			try {
+				storageDataService.update(po);
+			} catch (RemoteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return true;
+		}
+
+		StoragePO updatePo = po.getUpdateStoragePO(vo);
+		storageHelper.changeLocationInfo(po, updatePo);
+		try {
+			storageDataService.update(updatePo);
+		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return true;
-	}
-
-	
-	public List<StorageCheckVO> storeCheck(Date date) {
-		
-		
-		return null;
-	}
-
-	
-	public boolean isExceeded() {
-		
-		return false;
 	}
 
 
 	public boolean gainExcel(JTable storageQueryTable) {
 		ExcelExporter excelExporter = new ExcelExporter();
-		String path = System.getProperty("user.home")+System.getProperty("file.separator")+"Desktop/"
-				+new SimpleDateFormat("yyyy-MM-dd").format(new Date()).toString()+" data"+".xls";
+		String path = System.getProperty("user.home")
+				+ System.getProperty("file.separator")
+				+ "Desktop/"
+				+ new SimpleDateFormat("yyyy-MM-dd").format(new Date())
+						.toString() + " data" + ".xls";
 		File storageData = new File(path);
-		if(!storageData.getParentFile().exists())
-            storageData.getParentFile().mkdirs();
-        try {
-            storageData.createNewFile();
-        } catch (IOException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
-        }
+		if (!storageData.getParentFile().exists())
+			storageData.getParentFile().mkdirs();
+		try {
+			storageData.createNewFile();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		try {
 			excelExporter.export(storageQueryTable, storageData);
 		} catch (IOException e) {
@@ -108,59 +105,25 @@ public class Storage implements StorageblService{
 	}
 
 	
-	public boolean setAlarm(double alarm) {
-		
-		return false;
-	}
-
 	
-	public int getTotalStorein(List<StoreinCreateVO> storeinList) {
-	
-		return 0;
-	}
-
-	
-	public int getTotalStoreout(List<StoreoutCreateVO> storeoutList) {
-		
-		return 0;
-	}
-
-	
-	public List<StoreoutCreateVO> storeoutQuery(Date fromDate, Date toDate) {
-		
-		return null;
-	}
-
-	
-	public List<StoreinCreateVO> storeinQuery(Date fromDate, Date toDate) {
-		
-		return null;
-	}
 
 
 	@Override
 	public StorageSetAreaVO getStorageData(String id) {
+		
+		StorageDataService storageDataService = DataService.getStorageDataService();
+		StoragePO po = null;
 		try {
-			StorageDataService storageDataService = (StorageDataService) Naming.lookup("rmi://localhost/StorageData");
-			StoragePO po = storageDataService.find(id);
-			if (po!=null) {
-				return po.getStorageSetAreaVO();	
-			}
-			else {
-				return null;
-			}
-			
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			po = storageDataService.find(id);
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (NotBoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
-		return null;
+		if (po != null) {
+			return po.getStorageSetAreaVO();
+		} else {
+			return null;
+		}
 	}
 
 
@@ -207,67 +170,89 @@ public class Storage implements StorageblService{
 		return storageQueryResultVOs;
 	}
 	
+	
+	/**
+	 * 增加当前库存中货物的数量
+	 * 
+	 * @param storageId {@code String}
+	 * @return 成功则返回{@code true}，失败则返回{@code false}
+	 */
 	public boolean addNowCapacity(String storageId) {
+		StorageDataService storageDataService = DataService.getStorageDataService();
+		
+		StoragePO po = null;
 		try {
-			StorageDataService storageDataService = (StorageDataService) Naming.lookup("rmi://localhost/StorageData");
-			StoragePO po = storageDataService.find(storageId);
-			int nowCapacity = po.getNowCapacity();
-			nowCapacity++;
-			po.setNowCapacity(nowCapacity);
-			storageDataService.update(po);
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			po = storageDataService.find(storageId);
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (NotBoundException e) {
+		}
+		int nowCapacity = po.getNowCapacity();
+		nowCapacity++;
+		po.setNowCapacity(nowCapacity);
+		try {
+			storageDataService.update(po);
+		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		return true;
 	}
 	
+	
+	/**
+	 * 减少当前库存中货物的数量
+	 * 
+	 * @param storageId {@code String}
+	 * @return 成功则返回{@code true}，失败则返回{@code false}
+	 */
 	public boolean reduceNowCapacity(String storageId){
+		StorageDataService storageDataService = DataService.getStorageDataService();
+		
+		StoragePO po = null;
 		try {
-			StorageDataService storageDataService = (StorageDataService) Naming.lookup("rmi://localhost/StorageData");
-			StoragePO po = storageDataService.find(storageId);
-			int nowCapacity = po.getNowCapacity();
-			nowCapacity--;
-			po.setNowCapacity(nowCapacity);
-			storageDataService.update(po);
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			po = storageDataService.find(storageId);
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (NotBoundException e) {
+		}
+		int nowCapacity = po.getNowCapacity();
+		nowCapacity--;
+		po.setNowCapacity(nowCapacity);
+		try {
+			storageDataService.update(po);
+		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	
 		return true;
 	}
 	
+	
+	/**
+	 * 获取要查找的库存的相关信息
+	 * 
+	 * @param storageId {@code String}
+	 * @return 成功则返回一个{@code StorageVO}，失败则返回{@code false}
+	 */
 	public StorageVO getStorageVO (String storageId){
+		
+		StorageDataService storageDataService = DataService.getStorageDataService();
 		StorageVO storageVO = null;
+		StoragePO po = null;
 		try {
-			StorageDataService storageDataService = (StorageDataService) Naming.lookup("rmi://localhost/StorageData");
-			StoragePO po = storageDataService.find(storageId);
-			if (po == null) {
-				return null;
-			}
-			storageVO = po.getStorageVO();
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			po = storageDataService.find(storageId);
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (NotBoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
+		if (po == null) {
+			return null;
+		}
+		storageVO = po.getStorageVO();
+
 		return storageVO;
 	}
 }

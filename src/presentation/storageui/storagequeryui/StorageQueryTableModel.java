@@ -7,6 +7,13 @@ import javax.swing.table.DefaultTableModel;
 
 import vo.StorageQueryResultVO;
 
+
+/**
+ * 该TableModel用于记录用于显示的货物的信息
+ * @author lc
+ * @version 1.3
+ *
+ */
 public class StorageQueryTableModel extends DefaultTableModel{
 	
 
@@ -15,6 +22,7 @@ public class StorageQueryTableModel extends DefaultTableModel{
 	 */
 	private static final long serialVersionUID = 5225401278611579534L;
 	
+	@SuppressWarnings("unused")
 	private List<StorageQueryResultVO> dataList;
     private static final String[] TABLE_HEADER = {"订单号","入库日期","目的地","区号","排号","架号","位号"};
     

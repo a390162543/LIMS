@@ -10,10 +10,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import po.StoreinPO;
 import po.StoreoutPO;
 import systemenum.DocumentState;
-import dataservice.StoreinDataService;
 import dataservice.StoreoutDataService;
 
 public class StoreoutData extends UnicastRemoteObject implements StoreoutDataService{
@@ -31,17 +29,19 @@ public class StoreoutData extends UnicastRemoteObject implements StoreoutDataSer
 	}
 
 	@Override
-	public void insert(StoreoutPO po) throws RemoteException {
+	public boolean insert(StoreoutPO po) throws RemoteException {
 		String fileName = po.getStoreoutId();
 		String path = "c:/LIMS/database/"+this.getClass().getSimpleName()+"/"+fileName+".ser";
 		DataUtil.writeObject(po, path);
+		return true;
 		}
 
 	@Override
-	public void update(StoreoutPO po) throws RemoteException {
+	public boolean update(StoreoutPO po) throws RemoteException {
 		String fileName = po.getStoreoutId();
 		String path = "c:/LIMS/database/"+this.getClass().getSimpleName()+"/"+fileName+".ser";
 		DataUtil.writeObject(po, path);
+		return true;
 	}
 
 	@Override

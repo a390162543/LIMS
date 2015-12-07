@@ -3,6 +3,15 @@ package vo;
 import java.util.Date;
 
 
+
+/**
+ * 入库查询时返回的VO
+ * 期初建账也使用该VO
+ * 
+ * @author lc
+ * @version 1.5
+ *
+ */
 public class StoreinCheckResultVO {
 	
 	

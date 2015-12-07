@@ -12,9 +12,13 @@ import javax.swing.JTable;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
-import businesslogic.storeoutbl.Storeout;
 
-
+/**
+ * 这是总经理审批出库单显示在界面上的面板
+ * @author lc
+ * @version 1.3
+ *
+ */
 public class StoreoutPendingPanel extends JPanel {
 	
 	/**
@@ -41,7 +45,7 @@ public class StoreoutPendingPanel extends JPanel {
 		storeoutPendingTable.setRowSorter(tableSorter);
 
 		storeoutPendingScrollPane = new JScrollPane(storeoutPendingTable);
-		storeoutPendingScrollPane.setBounds(0, 40, 560, 370);
+		storeoutPendingScrollPane.setBounds(0, 0, 560, 370);
 
 		pendingButton = new JButton("审批");
 		modifyButton = new JButton("修改");
@@ -80,9 +84,9 @@ public class StoreoutPendingPanel extends JPanel {
 				new StoreoutPendingDialog(tableModel, modelRow, false);
 			}
 		});
-		pendingButton.setBounds(315, 420, 70, 30);
-		modifyButton.setBounds(400, 420, 70, 30);
-		queryButton.setBounds(485, 420, 70, 30);
+		pendingButton.setBounds(315, 390, 70, 30);
+		modifyButton.setBounds(400, 390, 70, 30);
+		queryButton.setBounds(485, 390, 70, 30);
 		// set panel
 		this.setBounds(0, 0, 560, 470);
 		this.setLayout(null);

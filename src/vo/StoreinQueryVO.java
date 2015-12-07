@@ -3,6 +3,13 @@ package vo;
 import java.util.Date;
 import java.util.List;
 
+
+/**
+ * 查看入库单上的货物信息返回的VO
+ * @author lc
+ * @version 1.3
+ *
+ */
 public class StoreinQueryVO {
 	
 	private List<String> orderId;

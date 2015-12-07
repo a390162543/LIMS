@@ -3,6 +3,13 @@ package vo;
 import java.util.Date;
 
 
+/**
+ * 该VO包含了在库存中获取的信息，用于库存盘点时返回信息
+ * 
+ * @author lc
+ * @version 1.3
+ *
+ */
 public class StorageCheckVO {
 	
 	private String id;

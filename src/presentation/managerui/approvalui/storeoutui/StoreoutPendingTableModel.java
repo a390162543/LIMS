@@ -9,6 +9,12 @@ import javax.swing.table.DefaultTableModel;
 import vo.StoreoutCreateVO;
 import businesslogic.storeoutbl.Storeout;
 
+/**
+ * 该TableModel用于记录出库单的订单的信息
+ * @author lc
+ * @version 1.4
+ *
+ */
 public class StoreoutPendingTableModel extends DefaultTableModel {
 
 	/**

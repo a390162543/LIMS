@@ -9,6 +9,12 @@ import javax.swing.table.DefaultTableModel;
 
 import vo.OutOrderCheckResultVO;
 
+/**
+ * 该TableModel用于记录出库单上货物的信息
+ * @author lc
+ * @version 1.4
+ *
+ */
 public class StoreoutCheckTableModel extends DefaultTableModel {
 	
 	
