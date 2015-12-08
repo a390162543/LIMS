@@ -2,12 +2,14 @@ package presentation.managerui.employeeui;
 
 import java.awt.event.ActionEvent;
 
+
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Date;
+
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -15,10 +17,12 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
+
 import businesslogic.BusinessLogicService;
 import businesslogic.checkbl.CheckInfo;
+import businesslogic.checkbl.Name;
 import businesslogic.checkbl.employeeinfo.EmployeeIdCard;
-import businesslogic.checkbl.employeeinfo.EmployeePhoneNumber;
+import businesslogic.checkbl.PhoneNumber;
 import businesslogicservice.EmployeeblService;
 import businesslogicservice.IdblService;
 import presentation.util.CheckInfoGetter;
@@ -75,7 +79,7 @@ public class EmployeeDialog extends JDialog{
     private EmployeeblService employeeblService;
     private Checker phoneNumberChecker;
     private Checker idcardChecker;
- 
+    private Checker nameChecker;
     
     //创建员工的Dialog   
     public EmployeeDialog(EmployeeTableModel em){
@@ -421,7 +425,7 @@ public class EmployeeDialog extends JDialog{
 				if(phoneField.getText() == null){
 					return null;
 				}
-				return new EmployeePhoneNumber(phoneField.getText());
+				return new PhoneNumber(phoneField.getText());
 			}
 		});
 		phoneField.addKeyListener(new KeyListener() {
@@ -456,6 +460,8 @@ public class EmployeeDialog extends JDialog{
 				return new EmployeeIdCard(idCardField.getText());
 			}
 		});
+		
+		
 		idCardField.addKeyListener(new KeyListener() {
 			
 			@Override
@@ -468,6 +474,38 @@ public class EmployeeDialog extends JDialog{
 			public void keyReleased(KeyEvent e) {
 				// TODO Auto-generated method stub
 				idcardChecker.check();
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
+		nameChecker = new Checker(nameField,new CheckInfoGetter() {
+			
+			@Override
+			public CheckInfo getCheckInfo() {
+				// TODO Auto-generated method stub
+				if(nameField.getText() == null){
+					return null;
+				}
+				return new Name(nameField.getText());
+			}
+		});
+		nameField.addKeyListener( new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				nameChecker.check();
 			}
 			
 			@Override

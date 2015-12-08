@@ -2,11 +2,8 @@ package presentation.managerui.organizationui;
 
 import java.util.List;
 import java.util.Vector;
-
 import javax.swing.table.DefaultTableModel;
-
 import businesslogic.BusinessLogicService;
-import businesslogic.organizationbl.Organization;
 import businesslogicservice.OrganizationblService;
 import vo.OrganizationVO;
 

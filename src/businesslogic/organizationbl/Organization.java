@@ -170,7 +170,7 @@ public class Organization implements OrganizationblService{
 	
 	public void execute(OrganizationVO vo){
 		if(vo != null){
-			createOrganizationPO(vo);
+			 createOrganizationPO(vo);
 		}
 		
 	}

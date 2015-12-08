@@ -30,9 +30,9 @@ import presentation.util.RecentDatePickPanel;
 import systemenum.ShipForm;
 import businesslogic.BusinessLogicService;
 import businesslogic.checkbl.CheckInfo;
+import businesslogic.checkbl.Name;
 import businesslogic.checkbl.transferinfo.OrderChecker;
 import businesslogic.checkbl.transferinfo.TransferNumber;
-import businesslogic.transferbl.Transfer;
 import businesslogicservice.TransferblService;
  
 import vo.TransferVO;
@@ -357,7 +357,7 @@ public class TransferPendingDialog extends JDialog {
 					return null;
 				}
 				else{
-					return null;
+					return new Name(loanManField.getText());
 				}
 			}
 		});

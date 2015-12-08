@@ -1,6 +1,8 @@
  package presentation.transitcenterui.transferui;
 
 import java.awt.Dimension;
+
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -29,9 +31,9 @@ import systemenum.ShipForm;
 import vo.TransferVO;
 import businesslogic.BusinessLogicService;
 import businesslogic.checkbl.CheckInfo;
+import businesslogic.checkbl.Name;
 import businesslogic.checkbl.transferinfo.OrderChecker;
 import businesslogic.checkbl.transferinfo.TransferNumber;
-import businesslogic.transferbl.Transfer;
 import businesslogic.userbl.LoginController;
 import businesslogicservice.IdblService;
 import businesslogicservice.TransferblService;
@@ -321,7 +323,7 @@ public class TransferDialog extends JDialog{
 					return null;
 				}
 				else{
-					return null;
+					return new Name(loanManField.getText());
 				}
 			}
 		});

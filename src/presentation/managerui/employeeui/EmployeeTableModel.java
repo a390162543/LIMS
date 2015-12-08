@@ -3,11 +3,8 @@ package presentation.managerui.employeeui;
  
 import java.util.List;
 import java.util.Vector;
-
 import javax.swing.table.DefaultTableModel;
-
 import businesslogic.BusinessLogicService;
-import businesslogic.employeebl.Employee;
 import businesslogic.userbl.User;
 import businesslogicservice.EmployeeblService;
 import systemenum.Power;

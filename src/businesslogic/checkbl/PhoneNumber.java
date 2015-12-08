@@ -1,4 +1,5 @@
-package businesslogic.checkbl.employeeinfo;
+package businesslogic.checkbl;
+
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -7,11 +8,11 @@ import systemenum.CheckResult;
 import businesslogic.checkbl.CheckInfo;
 import businesslogic.checkbl.CheckResultMessage;
 
-public class EmployeePhoneNumber implements CheckInfo{
+public class PhoneNumber implements CheckInfo{
 	
 	private String phoneNumber;
 	
-	public EmployeePhoneNumber(String phoneNumber) {
+	public PhoneNumber(String phoneNumber) {
 		// TODO Auto-generated constructor stub
 		this.phoneNumber = phoneNumber;
 	}
@@ -24,7 +25,7 @@ public class EmployeePhoneNumber implements CheckInfo{
 	         return checkResultMessage;
 		}
 		if(!isNumeric(phoneNumber)){
-			checkResultMessage.addInfo(CheckResult.FALSE, "电话号码不符合格式，应为纯数字");
+			checkResultMessage.addInfo(CheckResult.FALSE, "电话号码不符合格式 ");
 	         return checkResultMessage;
 		}
 		if(phoneNumber.length() != 11){

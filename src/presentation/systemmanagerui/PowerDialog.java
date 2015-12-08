@@ -3,13 +3,11 @@ package presentation.systemmanagerui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-
 import presentation.util.CheckInfoGetter;
 import presentation.util.Checker;
 import systemenum.Power;
@@ -17,7 +15,6 @@ import vo.UserVO;
 import businesslogic.BusinessLogicService;
 import businesslogic.checkbl.CheckInfo;
 import businesslogic.checkbl.userinfo.UserId;
-import businesslogic.userbl.User;
 import businesslogicservice.UserblService;
  
 /**
