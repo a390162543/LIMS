@@ -1,8 +1,5 @@
 package businesslogic.primeinfobl;
 
-import java.net.MalformedURLException;
-import java.rmi.Naming;
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -211,6 +208,7 @@ public class PrimeInfo implements PrimeInfoblService{
 		List<OrderCreateVO> orderCreateVOs = primeInfoVO.getOrder();
 		for(OrderCreateVO orderCreateVO :orderCreateVOs){
 			if(orderCreateVO.getId().equals(vo.getId())){
+				orderCreateVO.setCost(vo.getCost());
 				orderCreateVO.setOrganization(vo.getOrganization());
 			}
 		}

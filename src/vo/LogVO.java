@@ -18,12 +18,19 @@ public class LogVO {
 	private Position employeePosition;
 	private Date date;
 
+	public LogVO(String operation, String employeeId, String employeeName, Position employeePosition){
+		this.operation=operation;
+		this.employeeId = employeeId;
+		this.employeeName = employeeName;
+		this.employeePosition = employeePosition;
+		this.date = new Date() ;		
+	}
 	public LogVO(String operation, String employeeId, String employeeName, Position employeePosition,Date date){
 		this.operation=operation;
 		this.employeeId = employeeId;
 		this.employeeName = employeeName;
 		this.employeePosition = employeePosition;
-		this.date=date;		
+		this.date = date ;		
 	}
 	
 	public String getOpration(){
