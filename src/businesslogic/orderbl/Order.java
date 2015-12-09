@@ -8,11 +8,13 @@ import java.util.List;
 import po.OrderPO;
 import systemenum.DeliveryWay;
 import systemenum.DocumentState;
+import systemenum.Position;
 import systemenum.StorageState;
 import systemenum.WrapWay;
 import dataservice.DataService;
 import dataservice.OrderDataService;
 import vo.GoodsVO;
+import vo.LogVO;
 import vo.OrderCreateVO;
 import vo.OrderDeliverInfoVO;
 import vo.OrderQueryVO;
@@ -23,6 +25,8 @@ import vo.OutOrderCheckResultVO;
 import vo.StoreinOrderVO;
 import businesslogic.citybl.City;
 import businesslogic.idbl.OrderIdManager;
+import businesslogic.logbl.Log;
+import businesslogic.userbl.LoginController;
 import businesslogicservice.IdblService;
 import businesslogicservice.OrderblService;
 
@@ -45,7 +49,11 @@ public class Order implements OrderblService{
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}		
+		}
+		String operation = "创建了订单"+"("+vo.getId()+")";
+		LogVO logVO = new LogVO(operation, LoginController.getEmployeeId(), LoginController.getEmployeeName(), Position.COURIER);
+		Log log = new Log();
+		log.createLogPO(logVO);
 		return true;
 	}
 
@@ -67,7 +75,10 @@ public class Order implements OrderblService{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		String operation = "签收了订单"+"("+vo.getId()+")";
+		LogVO logVO = new LogVO(operation, LoginController.getEmployeeId(), LoginController.getEmployeeName(), Position.COURIER);
+		Log log = new Log();
+		log.createLogPO(logVO);
 		return true;
 	}
 

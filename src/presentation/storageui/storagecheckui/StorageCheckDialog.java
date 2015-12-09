@@ -74,8 +74,8 @@ public class StorageCheckDialog extends JDialog{
 				StoreoutCheckPanel storeoutCheckPanel = new StoreoutCheckPanel(
 						storageblService.storeoutCheck(storeinCheckVo));
 				fatherPanel.setLayout(null);
-				storeinCheckPanel.setBounds(0, 10, 560, 300);
-				storeoutCheckPanel.setBounds(0, 200, 560, 250);
+				storeinCheckPanel.setBounds(0, 0, 560, 250);
+				storeoutCheckPanel.setBounds(0, 250, 560, 250);
 				fatherPanel.add(storeinCheckPanel);
 				fatherPanel.add(storeoutCheckPanel);
 

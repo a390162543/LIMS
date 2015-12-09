@@ -20,6 +20,8 @@ import businesslogic.BusinessLogicService;
 import businesslogic.checkbl.CheckInfo;
 import businesslogic.checkbl.Name;
 import businesslogic.checkbl.orderinfo.OrderAddress;
+import businesslogic.checkbl.orderinfo.OrderVolumn;
+import businesslogic.checkbl.orderinfo.OrderWeight;
 import businesslogic.orderbl.Order;
 import businesslogicservice.IdblService;
 import businesslogicservice.OrderblService;
@@ -385,6 +387,69 @@ public class OrderCreateDialog extends JDialog{
 			}
 		});
 		
+		Checker orderWeightChecker = new Checker( weighTextField, new CheckInfoGetter() {
+			
+			@Override
+			public CheckInfo getCheckInfo() {
+				if (!weighTextField.getText().equals("")&&!weighTextField.getText().contains("-")) {
+					return new OrderWeight(Double.valueOf(weighTextField.getText()));
+				}
+				return new OrderWeight(-1);
+			}
+		});
+		
+		weighTextField.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				orderWeightChecker.check();
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
+		Checker orderVolumnChecker = new Checker(volumeTextField, new CheckInfoGetter() {
+			
+			@Override
+			public CheckInfo getCheckInfo() {
+				if (!volumeTextField.getText().equals("")&&!volumeTextField.getText().contains("-")) {
+					return new OrderVolumn(Double.valueOf(volumeTextField.getText()));
+				}
+				return new OrderVolumn(-1);
+			}
+		});
+		
+		volumeTextField.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				orderVolumnChecker.check();
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		
 		senderAdressTextField.addFocusListener(new FocusListener() {
 			@Override
@@ -459,6 +524,8 @@ public class OrderCreateDialog extends JDialog{
 				orderCreateVO.setGoodsState(GoodsState.COMPLETE);
 				OrderblService orderblService = BusinessLogicService.getOrderblService();
 				orderblService.createOrderPO(orderCreateVO);
+				
+				
 			}
 		});
 		

@@ -39,10 +39,10 @@ public class StoreoutCheckPanel extends JPanel{
     
     public StoreoutCheckPanel(List<OutOrderCheckResultVO> dataList){
         //build up truck table
-    	storeoutTotalLabel = new JLabel("总入库数量");
-    	storeoutTotalLabel.setBounds(300, 400, 150, 25);
+    	storeoutTotalLabel = new JLabel("总出库数量");
+    	storeoutTotalLabel.setBounds(350, 200, 120, 25);
     	storeoutTotalTextField = new JTextField();
-    	storeoutTotalTextField.setBounds(460, 400, 60, 25);
+    	storeoutTotalTextField.setBounds(460, 200, 60, 25);
         tableModel = new StoreoutCheckTableModel(dataList);  
         tableSorter = new TableRowSorter<TableModel>(tableModel);
         storeoutTable = new JTable(tableModel);
@@ -50,7 +50,7 @@ public class StoreoutCheckPanel extends JPanel{
         storeoutTable.setRowSorter(tableSorter);        
         //set scroll pane
         storeoutScrollPane = new JScrollPane(storeoutTable);
-        storeoutScrollPane.setBounds(0, 40, 560, 370);
+        storeoutScrollPane.setBounds(0, 40, 560, 150);
         //set other components on panel
         filterTextField = new JTextField();
         filterTextField.setToolTipText("请输入模糊查找字段");
@@ -81,7 +81,8 @@ public class StoreoutCheckPanel extends JPanel{
 
         });
         
-        filterTextField.setBounds(320, 0, 235, 25);            
+        filterTextField.setBounds(320, 0, 235, 25);
+        storeoutTotalTextField.setText(dataList.size()+"");
         
         //set panel
         this.setBounds(0, 0, 560, 470);

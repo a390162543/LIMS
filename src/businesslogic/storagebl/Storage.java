@@ -2,7 +2,6 @@ package businesslogic.storagebl;
 
 import java.io.File;
 import java.io.IOException;
-
 import java.rmi.RemoteException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -12,8 +11,10 @@ import java.util.List;
 import javax.swing.JTable;
 
 import po.StoragePO;
+import systemenum.Position;
 import dataservice.DataService;
 import dataservice.StorageDataService;
+import vo.LogVO;
 import vo.StorageQueryResultVO;
 import vo.StorageSetAreaVO;
 import vo.StorageVO;
@@ -23,6 +24,7 @@ import vo.StoreoutQueryVO;
 import vo.InOrderCheckResultVO;
 import vo.OutOrderCheckResultVO;
 import businesslogic.ExcelExporter;
+import businesslogic.logbl.Log;
 import businesslogic.storeinbl.Storein;
 import businesslogic.storeoutbl.Storeout;
 import businesslogic.userbl.LoginController;
@@ -63,6 +65,10 @@ public class Storage implements StorageblService{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			String operation = "进行了库存"+"("+vo.getStorageId()+")"+"分区调整";
+			LogVO logVO = new LogVO(operation, LoginController.getEmployeeId(), LoginController.getEmployeeName(), Position.STORAGEMANAGER);
+			Log log = new Log();
+			log.createLogPO(logVO);
 			return true;
 		}
 

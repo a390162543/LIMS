@@ -366,6 +366,7 @@ public class OrderPO implements Serializable{
 	public OrderPO updateSignInfo(OrderSignVO vo){
 		setSignName(vo.getSignName());
 		setSignData(vo.getSignData());
+		deliverInfo = deliverInfo+"\n"+"“—«© ’";
 		return this;
 	}
 	

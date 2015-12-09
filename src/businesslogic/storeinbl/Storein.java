@@ -7,11 +7,15 @@ import java.util.Date;
 import java.util.List;
 
 
+
+
 import po.StoreinPO;
 import systemenum.DocumentState;
+import systemenum.Position;
 import systemenum.StorageState;
 import dataservice.DataService;
 import dataservice.StoreinDataService;
+import vo.LogVO;
 import vo.StorageLocationVO;
 import vo.StoreinCheckVo;
 import vo.StoreinCreateVO;
@@ -19,9 +23,11 @@ import vo.StoreinOrderVO;
 import vo.StoreinQueryVO;
 import vo.InOrderCheckResultVO;
 import businesslogic.idbl.IdManager;
+import businesslogic.logbl.Log;
 import businesslogic.orderbl.Order;
 import businesslogic.storagebl.Storage;
 import businesslogic.storagebl.StorageHelper;
+import businesslogic.userbl.LoginController;
 import businesslogicservice.IdblService;
 import businesslogicservice.StoreinblService;
 
@@ -48,7 +54,10 @@ public class Storein implements StoreinblService{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		String operation = "创建了入库单"+"("+vo.getId()+")";
+		LogVO logVO = new LogVO(operation, LoginController.getEmployeeId(), LoginController.getEmployeeName(), Position.STORAGEMANAGER);
+		Log log = new Log();
+		log.createLogPO(logVO);
 		return true;
 	}
 
@@ -78,7 +87,7 @@ public class Storein implements StoreinblService{
 			order.setStorageState(storeinOrderVO);
 		}
 		for (int i = 0; i < areaNum.size(); i++) {
-			StorageLocationVO storageLocationVO = new StorageLocationVO("0250",
+			StorageLocationVO storageLocationVO = new StorageLocationVO(LoginController.getOrganizationId(),
 					areaNum.get(i), rowNum.get(i), frameNum.get(i),
 					item.get(i), StorageState.ISSTORED);
 			helper.changeLocationState(storageLocationVO);
@@ -119,7 +128,7 @@ public class Storein implements StoreinblService{
 			order.setStorageState(storeinOrderVO);
 		}
 		for (int i = 0; i < areaNum.size(); i++) {
-			StorageLocationVO storageLocationVO = new StorageLocationVO("0250",
+			StorageLocationVO storageLocationVO = new StorageLocationVO(LoginController.getOrganizationId(),
 					areaNum.get(i), rowNum.get(i), frameNum.get(i),
 					item.get(i), StorageState.ISSTORED);
 			helper.changeLocationState(storageLocationVO);

@@ -8,9 +8,11 @@ import java.util.List;
 
 import po.StoreoutPO;
 import systemenum.DocumentState;
+import systemenum.Position;
 import systemenum.StorageState;
 import dataservice.DataService;
 import dataservice.StoreoutDataService;
+import vo.LogVO;
 import vo.StorageLocationVO;
 import vo.StoreinCheckVo;
 import vo.StoreinOrderVO;
@@ -18,6 +20,7 @@ import vo.StoreoutCreateVO;
 import vo.StoreoutQueryVO;
 import vo.OutOrderCheckResultVO;
 import businesslogic.idbl.IdManager;
+import businesslogic.logbl.Log;
 import businesslogic.orderbl.Order;
 import businesslogic.storagebl.Storage;
 import businesslogic.storagebl.StorageHelper;
@@ -45,8 +48,11 @@ public class Storeout implements StoreoutblService{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		return false;
+		String operation = "创建了出库单"+"("+vo.getId()+")";
+		LogVO logVO = new LogVO(operation, LoginController.getEmployeeId(), LoginController.getEmployeeName(), Position.STORAGEMANAGER);
+		Log log = new Log();
+		log.createLogPO(logVO);
+		return true;
 	}
 
 	@Override
@@ -68,7 +74,7 @@ public class Storeout implements StoreoutblService{
 		for (int i = 0; i < orderIdList.size(); i++) {
 			StoreinOrderVO storeinOrderVO = order.getStorageOrderVO(orderIdList
 					.get(i));
-			StorageLocationVO storageLocationVO = new StorageLocationVO("0250",
+			StorageLocationVO storageLocationVO = new StorageLocationVO(LoginController.getOrganizationId(),
 					storeinOrderVO.getAreaNum(), storeinOrderVO.getRowNum(),
 					storeinOrderVO.getFrameNum(), storeinOrderVO.getItem(),
 					StorageState.ISAVAILABLE);
@@ -105,7 +111,7 @@ public class Storeout implements StoreoutblService{
 		for (int i = 0; i < orderIdList.size(); i++) {
 			StoreinOrderVO storeinOrderVO = order.getStorageOrderVO(orderIdList
 					.get(i));
-			StorageLocationVO storageLocationVO = new StorageLocationVO("0250",
+			StorageLocationVO storageLocationVO = new StorageLocationVO(LoginController.getOrganizationId(),
 					storeinOrderVO.getAreaNum(), storeinOrderVO.getRowNum(),
 					storeinOrderVO.getFrameNum(), storeinOrderVO.getItem(),
 					StorageState.ISAVAILABLE);
