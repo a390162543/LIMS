@@ -1,9 +1,7 @@
 package businesslogicservice;
 
 import java.util.List;
-
 import vo.EmployeeVO;
-import vo.UserVO;
 
 /**
  * {@code ArrivalblService}提供给界面层员工处理的业务逻辑服务
@@ -66,7 +64,7 @@ public interface EmployeeblService extends Identifiable{
      */
 	public String getOrganizationId(String name);
 	
-	public boolean createUserPO(UserVO vo);
+	 
 		
  
 }

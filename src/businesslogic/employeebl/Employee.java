@@ -214,18 +214,9 @@ public class Employee implements EmployeeblService{
 	     String id = organizationblService.getId(name);
 		return id;
 	}
-	@Override
-	public boolean createUserPO(UserVO vo) {
-		// TODO Auto-generated method stub
-		if(vo != null){
-			user.creatUserPO(vo);
-			return true;
-		}
-		else{
-			return false;
-		}
+	 
 		
-	}
+	 
 	
 
 }

@@ -18,7 +18,7 @@ public interface CityblService {
 	public boolean createCityPO(CityVO vo);
 	
 	  /**
-     * 删除到达单信息
+     * 删除城市信息
      * 
      * @param vo 界面层传递来的{@code CItyVO}
      * @return  成功删除返回{@code true}，否则返回{@code false}
@@ -26,7 +26,7 @@ public interface CityblService {
 	public boolean deleteCityPO(CityVO vo);
 	
 	  /**
-     * 修改到达单信息
+     * 修改城市信息
      * 
      * @param vo 界面层传递来的{@code CityVO}
      * @return  成功修改返回{@code true}，否则返回{@code false}

@@ -5,9 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import po.CityPO;
+import systemenum.Position;
 import dataservice.CityDataService;
 import dataservice.DataService;
 import vo.CityVO;
+import vo.LogVO;
+import businesslogic.logbl.Log;
+import businesslogic.userbl.LoginController;
 import businesslogicservice.CityblService;
 
 /**
@@ -25,11 +29,11 @@ public class City implements CityblService{
 	public City(){	 
 		cityDataService =  DataService.getcCityDataService();		 	 
 	}
+	
 	@Override
 	public boolean createCityPO(CityVO vo) {
 		// TODO Auto-generated method stub
-		try { 
-         
+		try {        
 			cityDataService.insert(vo.getCityPO());
 			System.out.println("citybl createcitypo");
 			   	
@@ -37,6 +41,8 @@ public class City implements CityblService{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		//添加日志记录
+		createCityLog(vo.getName());
 		return true;
 	}
 
@@ -123,7 +129,7 @@ public class City implements CityblService{
 			}		
 		}
 	/**
-	 * 
+	 * 过去两城市间的距离
 	 * @param city1, 
 	 * @param city2
 	 * @return	如果城市存在返回城市间距离，否则返回0
@@ -153,6 +159,22 @@ public class City implements CityblService{
 			e.printStackTrace();
 		}
 		return id;
+	}
+	
+	/**
+	 * 增加新建城市的日记记录
+	 * @param name 城市名称
+	 * @return
+	 */
+	public boolean createCityLog(String name){
+		String employeeId = LoginController.getEmployeeId();
+		String employeeName = LoginController.getEmployeeName();
+		Position position = LoginController.getPosition();
+		String operation = "新建了城市：" + name;
+		LogVO vo = new LogVO(operation, employeeId, employeeName, position);
+		Log log = new Log();
+		log.createLogPO(vo);
+		return true;		
 	}
 
 }

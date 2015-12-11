@@ -53,6 +53,10 @@ public class Constant implements ConstantblService{
 		return new ConstantVO(price);
 	}
 	
-	
+	public boolean modifyPriceLog(Constant vo){
+		
+		return false;
+		
+	}
 	 
 }
