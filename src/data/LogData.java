@@ -32,7 +32,7 @@ public class LogData extends UnicastRemoteObject implements LogDataService {
 
 	@Override
 	public void insert(LogPO po) throws RemoteException {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:MM:SS");  
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH-MM-SS");  
         String fileName = sdf.format( po.getDate());
         String path = "c:/LIMS/database/"+this.getClass().getSimpleName()+"/"+fileName+".ser";
         DataUtil.writeObject(po, path);	

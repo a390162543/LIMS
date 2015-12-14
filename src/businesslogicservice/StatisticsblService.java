@@ -1,7 +1,10 @@
 package businesslogicservice;
 
+import java.io.File;
 import java.util.Date;
 import java.util.List;
+
+import javax.swing.JTable;
 
 import vo.PaymentVO;
 import vo.RevenueVO;
@@ -33,7 +36,7 @@ public interface StatisticsblService {
      * 生成收款单和付款单信息到Excel
      * @return 成功修改则返回{@code true}，否则返回{@code false}
      */
-	public boolean gainExcel();
+	public boolean gainExcel(JTable table1, JTable table2 ,File file );
 	
     /**
      * 根据收款单列表获取总收入

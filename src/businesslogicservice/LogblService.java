@@ -16,7 +16,7 @@ public interface LogblService {
      * @param vo 界面层传来的{@code LogVO}
      * @return 成功创建则返回{@code true}，否则返回{@code false}
      */
-	public boolean createLogPO (LogVO vo);
+	public boolean createLogPO (String operation);
 	
     /**
      * 根据日期查询获取相应的日志信息

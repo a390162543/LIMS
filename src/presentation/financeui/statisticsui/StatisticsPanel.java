@@ -3,14 +3,14 @@ package presentation.financeui.statisticsui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.IOException;
+
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import businesslogic.ExcelExporter;
-import businesslogicservice.ExcelExporterService;
+import businesslogic.statisticsbl.Statistics;
+import businesslogicservice.StatisticsblService;
 
 
 /**
@@ -43,14 +43,9 @@ public class StatisticsPanel extends JPanel{
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ExcelExporterService excelExporterService = new ExcelExporter();
+				StatisticsblService statisticsblService = new Statistics();
 				File file = new File("c:/LIMS/database/"+"StatisticsExcel"+".xls");
-				try {
-					excelExporterService.export(((RevenuePanel)revenuePanel).getTable(),((PaymentPanel)paymentPanel).getTable(),file);
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				statisticsblService.gainExcel(((RevenuePanel)revenuePanel).getTable(),((PaymentPanel)paymentPanel).getTable(),file);
 				
 			}
 			

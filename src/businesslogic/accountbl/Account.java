@@ -8,6 +8,7 @@ import po.AccountPO;
 import dataservice.AccountDataService;
 import dataservice.DataService;
 import vo.AccountVO;
+import businesslogic.logbl.Log;
 import businesslogicservice.AccountblService;
 
 /**
@@ -26,7 +27,10 @@ public class Account implements AccountblService {
 	@Override
 	public boolean createAccountPO(AccountVO vo) {
         try {
-        	accountDataService.insert(vo.getAccountPO());
+        	accountDataService.insert(vo.getAccountPO());     	
+        	
+        	Log log = new Log();
+        	log.createLogPO("创建账户("+vo.getId()+")");
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -38,6 +42,9 @@ public class Account implements AccountblService {
 	public boolean deleteAccountPO(AccountVO vo) {
         try {
         	accountDataService.delete(vo.getAccountPO());
+        	
+        	Log log = new Log();
+        	log.createLogPO("删除账户("+vo.getId()+")");
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -51,6 +58,9 @@ public class Account implements AccountblService {
 	        	AccountPO po = accountDataService.find(vo.getId());
 	        	po.update(vo);
 	        	accountDataService.update(po);
+	        	
+	        	Log log = new Log();
+	        	log.createLogPO("修改账户("+vo.getId()+")");
 	        } catch (RemoteException e) {
 	            // TODO Auto-generated catch block
 	            e.printStackTrace();

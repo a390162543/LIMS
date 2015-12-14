@@ -30,7 +30,8 @@ public class LogVO {
 		this.employeeId = employeeId;
 		this.employeeName = employeeName;
 		this.employeePosition = employeePosition;
-		this.date = date ;		
+		this.date = date
+				;		
 	}
 	
 	public String getOpration(){

@@ -10,6 +10,7 @@ import po.LogPO;
 import dataservice.DataService;
 import dataservice.LogDataService;
 import vo.LogVO;
+import businesslogic.userbl.LoginController;
 import businesslogicservice.LogblService;
 
 /**
@@ -26,8 +27,9 @@ public class Log implements LogblService{
 		logDataService = DataService.getLogDataService();
 	}
 	@Override
-	public boolean createLogPO(LogVO vo) {
+	public boolean createLogPO(String operation) {
         try {
+        	LogVO vo = new LogVO(operation,LoginController.getEmployeeId(),LoginController.getEmployeeName(),LoginController.getPosition() );
         	logDataService.insert(vo.getLogPO());
         } catch (RemoteException e) {
         	
@@ -54,8 +56,8 @@ public class Log implements LogblService{
 	@Override
 	public String getLogInfo(LogVO vo) {
 		String logInfo = "";
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:MM:SS");
-		logInfo = sdf.format(vo.getDate())+"   :   "+vo.getOpration()+" "+vo.getEmployeeId()+"("+vo.getEmployeeName()+")"+" "+vo.getOpration()+"\n";
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		logInfo = sdf.format(vo.getDate())+":"+"\n"+vo.getEmployeePosition().getName()+vo.getEmployeeName()+"("+vo.getEmployeeId()+")"+" "+vo.getOpration()+"\n";
 		return logInfo;
 	}
 

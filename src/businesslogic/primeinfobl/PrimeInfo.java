@@ -17,6 +17,7 @@ import vo.StoreinCreateVO;
 import vo.TruckVO;
 import businesslogic.accountbl.Account;
 import businesslogic.employeebl.Employee;
+import businesslogic.logbl.Log;
 import businesslogic.orderbl.Order;
 import businesslogic.organizationbl.Organization;
 import businesslogic.storeinbl.Storein;
@@ -44,6 +45,9 @@ public class PrimeInfo implements PrimeInfoblService{
 		 try {
 			 	primeInfoVO.setDate(new Date());
 			 	primeInfoDataService.insert(primeInfoVO.getPrimeInfoPO());
+			 	
+	        	Log log = new Log();
+	        	log.createLogPO("期初建账");
 	        } catch (RemoteException e) {
 	            // TODO Auto-generated catch block
 	            e.printStackTrace();
@@ -247,6 +251,8 @@ public class PrimeInfo implements PrimeInfoblService{
 		for(OrderCreateVO vo : orderVOs)
 			order.execute(vo);
 		
+    	Log log = new Log();
+    	log.createLogPO("完成期初建账");
 		return true;
 	}
 

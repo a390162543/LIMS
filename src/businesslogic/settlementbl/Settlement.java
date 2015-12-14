@@ -3,8 +3,10 @@ package businesslogic.settlementbl;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 import vo.RevenueVO;
 import businesslogic.accountbl.Account;
+import businesslogic.logbl.Log;
 import businesslogic.revenuebl.Revenue;
 import businesslogicservice.SettlementblService;
 
@@ -28,7 +30,10 @@ public class Settlement implements SettlementblService{
 	public boolean setAccountId(RevenueVO vo ,String accountId) {
 		vo.setAccountId(accountId);
 		Revenue revenue = new Revenue();
-		revenue.modifyAndCommitRevenuePO(vo);		
+		revenue.modifyAndCommitRevenuePO(vo);
+		
+    	Log log = new Log();
+    	log.createLogPO("对收款单："+vo.getId()+"设置收款账户："+accountId);
 		return true;
 	}
 

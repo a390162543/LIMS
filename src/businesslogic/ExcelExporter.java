@@ -7,15 +7,14 @@ import java.io.IOException;
 import javax.swing.JTable;
 import javax.swing.table.TableModel;
 
-import businesslogicservice.ExcelExporterService;
 /**
  * {@code ExcelExporterService}的实现类
  * @author 刘德宽
  *
  */
-public class ExcelExporter implements ExcelExporterService{
+public class ExcelExporter {
 
-	@Override
+	
 	public boolean export(JTable table, File file) throws IOException {
 		TableModel model = table.getModel();
         FileWriter out = new FileWriter(file);
@@ -35,7 +34,7 @@ public class ExcelExporter implements ExcelExporterService{
 		return true;
 	}
 
-	@Override
+	
 	public boolean export(JTable table1, JTable table2, File file)
 			throws IOException {
 		TableModel model1 = table1.getModel();

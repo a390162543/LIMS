@@ -13,6 +13,7 @@ import dataservice.PaymentDataService;
 import vo.PaymentVO;
 import businesslogic.accountbl.Account;
 import businesslogic.idbl.PaymentIdManager;
+import businesslogic.logbl.Log;
 import businesslogicservice.IdblService;
 import businesslogicservice.PaymentblService;
 
@@ -33,6 +34,9 @@ public class Payment implements PaymentblService{
 	public boolean createPaymentPO(PaymentVO vo) {
         try {     
         	paymentDataService.insert(vo.getPaymentPO());
+        	
+        	Log log = new Log();
+        	log.createLogPO("创建付款单("+vo.getId()+")");
         } catch (RemoteException e) {
         	
             e.printStackTrace();
@@ -46,6 +50,9 @@ public class Payment implements PaymentblService{
             PaymentPO po = paymentDataService.find(vo.getId());
             po.update(vo);      	
             paymentDataService.update(po);
+            
+        	Log log = new Log();
+        	log.createLogPO("修改付款单("+vo.getId()+")");
         } catch (RemoteException e) {
         	
             e.printStackTrace();

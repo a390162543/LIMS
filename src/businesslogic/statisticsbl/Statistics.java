@@ -1,11 +1,16 @@
 package businesslogic.statisticsbl;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.swing.JTable;
+
 import vo.PaymentVO;
 import vo.RevenueVO;
+import businesslogic.ExcelExporter;
 import businesslogic.paymentbl.Payment;
 import businesslogic.revenuebl.Revenue;
 import businesslogicservice.StatisticsblService;
@@ -33,9 +38,15 @@ public class Statistics implements StatisticsblService {
 	}
 
 	@Override
-	public boolean gainExcel() {
-
-		return false;
+	public boolean gainExcel(JTable table1, JTable table2 ,File file ) {
+		ExcelExporter excelExporter = new ExcelExporter();
+		try {
+			excelExporter.export(table1,table2,file);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return true;
 	}
 
 	@Override
