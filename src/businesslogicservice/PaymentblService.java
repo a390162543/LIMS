@@ -31,4 +31,10 @@ public interface PaymentblService extends Identifiable{
      */
 	public boolean execute(PaymentVO vo);
 
+	/**
+	 * 获取所有账户编号
+	 * @return {@code String}数组，如果不存在或者查询失败，则返回空数组
+	 */
+	public String[] getAllAccountId();
+
 }

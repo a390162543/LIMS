@@ -115,7 +115,7 @@ public class PaymentDialog extends JDialog{
 		payeeAccountField=new JTextField();
 		payeeAccountField.setSize(longWidth,textFieldHeight);
 		payeeAccountField.setLocation(textFieldx, textFieldy+(interval2+textFieldHeight)*4);
-		String[] payerAccount=new String[]{"6222110000000000000","6222110000000000001"};
+		String[] payerAccount = paymentblService.getAllAccountId(); 
 		payerAccountBox=new JComboBox<String>(payerAccount);
 		payerAccountBox.setSize(longWidth, textFieldHeight);
 		payerAccountBox.setLocation(textFieldx, textFieldy+(interval2+textFieldHeight)*5);
@@ -126,7 +126,7 @@ public class PaymentDialog extends JDialog{
 		remarksArea=new JTextArea();
 		remarksArea.setSize(longWidth,85);
 		remarksArea.setLocation(textFieldx, textFieldy+(interval2+textFieldHeight)*7);
-	
+		
 		
 		this.setLayout(null);
 		this.add(paymentLabel);

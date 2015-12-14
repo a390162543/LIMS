@@ -120,4 +120,11 @@ public class Payment implements PaymentblService{
 		
 		return new PaymentIdManager(paymentDataService ,6);
 	}
+	
+	@Override
+	public String[] getAllAccountId() {
+		Account account = new Account();
+		String[] accountId = account.getAllAccountId();
+		return accountId;
+	}
 }
