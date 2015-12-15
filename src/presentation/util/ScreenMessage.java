@@ -15,7 +15,7 @@ import org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper;
  *
  */
 @Deprecated
-public class ScreenMassage{
+public class ScreenMessage{
     
     @SuppressWarnings("restriction")
     public static void putOnScreen(String message){
@@ -55,7 +55,9 @@ public class ScreenMassage{
     }
     
     public static void main(String[] args) {
-        ScreenMassage.putOnScreen("hello");
+        ScreenMessage.putOnScreen("hello");
+        ScreenMessage.putOnScreen("hello");
+        
     }
     
  

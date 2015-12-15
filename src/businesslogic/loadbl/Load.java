@@ -16,8 +16,10 @@ import vo.GoodsVO;
 import vo.LoadVO;
 import vo.OrderDeliverInfoVO;
 import businesslogic.BusinessLogicUtil;
+import businesslogic.employeebl.Employee;
 import businesslogic.idbl.IdManager;
 import businesslogic.orderbl.Order;
+import businesslogic.organizationbl.Organization;
 import businesslogicservice.IdblService;
 import businesslogicservice.LoadblService;
 
@@ -93,8 +95,13 @@ public class Load implements LoadblService{
     
     @Override
     public double getCost(String location1, String location2){
-        
-        return 0;
+        Organization organization = new Organization();
+        double distance = organization.getDistanceByOrganizatioName(location1, location2);
+        double weight = goodsList.getWeight();
+        double cost = 0.0;
+        double rate = 2.0;
+        cost = weight * rate * distance;
+        return cost;
     }
     
     @Override
@@ -106,8 +113,6 @@ public class Load implements LoadblService{
                 return null;
             else{
                 OrderPO po = orderDataService.find(id);
-                System.out.println("find orderpo");
-                System.out.println(po.getOrderId());
                 GoodsVO vo = po.getGoodsVO();
                  
                 return vo;
@@ -146,6 +151,11 @@ public class Load implements LoadblService{
                 OrderDeliverInfoVO orderDeliverInfoVO = new OrderDeliverInfoVO(orderId, vo.getDestination(), vo.getDestination(), deliverInfo);
                 orderbl.modifyDeliverInfo(orderDeliverInfoVO);
             }
+            
+            //增加司机工资
+            Employee employeebl = new Employee();
+            String driverId = vo.getDriverId();
+            employeebl.addPay(driverId);
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

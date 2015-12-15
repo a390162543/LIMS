@@ -15,6 +15,12 @@ import javax.swing.table.TableRowSorter;
 import vo.TruckVO;
 import businesslogicservice.PrimeInfoblService;
 
+/**
+ * 期初建账维护车辆信息列表的{@code JPanel}，提供了车辆信息的增删改查服务
+ * @author 林祖华
+ * @version 1.2
+ * @see businesslogicservice.PrimeInfoblService
+ */
 public class PrimeInfoTruckPanel extends JPanel{
 
 	/**

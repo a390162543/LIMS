@@ -19,7 +19,12 @@ import javax.swing.table.TableRowSorter;
 
 
 
+
+
+
+import presentation.businesshallui.loadui.DriverComboBox;
 import presentation.businesshallui.loadui.TruckComboBox;
+import presentation.util.DialogLayoutManager;
 import presentation.util.OrganizationComboBox;
 import presentation.util.RecentDatePickPanel;
 import businesslogic.BusinessLogicService;
@@ -40,7 +45,7 @@ public class LoadPendingDialog extends JDialog {
      */
     private static final long serialVersionUID = 4875938402353589894L;
 
-    private static final String[] LABEL_NAMES = {"装车单编号","车辆编号","出发地","目的地","装车日期"};
+    private static final String[] LABEL_NAMES = {"装车单编号","出发地","目的地","司机编号","车辆编号","装车日期"};
     
     private LoadPendingTableModel loadPendingTableModel;
     
@@ -50,7 +55,8 @@ public class LoadPendingDialog extends JDialog {
     private JTextField costTextField;
     private JComboBox<String> departComboBox;
     private JComboBox<String> destinationComboBox;
-    
+    private DriverComboBox driverComboBox;
+    private TruckComboBox truckComboBox;
     
       
     public LoadPendingDialog(LoadPendingTableModel tm, int modelRow, boolean isEditable) {
@@ -59,7 +65,7 @@ public class LoadPendingDialog extends JDialog {
 
         loadblService = BusinessLogicService.getLoadblService();
         
-        JLabel[] labels = new JLabel[5];
+        JLabel[] labels = new JLabel[6];
         for(int i=0;i<labels.length;i++){
             labels[i] = new JLabel();
             labels[i].setText(LABEL_NAMES[i]);
@@ -74,11 +80,7 @@ public class LoadPendingDialog extends JDialog {
             this.add(textFields[i]);
         }
         textFields[0].setEnabled(false);
-        
-        TruckComboBox truckComboBox = new TruckComboBox();
-        truckComboBox.setBounds(100, 10+35*1, 150, 25);
-        this.add(truckComboBox);
-        
+
         departComboBox = new OrganizationComboBox();
         departComboBox.setSelectedItem(LoginController.getOrganizationName());
         departComboBox.setEnabled(false);
@@ -89,6 +91,13 @@ public class LoadPendingDialog extends JDialog {
         destinationComboBox.setBounds(100, 10+35*3, 180, 25);
         destinationComboBox.setEnabled(false);
         this.add(destinationComboBox);
+        
+        driverComboBox = new DriverComboBox();
+        this.add(driverComboBox);
+
+        truckComboBox = new TruckComboBox();
+        truckComboBox.setBounds(100, 10+35*1, 150, 25);
+        this.add(truckComboBox);
         
         RecentDatePickPanel datePickPanel = new RecentDatePickPanel();
         datePickPanel.setBounds(100, 10+35*4, 200, 25);
@@ -120,13 +129,17 @@ public class LoadPendingDialog extends JDialog {
         costTextField = new JTextField();
         costTextField.setBounds(100, 20+35*8, 60, 25);
         costTextField.setEnabled(false);
-        this.add(costTextField);
+
         
         LoadVO vo = loadPendingTableModel.getLoadVO(modelRow);
         textFields[0].setText(vo.getId());
-        truckComboBox.setSelectedItem(vo.getTruckId());
         departComboBox.setSelectedItem(vo.getDepart());
         destinationComboBox.setSelectedItem(vo.getDestination());
+        truckComboBox.update(vo.getDepart(), vo.getDestination());
+        driverComboBox.update(vo.getDepart(), vo.getDestination());
+        truckComboBox.setSelectedTruck(vo.getTruckId());;
+        driverComboBox.setSelectedDriver(vo.getDriverId());;
+
         datePickPanel.setDate(vo.getLoadingDate());
         personTextFields[0].setText(vo.getLoadMan());
         personTextFields[1].setText(vo.getTransman());
@@ -143,6 +156,7 @@ public class LoadPendingDialog extends JDialog {
         JScrollPane OrderScrollPane = new JScrollPane(orderTable);
         OrderScrollPane.setBounds(100, 10+35*6, 150, 75);          
         this.add(OrderScrollPane);
+        this.add(costTextField);
 
 
         
@@ -182,7 +196,7 @@ public class LoadPendingDialog extends JDialog {
         
 
         this.setSize(340, 430);
-        this.setLayout(null);
+        this.setLayout(new DialogLayoutManager());
         this.setLocationRelativeTo(null);
         this.setModalityType(ModalityType.APPLICATION_MODAL);
         this.setVisible(true);

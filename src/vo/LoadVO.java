@@ -20,6 +20,7 @@ public class LoadVO {
     private String transportId;
     private String depart;
     private String destination;
+    private String driverId;
     private String truckId;
     private String loadMan;
     private String transman;
@@ -58,6 +59,23 @@ public class LoadVO {
         this.cost = cost;
     }
     
+    public LoadVO(String id, Date loadingDate, String transportId, String depart,
+            String destination, String driverId, String truckId, String loadMan, String transman,
+            List<String> orderId, double cost) {
+        super();
+        this.id = id;
+        this.loadingDate = loadingDate;
+        this.transportId = transportId;
+        this.depart = depart;
+        this.destination = destination;
+        this.driverId = driverId;
+        this.truckId = truckId;
+        this.loadMan = loadMan;
+        this.transman = transman;
+        this.orderId = orderId;
+        this.cost = cost;
+    }
+    
     public String getId() {
         return id;
     }
@@ -76,6 +94,10 @@ public class LoadVO {
 
     public String getTruckId() {
         return truckId;
+    }
+
+    public String getDriverId() {
+        return driverId;
     }
 
     public String getLoadMan() {
@@ -111,7 +133,7 @@ public class LoadVO {
      * @return {@code LoadPO}∂‘œÛ
      */
     public LoadPO getLoadPO() {
-        return new LoadPO(id, loadingDate, transportId, depart, destination, truckId, loadMan, transman, orderId, cost);
+        return new LoadPO(id, loadingDate, transportId, depart, destination, driverId, truckId, loadMan, transman, orderId, cost);
     }
 
 

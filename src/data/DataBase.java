@@ -73,8 +73,10 @@ public class DataBase {
             transferData.init();
             truckData.init();
             userData.init();
+            System.out.println("数据层服务已启动");
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
+            System.out.println("数据层服务启动失败");
             e.printStackTrace();
         }
     }

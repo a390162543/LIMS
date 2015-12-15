@@ -10,6 +10,12 @@ import javax.swing.table.DefaultTableModel;
 import vo.TruckVO;
 import businesslogicservice.PrimeInfoblService;
 
+/**
+ * 期初建账时车辆信息列表的{@code TableModel}
+ * @author 林祖华
+ * @version 1.3
+ * @see businesslogicservice.PrimeInfoblService
+ */
 public class PrimeInfoTruckTableModel extends DefaultTableModel{
 
 	/**

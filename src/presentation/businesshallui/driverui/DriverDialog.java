@@ -11,16 +11,13 @@ import javax.swing.JLabel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
-import businesslogic.userbl.User;
-import businesslogicservice.UserblService;
 import presentation.util.DatePickPanel;
+import presentation.util.DialogLayoutManager;
 import presentation.util.OrganizationComboBox;
 import systemenum.Position;
-import systemenum.Power;
 import systemenum.Sex;
 import vo.EmployeeVO;
 import vo.PayVO;
-import vo.UserVO;
 
 /**
  * 司机信息的{@code Jdialog}
@@ -34,7 +31,6 @@ public class DriverDialog extends JDialog {
      */
     private static final long serialVersionUID = -5004812207169992358L;
     
-	private JLabel infoLabel ;	 
 	private JLabel nameLabel ; 
 	private JTextField nameField;	 
 	private JLabel sexLabel;	 
@@ -50,21 +46,20 @@ public class DriverDialog extends JDialog {
 	private JTextField idCardField;
 	private JLabel birthLabel; 
 	private JLabel payLabel;
-	private JLabel basePayLabel;
 	private JTextField basePayField;
 	private JLabel unitLabel;
+	private JLabel ddlLabel;
 	
 	private OrganizationComboBox organizationComboBox;
 	private DatePickPanel datePickPanel;
+	private DatePickPanel ddlDatePickPanel;
 	
 	private JButton cancleButton;
 	private JButton sureButton;
     private DriverTableModel tableModel;
 
-	 
+	
 	public void init(){
-
-		infoLabel = new JLabel("员工信息");
 		nameLabel = new JLabel("姓名");
 		nameField = new JTextField();
 		sexLabel = new JLabel("性别");
@@ -82,20 +77,21 @@ public class DriverDialog extends JDialog {
 		birthLabel = new JLabel("出生日期");
 		datePickPanel = new DatePickPanel();
 		payLabel = new JLabel("工资");
-		basePayLabel = new JLabel();
+	    ddlDatePickPanel = new DatePickPanel();
 		basePayField = new JTextField();	
 		unitLabel = new JLabel("元/次");
+		ddlLabel = new JLabel("行驶证期限");
 		
 		cancleButton = new JButton("取消");
 		sureButton = new JButton("确认");
 		
 		this.setBounds(0, 0, 380, 460);		 			 
-		infoLabel.setBounds(90, 16, 170, 34);	 
+
 		nameLabel.setBounds(4, 60, 100, 24);	 
 		nameField.setBounds(100, 60, 60, 25);
 		sexLabel.setBounds(0, 90, 100, 24);	 
-		maleRadioButton.setBounds(100, 90, 40, 16);	 
-		femaleRadioButton.setBounds(135, 90, 40, 16);	 
+		maleRadioButton.setBounds(100, 90, 60, 25);	 
+		femaleRadioButton.setBounds(160, 90, 60, 25);
 		sex.add(maleRadioButton);
 		sex.add(femaleRadioButton);	 
 		idLabel.setBounds(0, 120, 100, 24);
@@ -110,19 +106,18 @@ public class DriverDialog extends JDialog {
 		birthLabel.setBounds(0, 275, 100, 25);		 
 		datePickPanel.setBounds(100, 275, 180, 25);
 		payLabel.setBounds(0, 310, 100, 25);	 
-		basePayLabel.setBounds(95, 310, 70, 24);	 
 		basePayField.setBounds(175, 310, 60, 25);	 
-		unitLabel.setBounds(235, 310, 70, 24);	 
+		unitLabel.setBounds(245, 310, 70, 24);	 
 		   
 		cancleButton.setBounds(175, 380, 70, 30);
 		sureButton.setBounds(265, 380, 70, 30);
 	 
-		this.add(infoLabel);
 		this.add(nameField);
 		this.add(nameLabel);
 		this.add(sexLabel);
 		this.add(femaleRadioButton);
 		this.add(maleRadioButton);	
+	    DialogLayoutManager.fix(maleRadioButton,femaleRadioButton);
 		this.add(idField);
 		this.add(idLabel);
 		this.add(organizationLabel);
@@ -133,16 +128,24 @@ public class DriverDialog extends JDialog {
 		this.add(idCardField);
 		this.add(birthLabel);
 		this.add(datePickPanel);
-		this.add(organizationComboBox);
+		this.add(ddlDatePickPanel);
 		this.add(cancleButton);
 		this.add(sureButton);
-		this.add(payLabel);
-		this.add(basePayLabel);
+
+		
+        this.add(ddlLabel);
+	    this.add(ddlDatePickPanel);
+	    this.add(payLabel);
 		this.add(basePayField);
 		this.add(unitLabel);
+
+        DialogLayoutManager.fix(basePayField,unitLabel);		
+
 		
-		
-		this.setLayout(null);
+
+
+		this.setLayout(new DialogLayoutManager());
+		this.setTitle("司机信息");
 		this.setVisible(true);
 	}
 	
@@ -155,7 +158,7 @@ public class DriverDialog extends JDialog {
 		  String phone = phoneField.getText();	
 		  String identityCardNum = new String(idCardField.getText());
 		  Date birth = datePickPanel.getDate();
-			
+		  Date ddlDate = ddlDatePickPanel.getDate();
 		  Sex sex1 ;
 		  if(maleRadioButton.isSelected())
 		      sex1 = Sex.MALE;
@@ -164,7 +167,7 @@ public class DriverDialog extends JDialog {
 		  Position p = Position.DRIVER;
 		  PayVO paypo = new PayVO(0,Double.valueOf(basePayField.getText()), 0, 0, 0);
 		  EmployeeVO vo = new EmployeeVO(id, name, organization,
-					 p, phone, birth, identityCardNum, sex1, paypo);
+					 p, phone, birth, identityCardNum, sex1, paypo,ddlDate,"");
 		  if(isNew){
 		      tableModel.create(vo);
 		  }
@@ -211,8 +214,7 @@ public class DriverDialog extends JDialog {
         phoneField.setText(""+vo.getTelephone());
         idCardField.setText(""+vo.getIdentityCardNum());
         datePickPanel.setDate(vo.getBirthday());
-
-		basePayLabel.setText("按次计费");
+        ddlDatePickPanel.setDate(vo.getDriverLDDL());
 		unitLabel.setText("/次");
 		basePayField.setText(""+vo.getPay().getPayByCount());
 		

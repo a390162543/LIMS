@@ -43,7 +43,7 @@ public class LoadDialog extends JDialog{
      * 
      */
     private static final long serialVersionUID = 6468749815012470915L;
-    private static final String[] LABEL_NAMES = {"装车单编号","车辆编号","出发地","目的地","装车日期"};
+    private static final String[] LABEL_NAMES = {"装车单编号","出发地","目的地","司机编号","车辆编号","装车日期"};
     
     private LoadblService loadblService;
     private JTextField[] textFields;
@@ -51,12 +51,14 @@ public class LoadDialog extends JDialog{
     private JTextField costTextField;
     private OrganizationComboBox departComboBox;
     private OrganizationComboBox destinationComboBox;
+    private DriverComboBox driverComboBox;
+    private TruckComboBox truckComboBox;
     
     public LoadDialog(){
         
         loadblService = BusinessLogicService.getLoadblService();
         
-        JLabel[] labels = new JLabel[5];
+        JLabel[] labels = new JLabel[6];
         for(int i=0;i<labels.length;i++){
             labels[i] = new JLabel();
             labels[i].setText(LABEL_NAMES[i]);
@@ -74,9 +76,7 @@ public class LoadDialog extends JDialog{
         textFields[0].setText(idblService.createNewId());
         textFields[0].setEnabled(false);
         
-        TruckComboBox truckComboBox = new TruckComboBox();
-        truckComboBox.setBounds(100, 10+35*1, 150, 25);
-        this.add(truckComboBox);
+
         
         departComboBox = new OrganizationComboBox();
         departComboBox.setSelectedItem(LoginController.getOrganizationName());
@@ -87,6 +87,28 @@ public class LoadDialog extends JDialog{
         destinationComboBox = new OrganizationComboBox();
         destinationComboBox.setBounds(100, 10+35*3, 180, 25);
         this.add(destinationComboBox);
+      
+        driverComboBox = new DriverComboBox();
+        this.add(driverComboBox);
+
+        truckComboBox = new TruckComboBox();
+        truckComboBox.setBounds(100, 10+35*1, 150, 25);
+        this.add(truckComboBox);
+        
+        ActionListener comboBoxActionListener = new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String organization1 = departComboBox.getSelectedOrganization();
+                String organization2 = destinationComboBox.getSelectedOrganization();
+                driverComboBox.update(organization1, organization2);;
+                driverComboBox.repaint();
+                truckComboBox.update(organization1, organization2);;
+                truckComboBox.repaint();
+            }
+        };
+        departComboBox.addActionListener(comboBoxActionListener);
+        destinationComboBox.addActionListener(comboBoxActionListener);
         
         RecentDatePickPanel datePickPanel = new RecentDatePickPanel();
         datePickPanel.setBounds(100, 10+35*4, 200, 25);
@@ -173,8 +195,9 @@ public class LoadDialog extends JDialog{
                 String id = textFields[0].getText();
                 Date loadingDate = datePickPanel.getTime();
                 String transportId = id;
-                String depart = (String) departComboBox.getSelectedItem();
-                String destination = (String)destinationComboBox.getSelectedItem();
+                String depart = departComboBox.getSelectedOrganization();
+                String destination = destinationComboBox.getSelectedOrganization();
+                String driverId = driverComboBox.getSelectedDriver();
                 String truckId = truckComboBox.getSelectedTruck();
                 String loadMan = personTextFields[0].getText();
                 String transman = personTextFields[1].getText();
@@ -184,7 +207,7 @@ public class LoadDialog extends JDialog{
                 for(int i = 0; i < orderTable.getRowCount(); i ++)
                     orderIdList.add((String)orderTable.getValueAt(i, 0));
                 
-                LoadVO vo = new LoadVO(id, loadingDate, transportId, depart, destination, truckId, loadMan, transman, orderIdList, cost);
+                LoadVO vo = new LoadVO(id, loadingDate, transportId, depart, destination, driverId, truckId, loadMan, transman, orderIdList, cost);
                 loadblService.createLoadPO(vo);
                 LoadDialog.this.dispose();
             }

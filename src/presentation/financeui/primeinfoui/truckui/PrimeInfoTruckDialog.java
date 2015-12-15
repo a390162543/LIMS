@@ -36,7 +36,12 @@ import businesslogicservice.TruckblService;
 import vo.TruckVO;
 
 
-
+/**
+ * 期初建账时车辆信息的{@code Jdialog}
+ * @author 林祖华
+ * @version 1.2
+ * 
+ */
 public class PrimeInfoTruckDialog extends JDialog{
 /**
 	 * 

@@ -87,7 +87,7 @@ public class OrderPendingPanel extends JPanel{
 		modifyButton.setBounds(400, 390, 70, 30);
 		queryButton.setBounds(485, 390, 70, 30);
 		// set panel
-		this.setBounds(0, 0, 560, 470);
+		this.setBounds(0, 30, 560, 470);
 		this.setLayout(null);
 		this.add(orderPendingScrollPane);
 		this.add(pendingButton);

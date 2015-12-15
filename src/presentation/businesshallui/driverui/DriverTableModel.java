@@ -96,7 +96,7 @@ public class DriverTableModel extends DefaultTableModel{
         rowVector.add(vo.getTelephone());
         rowVector.add(vo.getBirthday().toString());
         rowVector.add(vo.getIdentityCardNum());
-        rowVector.add(vo.getSex());
+        rowVector.add(vo.getSex().getName());
         rowVector.add(vo.getPay().getPayString());
         
         return rowVector;

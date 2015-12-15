@@ -109,9 +109,14 @@ public class Revenue implements RevenueblService{
             RevenuePO po = revenueDataService.find(vo.getId());
             po.setDocumentState(DocumentState.PASS);
             revenueDataService.update(po);
-            //执行收款单内容，即对相应的账户进行扣款
+            //执行收款单内容，即对相应的账户进行打款
             Account account = new Account();
             account.updateAccountBalance(vo.getAccountId(), vo.getRevenue());
+            //增加快递员工资
+            Employee employeebl = new Employee();
+            String courierId = vo.getCourierId();
+            double revenue = vo.getRevenue();
+            employeebl.addPay(courierId, revenue);
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

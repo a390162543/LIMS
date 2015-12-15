@@ -34,6 +34,14 @@ public class LogVO {
 				;		
 	}
 	
+	   public LogVO(String operation, String employeeId, String employeeName, Position employeePosition){
+	        this.operation=operation;
+	        this.employeeId = employeeId;
+	        this.employeeName = employeeName;
+	        this.employeePosition = employeePosition;
+	        this.date = new Date();
+	    }
+	
 	public String getOpration(){
 		return operation;
 	}

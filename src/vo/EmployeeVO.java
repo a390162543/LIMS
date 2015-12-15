@@ -25,7 +25,7 @@ public class EmployeeVO {
 	private String identityCardNum;
 	private Sex sex;	
 	private PayVO pay;
-	private Date driverLDDL;
+    private Date driverLDDL;
 	private String truck;
 	
 	
@@ -146,4 +146,22 @@ public class EmployeeVO {
 	public void setPay(PayVO pay) {
 		this.pay = pay;
 	}
+	
+    public Date getDriverLDDL() {
+        return driverLDDL;
+    }
+
+    public void setDriverLDDL(Date driverLDDL) {
+        this.driverLDDL = driverLDDL;
+    }
+
+    public String getTruck() {
+        return truck;
+    }
+
+    public void setTruck(String truck) {
+        this.truck = truck;
+    }
+
+
 }

@@ -9,8 +9,8 @@ import javax.swing.table.DefaultTableModel;
 import businesslogicservice.LoadblService;
 import vo.GoodsVO;
  
- 
- 
+
+
 /**
  * 装车单信息中订单列表所需要的{@code TableModel}
  * @author 林祖华

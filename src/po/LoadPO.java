@@ -26,6 +26,7 @@ public class LoadPO implements Serializable{
     private String transportId;
     private String depart;
     private String destination;
+    private String driverId;
     private String truckId;
     private String loadMan;
     private String transman;
@@ -67,6 +68,24 @@ public class LoadPO implements Serializable{
         this.documentState = DocumentState.PENDING;
     }
     
+    public LoadPO(String id, Date loadingDate, String transportId, String depart,
+            String destination, String driverId, String truckId, String loadMan, String transman,
+            List<String> orderId, double cost) {
+        super();
+        this.id = id;
+        this.loadingDate = loadingDate;
+        this.transportId = transportId;
+        this.depart = depart;
+        this.destination = destination;
+        this.driverId = driverId;
+        this.truckId = truckId;
+        this.loadMan = loadMan;
+        this.transman = transman;
+        this.orderId = orderId;
+        this.cost = cost;
+        this.documentState = DocumentState.PENDING;
+    }
+    
     public String getId() {
         return id;
     }
@@ -85,6 +104,10 @@ public class LoadPO implements Serializable{
     
     public String getDestination() {
         return destination;
+    }
+
+    public String getDriverId() {
+        return driverId;
     }
 
     public String getTruckId() {
@@ -137,7 +160,7 @@ public class LoadPO implements Serializable{
      * @return {@code LoadVO}∂‘œÛ
      */
     public LoadVO getLoadVO(){
-        return new LoadVO(id, loadingDate, transportId, depart, destination, truckId, loadMan, transman, orderId, cost);
+        return new LoadVO(id, loadingDate, transportId, depart, destination, driverId, truckId, loadMan, transman, orderId, cost);
     }
 
     

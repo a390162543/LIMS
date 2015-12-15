@@ -2,11 +2,15 @@ package presentation.managerui.approvalui.arrivalui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JToggleButton;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
@@ -32,8 +36,9 @@ public class ArrivalPendingPanel extends JPanel {
 	private JButton approveButton;
 	private JButton modifyButton;
 	private JButton queryButton;
+    private JToggleButton toggleButton;
+    ArrayList<Integer> indexes = new ArrayList<Integer>();
 	
-
 	public ArrivalPendingPanel() {
 
 		tableModel = new ArrivalPendingTableModel();
@@ -45,10 +50,19 @@ public class ArrivalPendingPanel extends JPanel {
 		arrivalPendingScrollPane = new JScrollPane(arrivalPendingTable);
 		arrivalPendingScrollPane.setBounds(0, 0, 560, 370);
 
+		toggleButton = new JToggleButton("批量审批");
 		approveButton = new JButton("审批");
 		modifyButton = new JButton("修改");
 		queryButton = new JButton("详情");
 
+		toggleButton.addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                indexes.clear();
+                arrivalPendingTable.clearSelection();
+            }
+        });
 		approveButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -56,8 +70,18 @@ public class ArrivalPendingPanel extends JPanel {
 				int row = arrivalPendingTable.getSelectedRow();
 				if (row == -1)
 					return;
-                int modelRow = arrivalPendingTable.convertRowIndexToModel(row);
-				tableModel.approve(modelRow);
+				int indexesNum = arrivalPendingTable.getSelectedRowCount();
+				int[] selectedRows = arrivalPendingTable.getSelectedRows();
+				for(int i=0;i<indexesNum;i++){
+				    for(int j=i+1;j<indexesNum;j++){
+				        selectedRows[j] -= 1;
+				    }
+				    int firstSelectedRow = selectedRows[i];
+                    int modelRow = arrivalPendingTable.convertRowIndexToModel(firstSelectedRow);
+    				tableModel.approve(modelRow);
+				}
+				indexes.clear();
+				arrivalPendingTable.clearSelection();
 			}
 		});
 
@@ -83,13 +107,64 @@ public class ArrivalPendingPanel extends JPanel {
 				new ArrivalPendingDialog(tableModel, modelRow, false);
 			}
 		});
+		
+		arrivalPendingTable.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                if(!toggleButton.isSelected())
+                    return;
+                int clicked = arrivalPendingTable.getSelectedRow();
+                System.out.println("click:"+clicked);
+                if(indexes.contains(clicked)){
+                    indexes.remove(new Integer(clicked));
+                    System.out.println("remove it");
+                }else{
+                    indexes.add(clicked);
+                    System.out.println("add it");
+                }
+                arrivalPendingTable.clearSelection();
+
+                for(int i:indexes){
+                    arrivalPendingTable.addRowSelectionInterval(i, i);
+                }
+                System.out.println("Num:"+indexes.size());
+            }
+            
+            @Override
+            public void mousePressed(MouseEvent e) {
+                // TODO Auto-generated method stub
+                
+            }
+            
+            @Override
+            public void mouseExited(MouseEvent e) {
+                // TODO Auto-generated method stub
+                
+            }
+            
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                // TODO Auto-generated method stub
+                
+            }
+            
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+            }
+        });
+		
+		
+        toggleButton.setBounds(230, 390, 70, 30);		
         approveButton.setBounds(315, 390, 70, 30);
         modifyButton.setBounds(400, 390, 70, 30);
         queryButton.setBounds(485, 390, 70, 30);
+
 		// set panel
 		this.setBounds(0, 0, 560, 470);
 		this.setLayout(null);
 		this.add(arrivalPendingScrollPane);
+		this.add(toggleButton);
 		this.add(approveButton);
 		this.add(modifyButton);
 		this.add(queryButton);
