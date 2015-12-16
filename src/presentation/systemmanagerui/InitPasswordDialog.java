@@ -1,14 +1,16 @@
 package presentation.systemmanagerui;
 
+
+import java.awt.Dialog.ModalityType;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JLabel;
- 
+import javax.swing.JLabel; 
 import javax.swing.JTextField;
 
+import presentation.mainui.MainFrame;
 import presentation.util.CheckInfoGetter;
 import presentation.util.Checker;
 import businesslogic.checkbl.CheckInfo;
@@ -65,12 +67,15 @@ public class InitPasswordDialog extends JDialog{
 			}
 		});
 		
-		 
+		this.setModalityType(ModalityType.APPLICATION_MODAL);
+		this.setLocationRelativeTo(MainFrame.getMainFrame());
 		this.add(idLabel);
 		this.add(idField);
 		this.add(canceldButton);
 		this.add(sureButton);
 		this.setBounds(400, 300, 380, 150);
+		this.setModalityType(ModalityType.APPLICATION_MODAL);
+		this.setLocationRelativeTo(MainFrame.getMainFrame());
 		this.setLayout(null);
 		this.setVisible(true);
 		
@@ -89,5 +94,6 @@ public class InitPasswordDialog extends JDialog{
 				 
 			}
 		});
+	
 	}
 }

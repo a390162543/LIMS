@@ -1,29 +1,18 @@
 package presentation.managerui;
 
 import java.awt.event.ActionEvent;
+
 import java.awt.event.ActionListener;
- 
-
-
-
-
-
-
-
-
-
-import javax.swing.JButton;
- 
+import javax.swing.JButton; 
 import javax.swing.JPanel;
-
 import presentation.financeui.paymentui.PaymentDialog;
-import presentation.financeui.settlementui.RevenuePanel;
 import presentation.managerui.approvalui.ApprovalPanel;
 import presentation.managerui.cityui.CreateCityDialog;
 import presentation.managerui.cityui.QueryDistanceDialog;
 import presentation.managerui.constantui.PriceDialog;
 import presentation.managerui.employeeui.EmployeePanel;
 import presentation.managerui.organizationui.OrganizationPanel;
+import presentation.systemmanagerui.PersonInfoPanel;
 
  
 /**
@@ -46,7 +35,7 @@ public class ManagerPanel  extends JPanel{
 	private JButton employeeButton;
 	private JButton organizationButton;
 	private JButton paymentButton;
-	private JButton revenueButton;
+ 
 	
 	
 	public ManagerPanel() {
@@ -69,19 +58,7 @@ public class ManagerPanel  extends JPanel{
 				 ManagerPanel.this.repaint();
 			}
 		});
-		
-		revenueButton = new JButton("查看经营情况表");
-		revenueButton.setBounds(30, 10, buttonWidth, buttonHeight);
-		revenueButton.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				 mainPanel.removeAll();
-				 mainPanel.add(new RevenuePanel(mainPanel));
-				 mainPanel.repaint();
-			}
-		});
+		 
 		
 		JButton addCityButton = new JButton("新增城市");
 		addCityButton.setBounds(30, 130, buttonWidth, buttonHeight);
@@ -166,10 +143,10 @@ public class ManagerPanel  extends JPanel{
 		this.add(queryDistanceButton);
 		this.add(approvalButton);
 		this.add(employeeButton);
-		this.add(organizationButton);
-		this.add(revenueButton);
+		this.add(organizationButton);	 
 		this.add(paymentButton);
 		this.add(mainPanel);
+	 	this.add(new PersonInfoPanel());
 	}
 	 
 	 

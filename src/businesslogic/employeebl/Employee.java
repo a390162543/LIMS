@@ -37,7 +37,7 @@ public class Employee implements EmployeeblService{
 	}
 	  
 	@Override
-	public boolean creatEmployeePO(EmployeeVO vo) {
+	public boolean createEmployeePO(EmployeeVO vo) {
 		// TODO Auto-generated method stub
 		
          try {        	 
@@ -48,8 +48,10 @@ public class Employee implements EmployeeblService{
 		}
          
          //新建一个用户
-		 UserVO uservo = new UserVO(vo.getId(), "000000", Power.valueOf(vo.getPosition().toString()));		  	  		 
-		 user.creatUserPO(uservo);
+        UserVO uservo = new UserVO(vo.getId(), "000000", Power.valueOf(vo.getPosition().toString()));		  	  		 
+		user.creatUserPO(uservo);
+		
+		
 		return true;
 	}
 
@@ -78,6 +80,9 @@ public class Employee implements EmployeeblService{
 	            // TODO Auto-generated catch block
 	            e.printStackTrace();
 	        }  
+		UserVO uservo = user.find(vo.getId());
+		uservo.setPower(vo.getPosition().getPower());
+		user.modifyPower(uservo);
 		return true;
 	}
 
@@ -149,8 +154,9 @@ public class Employee implements EmployeeblService{
 		// TODO Auto-generated method stub
 		try {
 			 
-			 if(employeeDataService.find(id).equals(null))
-				 return null;
+			 if(employeeDataService.find(id) == null){
+				 System.out.println("here");
+				 return null;}
 			 else {
 				 EmployeeVO vo = employeeDataService.find(id).getEmployeeVO();
 	             return vo; 
@@ -202,7 +208,7 @@ public class Employee implements EmployeeblService{
 			return false;
 		}
 		else{
-			creatEmployeePO(vo);
+			createEmployeePO(vo);
 			return true;
 		}
 		
@@ -216,7 +222,9 @@ public class Employee implements EmployeeblService{
 	}
 	 
 		
-	 
+	 public void createEmployeeLog(){
+		 
+	 }
 	
 
 }

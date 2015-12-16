@@ -123,8 +123,12 @@ public class User implements UserblService{
 	}
 
 	@Override
-	public boolean modifyPassword(UserVO vo) {
+	public boolean modifyPassword(String id, String password) {
 		// TODO Auto-generated method stub
+		UserVO vo = find(id);
+		if(vo != null){
+			vo.setPassword(password);
+		}
 		try {
 			userDataService.update(vo.getUserPO());
 		} catch (RemoteException e) {

@@ -1,21 +1,24 @@
 package presentation.managerui.organizationui;
 
+
+
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 import java.util.List;
-
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-
 import presentation.util.CheckInfoGetter;
 import presentation.util.Checker;
+import presentation.util.DialogLayoutManager;
 import businesslogic.BusinessLogicService;
 import businesslogic.checkbl.CheckInfo;
 import businesslogic.checkbl.organizationinfo.OrganizationName;
@@ -51,7 +54,10 @@ public class OrganizationDialog extends JDialog{
 	private OrganizationTableModel tableModel;
 	private OrganizationblService organizationblService;
 	private Checker organizationNameChecker;
-
+/**
+ * 创建机构的Dialog
+ * @param tm
+ */
 	public OrganizationDialog(OrganizationTableModel tm){
 		init();
 		tableModel = tm;	
@@ -85,11 +91,16 @@ public class OrganizationDialog extends JDialog{
 			}
 		});
 	}
-	
+	/**
+	 * 查询、修改的Dialog
+	 * @param em
+	 * @param modelRow
+	 * @param isEdit
+	 */
 	public OrganizationDialog(OrganizationTableModel em, int modelRow,boolean isEdit){
 		init();
 		this.tableModel = em;
-		OrganizationVO vo = tableModel.getOrganizationVO(modelRow);
+		OrganizationVO vo = tableModel.getOrganizationVO(modelRow);		 
 		nameField.setText(vo.getName());
 		cityBox.setSelectedItem(vo.getCity());
 		cityBox.setEnabled(false);
@@ -138,6 +149,10 @@ public class OrganizationDialog extends JDialog{
 		}		
 	}
 	
+/**
+ * 设置ID
+ * @param organizationName
+ */
 	public void setId(String organizationName){
 		String cityId = organizationblService.getCityId
 				((String)cityBox.getSelectedItem());
@@ -155,11 +170,14 @@ public class OrganizationDialog extends JDialog{
 		}
 		
 	}
-	
+	/**
+	 * 初始化界面
+	 */
 	public void init(){		 
-		 
+		organizationblService = BusinessLogicService.getOrganizationblService();
 		this.setTitle("机构信息");
-		List<String> cityList = organizationblService.getAllCityName();
+		List<String> cityList = new ArrayList<String>();
+		cityList = organizationblService.getAllCityName();
 		String[] cityStr = cityList.toArray(new String[cityList.size()]);
 		 
 		nameLabel = new JLabel();
@@ -178,7 +196,7 @@ public class OrganizationDialog extends JDialog{
 		nameField.setBounds(135, 65, 180, 20);
 		cityLabel.setText("所在城市");
 		cityLabel.setBounds(27, 100, 100, 20);
-		cityBox.setBounds(137, 100, 60, 20);
+		cityBox.setBounds(137, 100, 80, 20);
 		idLabel.setText("机构编号");
 		idLabel.setBounds(27, 135, 100, 20);
 		idField.setBounds(137, 135, 180, 20);
@@ -194,18 +212,18 @@ public class OrganizationDialog extends JDialog{
 				OrganizationDialog.this.dispose();
 			}
 		});
-		
-		 
+//		
+//		this.setModalityType(ModalityType.APPLICATION_MODAL);
+//		this.setLocationRelativeTo(MainFrame.getMainFrame()); 
 		this.add(nameLabel);
 		this.add(nameField);
 		this.add(cityLabel);
 		this.add(cityBox);
 		this.add(idLabel);
 		this.add(idField);
-		this.add(cancleButton);
-		this.add(sureButton);
-		
-		this.setLayout(null);
+		this.add(sureButton);	
+		this.add(cancleButton);		
+		this.setLayout(new DialogLayoutManager());
 		this.setVisible(true);
 		
 		//添加检查项
