@@ -4,6 +4,13 @@ import systemenum.CheckResult;
 import businesslogic.checkbl.CheckInfo;
 import businesslogic.checkbl.CheckResultMessage;
 
+
+/**
+ * 该类用于检查快递员输入的货物的体积是否正确
+ * @author lc
+ * @version 1.1
+ *
+ */
 public class OrderVolumn implements CheckInfo {
 
 	private double volumn;

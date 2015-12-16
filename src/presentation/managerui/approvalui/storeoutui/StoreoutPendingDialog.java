@@ -16,6 +16,7 @@ import javax.swing.JTextField;
 
 import javax.swing.table.DefaultTableModel;
 
+import presentation.util.DialogLayoutManager;
 import systemenum.ShipForm;
 import vo.StoreoutCreateVO;
 
@@ -78,6 +79,7 @@ public class StoreoutPendingDialog extends JDialog {
         goodsInfoTable.getColumnModel().getColumn(0).setPreferredWidth(120);
         JScrollPane scrollpane = new JScrollPane(goodsInfoTable);
         scrollpane.setBounds(100, 260, 180, 120);
+        this.add(scrollpane);
         for (int i = 0; i < orderIdList.size(); i++) {
         	String[] data = {orderIdList.get(i)};
 			ordertableModel.addRow(data);
@@ -86,7 +88,7 @@ public class StoreoutPendingDialog extends JDialog {
         
         JButton confirmButton = new JButton("х╥хо");
         confirmButton.setBounds(230, 410, 80, 30);
-        
+        this.add(confirmButton);
         confirmButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -115,12 +117,10 @@ public class StoreoutPendingDialog extends JDialog {
             this.add(cancleButton);
         }
         
-        this.add(confirmButton);
-        this.add(scrollpane);
+        
+       
         this.setSize(340, 510);
-        this.setLayout(null);
-        this.setLocationRelativeTo(null);
-        this.setModalityType(ModalityType.APPLICATION_MODAL);
+        this.setLayout(new DialogLayoutManager());
         this.setVisible(true);
     }
 

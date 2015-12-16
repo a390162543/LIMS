@@ -9,6 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import presentation.util.DialogLayoutManager;
 import vo.OrderQueryVO;
 
 
@@ -38,7 +39,7 @@ public class OrderDetailDialog extends JDialog{
 		
 		this.setTitle("货物信息");	
 		this.setSize(380, 460);
-		this.setLayout(null);
+
 		goodsStateLabel = new JLabel("货物状态");
 		goodsStateLabel.setBounds(20, 61, 80, 22);
 		goodsStateTextField = new JTextField();
@@ -56,14 +57,15 @@ public class OrderDetailDialog extends JDialog{
 		deliveryInfoTestTextArea.setEditable(false);
 		confirmButton = new JButton("确定");
 		confirmButton.setBounds(280, 388, 70, 30);
-		this.add(confirmButton);
-		this.add(deliveryInfoTestTextArea);
-		this.add(deliveryInfoLabel);
-		this.add(orderIdTextField);
 		this.add(orderIdLabel);
-		this.add(goodsStateTextField);
+		this.add(orderIdTextField);
 		this.add(goodsStateLabel);
-		this.setLocationRelativeTo(null);
+		this.add(goodsStateTextField);
+		this.add(deliveryInfoLabel);
+		this.add(deliveryInfoTestTextArea);		
+		this.add(confirmButton);
+		
+		this.setLayout(new DialogLayoutManager());
         this.setResizable(false);
         this.setVisible(true);
 		

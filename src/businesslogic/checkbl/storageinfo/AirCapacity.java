@@ -6,6 +6,15 @@ import businesslogic.checkbl.CheckResultMessage;
 import businesslogic.storagebl.StorageHelper;
 import businesslogic.userbl.LoginController;
 
+
+/**
+ * 该类用于检查中转中心仓库管理人员在进行
+ * 库存分区调整时输入的航空区的大小是否正确
+ * 
+ * @author lc
+ * @version 1.1
+ *
+ */
 public class AirCapacity implements CheckInfo{
 
 	private int airCapacity;

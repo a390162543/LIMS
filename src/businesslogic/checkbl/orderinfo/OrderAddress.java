@@ -4,6 +4,14 @@ import systemenum.CheckResult;
 import businesslogic.checkbl.CheckInfo;
 import businesslogic.checkbl.CheckResultMessage;
 
+
+/**
+ * 该类用于用户在界面输入地址时检查是否符合格式
+ * 
+ * @author lc
+ * @version 1.0
+ *
+ */
 public class OrderAddress implements CheckInfo{
 	
 	private String address;

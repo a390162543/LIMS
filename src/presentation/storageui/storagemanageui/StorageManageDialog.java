@@ -12,6 +12,7 @@ import javax.swing.JTextField;
 
 import presentation.util.CheckInfoGetter;
 import presentation.util.Checker;
+import presentation.util.DialogLayoutManager;
 import vo.StorageSetAreaVO;
 import businesslogic.BusinessLogicService;
 import businesslogic.checkbl.CheckInfo;
@@ -57,8 +58,7 @@ public class StorageManageDialog extends JDialog{
 	public StorageManageDialog(){
 		
 		this.setTitle("¿â´æ¹æ»®");	
-		this.setSize(380, 380);
-		this.setLayout(null);
+		this.setSize(380, 420);
 		
 		planeAreaLabel = new JLabel("º½¿ÕÇø");
 		planeAreaLabel.setBounds(20, 40, 60, 22);
@@ -99,7 +99,7 @@ public class StorageManageDialog extends JDialog{
 		this.add(confirmButton);
 		this.add(cancleButton);
 		
-		this.setLocationRelativeTo(null);
+		this.setLayout(new DialogLayoutManager());
         this.setResizable(false);
         this.setVisible(true);
 	

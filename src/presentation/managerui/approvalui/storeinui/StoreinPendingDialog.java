@@ -1,5 +1,9 @@
 package presentation.managerui.approvalui.storeinui;
 
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Date;
@@ -13,6 +17,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import presentation.util.DialogLayoutManager;
 import vo.StoreinCreateVO;
 
 /**
@@ -75,6 +80,7 @@ public class StoreinPendingDialog extends JDialog {
         goodsInfoTable.getColumnModel().getColumn(0).setPreferredWidth(120);
         JScrollPane scrollpane = new JScrollPane(goodsInfoTable);
         scrollpane.setBounds(40, 220, 290, 180); 
+        this.add(scrollpane);
         for (int i = 0; i < orderIdList.size(); i++) {
         	String[] data = {orderIdList.get(i),String.valueOf(areaNum.get(i)),String.valueOf(rowNum.get(i)),
         			String.valueOf(frameNum.get(i)),String.valueOf(rowNum.get(i))};
@@ -83,7 +89,7 @@ public class StoreinPendingDialog extends JDialog {
         
         JButton confirmButton = new JButton("х╥хо");
         confirmButton.setBounds(230, 410, 80, 30);
-        
+        this.add(confirmButton);
         confirmButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -113,12 +119,9 @@ public class StoreinPendingDialog extends JDialog {
             this.add(cancleButton);
         }
         
-        this.add(confirmButton);
-        this.add(scrollpane);
+          
         this.setSize(360, 510);
-        this.setLayout(null);
-        this.setLocationRelativeTo(null);
-        this.setModalityType(ModalityType.APPLICATION_MODAL);
+        this.setLayout(new DialogLayoutManager());
         this.setVisible(true);
     }
 

@@ -4,6 +4,13 @@ import systemenum.CheckResult;
 import businesslogic.checkbl.CheckInfo;
 import businesslogic.checkbl.CheckResultMessage;
 
+
+/**
+ * 该类用于检查快递员在创建订单时输入的货物的重量的是否正确
+ * @author lc
+ * @version 1.1
+ *
+ */
 public class OrderWeight implements CheckInfo {
 
 	private double weight;

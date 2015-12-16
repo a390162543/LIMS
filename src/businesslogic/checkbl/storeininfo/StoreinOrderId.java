@@ -10,6 +10,14 @@ import businesslogic.orderbl.Order;
 import businesslogic.userbl.LoginController;
 
 
+/**
+ * 该类用于检查中转中心仓库管理人员在进行
+ * 货物入库添加的订单号是否正确
+ * 
+ * @author lc
+ * @version 1.1
+ *
+ */
 public class StoreinOrderId implements CheckInfo{
 
 	private String orderId;

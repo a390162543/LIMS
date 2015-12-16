@@ -22,6 +22,7 @@ import javax.swing.table.DefaultTableModel;
 
 import presentation.util.CheckInfoGetter;
 import presentation.util.Checker;
+import presentation.util.DialogLayoutManager;
 import systemenum.StorageState;
 import vo.StorageLocationVO;
 import businesslogic.BusinessLogicService;
@@ -73,7 +74,6 @@ public class StoreinGoodsDialog extends JDialog{
 	
 		this.setTitle("货物入库");	
 		this.setSize(380, 250);
-		this.setLayout(null);
 		
 		orderIdLabel = new JLabel("订单号");
 		orderIdLabel.setBounds(30, 60, 60, 22);
@@ -101,20 +101,23 @@ public class StoreinGoodsDialog extends JDialog{
 		cancleButton = new JButton("取消");
 		cancleButton.setBounds(210, 170, 70, 30);
 		
-		this.add(cancleButton);
-		this.add(confirmButton);
-		this.add(itemTextField);
-		this.add(itemLabel);
-		this.add(frameNumTextField);
-		this.add(frameNumLabel);
-		this.add(rowNumTextField);
-		this.add(rowNumlaLabel);
-		this.add(areaNUmTextField);
-		this.add(areaNumLabel);
-		this.add(orderIdTextField);
-		this.add(orderIdLabel);
 		
-		this.setLocationRelativeTo(null);
+						
+		this.add(orderIdLabel);
+		this.add(orderIdTextField);
+		this.add(areaNumLabel);		
+		this.add(areaNUmTextField);
+		this.add(rowNumlaLabel);
+		this.add(rowNumTextField);
+		this.add(frameNumLabel);
+		this.add(frameNumTextField);
+		this.add(itemLabel);
+		this.add(itemTextField);
+			
+		this.add(confirmButton);	
+		this.add(cancleButton);
+		
+		this.setLayout(new DialogLayoutManager());
         this.setResizable(false);
         this.setVisible(true);		
 	

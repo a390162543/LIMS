@@ -24,6 +24,7 @@ import businesslogicservice.IdblService;
 import businesslogicservice.StoreinblService;
 import presentation.util.CheckInfoGetter;
 import presentation.util.Checker;
+import presentation.util.DialogLayoutManager;
 import presentation.util.OrganizationComboBox;
 import presentation.util.RecentDatePickPanel;
 import systemenum.StorageState;
@@ -74,7 +75,6 @@ public class StoreinDialogUI extends JDialog{
 		
 		this.setTitle("货物入库");	
 		this.setSize(380, 440);
-		this.setLayout(null);
 		
 		storeinIdLabel = new JLabel("入库单号");
 		storeinIdLabel.setBounds(20, 34, 80, 22);
@@ -102,11 +102,10 @@ public class StoreinDialogUI extends JDialog{
         goodsInfoTable.getColumnModel().getColumn(0).setPreferredWidth(120);
         
         JScrollPane scrollpane = new JScrollPane(goodsInfoTable);
-        //scrollpane.setVerticalScrollBarPolicy( JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         scrollpane.setBounds(82, 130, 290, 180); 
         
         addButton = new JButton("新增");
-        addButton.setBounds(190, 325, 70, 30);
+        addButton.setBounds(200, 325, 70, 30);
         deleteButton = new JButton("删除");
         deleteButton.setBounds(295, 325, 70, 30);
         confirmButton = new JButton("确定");
@@ -115,18 +114,20 @@ public class StoreinDialogUI extends JDialog{
         cancleButton.setBounds(210, 360, 70, 30);
         this.add(storeinIdLabel);
         this.add(storeinIdTextField);
-        this.add(cancleButton);
-        this.add(confirmButton);
-        this.add(deleteButton);
-        this.add(addButton);
-        this.add(scrollpane);
-        this.add(goodsInfoLabel);
-        this.add(destinationComboBox);
-        this.add(destinationLabel);
+        this.add(storeinDateLabel);
         this.add(datePickPanel);
-		this.add(storeinDateLabel);
-		
-		this.setLocationRelativeTo(null);
+        this.add(destinationLabel);
+        this.add(destinationComboBox);
+        this.add(goodsInfoLabel);       
+        this.add(scrollpane);
+        this.add(addButton);
+        this.add(deleteButton);
+        DialogLayoutManager.fix(scrollpane,addButton,deleteButton);        
+        
+        this.add(confirmButton);
+        this.add(cancleButton);
+        		
+		this.setLayout(new DialogLayoutManager());
         this.setResizable(false);
         this.setVisible(true);
 	

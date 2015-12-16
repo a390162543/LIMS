@@ -5,6 +5,14 @@ import businesslogic.checkbl.CheckInfo;
 import businesslogic.checkbl.CheckResultMessage;
 import businesslogic.orderbl.Order;
 
+
+/**
+ * 该类用于检查用户在查询物流信息时输入的订单号是否正确
+ * 
+ * @author lc
+ * @version 1.1
+ *
+ */
 public class OrderQueryId implements CheckInfo {
 	
 	private String orderId;

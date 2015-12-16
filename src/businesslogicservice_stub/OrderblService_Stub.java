@@ -5,6 +5,7 @@ import systemenum.GoodsState;
 import vo.OrderCreateVO;
 import vo.OrderQueryVO;
 import vo.OrderSignVO;
+import businesslogicservice.IdblService;
 import businesslogicservice.OrderblService;
 
 public class OrderblService_Stub implements OrderblService {
@@ -49,16 +50,6 @@ public class OrderblService_Stub implements OrderblService {
 		return total;
 	}
 
-	
-
-
-	@Override
-	public int getEximatedTime(OrderCreateVO vo) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-
 
 	@Override
 	public boolean modifyOrder(OrderCreateVO vo) {
@@ -71,6 +62,20 @@ public class OrderblService_Stub implements OrderblService {
 	public boolean execute(OrderCreateVO vo) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+
+	@Override
+	public IdblService getIdblService() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public int getEximatedTime(String senderAddress, String receiverAddress) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

@@ -17,6 +17,13 @@ import javax.swing.table.TableRowSorter;
 import vo.OrderCreateVO;
 import businesslogicservice.PrimeInfoblService;
 
+
+/**
+ * 该类是期初建账时用于显示已经建立的订单的面板
+ * @author lc
+ * @version 1.3
+ *
+ */
 public class PrimeInfoOrderPanel extends JPanel{
 	
 	/**
@@ -87,7 +94,7 @@ public class PrimeInfoOrderPanel extends JPanel{
         
         addButton = new JButton("添加");
         deleteButton = new JButton("删除");
-        createButton = new JButton("新建账单");
+        createButton = new JButton("完成建账");
         queryButton = new JButton("查询");
         modifyButton = new JButton("修改");
         addButton.addActionListener(new ActionListener() {

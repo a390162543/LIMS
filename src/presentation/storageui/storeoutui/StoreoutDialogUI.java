@@ -15,6 +15,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import presentation.util.DialogLayoutManager;
 import presentation.util.OrganizationComboBox;
 import presentation.util.RecentDatePickPanel;
 import businesslogic.BusinessLogicService;
@@ -102,11 +103,11 @@ public class StoreoutDialogUI extends JDialog{
         shipFormLabel = new JLabel("装运形式");
         shipFormLabel.setBounds(28, 105, 80, 22);
         airWayButton = new JRadioButton("空运");
-        airWayButton.setBounds(110, 105, 80, 22);
+        airWayButton.setBounds(270, 105, 80, 22);
         carWayButton = new JRadioButton("汽运");
-        carWayButton.setBounds(190, 105, 80, 22);
+        carWayButton.setBounds(110, 105, 80, 22);
         trainsWayButton = new JRadioButton("铁运");
-        trainsWayButton.setBounds(270, 105, 80, 22);
+        trainsWayButton.setBounds(190, 105, 80, 22);
         shipFormButtonGroup = new ButtonGroup();
         shipFormButtonGroup.add(airWayButton);
         shipFormButtonGroup.add(carWayButton);
@@ -126,7 +127,7 @@ public class StoreoutDialogUI extends JDialog{
         scrollpane.setBounds(110, 170, 180, 120);
         
         addButton = new JButton("新增");
-        addButton.setBounds(210, 310, 70, 30);
+        addButton.setBounds(200, 310, 70, 30);
         deleteButton = new JButton("删除");
         deleteButton.setBounds(295, 310, 70, 30);
         confirmButton = new JButton("确定");
@@ -137,24 +138,28 @@ public class StoreoutDialogUI extends JDialog{
         
         this.add(storeoutIdLabel);
         this.add(storeoutIdTextField);
-        
-        this.add(cancleButton);
-        this.add(confirmButton);
-        this.add(deleteButton);
-        this.add(addButton);
-        this.add(scrollpane);
-        this.add(storeoutGoodsInfoLabel);
-        this.add(transferIdTextField);
-        this.add(transferIdLabel);
-        this.add(trainsWayButton);
-        this.add(carWayButton);
-        this.add(airWayButton);
-        this.add(shipFormLabel);
-        this.add(destinationComboBox);
-        this.add(destinationLabel);
+        this.add(storeoutDateLabel);
         this.add(datePickPanel);
-		this.add(storeoutDateLabel);
-		
+        this.add(destinationLabel);
+        this.add(destinationComboBox);
+        this.add(transferIdLabel);
+        this.add(transferIdTextField);
+        this.add(shipFormLabel); 
+        this.add(carWayButton);
+        this.add(trainsWayButton);
+        this.add(airWayButton);
+        DialogLayoutManager.fix(carWayButton,trainsWayButton,airWayButton);      
+        this.add(storeoutGoodsInfoLabel);        
+        this.add(scrollpane); 
+        this.add(addButton);
+        this.add(deleteButton);
+        DialogLayoutManager.fix(scrollpane,addButton,deleteButton);
+        
+        
+		this.add(confirmButton);
+		this.add(cancleButton);
+       
+		this.setLayout(new DialogLayoutManager());
 		this.setLocationRelativeTo(null);
         this.setResizable(false);
         this.setVisible(true);

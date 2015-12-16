@@ -10,6 +10,7 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import presentation.mainui.MainFrame;
 import presentation.util.CheckInfoGetter;
 import presentation.util.Checker;
 import vo.OrderQueryVO;
@@ -45,20 +46,18 @@ public class OrderInfoQueryDialog extends JDialog{
 		
 		this.setTitle("订单查询");	
 		this.setSize(380, 210);
-		this.setLayout(null);
+		
 		confirmButton = new JButton("确定");
 		confirmButton.setBounds(275, 140, 70, 22);
 		orderInfoQueryLabel = new JLabel("请输入您要查询的订单号：");
 		orderInfoQueryLabel.setBounds(20, 54, 240, 22);
 		orderInfoTextField = new JTextField();
 		orderInfoTextField.setBounds(80, 95, 230, 24);
+		
 		this.add(orderInfoTextField);	
 		this.add(orderInfoQueryLabel);
 		this.add(confirmButton);
-		this.setLocationRelativeTo(null);
-        this.setResizable(false);
-        this.setVisible(true);
-	
+		       	
 		Checker orderIdChecker = new Checker(orderInfoTextField, new CheckInfoGetter() {			
 			@Override
 			public CheckInfo getCheckInfo() {	
@@ -91,7 +90,7 @@ public class OrderInfoQueryDialog extends JDialog{
 		confirmButton.addActionListener(new ActionListener() {	
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				OrderInfoQueryDialog.this.dispose();
 				OrderDetailDialog  deliveryDialog = new OrderDetailDialog();
 				OrderblService orderblService = BusinessLogicService.getOrderblService();
 				OrderQueryVO orderQueryVO = orderblService.returnOrderQueryVO(new String(orderInfoTextField.getText()));
@@ -99,6 +98,11 @@ public class OrderInfoQueryDialog extends JDialog{
 				deliveryDialog.repaint();
 			}
 		});
+		
+		this.setLocationRelativeTo(MainFrame.getMainFrame());
+		this.setModalityType(ModalityType.APPLICATION_MODAL);
+		this.setResizable(false);
+        this.setVisible(true);
 	}
 
 }

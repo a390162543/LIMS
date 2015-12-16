@@ -5,6 +5,13 @@ import businesslogic.checkbl.CheckInfo;
 import businesslogic.checkbl.CheckResultMessage;
 
 
+/**
+ * 该类用于用于输入姓名时检查名字输入的格式是否正确
+ * 
+ * @author lc
+ * @version 1.1
+ *
+ */
 public class Name implements CheckInfo{
 	
 	String name;

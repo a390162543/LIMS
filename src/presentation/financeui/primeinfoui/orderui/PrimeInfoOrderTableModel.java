@@ -13,6 +13,13 @@ import javax.swing.table.DefaultTableModel;
 import vo.OrderCreateVO;
 import businesslogicservice.PrimeInfoblService;
 
+
+/**
+ * 该类用于保存已经建立的订单的数据
+ * @author lc
+ * @version 1.3
+ *
+ */
 public class PrimeInfoOrderTableModel extends DefaultTableModel {
 	
 	/**

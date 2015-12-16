@@ -8,6 +8,7 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import presentation.util.DialogLayoutManager;
 import vo.OrderCreateVO;
 
 
@@ -67,6 +68,7 @@ public class OrderPendingDialog extends JDialog{
         
         JButton confirmButton = new JButton("х╥хо");
         confirmButton.setBounds(230, 340, 80, 30);
+        this.add(confirmButton);
         confirmButton.addActionListener(new ActionListener() {
             
             @Override
@@ -97,11 +99,9 @@ public class OrderPendingDialog extends JDialog{
             this.add(cancleButton);
         }
 
-        this.add(confirmButton);
+        
         this.setSize(340, 450);
-        this.setLayout(null);
-        this.setLocationRelativeTo(null);
-        this.setModalityType(ModalityType.APPLICATION_MODAL);
+        this.setLayout(new DialogLayoutManager());
         this.setVisible(true);
     }
 

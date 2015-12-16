@@ -11,15 +11,19 @@ import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
 import presentation.util.CheckInfoGetter;
 import presentation.util.Checker;
+import presentation.util.DialogLayoutManager;
 import businesslogic.BusinessLogicService;
 import businesslogic.checkbl.CheckInfo;
 import businesslogic.checkbl.Name;
+import businesslogic.checkbl.PhoneNumber;
 import businesslogic.checkbl.orderinfo.OrderAddress;
+import businesslogic.checkbl.orderinfo.OrderTelNum;
 import businesslogic.checkbl.orderinfo.OrderVolumn;
 import businesslogic.checkbl.orderinfo.OrderWeight;
 import businesslogic.orderbl.Order;
@@ -47,6 +51,7 @@ public class OrderCreateDialog extends JDialog{
 
 	
 	private JLabel orderinfoLabel;
+	private JPanel orderinfoPanel;
 	private JLabel orderIdLabel;
 	private JTextField orderIdTextField;
 	private JLabel weightLabel;
@@ -71,6 +76,7 @@ public class OrderCreateDialog extends JDialog{
 	private JTextField totalExpenseTextField;
 	
 	private JLabel recipientInfoLabel;
+	private JPanel recipientInfoPanel;
 	private JLabel recipientNameLabel;
 	private JTextField recipientNameTextField;
 	private JLabel recipientTelLabel;
@@ -81,6 +87,7 @@ public class OrderCreateDialog extends JDialog{
 	private JTextField recipientAdressTextField;
 	
 	private JLabel senderInfoLabel;
+	private JPanel senderInfoPanel;
 	private JLabel senderNameLabel;
 	private JTextField senderNameTextField;
 	private JLabel senderTelLabel;
@@ -100,7 +107,6 @@ public class OrderCreateDialog extends JDialog{
 		
 		this.setTitle("新建订单");
 		this.setSize(380, 800);
-		this.setLayout(null);
 		
 		confirmButton = new JButton("确定");
 		cancleButton = new JButton("取消");
@@ -109,17 +115,16 @@ public class OrderCreateDialog extends JDialog{
 		this.add(confirmButton);
 		this.add(cancleButton);
 		
-        this.setLocationRelativeTo(null);
-        this.setResizable(false);
-        this.setVisible(true);
-      
+   
 
 		orderinfoLabel = new JLabel("订单信息");
 		orderinfoLabel.setBounds(10,52,80,22);
+		orderinfoPanel = new JPanel();
+		orderinfoPanel.setBounds(100, 52, 80, 25);
+		
+		
 		orderIdLabel = new JLabel("订单号");
-		orderIdLabel.setBounds(50, 86, 60, 22);
-		
-		
+		orderIdLabel.setBounds(50, 86, 60, 22);	
 		orderIdTextField = new JTextField();
 		orderIdTextField.setBounds(105, 82, 180, 22);
 		OrderblService orderblService = new Order();
@@ -127,14 +132,14 @@ public class OrderCreateDialog extends JDialog{
 		orderIdTextField.setText(idblService.createNewId());
 		orderIdTextField.setEditable(false);
 		
-		weightLabel = new JLabel("重量");
+		weightLabel = new JLabel("重量(kg)");
 		weightLabel.setBounds(54, 121, 40, 22);
 		weighTextField = new JTextField();
 		weighTextField.setBounds(105, 118, 60, 22);
 		weighTextField.setText("0");
 		weightUnitLabel = new JLabel("Kg");
 		weightUnitLabel.setBounds(170, 118, 30, 22);
-		volumeLabel = new JLabel("体积");
+		volumeLabel = new JLabel("体积(m^3)");
 		volumeLabel.setBounds(54, 152, 40, 22);
 		volumeTextField = new JTextField();
 		volumeTextField.setBounds(105, 152, 60, 22);
@@ -149,11 +154,11 @@ public class OrderCreateDialog extends JDialog{
 		wrapWayLabel = new JLabel("包装方式");
 		wrapWayLabel.setBounds(35, 218, 80, 22);
 		woodenWrapButton = new JRadioButton("木箱");
-		woodenWrapButton.setBounds(105, 218, 75, 22);
+		woodenWrapButton.setBounds(265, 218, 75, 22);
 		cartonWrapButton = new JRadioButton("纸箱");
-		cartonWrapButton.setBounds(180, 218, 75, 22);
+		cartonWrapButton.setBounds(190, 218, 75, 22);
 		bagWrapButton = new JRadioButton("快递袋");
-		bagWrapButton.setBounds(255, 218, 90, 22);
+		bagWrapButton.setBounds(105, 218, 90, 22);
 		wrapWayButtonGroup = new ButtonGroup();
 		wrapWayButtonGroup.add(bagWrapButton);
 		wrapWayButtonGroup.add(cartonWrapButton);
@@ -163,9 +168,9 @@ public class OrderCreateDialog extends JDialog{
 		economicDeliveryButton = new JRadioButton("经济");
 		economicDeliveryButton.setBounds(105, 247, 75, 22);
 		standardDeliveryButton = new JRadioButton("标准");
-		standardDeliveryButton.setBounds(180, 247, 75, 22);
+		standardDeliveryButton.setBounds(190, 247, 75, 22);
 		fastDeliveryButton = new JRadioButton("特快");
-		fastDeliveryButton.setBounds(255, 247, 75, 22);
+		fastDeliveryButton.setBounds(265, 247, 75, 22);
 		deliveryWayButtonGroup = new ButtonGroup();
 		deliveryWayButtonGroup.add(economicDeliveryButton);
 		deliveryWayButtonGroup.add(standardDeliveryButton);
@@ -178,32 +183,38 @@ public class OrderCreateDialog extends JDialog{
 		totalTimeLabel.setBounds(85, 675, 80, 22);
 		totalTimeTextField = new JTextField();
 		totalTimeTextField.setBounds(170, 675, 60, 22);
-		this.add(totalTimeLabel);
-		this.add(totalTimeTextField);
-		this.add(totalExpenseTextField);
-		this.add(totalExpenseLabel);
-		this.add(fastDeliveryButton);
-		this.add(standardDeliveryButton);
-		this.add(economicDeliveryButton);	
-		this.add(deliveryWayLabel);
+			
+		this.add(orderinfoLabel);
+		this.add(orderinfoPanel);
+		//DialogLayoutManager.fix(orderinfoLabel);
+		this.add(orderIdLabel);
+		this.add(orderIdTextField);
+		this.add(weightLabel);
+		this.add(weighTextField);
+//		this.add(weightUnitLabel);
+		this.add(volumeLabel);
+		this.add(volumeTextField);
+//		this.add(volumnUnitLabel);
+		this.add(goodsInfoLabel);
+		this.add(goodsInfoTextField);
+		this.add(wrapWayLabel);
 		this.add(bagWrapButton);
 		this.add(cartonWrapButton);
 		this.add(woodenWrapButton);
-		this.add(wrapWayLabel);
-		this.add(goodsInfoTextField);
-		this.add(goodsInfoLabel);
-		this.add(volumnUnitLabel);
-		this.add(volumeTextField);
-		this.add(volumeLabel);
-		this.add(weightUnitLabel);
-		this.add(weighTextField);
-		this.add(weightLabel);
-		this.add(orderIdTextField);
-		this.add(orderIdLabel);
-		this.add(orderinfoLabel);
-	
+		
+		
+		this.add(deliveryWayLabel);
+		this.add(economicDeliveryButton);	
+		this.add(standardDeliveryButton);
+		this.add(fastDeliveryButton);
+		DialogLayoutManager.fix(bagWrapButton,cartonWrapButton,woodenWrapButton);
+		DialogLayoutManager.fix(economicDeliveryButton,standardDeliveryButton,fastDeliveryButton);
+		
+				
 		recipientInfoLabel = new JLabel("收件人信息");
 		recipientInfoLabel.setBounds(10, 293, 100, 22);
+		recipientInfoPanel = new JPanel();
+		recipientInfoPanel.setBounds(120,293,20,25);
 		recipientNameLabel = new JLabel("姓名");
 		recipientNameLabel.setBounds(39, 333, 40, 22);
 		recipientNameTextField = new JTextField();
@@ -224,18 +235,22 @@ public class OrderCreateDialog extends JDialog{
 		recipientAdressTextField = new JTextField();
 		recipientAdressTextField.setBounds(89, 439, 180, 22);
 		recipientAdressTextField.setText("");
-		this.add(recipientAdressTextField);
-		this.add(recipientAddressLabel);
-		this.add(recipientCellTextField); 
-		this.add(recipientCellLabel);
+				
+		this.add(recipientInfoLabel);
+		this.add(recipientInfoPanel);
+		this.add(recipientNameLabel);
+		this.add(recipientNameTextField);
 		this.add(recipientTelLabel);
 		this.add(recipientTeltTextField);
-		this.add(recipientNameTextField);
-		this.add(recipientNameLabel);
-		this.add(recipientInfoLabel);	
+		this.add(recipientCellLabel);
+		this.add(recipientCellTextField);
+		this.add(recipientAddressLabel);
+		this.add(recipientAdressTextField);
 	
 		senderInfoLabel = new JLabel("寄件人信息");
 		senderInfoLabel.setBounds(10, 488, 100, 22);
+		senderInfoPanel = new JPanel();
+		senderInfoPanel.setBounds(120,488,20,25);
 		senderNameLabel = new JLabel("姓名");
 		senderNameLabel.setBounds(39, 531, 40, 22);
 		senderNameTextField = new JTextField();
@@ -256,17 +271,33 @@ public class OrderCreateDialog extends JDialog{
 		senderAdressTextField = new JTextField();
 		senderAdressTextField.setBounds(89, 631, 180, 22);
 		senderAdressTextField.setText("");
-		
-		
-		this.add(senderAdressTextField);
-		this.add(senderAddressLabel);
-		this.add(senderCellTextField); 
-		this.add(senderCellLabel);
+				
+		this.add(senderInfoLabel);
+		this.add(senderInfoPanel);
+		//DialogLayoutManager.fix(senderInfoLabel);
+		this.add(senderNameLabel);
+		this.add(senderNameTextField);
 		this.add(senderTelLabel);
 		this.add(senderTeltTextField);
-		this.add(senderNameTextField);
-		this.add(senderNameLabel);
-		this.add(senderInfoLabel);
+		this.add(senderCellLabel);
+		this.add(senderCellTextField); 
+		this.add(senderAddressLabel);
+		this.add(senderAdressTextField);
+		
+		
+		this.add(totalTimeLabel);
+		this.add(totalTimeTextField);
+		this.add(totalExpenseLabel);
+		this.add(totalExpenseTextField);
+			
+		
+				
+		this.setLayout(new DialogLayoutManager());
+		this.setResizable(false);
+	    this.setVisible(true);
+		
+	    bagWrapButton.setSelected(true);
+	    economicDeliveryButton.setSelected(true);
 		
 		Checker senderNameChecker = new Checker(senderNameTextField, new CheckInfoGetter() {		
 			@Override
@@ -419,6 +450,8 @@ public class OrderCreateDialog extends JDialog{
 			}
 		});
 		
+		
+		
 		Checker orderVolumnChecker = new Checker(volumeTextField, new CheckInfoGetter() {
 			
 			@Override
@@ -441,6 +474,134 @@ public class OrderCreateDialog extends JDialog{
 			@Override
 			public void keyReleased(KeyEvent e) {
 				orderVolumnChecker.check();
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
+		
+		Checker senderCellChecker = new Checker(senderCellTextField, new CheckInfoGetter() {
+			
+			@Override
+			public CheckInfo getCheckInfo() {
+				if (senderCellTextField.getText()==null) {
+					return new PhoneNumber("");
+				}
+				return new PhoneNumber(senderCellTextField.getText());
+			}
+		});
+		
+		senderCellTextField.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				senderCellChecker.check();
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
+		Checker receiverCellChecker = new Checker(recipientCellTextField, new CheckInfoGetter() {
+			
+			@Override
+			public CheckInfo getCheckInfo() {
+				if (recipientCellTextField.getText()==null) {
+					return new PhoneNumber("");
+				}
+				return new PhoneNumber(recipientCellTextField.getText());
+			}
+		});
+		
+		recipientCellTextField.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				receiverCellChecker.check();
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
+		Checker senderTelChecker = new Checker(senderTeltTextField, new CheckInfoGetter() {
+			
+			@Override
+			public CheckInfo getCheckInfo() {
+				if (senderTeltTextField.getText()=="") {
+					return new OrderTelNum("");
+				}
+				return new OrderTelNum(senderTeltTextField.getText());
+			}
+		});
+		
+		senderTeltTextField.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				senderTelChecker.check();			
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
+		Checker receiverTelChecker = new Checker(recipientTeltTextField, new CheckInfoGetter() {
+			
+			@Override
+			public CheckInfo getCheckInfo() {
+				if (recipientTeltTextField.getText()==null) {
+					return new OrderTelNum("");
+				}
+				return new OrderTelNum(recipientTeltTextField.getText());
+			}
+		});
+		
+		recipientTeltTextField.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				receiverTelChecker.check();
 				
 			}
 			
@@ -524,7 +685,7 @@ public class OrderCreateDialog extends JDialog{
 				orderCreateVO.setGoodsState(GoodsState.COMPLETE);
 				OrderblService orderblService = BusinessLogicService.getOrderblService();
 				orderblService.createOrderPO(orderCreateVO);
-				
+				OrderCreateDialog.this.dispose();
 				
 			}
 		});

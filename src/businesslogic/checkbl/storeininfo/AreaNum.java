@@ -4,6 +4,14 @@ import systemenum.CheckResult;
 import businesslogic.checkbl.CheckInfo;
 import businesslogic.checkbl.CheckResultMessage;
 
+
+/**
+ * 该类用于检查中转中心仓库管理人员在进行
+ * 货物入库时输入的区号是否正确
+ * @author lc
+ * @version 1.1
+ *
+ */
 public class AreaNum implements CheckInfo{
 
 	private int araeNum;
