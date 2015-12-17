@@ -40,7 +40,7 @@ public class StoreoutOrderId implements CheckInfo{
 			checkResultMessage.addInfo(CheckResult.FALSE, "该订单不存在，请确认输入");
 			return checkResultMessage;
 		}
-		if (orderId.length() == 10 && orderQueryVO.getNowLocation() != LoginController.getOrganizationName()) {
+		if (orderId.length() == 10 && !orderQueryVO.getNowLocation().equals(LoginController.getOrganizationName())) {
 			checkResultMessage.addInfo(CheckResult.FALSE, "该订单不属于本中转中心");
 			return checkResultMessage;
 		}

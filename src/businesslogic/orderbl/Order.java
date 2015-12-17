@@ -8,13 +8,12 @@ import java.util.List;
 import po.OrderPO;
 import systemenum.DeliveryWay;
 import systemenum.DocumentState;
-import systemenum.Position;
+import systemenum.ShipForm;
 import systemenum.StorageState;
 import systemenum.WrapWay;
 import dataservice.DataService;
 import dataservice.OrderDataService;
 import vo.GoodsVO;
-import vo.LogVO;
 import vo.OrderCreateVO;
 import vo.OrderDeliverInfoVO;
 import vo.OrderQueryVO;
@@ -26,7 +25,6 @@ import vo.StoreinOrderVO;
 import businesslogic.citybl.City;
 import businesslogic.idbl.OrderIdManager;
 import businesslogic.logbl.Log;
-import businesslogic.userbl.LoginController;
 import businesslogicservice.IdblService;
 import businesslogicservice.OrderblService;
 
@@ -43,17 +41,19 @@ public class Order implements OrderblService{
 
 	
 	public boolean createOrderPO(OrderCreateVO vo) {
+		System.out.println(vo.getNowLocation());
 		OrderDataService ods = DataService.getOrderDataService();
 		try {
-			ods.insert(vo.getOrderPO());
+			OrderPO po = vo.getOrderPO();
+			ods.insert(po);	
+			System.out.println("<<<<<<<<<<<<"+po.getNowLocation());
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		String operation = "创建了订单"+"("+vo.getId()+")";
-		LogVO logVO = new LogVO(operation, LoginController.getEmployeeId(), LoginController.getEmployeeName(), Position.COURIER);
 		Log log = new Log();
-		log.createLogPO(logVO);
+		log.createLogPO(operation);
 		return true;
 	}
 
@@ -76,9 +76,8 @@ public class Order implements OrderblService{
 			e.printStackTrace();
 		}
 		String operation = "签收了订单"+"("+vo.getId()+")";
-		LogVO logVO = new LogVO(operation, LoginController.getEmployeeId(), LoginController.getEmployeeName(), Position.COURIER);
 		Log log = new Log();
-		log.createLogPO(logVO);
+		log.createLogPO(operation);
 		return true;
 	}
 
@@ -119,6 +118,8 @@ public class Order implements OrderblService{
 		if (po == null) {
 			return null;
 		}
+		System.out.println(">>>>>"+po.getOrderId());
+		System.out.println(po.getNowLocation());
 		orderQueryVO = po.getOrderQueryVO();
 
 		return orderQueryVO;
@@ -471,12 +472,29 @@ public class Order implements OrderblService{
 	 * @param orderId {@code String}
 	 * @return 成功则返回{@code true}，失败则返回{@code false}
 	 */
-	public boolean storeinOrderState(String orderId) {
+	public boolean storeinOrderState(String orderId, int areaNum) {
 		OrderDataService orderDataService = DataService.getOrderDataService();
-
+		ShipForm shipForm = null;
+		switch (areaNum) {
+		case 0:
+			shipForm = ShipForm.PLANE;
+			break;
+		case 1:
+			shipForm = ShipForm.TRAIN;
+			break;
+		case 2:
+			shipForm = ShipForm.CAR;
+			break;
+		case 3:
+			shipForm = ShipForm.FREE;
+			break;	
+		}
 		OrderPO po = null;
 		try {
 			po = orderDataService.find(orderId);
+			po.setStorageState(StorageState.ISSTORING);	
+			po.setShipForm(shipForm);
+			orderDataService.insert(po);
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -484,8 +502,7 @@ public class Order implements OrderblService{
 		if (po == null) {
 			return false;
 		}
-		po.setStorageState(StorageState.ISSTORING);
-
+			
 		return true;
 	}
 	
@@ -554,5 +571,21 @@ public class Order implements OrderblService{
 		}
 
 		return po.getStorageState();
+	}
+	
+	public boolean updateNextLocation(String orderId,String nextLocation){
+		OrderPO po = null;
+		OrderDataService orderDataService = DataService.getOrderDataService();
+
+		try {
+			po = orderDataService.find(orderId);
+			po.setNextLocation(nextLocation);
+			orderDataService.update(po);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return true;
 	}
 }

@@ -102,7 +102,7 @@ public class Checker extends JLabel{
         this.setIcon(imageIcon);
     }
    
-    private boolean isCorrect(){
-        return (checkResult != CheckResult.FALSE);
+    public boolean isCorrect(){
+        return (checkResult != CheckResult.FALSE)&&(checkResult != CheckResult.UNCHECKED);
     }
 }

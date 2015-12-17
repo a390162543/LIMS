@@ -6,6 +6,8 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -27,6 +29,7 @@ import businesslogic.checkbl.orderinfo.OrderTelNum;
 import businesslogic.checkbl.orderinfo.OrderVolumn;
 import businesslogic.checkbl.orderinfo.OrderWeight;
 import businesslogic.orderbl.Order;
+import businesslogic.userbl.LoginController;
 import businesslogicservice.IdblService;
 import businesslogicservice.OrderblService;
 import systemenum.DeliveryWay;
@@ -299,6 +302,8 @@ public class OrderCreateDialog extends JDialog{
 	    bagWrapButton.setSelected(true);
 	    economicDeliveryButton.setSelected(true);
 		
+	    
+	    
 		Checker senderNameChecker = new Checker(senderNameTextField, new CheckInfoGetter() {		
 			@Override
 			public CheckInfo getCheckInfo() {				
@@ -306,6 +311,99 @@ public class OrderCreateDialog extends JDialog{
 			}
 		});	
 		
+		Checker receiverNameChecker = new Checker(recipientNameTextField, new CheckInfoGetter() {			
+			@Override
+			public CheckInfo getCheckInfo() {
+				
+				return new Name(recipientNameTextField.getText());
+			}
+		});
+		
+		Checker senderAddressChecker = new Checker(senderAdressTextField, new CheckInfoGetter() {
+			
+			@Override
+			public CheckInfo getCheckInfo() {
+				// TODO Auto-generated method stub
+				return new OrderAddress(senderAdressTextField.getText());
+			}
+		});
+		
+		Checker receiverAddressChecker = new Checker(recipientAdressTextField, new CheckInfoGetter() {
+			
+			@Override
+			public CheckInfo getCheckInfo() {
+				return new OrderAddress(recipientAdressTextField.getText());
+			}
+		});
+		
+		
+	Checker orderWeightChecker = new Checker( weighTextField, new CheckInfoGetter() {
+			
+			@Override
+			public CheckInfo getCheckInfo() {
+				if (!weighTextField.getText().equals("")&&!weighTextField.getText().contains("-")) {
+					return new OrderWeight(Double.valueOf(weighTextField.getText()));
+				}
+				return new OrderWeight(-1);
+			}
+		});
+	
+	Checker orderVolumnChecker = new Checker(volumeTextField, new CheckInfoGetter() {
+		
+		@Override
+		public CheckInfo getCheckInfo() {
+			if (!volumeTextField.getText().equals("")&&!volumeTextField.getText().contains("-")) {
+				return new OrderVolumn(Double.valueOf(volumeTextField.getText()));
+			}
+			return new OrderVolumn(-1);
+		}
+	});
+	
+	Checker senderTelChecker = new Checker(senderTeltTextField, new CheckInfoGetter() {
+		
+		@Override
+		public CheckInfo getCheckInfo() {
+			if (senderTeltTextField.getText()=="") {
+				return new OrderTelNum("");
+			}
+			return new OrderTelNum(senderTeltTextField.getText());
+		}
+	});
+	
+	Checker senderCellChecker = new Checker(senderCellTextField, new CheckInfoGetter() {
+		
+		@Override
+		public CheckInfo getCheckInfo() {
+			if (senderCellTextField.getText()==null) {
+				return new PhoneNumber("");
+			}
+			return new PhoneNumber(senderCellTextField.getText());
+		}
+	});
+	
+	Checker receiverCellChecker = new Checker(recipientCellTextField, new CheckInfoGetter() {
+		
+		@Override
+		public CheckInfo getCheckInfo() {
+			if (recipientCellTextField.getText()==null) {
+				return new PhoneNumber("");
+			}
+			return new PhoneNumber(recipientCellTextField.getText());
+		}
+	});
+	
+	
+	Checker receiverTelChecker = new Checker(recipientTeltTextField, new CheckInfoGetter() {
+		
+		@Override
+		public CheckInfo getCheckInfo() {
+			if (recipientTeltTextField.getText()==null) {
+				return new OrderTelNum("");
+			}
+			return new OrderTelNum(recipientTeltTextField.getText());
+		}
+	});
+	
 		senderNameTextField.addKeyListener(new KeyListener() {
 			
 			@Override
@@ -328,13 +426,7 @@ public class OrderCreateDialog extends JDialog{
 		});
 		
 		
-		Checker receiverNameChecker = new Checker(recipientNameTextField, new CheckInfoGetter() {			
-			@Override
-			public CheckInfo getCheckInfo() {
-				
-				return new Name(recipientNameTextField.getText());
-			}
-		});
+		
 		
 		recipientNameTextField.addKeyListener(new KeyListener() {
 			
@@ -357,16 +449,7 @@ public class OrderCreateDialog extends JDialog{
 			}
 		});
 		
-		
-		Checker senderAddressChecker = new Checker(senderAdressTextField, new CheckInfoGetter() {
-			
-			@Override
-			public CheckInfo getCheckInfo() {
-				// TODO Auto-generated method stub
-				return new OrderAddress(senderAdressTextField.getText());
-			}
-		});
-		
+				
 		senderAdressTextField.addKeyListener(new KeyListener() {
 			
 			@Override
@@ -378,7 +461,32 @@ public class OrderCreateDialog extends JDialog{
 			@Override
 			public void keyReleased(KeyEvent e) {
 				senderAddressChecker.check();
-				
+				if (senderAddressChecker.isCorrect()&&receiverAddressChecker.isCorrect()) {
+					totalTimeTextField.setText(String.valueOf(orderblService.getEximatedTime(senderAdressTextField.getText(), recipientAdressTextField.getText())));
+				}
+				if (senderAddressChecker.isCorrect()&&receiverAddressChecker.isCorrect()&&(cartonWrapButton.isSelected()||woodenWrapButton.isSelected()
+						||bagWrapButton.isSelected())&&(economicDeliveryButton.isSelected()||standardDeliveryButton.isSelected()||fastDeliveryButton.isSelected())
+						&&orderWeightChecker.isCorrect()&&orderVolumnChecker.isCorrect()) {
+					WrapWay wrapWay;
+					if(woodenWrapButton.isSelected())
+						wrapWay = WrapWay.WOODEN;
+					else if(cartonWrapButton.isSelected())
+						wrapWay = WrapWay.CARTON;
+					else 
+						wrapWay = WrapWay.BAG;
+					
+					DeliveryWay deliverWay;
+					if(economicDeliveryButton.isSelected())
+						deliverWay = DeliveryWay.ECONOMIC;
+					else if(standardDeliveryButton.isSelected())
+						deliverWay = DeliveryWay.STANDARD;
+					else
+						deliverWay = DeliveryWay.FAST;
+					
+					OrderCreateVO vo = new OrderCreateVO(senderAdressTextField.getText(), recipientAdressTextField.getText(), 
+							wrapWay, deliverWay, Double.parseDouble(weighTextField.getText()));	
+					totalExpenseTextField.setText(String.valueOf(orderblService.getTotal(vo)));
+				}
 			}
 			
 			@Override
@@ -389,13 +497,7 @@ public class OrderCreateDialog extends JDialog{
 		});
 		
 		
-		Checker receiverAddressChecker = new Checker(recipientAdressTextField, new CheckInfoGetter() {
-			
-			@Override
-			public CheckInfo getCheckInfo() {
-				return new OrderAddress(recipientAdressTextField.getText());
-			}
-		});
+		
 		
 		recipientAdressTextField.addKeyListener(new KeyListener() {
 			
@@ -408,7 +510,32 @@ public class OrderCreateDialog extends JDialog{
 			@Override
 			public void keyReleased(KeyEvent e) {
 				receiverAddressChecker.check();
-				
+				if (senderAddressChecker.isCorrect()&&receiverAddressChecker.isCorrect()) {
+					totalTimeTextField.setText(String.valueOf(orderblService.getEximatedTime(senderAdressTextField.getText(), recipientAdressTextField.getText())));
+				}
+				if (senderAddressChecker.isCorrect()&&receiverAddressChecker.isCorrect()&&(cartonWrapButton.isSelected()||woodenWrapButton.isSelected()
+						||bagWrapButton.isSelected())&&(economicDeliveryButton.isSelected()||standardDeliveryButton.isSelected()||fastDeliveryButton.isSelected())
+						&&orderWeightChecker.isCorrect()&&orderVolumnChecker.isCorrect()) {
+					WrapWay wrapWay;
+					if(woodenWrapButton.isSelected())
+						wrapWay = WrapWay.WOODEN;
+					else if(cartonWrapButton.isSelected())
+						wrapWay = WrapWay.CARTON;
+					else 
+						wrapWay = WrapWay.BAG;
+					
+					DeliveryWay deliverWay;
+					if(economicDeliveryButton.isSelected())
+						deliverWay = DeliveryWay.ECONOMIC;
+					else if(standardDeliveryButton.isSelected())
+						deliverWay = DeliveryWay.STANDARD;
+					else
+						deliverWay = DeliveryWay.FAST;
+					
+					OrderCreateVO vo = new OrderCreateVO(senderAdressTextField.getText(), recipientAdressTextField.getText(), 
+							wrapWay, deliverWay, Double.parseDouble(weighTextField.getText()));	
+					totalExpenseTextField.setText(String.valueOf(orderblService.getTotal(vo)));
+				}
 			}
 			
 			@Override
@@ -418,16 +545,7 @@ public class OrderCreateDialog extends JDialog{
 			}
 		});
 		
-		Checker orderWeightChecker = new Checker( weighTextField, new CheckInfoGetter() {
-			
-			@Override
-			public CheckInfo getCheckInfo() {
-				if (!weighTextField.getText().equals("")&&!weighTextField.getText().contains("-")) {
-					return new OrderWeight(Double.valueOf(weighTextField.getText()));
-				}
-				return new OrderWeight(-1);
-			}
-		});
+	
 		
 		weighTextField.addKeyListener(new KeyListener() {
 			
@@ -440,6 +558,29 @@ public class OrderCreateDialog extends JDialog{
 			@Override
 			public void keyReleased(KeyEvent e) {
 				orderWeightChecker.check();
+				if (senderAddressChecker.isCorrect()&&receiverAddressChecker.isCorrect()&&(cartonWrapButton.isSelected()||woodenWrapButton.isSelected()
+						||bagWrapButton.isSelected())&&(economicDeliveryButton.isSelected()||standardDeliveryButton.isSelected()||fastDeliveryButton.isSelected())
+						&&orderWeightChecker.isCorrect()&&orderVolumnChecker.isCorrect()) {
+					WrapWay wrapWay;
+					if(woodenWrapButton.isSelected())
+						wrapWay = WrapWay.WOODEN;
+					else if(cartonWrapButton.isSelected())
+						wrapWay = WrapWay.CARTON;
+					else 
+						wrapWay = WrapWay.BAG;
+					
+					DeliveryWay deliverWay;
+					if(economicDeliveryButton.isSelected())
+						deliverWay = DeliveryWay.ECONOMIC;
+					else if(standardDeliveryButton.isSelected())
+						deliverWay = DeliveryWay.STANDARD;
+					else
+						deliverWay = DeliveryWay.FAST;
+					
+					OrderCreateVO vo = new OrderCreateVO(senderAdressTextField.getText(), recipientAdressTextField.getText(), 
+							wrapWay, deliverWay, Double.parseDouble(weighTextField.getText()));	
+					totalExpenseTextField.setText(String.valueOf(orderblService.getTotal(vo)));
+				}
 				
 			}
 			
@@ -452,16 +593,7 @@ public class OrderCreateDialog extends JDialog{
 		
 		
 		
-		Checker orderVolumnChecker = new Checker(volumeTextField, new CheckInfoGetter() {
-			
-			@Override
-			public CheckInfo getCheckInfo() {
-				if (!volumeTextField.getText().equals("")&&!volumeTextField.getText().contains("-")) {
-					return new OrderVolumn(Double.valueOf(volumeTextField.getText()));
-				}
-				return new OrderVolumn(-1);
-			}
-		});
+	
 		
 		volumeTextField.addKeyListener(new KeyListener() {
 			
@@ -474,6 +606,29 @@ public class OrderCreateDialog extends JDialog{
 			@Override
 			public void keyReleased(KeyEvent e) {
 				orderVolumnChecker.check();
+				if (senderAddressChecker.isCorrect()&&receiverAddressChecker.isCorrect()&&(cartonWrapButton.isSelected()||woodenWrapButton.isSelected()
+						||bagWrapButton.isSelected())&&(economicDeliveryButton.isSelected()||standardDeliveryButton.isSelected()||fastDeliveryButton.isSelected())
+						&&orderWeightChecker.isCorrect()&&orderVolumnChecker.isCorrect()) {
+					WrapWay wrapWay;
+					if(woodenWrapButton.isSelected())
+						wrapWay = WrapWay.WOODEN;
+					else if(cartonWrapButton.isSelected())
+						wrapWay = WrapWay.CARTON;
+					else 
+						wrapWay = WrapWay.BAG;
+					
+					DeliveryWay deliverWay;
+					if(economicDeliveryButton.isSelected())
+						deliverWay = DeliveryWay.ECONOMIC;
+					else if(standardDeliveryButton.isSelected())
+						deliverWay = DeliveryWay.STANDARD;
+					else
+						deliverWay = DeliveryWay.FAST;
+					
+					OrderCreateVO vo = new OrderCreateVO(senderAdressTextField.getText(), recipientAdressTextField.getText(), 
+							wrapWay, deliverWay, Double.parseDouble(weighTextField.getText()));	
+					totalExpenseTextField.setText(String.valueOf(orderblService.getTotal(vo)));
+				}
 				
 			}
 			
@@ -485,16 +640,7 @@ public class OrderCreateDialog extends JDialog{
 		});
 		
 		
-		Checker senderCellChecker = new Checker(senderCellTextField, new CheckInfoGetter() {
-			
-			@Override
-			public CheckInfo getCheckInfo() {
-				if (senderCellTextField.getText()==null) {
-					return new PhoneNumber("");
-				}
-				return new PhoneNumber(senderCellTextField.getText());
-			}
-		});
+		
 		
 		senderCellTextField.addKeyListener(new KeyListener() {
 			
@@ -517,16 +663,7 @@ public class OrderCreateDialog extends JDialog{
 			}
 		});
 		
-		Checker receiverCellChecker = new Checker(recipientCellTextField, new CheckInfoGetter() {
-			
-			@Override
-			public CheckInfo getCheckInfo() {
-				if (recipientCellTextField.getText()==null) {
-					return new PhoneNumber("");
-				}
-				return new PhoneNumber(recipientCellTextField.getText());
-			}
-		});
+		
 		
 		recipientCellTextField.addKeyListener(new KeyListener() {
 			
@@ -549,14 +686,293 @@ public class OrderCreateDialog extends JDialog{
 			}
 		});
 		
-		Checker senderTelChecker = new Checker(senderTeltTextField, new CheckInfoGetter() {
+		bagWrapButton.addMouseListener(new MouseListener() {
 			
 			@Override
-			public CheckInfo getCheckInfo() {
-				if (senderTeltTextField.getText()=="") {
-					return new OrderTelNum("");
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (senderAddressChecker.isCorrect()&&receiverAddressChecker.isCorrect()&&(cartonWrapButton.isSelected()||woodenWrapButton.isSelected()
+						||bagWrapButton.isSelected())&&(economicDeliveryButton.isSelected()||standardDeliveryButton.isSelected()||fastDeliveryButton.isSelected())
+						&&orderWeightChecker.isCorrect()&&orderVolumnChecker.isCorrect()) {
+					WrapWay wrapWay = WrapWay.BAG;								
+					DeliveryWay deliverWay;
+					if(economicDeliveryButton.isSelected())
+						deliverWay = DeliveryWay.ECONOMIC;
+					else if(standardDeliveryButton.isSelected())
+						deliverWay = DeliveryWay.STANDARD;
+					else
+						deliverWay = DeliveryWay.FAST;
+					
+					OrderCreateVO vo = new OrderCreateVO(senderAdressTextField.getText(), recipientAdressTextField.getText(), 
+							wrapWay, deliverWay, Double.parseDouble(weighTextField.getText()));	
+					totalExpenseTextField.setText(String.valueOf(orderblService.getTotal(vo)));
 				}
-				return new OrderTelNum(senderTeltTextField.getText());
+				
+			}
+		});
+
+		woodenWrapButton.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (senderAddressChecker.isCorrect()&&receiverAddressChecker.isCorrect()&&(cartonWrapButton.isSelected()||woodenWrapButton.isSelected()
+						||bagWrapButton.isSelected())&&(economicDeliveryButton.isSelected()||standardDeliveryButton.isSelected()||fastDeliveryButton.isSelected())
+						&&orderWeightChecker.isCorrect()&&orderVolumnChecker.isCorrect()) {
+					WrapWay wrapWay = WrapWay.WOODEN;				
+					DeliveryWay deliverWay;
+					if(economicDeliveryButton.isSelected())
+						deliverWay = DeliveryWay.ECONOMIC;
+					else if(standardDeliveryButton.isSelected())
+						deliverWay = DeliveryWay.STANDARD;
+					else
+						deliverWay = DeliveryWay.FAST;
+					
+					OrderCreateVO vo = new OrderCreateVO(senderAdressTextField.getText(), recipientAdressTextField.getText(), 
+							wrapWay, deliverWay, Double.parseDouble(weighTextField.getText()));	
+					totalExpenseTextField.setText(String.valueOf(orderblService.getTotal(vo)));
+				}
+				
+			}
+		});
+
+		cartonWrapButton.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (senderAddressChecker.isCorrect()&&receiverAddressChecker.isCorrect()&&(cartonWrapButton.isSelected()||woodenWrapButton.isSelected()
+						||bagWrapButton.isSelected())&&(economicDeliveryButton.isSelected()||standardDeliveryButton.isSelected()||fastDeliveryButton.isSelected())
+						&&orderWeightChecker.isCorrect()&&orderVolumnChecker.isCorrect()) {
+					WrapWay wrapWay = WrapWay.CARTON;	
+					DeliveryWay deliverWay;
+					if(economicDeliveryButton.isSelected())
+						deliverWay = DeliveryWay.ECONOMIC;
+					else if(standardDeliveryButton.isSelected())
+						deliverWay = DeliveryWay.STANDARD;
+					else
+						deliverWay = DeliveryWay.FAST;
+					
+					OrderCreateVO vo = new OrderCreateVO(senderAdressTextField.getText(), recipientAdressTextField.getText(), 
+							wrapWay, deliverWay, Double.parseDouble(weighTextField.getText()));	
+					totalExpenseTextField.setText(String.valueOf(orderblService.getTotal(vo)));
+				}
+				
+			}
+		});
+		
+		economicDeliveryButton.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (senderAddressChecker.isCorrect()&&receiverAddressChecker.isCorrect()&&(cartonWrapButton.isSelected()||woodenWrapButton.isSelected()
+						||bagWrapButton.isSelected())&&(economicDeliveryButton.isSelected()||standardDeliveryButton.isSelected()||fastDeliveryButton.isSelected())
+						&&orderWeightChecker.isCorrect()&&orderVolumnChecker.isCorrect()) {
+					WrapWay wrapWay;
+					if(woodenWrapButton.isSelected())
+						wrapWay = WrapWay.WOODEN;
+					else if(cartonWrapButton.isSelected())
+						wrapWay = WrapWay.CARTON;
+					else 
+						wrapWay = WrapWay.BAG;
+					
+					DeliveryWay deliverWay = DeliveryWay.ECONOMIC;
+					OrderCreateVO vo = new OrderCreateVO(senderAdressTextField.getText(), recipientAdressTextField.getText(), 
+							wrapWay, deliverWay, Double.parseDouble(weighTextField.getText()));	
+					totalExpenseTextField.setText(String.valueOf(orderblService.getTotal(vo)));
+				}
+				
+			}
+		});
+		
+		standardDeliveryButton.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (senderAddressChecker.isCorrect()&&receiverAddressChecker.isCorrect()&&(cartonWrapButton.isSelected()||woodenWrapButton.isSelected()
+						||bagWrapButton.isSelected())&&(economicDeliveryButton.isSelected()||standardDeliveryButton.isSelected()||fastDeliveryButton.isSelected())
+						&&orderWeightChecker.isCorrect()&&orderVolumnChecker.isCorrect()) {
+					WrapWay wrapWay;
+					if(woodenWrapButton.isSelected())
+						wrapWay = WrapWay.WOODEN;
+					else if(cartonWrapButton.isSelected())
+						wrapWay = WrapWay.CARTON;
+					else 
+						wrapWay = WrapWay.BAG;
+					
+					DeliveryWay deliverWay = DeliveryWay.STANDARD;		
+					OrderCreateVO vo = new OrderCreateVO(senderAdressTextField.getText(), recipientAdressTextField.getText(), 
+							wrapWay, deliverWay, Double.parseDouble(weighTextField.getText()));	
+					totalExpenseTextField.setText(String.valueOf(orderblService.getTotal(vo)));
+				}
+				
+			}
+		});
+		
+		
+		fastDeliveryButton.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (senderAddressChecker.isCorrect()&&receiverAddressChecker.isCorrect()&&(cartonWrapButton.isSelected()||woodenWrapButton.isSelected()
+						||bagWrapButton.isSelected())&&(economicDeliveryButton.isSelected()||standardDeliveryButton.isSelected()||fastDeliveryButton.isSelected())
+						&&orderWeightChecker.isCorrect()&&orderVolumnChecker.isCorrect()) {
+					WrapWay wrapWay;
+					if(woodenWrapButton.isSelected())
+						wrapWay = WrapWay.WOODEN;
+					else if(cartonWrapButton.isSelected())
+						wrapWay = WrapWay.CARTON;
+					else 
+						wrapWay = WrapWay.BAG;
+					
+					DeliveryWay deliverWay = DeliveryWay.FAST;
+									
+					OrderCreateVO vo = new OrderCreateVO(senderAdressTextField.getText(), recipientAdressTextField.getText(), 
+							wrapWay, deliverWay, Double.parseDouble(weighTextField.getText()));	
+					totalExpenseTextField.setText(String.valueOf(orderblService.getTotal(vo)));
+				}
+				
 			}
 		});
 		
@@ -580,16 +996,8 @@ public class OrderCreateDialog extends JDialog{
 			}
 		});
 		
-		Checker receiverTelChecker = new Checker(recipientTeltTextField, new CheckInfoGetter() {
-			
-			@Override
-			public CheckInfo getCheckInfo() {
-				if (recipientTeltTextField.getText()==null) {
-					return new OrderTelNum("");
-				}
-				return new OrderTelNum(recipientTeltTextField.getText());
-			}
-		});
+		
+		
 		
 		recipientTeltTextField.addKeyListener(new KeyListener() {
 			
@@ -612,43 +1020,6 @@ public class OrderCreateDialog extends JDialog{
 			}
 		});
 		
-		senderAdressTextField.addFocusListener(new FocusListener() {
-			@Override
-			public void focusLost(FocusEvent e) {
-				OrderblService orderblService = new Order();
-				if (recipientAdressTextField.getText()!=null) {
-					totalTimeTextField.setText(String.valueOf(orderblService.getEximatedTime(senderAdressTextField.getText(), recipientAdressTextField.getText())));
-				}
-				if (recipientAdressTextField.getText()!=null&&weighTextField.getText()!=null&&(cartonWrapButton.isSelected()||woodenWrapButton.isSelected()
-						||bagWrapButton.isSelected())&&(economicDeliveryButton.isSelected()||standardDeliveryButton.isSelected()||fastDeliveryButton.isSelected())) {
-					WrapWay wrapWay;
-					if(woodenWrapButton.isSelected())
-						wrapWay = WrapWay.WOODEN;
-					else if(cartonWrapButton.isSelected())
-						wrapWay = WrapWay.CARTON;
-					else 
-						wrapWay = WrapWay.BAG;
-					
-					DeliveryWay deliverWay;
-					if(economicDeliveryButton.isSelected())
-						deliverWay = DeliveryWay.ECONOMIC;
-					else if(standardDeliveryButton.isSelected())
-						deliverWay = DeliveryWay.STANDARD;
-					else
-						deliverWay = DeliveryWay.FAST;
-					
-					OrderCreateVO vo = new OrderCreateVO(senderAdressTextField.getText(), recipientAdressTextField.getText(), 
-							wrapWay, deliverWay, Double.parseDouble(weighTextField.getText()));	
-					totalExpenseTextField.setText(String.valueOf(orderblService.getTotal(vo)));
-				}
-				
-			}
-			@Override
-			public void focusGained(FocusEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
 		
 		
 			
@@ -683,6 +1054,8 @@ public class OrderCreateDialog extends JDialog{
 						Double.parseDouble(volumeTextField.getText()), tempcost, wrapWay,
 						deliverWay,  Integer.parseInt(totalTimeTextField.getText()));
 				orderCreateVO.setGoodsState(GoodsState.COMPLETE);
+				orderCreateVO.setNowLocation(LoginController.getOrganizationName());
+			
 				OrderblService orderblService = BusinessLogicService.getOrderblService();
 				orderblService.createOrderPO(orderCreateVO);
 				OrderCreateDialog.this.dispose();
@@ -698,4 +1071,5 @@ public class OrderCreateDialog extends JDialog{
 			}
 		});
 	}
+
 }

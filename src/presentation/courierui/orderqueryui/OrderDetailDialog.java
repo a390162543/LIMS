@@ -80,8 +80,7 @@ public class OrderDetailDialog extends JDialog{
 
 	public void setInfo(OrderQueryVO vo) {
 		goodsStateTextField.setText(vo.getState().getName());
-		orderIdTextField.setText(vo.getId());
-		deliveryInfoTestTextArea.setText(vo.getDeliverInfo() + "\n"
-				+ vo.getNowLocation() + "·¢Íù" + vo.getNextLocation());
+		orderIdTextField.setText(vo.getId());		
+		deliveryInfoTestTextArea.setText(vo.getDeliverInfo());
 	}
 }

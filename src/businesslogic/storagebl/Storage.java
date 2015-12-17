@@ -66,9 +66,8 @@ public class Storage implements StorageblService{
 				e.printStackTrace();
 			}
 			String operation = "进行了库存"+"("+vo.getStorageId()+")"+"分区调整";
-			LogVO logVO = new LogVO(operation, LoginController.getEmployeeId(), LoginController.getEmployeeName(), Position.STORAGEMANAGER);
 			Log log = new Log();
-			log.createLogPO(logVO);
+			log.createLogPO(operation);
 			return true;
 		}
 

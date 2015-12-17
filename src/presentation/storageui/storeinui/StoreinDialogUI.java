@@ -228,6 +228,7 @@ public class StoreinDialogUI extends JDialog{
 						destination, areaNum, rowNum, frameNum, item, LoginController.getOrganizationName());
 				StoreinblService storeinblService = BusinessLogicService.getStoreinblService();
 				storeinblService.createStoreinPO(vo);	
+				StoreinDialogUI.this.dispose();
 			}
 		});
 		
@@ -249,6 +250,8 @@ public class StoreinDialogUI extends JDialog{
 		              StoreinblService storeinblService = BusinessLogicService.getStoreinblService();
 		              //改变库存的位置
 		              storeinblService.restoreLocationState(vo); 
+		              StoreinDialogUI.this.dispose();
+		              
 				}
 			
 			}

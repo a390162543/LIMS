@@ -32,15 +32,18 @@ public class StoreinOrderId implements CheckInfo{
 		Order order = new Order();
 		OrderQueryVO orderQueryVO = order.returnOrderQueryVO(orderId);
 		StoreinOrderVO storeinOrderVO = order.getStorageOrderVO(orderId);
+		
 		if (orderId.length() != 10) {
-			checkResultMessage.addInfo(CheckResult.FALSE, "订单号长度应为10位");
+			checkResultMessage.addInfo(CheckResult.FALSE, "订单号长度应为10位数字");
 			return checkResultMessage;
 		}
-		if (orderId.length() == 10 && orderQueryVO == null) {
+		if (orderId.length() == 10 && orderQueryVO.getNowLocation() == null) {
+			System.out.println(orderQueryVO.getNowLocation());
 			checkResultMessage.addInfo(CheckResult.FALSE, "该订单不存在，请确认输入");
 			return checkResultMessage;
 		}
-		if (orderId.length() == 10 && orderQueryVO.getNowLocation() != LoginController.getOrganizationName()) {
+		if (orderId.length() == 10 && !orderQueryVO.getNowLocation().equals(LoginController.getOrganizationName()) ) {
+			System.out.println(LoginController.getOrganizationName());
 			checkResultMessage.addInfo(CheckResult.FALSE, "该订单不属于本中转中心");
 			return checkResultMessage;
 		}
@@ -48,7 +51,7 @@ public class StoreinOrderId implements CheckInfo{
 			checkResultMessage.addInfo(CheckResult.FALSE, "该货物已被添加");
 			return checkResultMessage;
 		}
-		if (orderId.length() == 10 && storeinOrderVO.getAreaNum() >=0 && storeinOrderVO.getRowNum() >=0) {
+		if (orderId.length() == 10 && storeinOrderVO.getAreaNum() >=0 && storeinOrderVO.getRowNum() >0 && storeinOrderVO.getItem()>0) {
 			checkResultMessage.addInfo(CheckResult.FALSE, "该货物已经入库");
 		}
 		return checkResultMessage;

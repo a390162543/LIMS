@@ -25,8 +25,9 @@ public class OrderQueryId implements CheckInfo {
 	public CheckResultMessage check() {
 		CheckResultMessage checkResultMessage = new CheckResultMessage();
 		Order order = new Order();
+		
 		if (orderId.length() != 10) {
-			checkResultMessage.addInfo(CheckResult.FALSE, "订单号长度应为10位");
+			checkResultMessage.addInfo(CheckResult.FALSE, "订单号应为10位数字");
 			return checkResultMessage;
 		}
 		if (orderId.length() == 10 && order.returnOrderQueryVO(orderId) == null) {

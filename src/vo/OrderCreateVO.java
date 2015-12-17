@@ -39,6 +39,8 @@ public class OrderCreateVO {
     
     private String organization;
     
+	private String nowLocation;
+    
     public OrderCreateVO(String senderAddress, String receiverAddress,
     		WrapWay wrapWay, DeliveryWay deliverWay, double weight){
     	this.senderAddress = senderAddress;
@@ -123,6 +125,14 @@ public class OrderCreateVO {
 	
 	
 	
+	public void setNowLocation(String nowLocation) {
+		this.nowLocation = nowLocation;
+	}
+	
+	public String getNowLocation(){
+		return this.nowLocation;
+	}
+
 	public void setCost(double cost) {
 		this.cost = cost;
 	}
@@ -222,9 +232,13 @@ public class OrderCreateVO {
 	}
     
     public OrderPO getOrderPO(){
+  
     	return new OrderPO(id, wrapWay, deliverWay, senderName, senderAddress, senderTel,
     			senderCell, receiverName, receiverAddress, receiverTel, receiverCell,
-    			goodsInfo, weight, size, cost);
+    			goodsInfo,nowLocation, weight, size, cost);
+    	
+    	
+    	
     }
 	
     

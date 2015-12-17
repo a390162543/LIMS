@@ -49,9 +49,8 @@ public class Storeout implements StoreoutblService{
 			e.printStackTrace();
 		}
 		String operation = "创建了出库单"+"("+vo.getId()+")";
-		LogVO logVO = new LogVO(operation, LoginController.getEmployeeId(), LoginController.getEmployeeName(), Position.STORAGEMANAGER);
 		Log log = new Log();
-		log.createLogPO(logVO);
+		log.createLogPO(operation);
 		return true;
 	}
 
