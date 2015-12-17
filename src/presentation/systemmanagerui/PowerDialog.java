@@ -1,13 +1,18 @@
 package presentation.systemmanagerui;
 
 
+ 
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+
+import presentation.mainui.MainFrame;
 import presentation.util.CheckInfoGetter;
 import presentation.util.Checker;
 import systemenum.Power;
@@ -89,8 +94,9 @@ public class PowerDialog extends JDialog{
 			}
 		});
 		
-		this.setBounds(200, 200, 380, 200);
-	 
+		this.setModalityType(ModalityType.APPLICATION_MODAL);
+		this.setLocationRelativeTo(MainFrame.getMainFrame());
+		this.setBounds(200, 200, 380, 200);	 
 		this.add(idLabel);
 		this.add(idField);
 		this.add(powerLabel);

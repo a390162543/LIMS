@@ -1,24 +1,22 @@
 package presentation.managerui.cityui;
 
+ 
+
 import java.awt.event.ActionEvent;
-
-
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
- 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-
+import presentation.mainui.MainFrame;
 import presentation.util.CheckInfoGetter;
 import presentation.util.Checker;
 import vo.CityVO;
@@ -54,6 +52,8 @@ public class CreateCityDialog extends JDialog{
 		 mainPanel.setBounds(0, 0, 400, 300);
 		 mainPanel.add(new InputCityPanel());
 		 mainPanel.setLayout(null);
+		 this.setModalityType(ModalityType.APPLICATION_MODAL);
+		 this.setLocationRelativeTo(MainFrame.getMainFrame());
 		 this.add(mainPanel);
 		 this.setBounds(400, 200, 400, 250);
 		 this.setLayout(null);
@@ -78,9 +78,7 @@ public class CreateCityDialog extends JDialog{
 			JLabel nameLabel = new JLabel("城市名称");
 			nameLabel.setBounds(50, 50, 100, 25);
 			JTextField nameField = new JTextField();
-			nameField.setBounds(180, 50, 60, 20);
-			JLabel warnLabel = new JLabel();
-			warnLabel.setBounds(265, 50, 100, 25);		
+			nameField.setBounds(180, 50, 60, 20);		 
 			JLabel idLabel = new JLabel("城市编号");
 			idLabel.setBounds(50, 100, 100, 25);
 			JTextField idField = new JTextField();
@@ -118,7 +116,7 @@ public class CreateCityDialog extends JDialog{
 					}
 					else{
 						mainPanel.removeAll();
-						System.out.println("removeAll");
+						 
 						CreateCityDialog.this.mainPanel.add(
 						new InputDistancePanel(nameField.getText(),idField.getText()));
 						mainPanel.repaint();
@@ -126,14 +124,13 @@ public class CreateCityDialog extends JDialog{
 					
 				}
 			});
-			 
+			
 			this.add(nameLabel);
 			this.add(nameField);
 			this.add(idField);
 			this.add(idLabel);
-			this.add(warnLabel);
-			this.add(nextButton);
-			this.add(cancelButton);
+		    this.add(cancelButton);
+			this.add(nextButton);			
 			this.setLayout(null);
 			this.setVisible(true);
 			
@@ -222,7 +219,7 @@ public class CreateCityDialog extends JDialog{
 		private static final long serialVersionUID = 115690782502191733L;
 
 		public InputDistancePanel(String name, String id){
-			System.out.println("come in to distancepanel");	 
+			 
 			String[] citySrt =  {"",name};		 
 			String cityName[] =(String[]) 
 					cityblService.getAllName().toArray(new String[cityblService.getAllName().size()]);
@@ -232,7 +229,7 @@ public class CreateCityDialog extends JDialog{
 			for(int i = 0;i < cityName.length;i ++){
 				data[i][0] = cityName[i]; 
 				data[i][1] = "";
-				System.out.println(data[i][0]);
+				 
 			}
 			JButton cancelButton = new JButton("取消");
 			cancelButton.setBounds(10, 250, 80, 20);		

@@ -9,6 +9,15 @@ import businesslogic.checkbl.CheckResultMessage;
 import businesslogic.orderbl.Order;
 import businesslogic.userbl.LoginController;
 
+
+/**
+ * 该类用于检查中转中心仓库管理人员在进行
+ * 货物出库时添加的订单号是否正确
+ * 
+ * @author lc
+ * @version 1.1
+ *
+ */
 public class StoreoutOrderId implements CheckInfo{
 
 	private String orderId;
@@ -31,7 +40,7 @@ public class StoreoutOrderId implements CheckInfo{
 			checkResultMessage.addInfo(CheckResult.FALSE, "该订单不存在，请确认输入");
 			return checkResultMessage;
 		}
-		if (orderId.length() == 10 && orderQueryVO.getNowLocation() != LoginController.getOrganizationName()) {
+		if (orderId.length() == 10 && !orderQueryVO.getNowLocation().equals(LoginController.getOrganizationName())) {
 			checkResultMessage.addInfo(CheckResult.FALSE, "该订单不属于本中转中心");
 			return checkResultMessage;
 		}

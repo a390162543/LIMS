@@ -16,6 +16,7 @@ import javax.swing.JTextField;
 
 import presentation.util.CheckInfoGetter;
 import presentation.util.Checker;
+import presentation.util.DialogLayoutManager;
 import vo.OrganizationVO;
 import businesslogic.BusinessLogicService;
 import businesslogic.checkbl.CheckInfo;
@@ -24,6 +25,12 @@ import businesslogic.organizationbl.Organization;
 import businesslogicservice.IdblService;
 import businesslogicservice.OrganizationblService;
 
+/**
+ * 初期建账时创建、修改和查询机构界面
+ * @author 刘航伸
+ * @see presentation.employeeui.OrganizationTableModel
+ * @version 1.2
+ */
 public class PrimeInfoOrganizationDialog extends JDialog{
 	/**
 	 * 
@@ -137,16 +144,15 @@ public class PrimeInfoOrganizationDialog extends JDialog{
 		cancleButton.setBounds(180, 185, 70, 30);
 		sureButton.setBounds(270, 185, 70, 30);
 		
-		 
 		this.add(nameLabel);
 		this.add(nameField);
 		this.add(cityLabel);
 		this.add(cityBox);
 		this.add(idLabel);
 		this.add(idField);
-		this.add(cancleButton);
-		this.add(sureButton);		
-		this.setLayout(null);
+		this.add(sureButton);	
+		this.add(cancleButton);		
+		this.setLayout(new DialogLayoutManager());
 		this.setVisible(true);
 		
 		//添加检查项
@@ -190,8 +196,7 @@ public class PrimeInfoOrganizationDialog extends JDialog{
 		nameField.setText(vo.getName());
 		cityBox.setSelectedItem(vo.getCity());
 		cityBox.setEnabled(false);
-		idField.setText(""+vo.getId());
-		
+		idField.setText(""+vo.getId());	
 		idField.setEnabled(false);
 		if(!isEdit){
 			nameField.setEnabled(false);

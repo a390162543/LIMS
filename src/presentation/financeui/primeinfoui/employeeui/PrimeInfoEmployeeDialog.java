@@ -25,6 +25,8 @@ import businesslogicservice.EmployeeblService;
 import businesslogicservice.IdblService;
 import presentation.util.CheckInfoGetter;
 import presentation.util.Checker;
+import presentation.util.DatePickPanel;
+import presentation.util.DialogLayoutManager;
 import presentation.util.OrganizationComboBox;
 import systemenum.Position;
 import systemenum.Sex;
@@ -39,11 +41,7 @@ public class PrimeInfoEmployeeDialog extends JDialog{
 	 */
 	private static final long serialVersionUID = -6718995997080603644L;
  	 
-	private String positions[];
-	private Integer year[];
-	private Integer month[];
-	private Integer day[] ;
-	private JLabel infoLabel ;	 
+	private String positions[]; 
 	private JLabel nameLabel ; 
 	private JTextField nameField;	 
 	private JLabel sexLabel;	 
@@ -61,12 +59,7 @@ public class PrimeInfoEmployeeDialog extends JDialog{
 	private JLabel idCardLabel;	 
 	private JTextField idCardField;
 	private JLabel birthLabel;
-	private JComboBox<Integer> yearBox;
-	private JComboBox<Integer> monthBox;
-	private JComboBox<Integer> dayBox;	 
-	private JLabel yearLabel;
-	private JLabel monthLabel;	 
-	private JLabel dayLabel;	 
+	private DatePickPanel datePickPanel; 
 	private JLabel payLabel;
 	private JLabel basePayLabel ;
 	private JTextField basePayField;	 
@@ -131,6 +124,7 @@ public class PrimeInfoEmployeeDialog extends JDialog{
 		idField.setText(""+vo.getId());
 		idField.setEnabled(false);
 		organizationBox.setSelectedItem(vo.getOrganization());
+		datePickPanel.setDate(vo.getBirthday());
 		if(vo.getSex().equals(Sex.MALE))
 			maleRadioButton.setSelected(true);
 		else 
@@ -168,9 +162,7 @@ public class PrimeInfoEmployeeDialog extends JDialog{
 			percentageLabel2.setVisible(true);
 			basePayField.setText(""+vo.getPay().getBasePay());
 			percentageField.setText(""+vo.getPay().getRate()*100);
-			this.add(percentageLabel1);
-			this.add(percentageLabel2);
-			this.add(percentageField);
+		 
 										
 		}
 		else if(positionBox.getSelectedItem().toString().equals("司机")){
@@ -198,7 +190,8 @@ public class PrimeInfoEmployeeDialog extends JDialog{
 			organizationBox.setEnabled(false);
 			positionBox.setEnabled(false);
 			phoneField.setEnabled(false);
-			idCardField.setEnabled(false);			 
+			idCardField.setEnabled(false);	
+			datePickPanel.setEnabled(false);
 			basePayField.setEnabled(false);
 			percentageField.setEnabled(false);
 			cancleButton.setVisible(false);
@@ -259,20 +252,13 @@ public class PrimeInfoEmployeeDialog extends JDialog{
 	
     public void init(){    	 
    
-		employeeblService =  BusinessLogicService.getEmployeeblService();
- 
-	
-    
- 
-    	 
+		employeeblService =  BusinessLogicService.getEmployeeblService();	 
  
 		positions = new String[]{"总经理","营业厅业务员","中转中心业务员","快递员",
 				 "中转中心仓库管理员","高级财务人员","财务人员","管理员","司机"};
 	 
-		year = new Integer[]{1996,1997};
-		month = new Integer[]{1,2,3,4,5,6,7,8,9,10,11,12};
-		day = new Integer[]{1,2,3,4,5,6,7,8,9,10};
-		infoLabel = new JLabel("员工信息");
+		 
+		 
 		nameLabel = new JLabel("姓名");
 		nameField = new JTextField();
 		sexLabel = new JLabel("性别");
@@ -291,19 +277,17 @@ public class PrimeInfoEmployeeDialog extends JDialog{
 		idCardLabel = new JLabel("身份证号");	
 		idCardField = new JTextField();
 		birthLabel = new JLabel("出生日期");
-		yearBox = new JComboBox<Integer>(year);
-		monthBox = new JComboBox<Integer>(month);
-		dayBox = new JComboBox<Integer>(day);
-		yearLabel = new JLabel("年");
-		monthLabel = new JLabel("月");	
-		dayLabel = new JLabel("日");	 
+		datePickPanel = new DatePickPanel();
 		payLabel = new JLabel("工资");
 		basePayLabel = new JLabel();
 		basePayField = new JTextField();	
 		unitLabel = new JLabel();
 		percentageLabel1 = new JLabel("提成率"); 
+		percentageLabel1.setVisible(false);
 		percentageField = new JTextField();
+		percentageField.setVisible(false);
 		percentageLabel2 = new JLabel("%");
+		percentageLabel2.setVisible(false);
 		cancleButton = new JButton("取消");
 		sureButton = new JButton("确认");
 		
@@ -312,16 +296,15 @@ public class PrimeInfoEmployeeDialog extends JDialog{
 		
 		 
 		this.setBounds(300, 100, 380, 460);		 			 
-		infoLabel.setBounds(90, 16, 170, 34);	 
-		nameLabel.setBounds(4, 60, 100, 24);	 
-		nameField.setBounds(100, 60, 60, 20);
-		sexLabel.setBounds(0, 90, 100, 24);	 
-		maleRadioButton.setBounds(100, 90, 60, 20);	 
-		femaleRadioButton.setBounds(170, 90, 60, 20);	 
+		nameLabel.setBounds(4, 90, 100, 24);	 
+		nameField.setBounds(100, 90, 60, 20);
+		sexLabel.setBounds(0, 120, 100, 24);	 
+		maleRadioButton.setBounds(100, 120, 60, 20);	 
+		femaleRadioButton.setBounds(170, 120, 60, 20);	 
 		sex.add(maleRadioButton);
 		sex.add(femaleRadioButton);	 
-		idLabel.setBounds(0, 120, 100, 24);
-		idField.setBounds(100, 120, 180, 20);	 
+		idLabel.setBounds(0, 60, 100, 24);
+		idField.setBounds(100, 60, 180, 20);	 
 		organizationLabel.setBounds(0, 150, 100, 24);	 
 		organizationBox.setBounds(100, 150, 180, 20);	 
 		positionLabel.setBounds(0, 180, 100, 24);	 
@@ -331,12 +314,7 @@ public class PrimeInfoEmployeeDialog extends JDialog{
 		idCardLabel.setBounds(0, 245, 100, 20);	 
 		idCardField.setBounds(100, 245, 180, 20);	 
 		birthLabel.setBounds(0, 275, 100, 20);		 
-		yearBox.setBounds(100, 275, 60, 20);	 
-		monthBox.setBounds(180, 275, 60, 20); 
-		dayBox.setBounds(260, 275, 60, 20);
-		yearLabel.setBounds(160, 275, 20, 20);
-		monthLabel.setBounds(240, 275, 20, 20);	 
-		dayLabel.setBounds(320,275, 20, 20);	 
+		datePickPanel.setBounds(95, 275, 200, 25);
 		payLabel.setBounds(0, 310, 100, 20);	 
 		basePayLabel.setBounds(95, 310, 70, 24);	 
 		basePayField.setBounds(175, 310, 60, 20);	 
@@ -364,9 +342,6 @@ public class PrimeInfoEmployeeDialog extends JDialog{
 					percentageField.setVisible(true);
 					percentageLabel1.setVisible(true);
 					percentageLabel2.setVisible(true);
-					PrimeInfoEmployeeDialog.this.add(percentageLabel1);
-					PrimeInfoEmployeeDialog.this.add(percentageLabel2);
-					PrimeInfoEmployeeDialog.this.add(percentageField);
 					PrimeInfoEmployeeDialog.this.repaint();
 				}
 				else if(positionBox.getSelectedItem().toString().equals("司机")){
@@ -394,14 +369,17 @@ public class PrimeInfoEmployeeDialog extends JDialog{
 		cancleButton.setBounds(175, 380, 70, 30);
 		sureButton.setBounds(265, 380, 70, 30);
 	 
-		this.add(infoLabel);
+		 
+		this.add(idLabel);
+		this.add(idField);		
 		this.add(nameField);
 		this.add(nameLabel);
+		
 		this.add(sexLabel);
+		this.add(maleRadioButton);
 		this.add(femaleRadioButton);
-		this.add(maleRadioButton);	
-		this.add(idField);
-		this.add(idLabel);
+		DialogLayoutManager.fix(maleRadioButton, femaleRadioButton);	
+		
 		this.add(organizationLabel);
 		this.add(organizationBox);
 		this.add(positionLabel);
@@ -411,22 +389,27 @@ public class PrimeInfoEmployeeDialog extends JDialog{
 		this.add(idCardLabel);
 		this.add(idCardField);
 		this.add(birthLabel);
-		this.add(yearBox);
-		this.add(yearLabel);
-		this.add(monthBox);
-		this.add(monthLabel);
-		this.add(dayBox);
-		this.add(dayLabel);
-		this.add(cancleButton);
-		this.add(sureButton);
-		this.add(payLabel);
+		this.add(datePickPanel);
+			
+		this.add(payLabel);	
 		this.add(basePayLabel);
 		this.add(basePayField);
 		this.add(unitLabel);
+		DialogLayoutManager.fix(basePayLabel, basePayField, unitLabel);
 		
- 
-	
-		this.setLayout(null);
+		JLabel label = new JLabel();
+		label.setBounds(0, 345, 0, 0);
+		this.add(label);
+		this.add(percentageLabel1);
+		this.add(percentageLabel2);
+		this.add(percentageField);
+		DialogLayoutManager.fix(percentageLabel1, percentageLabel2, percentageField);
+		
+		this.add(sureButton);
+		this.add(cancleButton);
+
+		this.setLayout(new DialogLayoutManager());
+		//this.setLayout(null);
 		this.setVisible(true);
 		
 		//添加检查项
@@ -616,150 +599,8 @@ public class PrimeInfoEmployeeDialog extends JDialog{
  
 	}
 	
-	public void showCreateDialog(PrimeInfoEmployeeTableModel em){		
-		tableModel = em;
-		init();		
-		cancleButton.addActionListener(new ActionListener(){
-	
-			  @Override
-			  public void actionPerformed(ActionEvent e){
-				  PrimeInfoEmployeeDialog.this.dispose();
-			  }
-		});
-			 
-		
-		sureButton.addActionListener(new ActionListener(){			
-			  @Override
-			  public void actionPerformed(ActionEvent e){
-				  update(true, 0);
-				  PrimeInfoEmployeeDialog.this.dispose();
-			  }
-		});
-		
-	}
 	 
-	@SuppressWarnings("deprecation")
-	public void showQueryDialog(PrimeInfoEmployeeTableModel em, int modelRow, boolean isEdit){
-
-		init();
-		this.tableModel = em;
-		EmployeeVO vo = tableModel.getEmployeeVO(modelRow);
-		nameField.setText(vo.getName());
-		idField.setText(""+vo.getId());
-		idField.setEnabled(false);
-		organizationBox.setSelectedItem(vo.getOrganization());
-		if(vo.getSex().equals(Sex.MALE))
-			maleRadioButton.setSelected(true);
-		else 
-			femaleRadioButton.setSelected(true);	
-		
-		switch (vo.getPosition()) {
-		case MANAGER: 
-			positionBox.setSelectedIndex(0); break;
-		case SELLINGBUSINESSMAN: 
-			positionBox.setSelectedIndex(1); break;
-		case TRANSFERCENTREBUSINESSMAN: 
-			positionBox.setSelectedIndex(2) ;break;
-		case COURIER:
-			positionBox.setSelectedIndex(3); break;
-		case STORAGEMANAGER:
-			positionBox.setSelectedIndex(4); break;
-		case SENIORFINANCIALSTAFF:
-			positionBox.setSelectedIndex(5); break;
-		case FINANCIALSTAFF:
-			positionBox.setSelectedIndex(6); break;
-		case SYSTEMMANAGER:
-			positionBox.setSelectedIndex(7); break;
-		case DRIVER:
-			positionBox.setSelectedIndex(8); break;		
-		}
-		
-		 phoneField.setText(""+vo.getTelephone());
-		 idCardField.setText(""+vo.getIdentityCardNum());
-		 yearBox.setSelectedIndex(vo.getBirthday().getYear()-1996);
-		 monthBox.setSelectedIndex(vo.getBirthday().getMonth()-1);
-		 dayBox.setSelectedIndex(vo.getBirthday().getDay()-1);	
-		  
-			
-			 
-				if(positionBox.getSelectedItem().toString().equals("快递员")){
-					basePayLabel.setText("基础工资");
-					unitLabel.setText("/月");
-					percentageField.setVisible(true);
-					percentageLabel1.setVisible(true);
-					percentageLabel2.setVisible(true);
-					basePayField.setText(""+vo.getPay().getBasePay());
-					percentageField.setText(""+vo.getPay().getRate()*100);
-					this.add(percentageLabel1);
-					this.add(percentageLabel2);
-					this.add(percentageField);
-										
-				}
-				else if(positionBox.getSelectedItem().toString().equals("司机")){
-					basePayLabel.setText("按次计费");
-					unitLabel.setText("/次");
-					basePayField.setText(""+vo.getPay().getPayByCount());
-					percentageField.setVisible(false);
-					percentageLabel1.setVisible(false);
-					percentageLabel2.setVisible(false);
-				}
-				else{
-					basePayLabel.setText("月薪");
-					unitLabel.setText("");
-					basePayField.setText(""+vo.getPay().getBasePay());
-					percentageField.setVisible(false);
-					percentageLabel1.setVisible(false);
-					percentageLabel2.setVisible(false);
-
-				}
-			
 	 
-		
-		if(!isEdit){
-			nameField.setEnabled(false);
-			maleRadioButton.setEnabled(false);
-			femaleRadioButton.setEnabled(false);
-			idCardField.setEnabled(false);
-			organizationBox.setEnabled(false);
-			positionBox.setEnabled(false);
-			phoneField.setEnabled(false);
-			idCardField.setEnabled(false);
-			yearBox.setEnabled(false);
-			monthBox.setEnabled(false);
-			dayBox.setEnabled(false);
-			basePayField.setEnabled(false);
-			percentageField.setEnabled(false);
-			cancleButton.setVisible(false);
-			sureButton.addActionListener(new ActionListener() {
-				
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					// TODO Auto-generated method stub
-					PrimeInfoEmployeeDialog.this.dispose();
-				}
-			});
-		}
-		else{
-			sureButton.addActionListener(new ActionListener() {
-				
-				@Override
-				public void actionPerformed(ActionEvent e) {
-
-					// TODO Auto-generated method stub
-					update(false,modelRow);
-					PrimeInfoEmployeeDialog.this.dispose();
-				}
-			});
-			
-			cancleButton.addActionListener(new  ActionListener() {
-				
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					// TODO Auto-generated method stub
-					PrimeInfoEmployeeDialog.this.dispose();
-				}
-			});
-		}
-	}
+	 
  
 }

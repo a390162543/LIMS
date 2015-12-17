@@ -15,6 +15,8 @@ import javax.swing.event.DocumentListener;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
+import presentation.util.ConfirmDialog;
+
 
 /**
  * 员工管理界面
@@ -93,7 +95,8 @@ public class EmployeePanel extends JPanel{
                 
             }
         });
-        deleteButton.addActionListener(new ActionListener() {
+      
+         ActionListener actionListener = new ActionListener () {
             
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -104,7 +107,10 @@ public class EmployeePanel extends JPanel{
                 tableModel.delete(modelRow);
 
             }
-        });
+        };  
+        
+        new ConfirmDialog(deleteButton, actionListener);
+        
         modifyButton.addActionListener(new ActionListener() {
             
             @Override

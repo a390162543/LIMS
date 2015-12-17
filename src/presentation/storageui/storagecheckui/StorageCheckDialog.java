@@ -10,6 +10,7 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import presentation.mainui.MainFrame;
 import presentation.storageui.storagecheckui.storeincheckui.StoreinCheckPanel;
 import presentation.storageui.storagecheckui.storeoutcheckui.StoreoutCheckPanel;
 import presentation.util.RecentDatePickPanel;
@@ -87,7 +88,8 @@ public class StorageCheckDialog extends JDialog{
 		this.add(fromDatePickPanel);
 		this.add(toDatePickPanel);
 
-		this.setLocationRelativeTo(null);
+		this.setLocationRelativeTo(MainFrame.getMainFrame());
+		this.setModalityType(ModalityType.APPLICATION_MODAL);
 		this.setResizable(false);
 		this.setVisible(true);
 

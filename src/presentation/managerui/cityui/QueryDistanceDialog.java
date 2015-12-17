@@ -12,6 +12,7 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import presentation.mainui.MainFrame;
 import vo.CityVO;
 import businesslogic.citybl.City;
 import businesslogicservice.CityblService;
@@ -103,8 +104,10 @@ public class QueryDistanceDialog extends JDialog{
 				}
 			}
 		});
-		this.setBounds(300, 200, 380, 250);
-		 
+		
+		this.setModalityType(ModalityType.APPLICATION_MODAL);
+		this.setLocationRelativeTo(MainFrame.getMainFrame());
+		this.setBounds(300, 200, 380, 250);		 
 		this.add(city1Label);
 		this.add(city2Label);
 		this.add(city1Box);

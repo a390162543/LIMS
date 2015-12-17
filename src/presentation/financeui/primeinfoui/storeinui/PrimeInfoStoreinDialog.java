@@ -4,8 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,21 +18,24 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 
-
-
-
-
-
-
+import businesslogic.organizationbl.Organization;
 import businesslogic.storeinbl.Storein;
 import businesslogicservice.IdblService;
+import businesslogicservice.OrganizationblService;
 import businesslogicservice.StoreinblService;
-import presentation.storageui.storeinui.StoreinGoodsDialog;
+import presentation.util.DialogLayoutManager;
 import presentation.util.OrganizationComboBox;
 import presentation.util.RecentDatePickPanel;
-import vo.OrganizationVO;
 import vo.StoreinCreateVO;
 
+
+/**
+ * 该类是期初建账时创建入库单时显示的界面
+ * 
+ * @author lc
+ * @version 1.3
+ *
+ */
 public class PrimeInfoStoreinDialog extends JDialog{
 	
 	/**
@@ -115,15 +117,19 @@ public class PrimeInfoStoreinDialog extends JDialog{
         cancleButton = new JButton("取消");
         cancleButton.setBounds(210, 360, 70, 30);
        
+        
         organizationComboBox.addItemListener(new ItemListener() {
 			
 			@Override
 			public void itemStateChanged(ItemEvent e) {
 			//需要organiza提供根据名字获取ID的方法
+				OrganizationblService organizationblService = new Organization();
+				String organization = organizationComboBox.getItemAt(organizationComboBox.getSelectedIndex());
+				String organizationId = organizationblService.getId(organization);
 				StoreinblService storeinblService = new Storein();
 				IdblService idblService = storeinblService.getIdblService();
 				//这里获取ID
-				storeinIdTextField.setText(idblService.createNewId("0250"));
+				storeinIdTextField.setText(idblService.createNewId(organizationId));
 				storeinIdTextField.setEditable(false);
 				
 			}
@@ -132,28 +138,37 @@ public class PrimeInfoStoreinDialog extends JDialog{
         
 		this.add(storeinIdLabel);
 		this.add(storeinIdTextField);
+		this.add(storeinDateLabel); 
+		this.add(datePickPanel);
 		this.add(organizationLabel);
 		this.add(organizationComboBox);
+		this.add(destinationLabel);
+		this.add(destinationComboBox);
+		this.add(goodsInfoLabel);
+		this.add(scrollpane);
+		this.add(addButton);
+		this.add(deleteButton);
+		DialogLayoutManager.fix(scrollpane,addButton,deleteButton);
 		
         this.add(cancleButton);
         this.add(confirmButton);
-        this.add(deleteButton);
-        this.add(addButton);
-        this.add(scrollpane);
-        this.add(goodsInfoLabel);
-        this.add(destinationComboBox);
-        this.add(destinationLabel);
-        this.add(datePickPanel);
-		this.add(storeinDateLabel);
-		
-		this.setLocationRelativeTo(null);
+        
+        
+        this.setLayout(new DialogLayoutManager());
         this.setResizable(false);
         this.setVisible(true);
 	
+
+        
 		addButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new PrimeInfoStoreinGoodsDialog(tableModel,storeinIdTextField.getText().substring(0, 5));
+				try {
+					new PrimeInfoStoreinGoodsDialog(tableModel,storeinIdTextField.getText().substring(0, 4));
+				} catch (Exception e2) {
+					System.out.println("请选择入库地");			
+				}
+				
 			}			
 		});
 		
@@ -246,6 +261,7 @@ public class PrimeInfoStoreinDialog extends JDialog{
         goodsInfoTable.getColumnModel().getColumn(0).setPreferredWidth(120);
         JScrollPane scrollpane = new JScrollPane(goodsInfoTable);
         scrollpane.setBounds(40, 220, 290, 180); 
+        this.add(scrollpane);
         for (int i = 0; i < orderIdList.size(); i++) {
         	String[] data = {orderIdList.get(i),String.valueOf(areaNum.get(i)),String.valueOf(rowNum.get(i)),
         			String.valueOf(frameNum.get(i)),String.valueOf(rowNum.get(i))};
@@ -254,7 +270,7 @@ public class PrimeInfoStoreinDialog extends JDialog{
         
         JButton confirmButton = new JButton("确认");
         confirmButton.setBounds(230, 410, 80, 30);
-        
+        this.add(confirmButton);
         confirmButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -285,12 +301,10 @@ public class PrimeInfoStoreinDialog extends JDialog{
             this.add(cancleButton);
         }
         
-        this.add(confirmButton);
-        this.add(scrollpane);
+        
+        
         this.setSize(360, 510);
-        this.setLayout(null);
-        this.setLocationRelativeTo(null);
-        this.setModalityType(ModalityType.APPLICATION_MODAL);
+        this.setLayout(new DialogLayoutManager());
         this.setVisible(true);
     }
 }

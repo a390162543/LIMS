@@ -7,6 +7,14 @@ import businesslogic.checkbl.CheckInfo;
 import businesslogic.checkbl.CheckResultMessage;
 import businesslogic.storagebl.StorageHelper;
 
+
+/**
+ * 该类用于检查中转中心仓库管理人员在进行
+ * 货物入库时输入的位号是否正确
+ * @author lc
+ * @version 1.1
+ *
+ */
 public class Item implements CheckInfo{
 
 	private StorageLocationVO storageLocationVO;

@@ -49,7 +49,7 @@ public class StorageLocationData extends UnicastRemoteObject implements StorageL
 
 	public boolean initLocationInfo(String storageId, int airNum, int carNum, int trainNum, int freeNum) {
 		
-		String path = "c:/LIMS/database/LocationData/"+storageId+".txt";
+		String path = "c:/LIMS/database/StorageLocationData/"+storageId+".txt";
 		File file = new File(path);
 		if(!file.getParentFile().exists())
             file.getParentFile().mkdirs();
@@ -219,7 +219,7 @@ public class StorageLocationData extends UnicastRemoteObject implements StorageL
 
 	@Override
 	public boolean update(StorageLocationPO po) throws RemoteException {
-		String path = "c:/LIMS/database/LocationData/"+po.getStorageId()+".txt";
+		String path = "c:/LIMS/database/StorageLocationData/"+po.getStorageId()+".txt";
 		@SuppressWarnings("unused")
 		File file = new File(path);
 		StorageData storageData = new StorageData();
@@ -265,7 +265,7 @@ public class StorageLocationData extends UnicastRemoteObject implements StorageL
 	public StorageState getLocationState(StorageLocationVO vo)
 			throws RemoteException {
 		String info = "";
-		String path = "c:/LIMS/database/LocationData/"+vo.getStorageId()+".txt";
+		String path = "c:/LIMS/database/StorageLocationData/"+vo.getStorageId()+".txt";
 		File file = new File(path);
 		InputStream in = null;
 		try {
@@ -301,6 +301,8 @@ public class StorageLocationData extends UnicastRemoteObject implements StorageL
 			break;
 		}
 		try {
+			System.out.println("____________________");
+			System.out.println(checkline);
 			reader.skip(38*checkline);
 			info = reader.readLine();
 			System.out.println(info);
@@ -308,7 +310,8 @@ public class StorageLocationData extends UnicastRemoteObject implements StorageL
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		System.out.println("+++++++++++++");
+		System.out.println(info+"   +++++++++++++++++++");
 		return new StorageLocationPO(info).getState();
 	}
 
@@ -320,7 +323,7 @@ public class StorageLocationData extends UnicastRemoteObject implements StorageL
 		} catch (Exception e) {			
 		}
 		try {
-			Naming.rebind("rmi://localhost/LocationData", storageLocationDataService);
+			Naming.rebind("rmi://localhost/StorageLocationData", storageLocationDataService);
 		} catch (MalformedURLException e) {
 			
 		}
@@ -337,7 +340,7 @@ public class StorageLocationData extends UnicastRemoteObject implements StorageL
 
 	@Override
 	public boolean changeLocationInfo(StoragePO orginalPO,StoragePO updatePO) throws RemoteException {
-		String path = "c:/LIMS/database/LocationData/"+orginalPO.getStorageId()+".txt";
+		String path = "c:/LIMS/database/StorageLocationData/"+orginalPO.getStorageId()+".txt";
 		@SuppressWarnings("unused")
 		File file = new File(path);
 		
@@ -436,7 +439,7 @@ public class StorageLocationData extends UnicastRemoteObject implements StorageL
 	public int getMaxAir(String storageId) throws RemoteException {
 		
 		int maxRow = 0;
-		String path = "c:/LIMS/database/LocationData/"+storageId+".txt";
+		String path = "c:/LIMS/database/StorageLocationData/"+storageId+".txt";
 		File file = new File(path);
 		InputStream in = null;
 		try {
@@ -474,7 +477,7 @@ public class StorageLocationData extends UnicastRemoteObject implements StorageL
 	public int getMaxTrain(String storageId) throws RemoteException {
 		
 		int maxRow = 0;
-		String path = "c:/LIMS/database/LocationData/"+storageId+".txt";
+		String path = "c:/LIMS/database/StorageLocationData/"+storageId+".txt";
 		File file = new File(path);
 		InputStream in = null;
 		try {
@@ -515,7 +518,7 @@ public class StorageLocationData extends UnicastRemoteObject implements StorageL
 	@Override
 	public int getMaxCar(String storageId) throws RemoteException {
 		int maxRow = 0;
-		String path = "c:/LIMS/database/LocationData/"+storageId+".txt";
+		String path = "c:/LIMS/database/StorageLocationData/"+storageId+".txt";
 		File file = new File(path);
 		InputStream in = null;
 		try {
@@ -556,7 +559,7 @@ public class StorageLocationData extends UnicastRemoteObject implements StorageL
 	@Override
 	public int getMaxFree(String storageId) throws RemoteException {
 		int maxRow = 0;
-		String path = "c:/LIMS/database/LocationData/"+storageId+".txt";
+		String path = "c:/LIMS/database/StorageLocationData/"+storageId+".txt";
 		File file = new File(path);
 		InputStream in = null;
 		try {

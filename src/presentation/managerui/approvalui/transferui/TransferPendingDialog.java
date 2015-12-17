@@ -25,6 +25,7 @@ import javax.swing.table.TableRowSorter;
 import presentation.transitcenterui.transferui.OrderTableModel;
 import presentation.util.CheckInfoGetter;
 import presentation.util.Checker;
+import presentation.util.DialogLayoutManager;
 import presentation.util.OrganizationComboBox;
 import presentation.util.RecentDatePickPanel;
 import systemenum.ShipForm;
@@ -149,12 +150,12 @@ public class TransferPendingDialog extends JDialog {
 	    orderTable.setSize(180, 60);
 	    orderTable.setRowSorter(tableSorter);        
 	    orderTable.getTableHeader().setPreferredSize(new Dimension(180, 25));
-	    JScrollPane OrderScrollPane = new JScrollPane(orderTable);
-	    OrderScrollPane.setBounds(105, 290,250, 100);	        
+	    JScrollPane orderScrollPane = new JScrollPane(orderTable);
+	    orderScrollPane.setBounds(105, 290,250, 100);	        
 	    JButton addOrderButton = new JButton("Ìí¼Ó¶©µ¥");
-	    addOrderButton.setBounds(200, 400, 70, 20);
+	    addOrderButton.setBounds(280, 400, 70, 20);
 		JButton deleteOrderButton = new JButton("É¾³ý¶©µ¥");
-		deleteOrderButton.setBounds(300, 400, 70, 20);
+		deleteOrderButton.setBounds(200, 400, 70, 20);
 		addOrderButton.addActionListener(new ActionListener() {
 				
 			@Override
@@ -248,13 +249,16 @@ public class TransferPendingDialog extends JDialog {
  
 		this.add(idLabel);
 		this.add(idField);
-		this.add(dateLabel);
-		this.add(dateLabel);
+		
 		this.add(wayLabel);
 		this.add(trainButton);
 		this.add(flightButton);
 		this.add(truckButton);
+		DialogLayoutManager.fix(trainButton, flightButton, truckButton);
+		
+		this.add(dateLabel);		 	
 		this.add(datePickPanel);
+		
 		this.add(flightNumLabel);
 		this.add(flightNumField);
 		this.add(departLabel);
@@ -268,13 +272,17 @@ public class TransferPendingDialog extends JDialog {
 		this.add(orderIdLabel);
 		this.add(expensesLabel);
 		this.add(expensesField);
-		this.add(cancleButton);
-		this.add(sureButton);	 
-		this.add(OrderScrollPane);
+				
+		this.add(orderScrollPane);
 		this.add(addOrderButton);
 		this.add(deleteOrderButton);
+		DialogLayoutManager.fix(orderScrollPane, deleteOrderButton, addOrderButton);
+		
+		this.add(sureButton);
+		this.add(cancleButton);
+		
 		this.setBounds(0, 0, 380, 550);
-		this.setLayout(null);
+		this.setLayout(new DialogLayoutManager());
 		this.setVisible(true);
 		
 		//Ìí¼Ó¼ì²é

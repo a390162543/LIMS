@@ -8,6 +8,14 @@ import businesslogic.checkbl.CheckResultMessage;
 import businesslogic.orderbl.Order;
 import businesslogic.userbl.LoginController;
 
+
+/**
+ * 该类用于检查快递员在订单签收时输入的订单号是否正确
+ * 
+ * @author lc
+ * @version 1.1
+ *
+ */
 public class OrderSignId implements CheckInfo {
 
 	private String orderId;

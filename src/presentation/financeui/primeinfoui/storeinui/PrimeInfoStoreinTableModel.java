@@ -5,18 +5,16 @@ import java.util.List;
 import java.util.Vector;
 
 import javax.swing.table.DefaultTableModel;
-
-
-
-
-
-
-
-import vo.AccountVO;
-import vo.OrderCreateVO;
 import vo.StoreinCreateVO;
 import businesslogicservice.PrimeInfoblService;
 
+
+/**
+ * 该类用于保存所有入库单的数据
+ * @author lc
+ * @version 1.3
+ *
+ */
 public class PrimeInfoStoreinTableModel extends DefaultTableModel {
 	/**
 	 * 

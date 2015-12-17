@@ -1,7 +1,6 @@
 package presentation.courierui.ordersignui;
 
 
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -14,6 +13,7 @@ import javax.swing.JTextField;
 
 import presentation.util.CheckInfoGetter;
 import presentation.util.Checker;
+import presentation.util.DialogLayoutManager;
 import presentation.util.RecentDatePickPanel;
 import businesslogic.BusinessLogicService;
 import businesslogic.checkbl.CheckInfo;
@@ -55,8 +55,7 @@ public class OrderSignDialog extends JDialog{
 	public OrderSignDialog(){
 	
 		this.setTitle("订单签收");	
-		this.setSize(380, 270);
-		this.setLayout(null);
+		this.setSize(380, 360);
         	
         
         confirmButton = new JButton("确定");
@@ -66,12 +65,9 @@ public class OrderSignDialog extends JDialog{
         this.add(confirmButton);
         this.add(cancleButton);
         
-        this.setLocationRelativeTo(null);
-        this.setResizable(false);
-        this.setVisible(true);
+        
 	
 		orderIdLabel = new JLabel("订单号");
-        orderIdLabel.setFont(new Font("订单号", 0, 13));
         orderIdLabel.setBounds(30, 48, 40, 16);
         orderIdTextField = new JTextField();
         orderIdTextField.setBounds(100, 45, 180, 20);
@@ -80,7 +76,6 @@ public class OrderSignDialog extends JDialog{
         this.add(orderIdTextField);
 	
 		dateLabel = new JLabel("签收日期");
-        dateLabel.setFont(new Font("签收日期", 0, 13));
         dateLabel.setBounds(30, 84, 60, 16);
         datePickPanel = new RecentDatePickPanel();
         datePickPanel.setBounds(100, 84, 300, 25);
@@ -89,13 +84,17 @@ public class OrderSignDialog extends JDialog{
 	
         
 		signNameLabel = new JLabel("签收人");
-        signNameLabel.setFont(new Font("签收人", 0, 13));
         signNameLabel.setBounds(30, 130, 40, 16);
         signNameTextField = new JTextField();
         signNameTextField.setBounds(102, 128, 60, 20);
         this.add(signNameTextField);
         this.add(signNameLabel);
 	
+        
+        this.setLayout(new DialogLayoutManager());      
+        this.setLocationRelativeTo(null);
+        this.setResizable(false);
+        this.setVisible(true);
         
         Checker orderIdChecker = new Checker(orderIdTextField, new CheckInfoGetter() {	
 			@Override

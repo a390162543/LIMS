@@ -1,16 +1,15 @@
 package presentation.managerui.constantui;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
+import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-
+import presentation.util.DialogLayoutManager;
 import vo.ConstantVO;
 import businesslogic.BusinessLogicService;
-import businesslogic.constantbl.Constant;
 import businesslogicservice.ConstantblService;
 
 /**
@@ -41,14 +40,7 @@ public class PriceDialog extends JDialog{
 		cancelButton.setBounds(185, 70, 70, 30);
 		JButton sureButton = new JButton("È·¶¨");
 		sureButton.setBounds(270, 70, 70, 30);
-		
-		this.add(priceLabel);
-		this.add(priceField);
-		this.add(cancelButton);
-		this.add(sureButton);
-		this.add(unitLabel);
 	
-	 
 	 
 		ConstantblService constantblService =  BusinessLogicService.getConstantblService();
 		ConstantVO vo1 = constantblService.getPrice();
@@ -73,7 +65,16 @@ public class PriceDialog extends JDialog{
 				
 			}
 		});
-		this.setLayout(null);
+		
+		this.add(priceLabel);
+		this.add(priceField);
+		this.add(unitLabel);
+		DialogLayoutManager.fix(priceField, unitLabel);
+				
+		this.add(sureButton);
+		this.add(cancelButton);
+		
+		this.setLayout(new DialogLayoutManager());
 		this.setVisible(true);
 	}
 	

@@ -1,15 +1,13 @@
 package presentation.managerui.employeeui;
 
+
 import java.awt.event.ActionEvent;
-
-
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Date;
-
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -17,7 +15,6 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
-
 import businesslogic.BusinessLogicService;
 import businesslogic.checkbl.CheckInfo;
 import businesslogic.checkbl.Name;
@@ -25,9 +22,11 @@ import businesslogic.checkbl.employeeinfo.EmployeeIdCard;
 import businesslogic.checkbl.PhoneNumber;
 import businesslogicservice.EmployeeblService;
 import businesslogicservice.IdblService;
+ 
 import presentation.util.CheckInfoGetter;
 import presentation.util.Checker;
 import presentation.util.DatePickPanel;
+import presentation.util.DialogLayoutManager;
 import presentation.util.OrganizationComboBox;
 import systemenum.Position;
 import systemenum.Sex;
@@ -47,7 +46,7 @@ public class EmployeeDialog extends JDialog{
 	private static final long serialVersionUID = 4592042591265103245L;
 		 
 	private String positions[]; 
-	private JLabel infoLabel ;	 
+ 
 	private JLabel nameLabel ; 
 	private JTextField nameField;	 
 	private JLabel sexLabel;	 
@@ -144,27 +143,7 @@ public class EmployeeDialog extends JDialog{
 		else 
 			femaleRadioButton.setSelected(true);	
 		
-		switch (vo.getPosition()) {
-		case MANAGER: 
-			positionBox.setSelectedIndex(0); break;
-		case SELLINGBUSINESSMAN: 
-			positionBox.setSelectedIndex(1); break;
-		case TRANSFERCENTREBUSINESSMAN: 
-			positionBox.setSelectedIndex(2) ;break;
-		case COURIER:
-			positionBox.setSelectedIndex(3); break;
-		case STORAGEMANAGER:
-			positionBox.setSelectedIndex(4); break;
-		case SENIORFINANCIALSTAFF:
-			positionBox.setSelectedIndex(5); break;
-		case FINANCIALSTAFF:
-			positionBox.setSelectedIndex(6); break;
-		case SYSTEMMANAGER:
-			positionBox.setSelectedIndex(7); break;
-		case DRIVER:
-			positionBox.setSelectedIndex(8); break;		
-		}
-		
+		 positionBox.setSelectedIndex(vo.getPosition().ordinal());		
 		 phoneField.setText(""+vo.getTelephone());
 		 idCardField.setText(""+vo.getIdentityCardNum());
 		 		 		 
@@ -176,9 +155,7 @@ public class EmployeeDialog extends JDialog{
 			percentageLabel2.setVisible(true);
 			basePayField.setText(""+vo.getPay().getBasePay());
 			percentageField.setText(""+vo.getPay().getRate()*100);
-			this.add(percentageLabel1);
-			this.add(percentageLabel2);
-			this.add(percentageField);										
+			 							
 			}
 		else if(positionBox.getSelectedItem().toString().equals("司机")){
 			basePayLabel.setText("按次计费");
@@ -284,7 +261,7 @@ public class EmployeeDialog extends JDialog{
 		positions = new String[]{"总经理","营业厅业务员","中转中心业务员","快递员",
 				 "中转中心仓库管理员","高级财务人员","财务人员","管理员","司机"};
 	  
-		infoLabel = new JLabel("员工信息");
+	 
 		nameLabel = new JLabel("姓名");
 		nameField = new JTextField();
 		sexLabel = new JLabel("性别");
@@ -308,23 +285,26 @@ public class EmployeeDialog extends JDialog{
 		basePayField = new JTextField();	
 		unitLabel = new JLabel();
 		percentageLabel1 = new JLabel("提成率"); 
+		percentageLabel1.setVisible(false);
 		percentageField = new JTextField();
+		percentageField.setVisible(false);
 		percentageLabel2 = new JLabel("%");
+		percentageLabel2.setVisible(false);
 		cancleButton = new JButton("取消");
 		sureButton = new JButton("确认");
 		
 		 
 		this.setBounds(300, 100, 380, 460);		 			 
-		infoLabel.setBounds(90, 16, 170, 34);	 
-		nameLabel.setBounds(4, 60, 100, 24);	 
-		nameField.setBounds(100, 60, 60, 20);
-		sexLabel.setBounds(0, 90, 100, 24);	 
-		maleRadioButton.setBounds(100, 90, 60, 20);	 
-		femaleRadioButton.setBounds(170, 90, 60, 20);	 
+	 
+		nameLabel.setBounds(4, 90, 100, 24);	 
+		nameField.setBounds(100, 90, 60, 20);
+		sexLabel.setBounds(0, 120, 100, 24);	 
+		maleRadioButton.setBounds(100, 120, 60, 20);	 
+		femaleRadioButton.setBounds(170, 120, 60, 20);	 
 		sex.add(maleRadioButton);
 		sex.add(femaleRadioButton);	 
-		idLabel.setBounds(0, 120, 100, 24);
-		idField.setBounds(100, 120, 180, 20);	 
+		idLabel.setBounds(0, 60, 100, 24);
+		idField.setBounds(100, 60, 180, 20);	 
 		organizationLabel.setBounds(0, 150, 100, 24);	 
 		organizationBox.setBounds(100, 150, 180, 20);	 
 		positionLabel.setBounds(0, 180, 100, 24);	 
@@ -355,14 +335,11 @@ public class EmployeeDialog extends JDialog{
 					unitLabel.setText("/月");
 					percentageField.setVisible(true);
 					percentageLabel1.setVisible(true);
-					percentageLabel2.setVisible(true);
-					EmployeeDialog.this.add(percentageLabel1);
-					EmployeeDialog.this.add(percentageLabel2);
-					EmployeeDialog.this.add(percentageField);
+					percentageLabel2.setVisible(true);			 
 					EmployeeDialog.this.repaint();
 				}
 				else if(positionBox.getSelectedItem().toString().equals("司机")){
-					basePayLabel.setText("按此计费");
+					basePayLabel.setText("按次计费");
 					unitLabel.setText("/次");
 					percentageField.setVisible(false);
 					percentageLabel1.setVisible(false);
@@ -385,15 +362,18 @@ public class EmployeeDialog extends JDialog{
 		   
 		cancleButton.setBounds(175, 380, 70, 30);
 		sureButton.setBounds(265, 380, 70, 30);
-	 
-		this.add(infoLabel);
+ 
+		
+		this.add(idLabel);
+		this.add(idField);		
 		this.add(nameField);
 		this.add(nameLabel);
+		
 		this.add(sexLabel);
+		this.add(maleRadioButton);
 		this.add(femaleRadioButton);
-		this.add(maleRadioButton);	
-		this.add(idField);
-		this.add(idLabel);
+		DialogLayoutManager.fix(maleRadioButton, femaleRadioButton);	
+		
 		this.add(organizationLabel);
 		this.add(organizationBox);
 		this.add(positionLabel);
@@ -404,15 +384,29 @@ public class EmployeeDialog extends JDialog{
 		this.add(idCardField);
 		this.add(birthLabel);
 		this.add(datePickPanel);
-		this.add(cancleButton);
-		this.add(sureButton);
-		this.add(payLabel);
+		
+		
+		this.add(payLabel);	
 		this.add(basePayLabel);
 		this.add(basePayField);
-		this.add(unitLabel);		
-		this.setLayout(null);
+		this.add(unitLabel);
+		DialogLayoutManager.fix(basePayLabel, basePayField, unitLabel);
+		
+		JLabel label = new JLabel();
+		label.setBounds(0, 345, 0, 0);
+		this.add(label);
+		this.add(percentageLabel1);
+		this.add(percentageLabel2);
+		this.add(percentageField);
+		DialogLayoutManager.fix(percentageLabel1, percentageLabel2, percentageField);
+		
+		this.add(sureButton);
+		this.add(cancleButton);
+
+		this.setLayout(new DialogLayoutManager());
+		//this.setLayout(null);
 		this.setVisible(true);
-	
+		
 		
 		
 		
@@ -516,7 +510,7 @@ public class EmployeeDialog extends JDialog{
 		});
 	}
 	
-	//讲界面数据更新到数据区
+	//将界面数据更新到数据区
 	public void update(boolean isNew,int modelRow){	
 		//获取界面信息
 		  String id = idField.getText();		

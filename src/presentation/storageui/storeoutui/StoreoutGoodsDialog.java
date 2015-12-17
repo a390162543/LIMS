@@ -1,5 +1,6 @@
 package presentation.storageui.storeoutui;
 
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -13,6 +14,7 @@ import javax.swing.table.DefaultTableModel;
 
 import presentation.util.CheckInfoGetter;
 import presentation.util.Checker;
+import presentation.util.DialogLayoutManager;
 import businesslogic.BusinessLogicService;
 import businesslogic.checkbl.CheckInfo;
 import businesslogic.checkbl.storeoutinfo.StoreoutOrderId;
@@ -45,7 +47,6 @@ public class StoreoutGoodsDialog extends JDialog {
 		
 		this.setTitle("出库货物");	
 		this.setSize(380, 160);
-		this.setLayout(null);
 		
 		goodsIdLabel = new JLabel("订单号");
 		goodsIdLabel.setBounds(10, 40, 60, 22);
@@ -61,6 +62,7 @@ public class StoreoutGoodsDialog extends JDialog {
 		this.add(confirmButton);
 		this.add(cancleButton);
 		
+		this.setLayout(new DialogLayoutManager());
 		this.setLocationRelativeTo(null);
         this.setResizable(false);
         this.setVisible(true);	

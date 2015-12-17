@@ -2,6 +2,8 @@ package presentation.financeui.primeinfoui.storeinui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -9,12 +11,28 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
-import presentation.storageui.storeinui.StoreinGoodsDialog;
+import presentation.util.CheckInfoGetter;
+import presentation.util.Checker;
+import presentation.util.DialogLayoutManager;
 import systemenum.StorageState;
 import vo.StorageLocationVO;
+import businesslogic.checkbl.CheckInfo;
+import businesslogic.checkbl.storeininfo.AreaNum;
+import businesslogic.checkbl.storeininfo.FrameNum;
+import businesslogic.checkbl.storeininfo.Item;
+import businesslogic.checkbl.storeininfo.RowNum;
+import businesslogic.checkbl.storeininfo.StoreinOrderId;
 import businesslogic.storeinbl.Storein;
+import businesslogic.userbl.LoginController;
 import businesslogicservice.StoreinblService;
 
+
+/**
+ * 该类是入库单添加一项货物时显示的界面
+ * @author lc
+ * @version 1.4
+ *
+ */
 public class PrimeInfoStoreinGoodsDialog extends JDialog {
 	
 	/**
@@ -37,8 +55,10 @@ public class PrimeInfoStoreinGoodsDialog extends JDialog {
 	private JButton confirmButton;
 	private JButton cancleButton;
 	
+	@SuppressWarnings("unused")
 	private String storeinId;
 	
+	@SuppressWarnings("unused")
 	private DefaultTableModel tableModel;
 
 	public PrimeInfoStoreinGoodsDialog(DefaultTableModel tableModel, String storeinId){
@@ -48,7 +68,7 @@ public class PrimeInfoStoreinGoodsDialog extends JDialog {
 		
 		this.setTitle("货物入库");	
 		this.setSize(380, 250);
-		this.setLayout(null);
+		
 		
 		orderIdLabel = new JLabel("订单号");
 		orderIdLabel.setBounds(30, 60, 60, 22);
@@ -76,23 +96,232 @@ public class PrimeInfoStoreinGoodsDialog extends JDialog {
 		cancleButton = new JButton("取消");
 		cancleButton.setBounds(210, 170, 70, 30);
 		
-		this.add(cancleButton);
-		this.add(confirmButton);
-		this.add(itemTextField);
-		this.add(itemLabel);
-		this.add(frameNumTextField);
-		this.add(frameNumLabel);
-		this.add(rowNumTextField);
-		this.add(rowNumlaLabel);
-		this.add(areaNUmTextField);
-		this.add(areaNumLabel);
-		this.add(orderIdTextField);
-		this.add(orderIdLabel);
 		
-		this.setLocationRelativeTo(null);
+		this.add(orderIdLabel);
+		this.add(orderIdTextField);
+		this.add(areaNumLabel);
+		this.add(areaNUmTextField);
+		this.add(rowNumlaLabel);
+		this.add(rowNumTextField);
+		this.add(frameNumLabel);		
+		this.add(frameNumTextField);
+		this.add(itemLabel);
+		this.add(itemTextField);
+		this.add(confirmButton);
+		this.add(cancleButton);
+		
+		this.setLayout(new DialogLayoutManager());
         this.setResizable(false);
         this.setVisible(true);		
 	
+        Checker storeinOrderIdChecker = new Checker(orderIdTextField, new CheckInfoGetter() {
+			
+			@Override
+			public CheckInfo getCheckInfo() {
+				return new StoreinOrderId(orderIdTextField.getText());
+			}
+		});
+        
+        orderIdTextField.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				storeinOrderIdChecker.check();
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+        
+        Checker areaNumChecker = new Checker(areaNUmTextField, new CheckInfoGetter() {
+		
+			@Override
+			public CheckInfo getCheckInfo() {
+				int araeNum = -1;
+				if (!areaNUmTextField.getText().equals("")) {
+					try {
+						araeNum = Integer.valueOf(areaNUmTextField.getText());
+					} catch (Exception e) {
+						araeNum = -1;
+					}
+					return new AreaNum(araeNum);
+				}
+				return new AreaNum(-1);
+			}
+		});
+        
+		Checker rowNumChecker = new Checker(rowNumTextField,
+				new CheckInfoGetter() {
+
+					@Override
+					public CheckInfo getCheckInfo() {
+						int areaNum = -1;
+						int rowNum = -1;
+						if (!areaNUmTextField.getText().equals("")
+								&& !rowNumTextField.getText().equals("")) {
+							try {
+								areaNum = Integer.valueOf(areaNUmTextField
+										.getText());
+								rowNum = Integer.valueOf(rowNumTextField
+										.getText());
+							} catch (Exception e) {
+								// TODO: handle exception
+							}
+							return new RowNum(areaNum, rowNum);
+						}
+						if (areaNUmTextField.getText().equals("")
+								&& !rowNumTextField.getText().equals("")) {
+							return new RowNum(-1, Integer.valueOf(rowNumTextField.getText()));
+						}
+						
+						if (!areaNUmTextField.getText().equals("")
+								&& rowNumTextField.getText().equals("")) {
+							return new RowNum(Integer.valueOf(areaNUmTextField.getText()), -1);
+						}
+
+						return new RowNum(-1, -1);
+					}
+				});
+        
+        areaNUmTextField.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if (areaNUmTextField.getText()!="") {
+					areaNumChecker.check();
+					if (!rowNumTextField.getText().equals("")) {
+						rowNumChecker.check();
+					}
+					
+					
+				}
+							
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+        
+        
+        
+        rowNumTextField.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				rowNumChecker.check();
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+        
+        
+        Checker frameNumChecker = new Checker(frameNumTextField, new CheckInfoGetter() {
+			
+			@Override
+			public CheckInfo getCheckInfo() {				
+				int frameNum = -1;
+				if (!frameNumTextField.getText().equals("")) {
+					try {
+						frameNum = Integer.valueOf(frameNumTextField.getText());
+					} catch (Exception e) {
+						frameNum = -1;
+					}
+					return new FrameNum(frameNum);
+				}
+				return new FrameNum(-1);
+			}
+		});
+        
+        frameNumTextField.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				frameNumChecker.check();
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+        
+        Checker itemChecker = new Checker(itemTextField, new CheckInfoGetter() {
+			
+			@Override
+			public CheckInfo getCheckInfo() {
+				StorageLocationVO vo = null;
+				if (!areaNUmTextField.getText().equals("")&&!rowNumTextField.getText().equals("")
+						&&!frameNumTextField.getText().equals("")&&!itemTextField.getText().equals("")) {
+					vo = new StorageLocationVO(LoginController.getOrganizationId(),
+							Integer.valueOf(areaNUmTextField.getText()), Integer.valueOf(rowNumTextField.getText()), 
+							Integer.valueOf(frameNumTextField.getText()), Integer.valueOf(itemTextField.getText()));
+					return new Item(vo);
+				}
+				vo = new StorageLocationVO(LoginController.getOrganizationId(), -1, -1, -1, -1);
+				return new Item(vo) ;
+				
+			}
+		});
+        
+        itemTextField.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				itemChecker.check();
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+        
 		confirmButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

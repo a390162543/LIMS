@@ -11,11 +11,9 @@ import java.util.List;
 
 import po.StoreinPO;
 import systemenum.DocumentState;
-import systemenum.Position;
 import systemenum.StorageState;
 import dataservice.DataService;
 import dataservice.StoreinDataService;
-import vo.LogVO;
 import vo.StorageLocationVO;
 import vo.StoreinCheckVo;
 import vo.StoreinCreateVO;
@@ -55,9 +53,8 @@ public class Storein implements StoreinblService{
 			e.printStackTrace();
 		}
 		String operation = "创建了入库单"+"("+vo.getId()+")";
-		LogVO logVO = new LogVO(operation, LoginController.getEmployeeId(), LoginController.getEmployeeName(), Position.STORAGEMANAGER);
 		Log log = new Log();
-		log.createLogPO(logVO);
+		log.createLogPO(operation);
 		return true;
 	}
 
@@ -126,6 +123,8 @@ public class Storein implements StoreinblService{
 			StoreinOrderVO storeinOrderVO = new StoreinOrderVO(orderId.get(i),
 					areaNum.get(i), rowNum.get(i), frameNum.get(i), item.get(i));
 			order.setStorageState(storeinOrderVO);
+			order.updateNextLocation(orderId.get(i), vo.getDestination());
+			
 		}
 		for (int i = 0; i < areaNum.size(); i++) {
 			StorageLocationVO storageLocationVO = new StorageLocationVO(LoginController.getOrganizationId(),
@@ -228,7 +227,7 @@ public class Storein implements StoreinblService{
 		StorageHelper helper = new StorageHelper();
 		helper.changeLocationState(vo);
 		Order order = new Order();
-		order.storeinOrderState(vo.getOrderId());
+		order.storeinOrderState(vo.getOrderId(),vo.getAreaNum());
 		Storage storage = new Storage();
 		storage.addNowCapacity(vo.getStorageId());
 		return true;

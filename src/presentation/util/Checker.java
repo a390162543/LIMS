@@ -101,6 +101,7 @@ public class Checker extends JLabel{
         }
         this.setIcon(imageIcon);
     }
+<<<<<<< HEAD
 
     public boolean isCorrect(){
         return (checkResult != CheckResult.FALSE)&&(checkResult != CheckResult.UNCHECKED);
@@ -108,5 +109,10 @@ public class Checker extends JLabel{
     
     public void discard(){
         this.getParent().remove(this);
+=======
+   
+    public boolean isCorrect(){
+        return (checkResult != CheckResult.FALSE)&&(checkResult != CheckResult.UNCHECKED);
+>>>>>>> origin/master
     }
 }

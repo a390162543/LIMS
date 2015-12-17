@@ -15,6 +15,13 @@ import javax.swing.table.TableRowSorter;
 import vo.StoreinCreateVO;
 import businesslogicservice.PrimeInfoblService;
 
+
+/**
+ * 该类是显示所有入库单的面板
+ * @author lc
+ * @version 1.4
+ *
+ */
 public class PrimeInfoStoreinPanel extends JPanel{
 	
 	/**
@@ -84,7 +91,7 @@ public class PrimeInfoStoreinPanel extends JPanel{
         
         addButton = new JButton("添加");
         deleteButton = new JButton("删除");
-        createButton = new JButton("新建账单");
+        createButton = new JButton("完成建账");
         queryButton = new JButton("查询");
         modifyButton = new JButton("修改");
         addButton.addActionListener(new ActionListener() {
