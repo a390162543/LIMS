@@ -131,6 +131,9 @@ public class StoreinDialogUI extends JDialog{
         this.setResizable(false);
         this.setVisible(true);
 	
+        
+        
+        
         Checker alarmNumChecker = new Checker(addButton, new CheckInfoGetter() {
 			
 			@Override

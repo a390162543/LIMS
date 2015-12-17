@@ -1055,7 +1055,7 @@ public class OrderCreateDialog extends JDialog{
 						deliverWay,  Integer.parseInt(totalTimeTextField.getText()));
 				orderCreateVO.setGoodsState(GoodsState.COMPLETE);
 				orderCreateVO.setNowLocation(LoginController.getOrganizationName());
-			
+				orderCreateVO.setOrganization(LoginController.getOrganizationName());
 				OrderblService orderblService = BusinessLogicService.getOrderblService();
 				orderblService.createOrderPO(orderCreateVO);
 				OrderCreateDialog.this.dispose();

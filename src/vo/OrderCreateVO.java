@@ -235,7 +235,7 @@ public class OrderCreateVO {
   
     	return new OrderPO(id, wrapWay, deliverWay, senderName, senderAddress, senderTel,
     			senderCell, receiverName, receiverAddress, receiverTel, receiverCell,
-    			goodsInfo,nowLocation, weight, size, cost);
+    			goodsInfo,nowLocation,organization, weight, size, cost);
     	
     	
     	

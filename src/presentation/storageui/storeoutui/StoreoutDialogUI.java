@@ -2,8 +2,13 @@ package presentation.storageui.storeoutui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -15,10 +20,14 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import presentation.util.CheckInfoGetter;
+import presentation.util.Checker;
 import presentation.util.DialogLayoutManager;
 import presentation.util.OrganizationComboBox;
 import presentation.util.RecentDatePickPanel;
 import businesslogic.BusinessLogicService;
+import businesslogic.checkbl.CheckInfo;
+import businesslogic.checkbl.arrivalinfo.ArrivalTransferId;
 import businesslogic.storeoutbl.Storeout;
 import businesslogic.userbl.LoginController;
 import businesslogicservice.IdblService;
@@ -65,10 +74,11 @@ public class StoreoutDialogUI extends JDialog{
 	private JLabel storeoutGoodsInfoLabel;
 	private JTable goodsInfoTable;
 	
-	private JButton addButton;
-	private JButton deleteButton;
+	
 	private JButton confirmButton;
 	private JButton cancleButton;
+	
+	private List<String> orders;
 	
     private String[] column = {"订单号"};
     private DefaultTableModel tableModel = new DefaultTableModel(null, column);
@@ -126,10 +136,7 @@ public class StoreoutDialogUI extends JDialog{
         JScrollPane scrollpane = new JScrollPane(goodsInfoTable);
         scrollpane.setBounds(110, 170, 180, 120);
         
-        addButton = new JButton("新增");
-        addButton.setBounds(200, 310, 70, 30);
-        deleteButton = new JButton("删除");
-        deleteButton.setBounds(295, 310, 70, 30);
+
         confirmButton = new JButton("确定");
         confirmButton.setBounds(295, 360, 70, 30);
         cancleButton = new JButton("取消");
@@ -151,9 +158,8 @@ public class StoreoutDialogUI extends JDialog{
         DialogLayoutManager.fix(carWayButton,trainsWayButton,airWayButton);      
         this.add(storeoutGoodsInfoLabel);        
         this.add(scrollpane); 
-        this.add(addButton);
-        this.add(deleteButton);
-        DialogLayoutManager.fix(scrollpane,addButton,deleteButton);
+       
+       
         
         
 		this.add(confirmButton);
@@ -164,24 +170,71 @@ public class StoreoutDialogUI extends JDialog{
         this.setResizable(false);
         this.setVisible(true);
 	
-		
-		addButton.addActionListener(new ActionListener() {
+		Checker transferIdChecker = new Checker(transferIdTextField, new CheckInfoGetter() {
+			
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				new StoreoutGoodsDialog(tableModel);
+			public CheckInfo getCheckInfo() {
+				if (transferIdTextField.getText()!=null) {
+					return new ArrivalTransferId(transferIdTextField.getText());
+				}
+				return new ArrivalTransferId("");
+			}
+		});
+		
+		transferIdTextField.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				transferIdChecker.check();
+				if (transferIdChecker.check()) {
+					String transId = transferIdTextField.getText();
+					
+					StoreoutblService storeoutblService = BusinessLogicService.getStoreoutblService();
+					
+					
+					if (transId.length()==19) {
+						orders = storeoutblService.getTransferVO(transId);
+					}
+					else {
+						orders = storeoutblService.getLoadVO(transId);
+					}
+					
+					String[] data = new String[orders.size()];
+					for (int i = 0; i < orders.size(); i++) {
+						data[i] = orders.get(i);
+						storeoutblService.changeLocationState(orders.get(i));
+					}
+					tableModel.addRow(data);
+				}
+				else {
+					
+					if (tableModel.getRowCount()!=0) {						
+						String orderId = (String) tableModel.getValueAt(0, 0);
+						storeoutblService.restoreLcationState(orderId);
+						tableModel.removeRow(0);
+					}
+					
+				}
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
 				
 			}
 		});
+        
+        
 		
-		deleteButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				int row = goodsInfoTable.getSelectedRow();
-	              if(row == -1)
-	            	  return;
-	              tableModel.removeRow(row);		
-			}
-		});
+		
+		
 		
 		confirmButton.addActionListener(new ActionListener() {
 			@Override

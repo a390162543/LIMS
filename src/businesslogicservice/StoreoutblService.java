@@ -1,5 +1,7 @@
 package businesslogicservice;
 
+import java.util.List;
+
 import vo.StoreoutCreateVO;
 
 
@@ -52,4 +54,8 @@ public interface StoreoutblService extends Identifiable{
 	 * @return 成功返回{@code true}, 失败返回{@code false}
 	 */
 	public boolean restoreLcationState (String orderId);
+	
+	public  List<String> getTransferVO (String transferId);
+	
+	public List<String> getLoadVO (String loadId);
 }

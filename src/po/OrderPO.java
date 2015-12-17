@@ -41,7 +41,7 @@ public class OrderPO implements Serializable{
 			String senderName, String senderAddress,
 			String senderTel, String senderCell, String receiverName,
 			String receiverAddress, String receiverTel, String receiverCell,
-			String goodsInfo,String nowLocation, double weight, double size, double cost) {
+			String goodsInfo,String nowLocation,String organzation, double weight, double size, double cost) {
 		super();
 		this.state = GoodsState.COMPLETE;
 		this.id = id;
@@ -57,6 +57,7 @@ public class OrderPO implements Serializable{
 		this.receiverCell = receiverCell;
 		this.goodsInfo = goodsInfo;
 		this.nowLocation = nowLocation;
+		this.organization = organzation;
 		this.weight = weight;
 		this.size = size;
 		this.cost = cost;

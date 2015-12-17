@@ -41,12 +41,10 @@ public class Order implements OrderblService{
 
 	
 	public boolean createOrderPO(OrderCreateVO vo) {
-		System.out.println(vo.getNowLocation());
 		OrderDataService ods = DataService.getOrderDataService();
 		try {
 			OrderPO po = vo.getOrderPO();
 			ods.insert(po);	
-			System.out.println("<<<<<<<<<<<<"+po.getNowLocation());
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -118,8 +116,6 @@ public class Order implements OrderblService{
 		if (po == null) {
 			return null;
 		}
-		System.out.println(">>>>>"+po.getOrderId());
-		System.out.println(po.getNowLocation());
 		orderQueryVO = po.getOrderQueryVO();
 
 		return orderQueryVO;
@@ -540,12 +536,13 @@ public class Order implements OrderblService{
 		OrderPO po = null;
 		try {
 			po = orderDataService.find(orderId);
+			po.setStorageState(StorageState.ISSTORINGOUT);
+			orderDataService.update(po);
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		po.setStorageState(StorageState.ISSTORINGOUT);
-
+		
 		return true;
 	}
 	

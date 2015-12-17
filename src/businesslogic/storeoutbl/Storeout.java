@@ -12,6 +12,7 @@ import systemenum.Position;
 import systemenum.StorageState;
 import dataservice.DataService;
 import dataservice.StoreoutDataService;
+import vo.LoadVO;
 import vo.LogVO;
 import vo.StorageLocationVO;
 import vo.StoreinCheckVo;
@@ -19,11 +20,14 @@ import vo.StoreinOrderVO;
 import vo.StoreoutCreateVO;
 import vo.StoreoutQueryVO;
 import vo.OutOrderCheckResultVO;
+import vo.TransferVO;
 import businesslogic.idbl.IdManager;
+import businesslogic.loadbl.Load;
 import businesslogic.logbl.Log;
 import businesslogic.orderbl.Order;
 import businesslogic.storagebl.Storage;
 import businesslogic.storagebl.StorageHelper;
+import businesslogic.transferbl.Transfer;
 import businesslogic.userbl.LoginController;
 import businesslogicservice.IdblService;
 import businesslogicservice.StoreoutblService;
@@ -243,6 +247,24 @@ public class Storeout implements StoreoutblService{
 	public IdblService getIdblService() {
 		StoreoutDataService storeoutDataService = DataService.getStoreoutDataService();
 		return new IdManager(storeoutDataService, 6);
+	}
+
+	@Override
+	public List<String> getTransferVO(String transferId) {
+		Transfer transfer = new Transfer();
+		List<String> orders = new ArrayList<String>();
+		TransferVO transferVO = transfer.find(transferId);
+		orders = transferVO.getOrderId();
+		return orders;
+	}
+
+	@Override
+	public List<String> getLoadVO(String loadId) {
+		Load load = new Load();
+		List<String> orders = new ArrayList<String>();
+		LoadVO loadVO = load.getLoadVO(loadId);
+		orders = loadVO.getOrderId();
+		return orders;
 	}
 	
 	 
