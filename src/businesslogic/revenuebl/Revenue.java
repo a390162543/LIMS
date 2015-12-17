@@ -12,6 +12,7 @@ import java.util.List;
 import po.OrderPO;
 import po.RevenuePO;
 import systemenum.DocumentState;
+import dataservice.DataService;
 import dataservice.OrderDataService;
 import dataservice.RevenueDataService;
 import vo.EmployeeVO;
@@ -20,6 +21,7 @@ import vo.RevenueVO;
 import businesslogic.accountbl.Account;
 import businesslogic.employeebl.Employee;
 import businesslogic.idbl.IdManager;
+import businesslogic.logbl.Log;
 import businesslogic.userbl.LoginController;
 import businesslogicservice.IdblService;
 import businesslogicservice.RevenueblService;
@@ -43,24 +45,16 @@ public class Revenue implements RevenueblService{
     
     public Revenue(){
         orderList = new OrderList();
-        try {
-            revenueDataService = (RevenueDataService) Naming.lookup("rmi://localhost/RevenueData");
-        } catch (MalformedURLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (RemoteException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (NotBoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        revenueDataService = DataService.getRevenueDataService();
     }
     
     @Override
     public boolean createRevenuePO(RevenueVO vo) {
         try {
             revenueDataService.insert(vo.getRevenuePO());
+            
+            Log logbl = new Log();
+            logbl.createLogPO("创建了收款单"+vo.getId());
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -75,6 +69,9 @@ public class Revenue implements RevenueblService{
             po = revenueDataService.find(vo.getId());
             po.update(vo);
             revenueDataService.update(po);
+            
+            Log logbl = new Log();
+            logbl.createLogPO("修改了收款单"+vo.getId());
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -94,6 +91,9 @@ public class Revenue implements RevenueblService{
             po.update(vo);
             po.setDocumentState(DocumentState.PENDING);
             revenueDataService.update(po);
+            
+            Log logbl = new Log();
+            logbl.createLogPO("提交了收款单"+vo.getId());
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -117,6 +117,9 @@ public class Revenue implements RevenueblService{
             String courierId = vo.getCourierId();
             double revenue = vo.getRevenue();
             employeebl.addPay(courierId, revenue);
+            
+            Log logbl = new Log();
+            logbl.createLogPO("审批了收款单"+vo.getId());
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

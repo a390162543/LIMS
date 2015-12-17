@@ -10,6 +10,7 @@ import java.util.List;
 import po.TruckPO;
 import vo.TruckVO;
 import businesslogic.idbl.IdManager;
+import businesslogic.logbl.Log;
 import businesslogicservice.IdblService;
 import businesslogicservice.TruckblService;
 import dataservice.TruckDataService;
@@ -46,6 +47,9 @@ public class Truck implements TruckblService{
     public boolean createTruckPO(TruckVO vo) {
         try {
             truckDataService.insert(vo.getTruckPO());
+            
+            Log logbl = new Log();
+            logbl.createLogPO("创建了车辆信息"+vo.getId());
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -57,6 +61,9 @@ public class Truck implements TruckblService{
     public boolean deleteTruckPO(TruckVO vo) {
         try {
             truckDataService.delete(vo.getTruckPO());
+            
+            Log logbl = new Log();
+            logbl.createLogPO("删除了车辆信息"+vo.getId());
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -71,6 +78,9 @@ public class Truck implements TruckblService{
             po = truckDataService.find(vo.getId());
             po.update(vo);
             truckDataService.update(po);
+            
+            Log logbl = new Log();
+            logbl.createLogPO("修改了车辆信息"+vo.getId());
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

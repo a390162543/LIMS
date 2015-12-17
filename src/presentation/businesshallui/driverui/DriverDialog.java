@@ -2,6 +2,8 @@ package presentation.businesshallui.driverui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.Date;
 
 import javax.swing.ButtonGroup;
@@ -11,6 +13,17 @@ import javax.swing.JLabel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
+import businesslogic.BusinessLogicService;
+import businesslogic.checkbl.CheckInfo;
+import businesslogic.checkbl.Name;
+import businesslogic.checkbl.PhoneNumber;
+import businesslogic.checkbl.driverinfo.DriverIdCard;
+import businesslogic.checkbl.driverinfo.DriverLDDL;
+import businesslogic.userbl.LoginController;
+import businesslogicservice.EmployeeblService;
+import businesslogicservice.IdblService;
+import presentation.util.CheckInfoGetter;
+import presentation.util.Checker;
 import presentation.util.DatePickPanel;
 import presentation.util.DialogLayoutManager;
 import presentation.util.OrganizationComboBox;
@@ -19,237 +32,470 @@ import systemenum.Sex;
 import vo.EmployeeVO;
 import vo.PayVO;
 
-/**
- * 司机信息的{@code Jdialog}
- * @author 林祖华
- * @version 1.2
- * @see businesslogicservice.EmployeeblService
- */
-public class DriverDialog extends JDialog {
-	/**
+public class DriverDialog extends JDialog{
+
+    /**
      * 
      */
-    private static final long serialVersionUID = -5004812207169992358L;
+    private static final long serialVersionUID = 754881796102105707L;
+    private static final String[] LABEL_NAMES = {"姓名","性别","员工编号","所在机构","手机号码","身份证号","出生日期","行驶证期限","工资"};
+    private EmployeeblService employeeblService;
+    private DriverTableModel driverTableModel;
     
-	private JLabel nameLabel ; 
-	private JTextField nameField;	 
-	private JLabel sexLabel;	 
-	private JRadioButton maleRadioButton;	 
-	private JRadioButton femaleRadioButton;	 
-	private ButtonGroup sex ;	 	 
-	private JLabel idLabel;	  
-	private JTextField idField;	 
-	private JLabel organizationLabel;	 
-	private JLabel phoneLabel;	 
-	private JTextField phoneField;	 
-	private JLabel idCardLabel;	 
-	private JTextField idCardField;
-	private JLabel birthLabel; 
-	private JLabel payLabel;
-	private JTextField basePayField;
-	private JLabel unitLabel;
-	private JLabel ddlLabel;
-	
-	private OrganizationComboBox organizationComboBox;
-	private DatePickPanel datePickPanel;
-	private DatePickPanel ddlDatePickPanel;
-	
-	private JButton cancleButton;
-	private JButton sureButton;
-    private DriverTableModel tableModel;
+    public DriverDialog(DriverTableModel tm){
+        this.employeeblService = BusinessLogicService.getEmployeeblService();
+        this.driverTableModel = tm;
+        
+        JLabel[] labels = new JLabel[9];
+        for(int i=0;i<labels.length;i++){
+            labels[i] = new JLabel();
+            labels[i].setText(LABEL_NAMES[i]);
+            labels[i].setBounds(20, 10+35*i, 100, 25);
+            this.add(labels[i]);
+        }
+        
+        JTextField nameTextField = new JTextField();
+        nameTextField.setSize(60, 25);
+        this.add(nameTextField);
+        
+        ButtonGroup sexButtonGroup = new ButtonGroup();
+        JRadioButton maleRadioButton = new JRadioButton("男");
+        JRadioButton femaleRadioButton = new JRadioButton("女");
+        sexButtonGroup.add(maleRadioButton);
+        sexButtonGroup.add(femaleRadioButton);
+        maleRadioButton.setBounds(0, 0, 60, 25);
+        femaleRadioButton.setBounds(60, 0, 60, 25);
+        this.add(maleRadioButton);
+        this.add(femaleRadioButton);
+        maleRadioButton.setSelected(true);
+        DialogLayoutManager.fix(maleRadioButton,femaleRadioButton);
+        
+        JTextField idTextField = new JTextField();
+        idTextField.setSize(150, 25);
+        
+        IdblService idblService = employeeblService.getIdblService();
+        String id = idblService.createNewId(LoginController.getOrganizationId());
+        idTextField.setText(id);
+        idTextField.setEnabled(false);
+        this.add(idTextField);
+        
+        OrganizationComboBox organizationComboBox = new OrganizationComboBox();
+        organizationComboBox.setSelectedItem(LoginController.getOrganizationName());
+        organizationComboBox.setEnabled(false);
+        this.add(organizationComboBox);
+        
+        JTextField phoneTextField = new JTextField();
+        phoneTextField.setSize(150, 25);
+        this.add(phoneTextField);
+        
+        JTextField idcardNumberTextField = new JTextField();
+        idcardNumberTextField.setSize(150, 25);
+        this.add(idcardNumberTextField);
+        
+        DatePickPanel birthDatePickPanel = new DatePickPanel();
+        this.add(birthDatePickPanel);
+        
+        DatePickPanel ddlDatePickPanel = new DatePickPanel();
+        this.add(ddlDatePickPanel);
+        
+        JTextField payTextField = new JTextField();
+        payTextField.setBounds(0, 0, 60, 25);
+        payTextField.setText("60");
+        payTextField.setEnabled(false);
+        this.add(payTextField);
+        
+        JLabel payLabel = new JLabel("元/次");
+        payLabel.setBounds(60, 0, 60, 25);
+        this.add(payLabel);
+        
+        DialogLayoutManager.fix(payTextField,payLabel);
+        
 
-	
-	public void init(){
-		nameLabel = new JLabel("姓名");
-		nameField = new JTextField();
-		sexLabel = new JLabel("性别");
-		maleRadioButton = new JRadioButton("男");
-		femaleRadioButton = new JRadioButton("女");	 
-		sex = new ButtonGroup();
-		idLabel = new JLabel("员工编号");	
-		idField = new JTextField();
-		organizationLabel = new JLabel("所在机构");
-		organizationComboBox = new OrganizationComboBox();
-		phoneLabel = new JLabel("电话");	
-		phoneField = new JTextField();
-		idCardLabel = new JLabel("身份证号");	
-		idCardField = new JTextField();
-		birthLabel = new JLabel("出生日期");
-		datePickPanel = new DatePickPanel();
-		payLabel = new JLabel("工资");
-	    ddlDatePickPanel = new DatePickPanel();
-		basePayField = new JTextField();	
-		unitLabel = new JLabel("元/次");
-		ddlLabel = new JLabel("行驶证期限");
-		
-		cancleButton = new JButton("取消");
-		sureButton = new JButton("确认");
-		
-		this.setBounds(0, 0, 380, 460);		 			 
+        
+        Checker nameChecker = new Checker(nameTextField, new CheckInfoGetter() {
+            
+            @Override
+            public CheckInfo getCheckInfo() {
+                return new Name(nameTextField.getText());
+            }
+        });
+        nameTextField.addKeyListener(new KeyListener() {
+            
+            @Override
+            public void keyTyped(KeyEvent e) {
+                // TODO Auto-generated method stub
+                
+            }
+            
+            @Override
+            public void keyReleased(KeyEvent e) {
+                nameChecker.check();
+            }
+            
+            @Override
+            public void keyPressed(KeyEvent e) {
+                // TODO Auto-generated method stub
+                
+            }
+        });
+        
+        Checker phoneNumeberChecker = new Checker(phoneTextField, new CheckInfoGetter() {
+            
+            @Override
+            public CheckInfo getCheckInfo() {
+                return new PhoneNumber(phoneTextField.getText());
+            }
+        });
+        phoneTextField.addKeyListener(new KeyListener() {
+            
+            @Override
+            public void keyTyped(KeyEvent e) {
+                // TODO Auto-generated method stub
+                
+            }
+            
+            @Override
+            public void keyReleased(KeyEvent e) {
+                phoneNumeberChecker.check();
+            }
+            
+            @Override
+            public void keyPressed(KeyEvent e) {
+                // TODO Auto-generated method stub
+                
+            }
+        });
+        Checker idcardNumberChecker = new Checker(idcardNumberTextField, new CheckInfoGetter() {
+            
+            @Override
+            public CheckInfo getCheckInfo() {
+                return new DriverIdCard(idcardNumberTextField.getText());
+            }
+        });
+        idcardNumberTextField.addKeyListener(new KeyListener() {
+            
+            @Override
+            public void keyTyped(KeyEvent e) {
+                // TODO Auto-generated method stub
+                
+            }
+            
+            @Override
+            public void keyReleased(KeyEvent e) {
+                idcardNumberChecker.check();
+            }
+            
+            @Override
+            public void keyPressed(KeyEvent e) {
+                // TODO Auto-generated method stub
+                
+            }
+        });
+        Checker ddlDateChecker = new Checker(ddlDatePickPanel, new CheckInfoGetter() {
+            
+            @Override
+            public CheckInfo getCheckInfo() {
+                return new DriverLDDL(ddlDatePickPanel.getDate());
+            }
+        });
+        ddlDatePickPanel.addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ddlDateChecker.check();
+            }
+        });
+        
+        JButton confirmButton = new JButton("确认");
+        confirmButton.setSize(80, 30);
+        this.add(confirmButton);
+        
+        JButton cancleButton = new JButton("取消");
+        cancleButton.setSize(80, 30);
+        this.add(cancleButton);
+        
+        confirmButton.addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String name = nameTextField.getText();
+                Sex sex;
+                if(maleRadioButton.isSelected())
+                    sex = Sex.MALE;
+                else
+                    sex = Sex.FAMALE;
+                String id = idTextField.getText();
+                String organization = organizationComboBox.getSelectedOrganization();
+                String phoneNumber = phoneTextField.getText();
+                String idcardNumber = idcardNumberTextField.getText();
+                Date birthday = birthDatePickPanel.getDate();
+                Date ddlDate = ddlDatePickPanel.getDate();
+                double pay = new Double(payTextField.getText());
+                PayVO payVO = new PayVO(0, pay, 0, 0, 0);
+                EmployeeVO vo = new EmployeeVO(id, name, organization, Position.DRIVER, phoneNumber, birthday, idcardNumber, sex, payVO, ddlDate, "");
+                driverTableModel.create(vo);
+                DriverDialog.this.dispose();
+            }
+        });
+        
+        cancleButton.addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                DriverDialog.this.dispose();
+            }
+        });
+        this.setLayout(new DialogLayoutManager());
+        this.setModalityType(ModalityType.APPLICATION_MODAL);
+        this.setTitle("司机信息");
+        this.setVisible(true);
+    }
+    
+    public DriverDialog(DriverTableModel tm, int modelRow, boolean isEditable){
+        this.employeeblService = BusinessLogicService.getEmployeeblService();
+        this.driverTableModel = tm;
+        
+        JLabel[] labels = new JLabel[9];
+        for(int i=0;i<labels.length;i++){
+            labels[i] = new JLabel();
+            labels[i].setText(LABEL_NAMES[i]);
+            labels[i].setBounds(20, 10+35*i, 100, 25);
+            this.add(labels[i]);
+        }
+        
+        JTextField nameTextField = new JTextField();
+        nameTextField.setSize(60, 25);
+        this.add(nameTextField);
+        
+        ButtonGroup sexButtonGroup = new ButtonGroup();
+        JRadioButton maleRadioButton = new JRadioButton("男");
+        JRadioButton femaleRadioButton = new JRadioButton("女");
+        sexButtonGroup.add(maleRadioButton);
+        sexButtonGroup.add(femaleRadioButton);
+        maleRadioButton.setBounds(0, 0, 60, 25);
+        femaleRadioButton.setBounds(60, 0, 60, 25);
+        this.add(maleRadioButton);
+        this.add(femaleRadioButton);
+        DialogLayoutManager.fix(maleRadioButton,femaleRadioButton);
+        
+        JTextField idTextField = new JTextField();
+        idTextField.setSize(150, 25);
+        
+        idTextField.setEnabled(false);
+        this.add(idTextField);
+        
+        OrganizationComboBox organizationComboBox = new OrganizationComboBox();
+        organizationComboBox.setSelectedItem(LoginController.getOrganizationName());
+        organizationComboBox.setEnabled(false);
+        this.add(organizationComboBox);
+        
+        JTextField phoneTextField = new JTextField();
+        phoneTextField.setSize(150, 25);
+        this.add(phoneTextField);
+        
+        JTextField idcardNumberTextField = new JTextField();
+        idcardNumberTextField.setSize(150, 25);
+        this.add(idcardNumberTextField);
+        
+        DatePickPanel birthDatePickPanel = new DatePickPanel();
+        this.add(birthDatePickPanel);
+        
+        DatePickPanel ddlDatePickPanel = new DatePickPanel();
+        this.add(ddlDatePickPanel);
+        
+        JTextField payTextField = new JTextField();
+        payTextField.setBounds(0, 0, 60, 25);
+        payTextField.setText("60");
+        payTextField.setEnabled(false);
+        this.add(payTextField);
+        
+        JLabel payLabel = new JLabel("元/次");
+        payLabel.setBounds(60, 0, 60, 25);
+        this.add(payLabel);
+        
+        DialogLayoutManager.fix(payTextField,payLabel);
+        
+        
+        EmployeeVO vo = driverTableModel.getEmployeeVO(modelRow);
+        String name = vo.getName();
+        Sex sex = vo.getSex();
+        String id = vo.getId();
+        String organization = vo.getOrganization();
+        String phoneNumber = vo.getTelephone();
+        String idcardNumber = vo.getIdentityCardNum();
+        Date birthday = vo.getBirthday();
+        Date ddlDate = vo.getDriverLDDL();
+        double pay = vo.getPay().getPayByCount();
+        
+        nameTextField.setText(name);
+        if(sex == Sex.MALE)
+            maleRadioButton.setSelected(true);
+        else
+            femaleRadioButton.setSelected(true);
+        idTextField.setText(id);
+        organizationComboBox.setSelectedItem(organization);
+        phoneTextField.setText(phoneNumber);
+        idcardNumberTextField.setText(idcardNumber);
+        birthDatePickPanel.setDate(birthday);
+        ddlDatePickPanel.setDate(ddlDate);
+        payTextField.setText(""+pay);
+        
+        if(!isEditable){
+            nameTextField.setEnabled(false);
+            maleRadioButton.setEnabled(false);
+            femaleRadioButton.setEnabled(false);
+            phoneTextField.setEnabled(false);
+            idcardNumberTextField.setEnabled(false);
+            birthDatePickPanel.setEnabled(false);
+            ddlDatePickPanel.setEnabled(false);
+        }
+        
+        if(isEditable){    
+            Checker nameChecker = new Checker(nameTextField, new CheckInfoGetter() {
+                
+                @Override
+                public CheckInfo getCheckInfo() {
+                    return new Name(nameTextField.getText());
+                }
+            });
+            nameTextField.addKeyListener(new KeyListener() {
+                
+                @Override
+                public void keyTyped(KeyEvent e) {
+                    // TODO Auto-generated method stub
+                    
+                }
+                
+                @Override
+                public void keyReleased(KeyEvent e) {
+                    nameChecker.check();
+                }
+                
+                @Override
+                public void keyPressed(KeyEvent e) {
+                    // TODO Auto-generated method stub
+                    
+                }
+            });
+            
+            Checker phoneNumeberChecker = new Checker(phoneTextField, new CheckInfoGetter() {
+                
+                @Override
+                public CheckInfo getCheckInfo() {
+                    return new PhoneNumber(phoneTextField.getText());
+                }
+            });
+            phoneTextField.addKeyListener(new KeyListener() {
+                
+                @Override
+                public void keyTyped(KeyEvent e) {
+                    // TODO Auto-generated method stub
+                    
+                }
+                
+                @Override
+                public void keyReleased(KeyEvent e) {
+                    phoneNumeberChecker.check();
+                }
+                
+                @Override
+                public void keyPressed(KeyEvent e) {
+                    // TODO Auto-generated method stub
+                    
+                }
+            });
+            Checker idcardNumberChecker = new Checker(idcardNumberTextField, new CheckInfoGetter() {
+                
+                @Override
+                public CheckInfo getCheckInfo() {
+                    return new DriverIdCard(idcardNumberTextField.getText());
+                }
+            });
+            idcardNumberTextField.addKeyListener(new KeyListener() {
+                
+                @Override
+                public void keyTyped(KeyEvent e) {
+                    // TODO Auto-generated method stub
+                    
+                }
+                
+                @Override
+                public void keyReleased(KeyEvent e) {
+                    idcardNumberChecker.check();
+                }
+                
+                @Override
+                public void keyPressed(KeyEvent e) {
+                    // TODO Auto-generated method stub
+                    
+                }
+            });
+            Checker ddlDateChecker = new Checker(ddlDatePickPanel, new CheckInfoGetter() {
+                
+                @Override
+                public CheckInfo getCheckInfo() {
+                    return new DriverLDDL(ddlDatePickPanel.getDate());
+                }
+            });
+            ddlDatePickPanel.addActionListener(new ActionListener() {
+                
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    ddlDateChecker.check();
+                }
+            });
+        }
+        
+        JButton confirmButton = new JButton("确认");
+        confirmButton.setSize(80, 30);
+        this.add(confirmButton);
+        
 
-		nameLabel.setBounds(4, 60, 100, 24);	 
-		nameField.setBounds(100, 60, 60, 25);
-		sexLabel.setBounds(0, 90, 100, 24);	 
-		maleRadioButton.setBounds(100, 90, 60, 25);	 
-		femaleRadioButton.setBounds(160, 90, 60, 25);
-		sex.add(maleRadioButton);
-		sex.add(femaleRadioButton);	 
-		idLabel.setBounds(0, 120, 100, 24);
-		idField.setBounds(100, 120, 180, 25);	 
-		organizationLabel.setBounds(0, 150, 100, 24);	 
-		organizationComboBox.setBounds(100, 150, 180, 25);	 
+        
+        confirmButton.addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(!isEditable){
+                    DriverDialog.this.dispose();
+                    return;
+                }
+                String name = nameTextField.getText();
+                Sex sex;
+                if(maleRadioButton.isSelected())
+                    sex = Sex.MALE;
+                else
+                    sex = Sex.FAMALE;
+                String id = idTextField.getText();
+                String organization = organizationComboBox.getSelectedOrganization();
+                String phoneNumber = phoneTextField.getText();
+                String idcardNumber = idcardNumberTextField.getText();
+                Date birthday = birthDatePickPanel.getDate();
+                Date ddlDate = ddlDatePickPanel.getDate();
+                double pay = new Double(payTextField.getText());
+                PayVO payVO = new PayVO(0, pay, 0, 0, 0);
+                EmployeeVO vo = new EmployeeVO(id, name, organization, Position.DRIVER, phoneNumber, birthday, idcardNumber, sex, payVO, ddlDate, "");
+                driverTableModel.create(vo);
+                DriverDialog.this.dispose();
+            }
+        });
+        if(isEditable){
+            JButton cancleButton = new JButton("取消");
+            cancleButton.setSize(80, 30);
+            this.add(cancleButton);
+            
+            cancleButton.addActionListener(new ActionListener() {
+                
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    DriverDialog.this.dispose();
+                }
+            });
+        }
 
-		phoneLabel.setBounds(0, 210, 180, 25);
-		phoneField.setBounds(100, 210, 180, 25);	 
-		idCardLabel.setBounds(0, 245, 100, 25);	 
-		idCardField.setBounds(100, 245, 180, 25);	 
-		birthLabel.setBounds(0, 275, 100, 25);		 
-		datePickPanel.setBounds(100, 275, 180, 25);
-		payLabel.setBounds(0, 310, 100, 25);	 
-		basePayField.setBounds(175, 310, 60, 25);	 
-		unitLabel.setBounds(245, 310, 70, 24);	 
-		   
-		cancleButton.setBounds(175, 380, 70, 30);
-		sureButton.setBounds(265, 380, 70, 30);
-	 
-		this.add(nameField);
-		this.add(nameLabel);
-		this.add(sexLabel);
-		this.add(femaleRadioButton);
-		this.add(maleRadioButton);	
-	    DialogLayoutManager.fix(maleRadioButton,femaleRadioButton);
-		this.add(idField);
-		this.add(idLabel);
-		this.add(organizationLabel);
-		this.add(organizationComboBox);
-		this.add(phoneField);
-		this.add(phoneLabel);
-		this.add(idCardLabel);
-		this.add(idCardField);
-		this.add(birthLabel);
-		this.add(datePickPanel);
-		this.add(ddlDatePickPanel);
-		this.add(cancleButton);
-		this.add(sureButton);
-
-		
-        this.add(ddlLabel);
-	    this.add(ddlDatePickPanel);
-	    this.add(payLabel);
-		this.add(basePayField);
-		this.add(unitLabel);
-
-        DialogLayoutManager.fix(basePayField,unitLabel);		
-
-		
-
-
-		this.setLayout(new DialogLayoutManager());
-		this.setTitle("司机信息");
-		this.setVisible(true);
-	}
-	
-	public void update(boolean isNew,int modelRow){
-
-		  
-		  String id = idCardField.getText();		
-		  String name = nameField.getText();
-		  String organization = organizationComboBox.getSelectedItem().toString();
-		  String phone = phoneField.getText();	
-		  String identityCardNum = new String(idCardField.getText());
-		  Date birth = datePickPanel.getDate();
-		  Date ddlDate = ddlDatePickPanel.getDate();
-		  Sex sex1 ;
-		  if(maleRadioButton.isSelected())
-		      sex1 = Sex.MALE;
-		  else 
-		      sex1 = Sex.FAMALE;			 					
-		  Position p = Position.DRIVER;
-		  PayVO paypo = new PayVO(0,Double.valueOf(basePayField.getText()), 0, 0, 0);
-		  EmployeeVO vo = new EmployeeVO(id, name, organization,
-					 p, phone, birth, identityCardNum, sex1, paypo,ddlDate,"");
-		  if(isNew){
-		      tableModel.create(vo);
-		  }
-		  else
-		      tableModel.modify(modelRow, vo);
-	}
-	
-	public void showCreateDialog(DriverTableModel em){
-		init();		
-		tableModel = em;
-		cancleButton.addActionListener(new ActionListener(){
-	
-			  @Override
-			  public void actionPerformed(ActionEvent e){
-				  DriverDialog.this.dispose();
-			  }
-		});
-			 
-		
-		sureButton.addActionListener(new ActionListener(){			
-			  @Override
-			  public void actionPerformed(ActionEvent e){
-				  update(true,0);
-				  DriverDialog.this.dispose();
-			  }
-		});
-		
-	}
-	
-	public void showQueryDialog(DriverTableModel em, int modelRow, boolean isEditable){
-
-		init();
-		this.tableModel = em;
-		EmployeeVO vo = tableModel.getEmployeeVO(modelRow);
-		nameField.setText(vo.getName());
-		idField.setText(""+vo.getId());
-		idField.setEnabled(false);
-		organizationComboBox.setSelectedItem(vo.getOrganization());
-		if(vo.getSex().equals(Sex.MALE))
-			maleRadioButton.setSelected(true);
-		else 
-			femaleRadioButton.setSelected(true);	
-
-        phoneField.setText(""+vo.getTelephone());
-        idCardField.setText(""+vo.getIdentityCardNum());
-        datePickPanel.setDate(vo.getBirthday());
-        ddlDatePickPanel.setDate(vo.getDriverLDDL());
-		unitLabel.setText("/次");
-		basePayField.setText(""+vo.getPay().getPayByCount());
-		
-		if(!isEditable){
-			nameField.setEnabled(false);
-			maleRadioButton.setEnabled(false);
-			femaleRadioButton.setEnabled(false);
-			idCardField.setEnabled(false);
-			organizationComboBox.setEnabled(false);
-			phoneField.setEnabled(false);
-			idCardField.setEnabled(false);
-			datePickPanel.setEnabled(false);
-			basePayField.setEnabled(false);
-
-			cancleButton.setVisible(false);
-			sureButton.addActionListener(new ActionListener() {
-				
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					// TODO Auto-generated method stub
-					DriverDialog.this.dispose();
-				}
-			});
-		}
-		else{
-			sureButton.addActionListener(new ActionListener() {
-				
-				@Override
-				public void actionPerformed(ActionEvent e) {
-
-					// TODO Auto-generated method stub
-					update(false,modelRow);
-					DriverDialog.this.dispose();
-				}
-			});
-		}
-	}
+        this.setLayout(new DialogLayoutManager());
+        this.setModalityType(ModalityType.APPLICATION_MODAL);
+        this.setTitle("司机信息");
+        this.setVisible(true);
+    }
 }

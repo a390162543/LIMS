@@ -26,6 +26,7 @@ import presentation.util.RecentDatePickPanel;
 import vo.LoadVO;
 import businesslogic.BusinessLogicService;
 import businesslogic.checkbl.CheckInfo;
+import businesslogic.checkbl.Name;
 import businesslogic.checkbl.loadinfo.LoadOrderId;
 import businesslogic.userbl.LoginController;
 import businesslogicservice.IdblService;
@@ -126,6 +127,59 @@ public class LoadDialog extends JDialog{
             personTextFields[i].setBounds(100+140*i, 10+35*5, 70, 25);
             this.add(personTextFields[i]);
         }
+        Checker jianzhuangChecker = new Checker(personTextFields[0], new CheckInfoGetter() {
+            
+            @Override
+            public CheckInfo getCheckInfo() {
+                return new Name(personTextFields[0].getText());
+            }
+        });
+        personTextFields[0].addKeyListener(new KeyListener() {
+            
+            @Override
+            public void keyTyped(KeyEvent e) {
+                // TODO Auto-generated method stub
+                
+            }
+            
+            @Override
+            public void keyReleased(KeyEvent e) {
+                jianzhuangChecker.check();
+            }
+            
+            @Override
+            public void keyPressed(KeyEvent e) {
+                // TODO Auto-generated method stub
+                
+            }
+        });
+        
+        Checker yayunChecker = new Checker(personTextFields[1], new CheckInfoGetter() {
+            
+            @Override
+            public CheckInfo getCheckInfo() {
+                return new Name(personTextFields[1].getText());
+            }
+        });
+        personTextFields[1].addKeyListener(new KeyListener() {
+            
+            @Override
+            public void keyTyped(KeyEvent e) {
+                // TODO Auto-generated method stub
+                
+            }
+            
+            @Override
+            public void keyReleased(KeyEvent e) {
+                yayunChecker.check();
+            }
+            
+            @Override
+            public void keyPressed(KeyEvent e) {
+                // TODO Auto-generated method stub
+                
+            }
+        });
         
         JLabel orderLabel = new JLabel();
         orderLabel.setText("装车订单号");
@@ -183,6 +237,8 @@ public class LoadDialog extends JDialog{
         
         costTextField = new JTextField();
         costTextField.setBounds(100, 20+35*8, 60, 25);
+        costTextField.setText("0");
+        costTextField.setEnabled(false);
         this.add(costTextField);
         
         JButton confirmButton = new JButton("确认");

@@ -64,7 +64,7 @@ public class CheckResultMessage {
         if(checkResult == CheckResult.FALSE)
             this.falseInfo += "<span style='color:#E53333;'>"+"¡ñ "+checkInfo+"</span><br>";
         else if(checkResult == CheckResult.WARNING)
-            this.warningInfo += "<span style='color:#FFE500;'>"+"¡ñ "+checkInfo+"</span><br>";
+            this.warningInfo += "<span style='color:#D9B300;'>"+"¡ñ "+checkInfo+"</span><br>";
     }
     
 }

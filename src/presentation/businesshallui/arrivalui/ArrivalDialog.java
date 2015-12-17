@@ -64,6 +64,9 @@ public class ArrivalDialog extends JDialog{
             textFields[i].setBounds(100, 10+35*i, 150, 25);
             this.add(textFields[i]);
         }
+        System.out.println(LoginController.getEmployeeId());
+        System.out.println(LoginController.getOrganizationName());
+        System.out.println(LoginController.getOrganizationId());
         IdblService idblService = arrivalblService.getIdblService();
         textFields[0].setText(idblService.createNewId());
         textFields[0].setEnabled(false);

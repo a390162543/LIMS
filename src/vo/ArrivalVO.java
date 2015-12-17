@@ -44,7 +44,7 @@ public class ArrivalVO {
         this.depart = depart;
         this.destination = destination;
         this.goodsState = goodsState;
-        if(transferId.length() == 17)
+        if(transferId.length() == 19)
             isTransferId = true;
     }
     

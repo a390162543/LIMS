@@ -18,7 +18,7 @@ public class Name implements CheckInfo{
 		CheckResultMessage checkResultMessage = new CheckResultMessage();
 		String regx = "^(([\u4e00-\u9fa5]{2,8})|([a-zA-Z]{2,16}))$";
 		if (!name.matches(regx)) {
-			checkResultMessage.addInfo(CheckResult.FALSE, "输入的名字格式不正确");
+			checkResultMessage.addInfo(CheckResult.FALSE, "姓名必须为2-8位汉字或2-16位英文字母");
 		}
 		return checkResultMessage;
 	}

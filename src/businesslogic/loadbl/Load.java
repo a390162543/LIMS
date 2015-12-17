@@ -10,6 +10,7 @@ import java.util.List;
 import po.LoadPO;
 import po.OrderPO;
 import systemenum.DocumentState;
+import dataservice.DataService;
 import dataservice.LoadDataService;
 import dataservice.OrderDataService;
 import vo.GoodsVO;
@@ -18,6 +19,7 @@ import vo.OrderDeliverInfoVO;
 import businesslogic.BusinessLogicUtil;
 import businesslogic.employeebl.Employee;
 import businesslogic.idbl.IdManager;
+import businesslogic.logbl.Log;
 import businesslogic.orderbl.Order;
 import businesslogic.organizationbl.Organization;
 import businesslogicservice.IdblService;
@@ -42,24 +44,16 @@ public class Load implements LoadblService{
     
     public Load(){
         goodsList = new GoodsList();
-        try {
-            loadDataService = (LoadDataService) Naming.lookup("rmi://localhost/LoadData");
-        } catch (MalformedURLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (RemoteException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (NotBoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        loadDataService = DataService.getLoadDataService();
     }
     
     @Override
     public boolean createLoadPO(LoadVO vo) {
         try {
             loadDataService.insert(vo.getLoadPO());
+            
+            Log logbl = new Log();
+            logbl.createLogPO("创建了装车单"+vo.getId());
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -74,6 +68,9 @@ public class Load implements LoadblService{
             po = loadDataService.find(vo.getId());
             po.update(vo);
             loadDataService.update(po);
+            
+            Log logbl = new Log();
+            logbl.createLogPO("修改了装车单"+vo.getId());
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -100,7 +97,7 @@ public class Load implements LoadblService{
         double weight = goodsList.getWeight();
         double cost = 0.0;
         double rate = 2.0;
-        cost = weight * rate * distance;
+        cost = weight * rate * distance / 1000;
         return cost;
     }
     
@@ -156,6 +153,9 @@ public class Load implements LoadblService{
             Employee employeebl = new Employee();
             String driverId = vo.getDriverId();
             employeebl.addPay(driverId);
+            
+            Log logbl = new Log();
+            logbl.createLogPO("审批了装车单"+vo.getId());
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

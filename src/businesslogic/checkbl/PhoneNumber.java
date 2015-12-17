@@ -21,15 +21,15 @@ public class PhoneNumber implements CheckInfo{
 		// TODO Auto-generated method stub
 		CheckResultMessage checkResultMessage = new CheckResultMessage();
 		if(phoneNumber.length() == 0){
-			 checkResultMessage.addInfo(CheckResult.FALSE, "电话号码不能为空");
+			 checkResultMessage.addInfo(CheckResult.FALSE, "手机号码不能为空");
 	         return checkResultMessage;
 		}
 		if(!isNumeric(phoneNumber)){
-			checkResultMessage.addInfo(CheckResult.FALSE, "电话号码不符合格式 ");
+			checkResultMessage.addInfo(CheckResult.FALSE, "手机号码应为以1开头的11位数字");
 	         return checkResultMessage;
 		}
 		if(phoneNumber.length() != 11){
-			 checkResultMessage.addInfo(CheckResult.FALSE, "电话号码应为11位");
+			 checkResultMessage.addInfo(CheckResult.FALSE, "手机号码应为11位");
 	         return checkResultMessage;
 		}
 		
@@ -38,7 +38,7 @@ public class PhoneNumber implements CheckInfo{
 	
 	public boolean isNumeric(String str){ 
 		 
-		Pattern p = Pattern.compile("^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$");  			  
+		Pattern p = Pattern.compile("[1]{1}[0-9]{10}");
 		Matcher m = p.matcher(str);  
 		return m.matches();
 			  

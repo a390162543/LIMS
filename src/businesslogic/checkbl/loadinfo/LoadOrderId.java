@@ -40,7 +40,6 @@ public class LoadOrderId implements CheckInfo{
                 }
             }
         }
-        
         return checkResultMessage;
     }
 

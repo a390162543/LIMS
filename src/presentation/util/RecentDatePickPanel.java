@@ -16,9 +16,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.WindowConstants;
 
 import org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper;
+
+import businesslogic.checkbl.CheckInfo;
+import businesslogic.checkbl.RecentDate;
 
 /**
  * 日期选择控件，用于近期日期选择
@@ -37,6 +39,7 @@ public class RecentDatePickPanel extends JPanel{
     private JTextField dateTextField;
     private JButton popUpButton;
     private DatePicker datePicker;
+    private Checker checker;
     
     public RecentDatePickPanel(){
         setSize(200, 25);
@@ -57,6 +60,15 @@ public class RecentDatePickPanel extends JPanel{
             
             @Override
             public void actionPerformed(ActionEvent e) {
+                if(checker == null){
+                    checker = new Checker(RecentDatePickPanel.this, new CheckInfoGetter() {
+                        
+                        @Override
+                        public CheckInfo getCheckInfo() {
+                            return new RecentDate(RecentDatePickPanel.this.getDate());
+                        }
+                    });
+                }
                 datePicker.show();
             }
         });
@@ -79,6 +91,7 @@ public class RecentDatePickPanel extends JPanel{
         SimpleDateFormat sdf = new SimpleDateFormat(
                 "yyyy年MM月dd日");
         dateTextField.setText(sdf.format(date));
+        checker.check();
     }
     
     public void setTime(Date date){
@@ -89,8 +102,11 @@ public class RecentDatePickPanel extends JPanel{
     public void setEnabled(boolean enabled) {
         // TODO Auto-generated method stub
         super.setEnabled(enabled);
-        popUpButton.setEnabled(false);
+        popUpButton.setEnabled(enabled);
+        if(enabled == false)
+            checker.discard();
     }
+    
     
     public void addActionListener(ActionListener actionListener){
         dateTextField.addActionListener(actionListener);
@@ -111,7 +127,6 @@ public class RecentDatePickPanel extends JPanel{
             showDateDialog.setSize(310, 182);
             showDateDialog.setTitle("日期选择");
             showDateDialog.setModalityType(ModalityType.APPLICATION_MODAL);
-            showDateDialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
             String[] header = { "日", "一", "二", "三", "四", "五", "六" };
             JPanel p1 = new JPanel(new GridLayout(7, 7));
             p1.setBounds(0, 0, 300, 120);
@@ -128,6 +143,9 @@ public class RecentDatePickPanel extends JPanel{
                             if(day.equals(""))
                                 return;
                             dateTextField.setText(getPickedDate());
+                            if(RecentDatePickPanel.this.isEnabled()){
+                                checker.check();
+                            }
                             RecentDatePickPanel.this.getDate();
                             RecentDatePickPanel.this.getTime();
                             showDateDialog.dispose();

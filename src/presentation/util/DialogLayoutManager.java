@@ -14,6 +14,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import presentation.mainui.MainFrame;
+
 /**
  * 专门为{@code JDialog}设计的一种{@code LayoutManager}的实现类
  * <p>将除了{@code JLabel}，{@code JButton}之外的组件由右上方往下
@@ -48,6 +50,7 @@ public class DialogLayoutManager implements LayoutManager{
     //标题栏高度
     private static final int TITLE_HEIGHT = 30;
     
+    private boolean setCenter = true;
     
     @Override
     public void addLayoutComponent(String name, Component comp) {
@@ -137,6 +140,10 @@ public class DialogLayoutManager implements LayoutManager{
             //修改dialog的大小
             JDialog dialog = (JDialog) parent.getParent().getParent().getParent();
             dialog.setSize(dialog_x, dialog_y);
+            if(setCenter){
+                dialog.setLocationRelativeTo(MainFrame.getMainFrame());
+                setCenter = false;
+            }
         }
     }
     

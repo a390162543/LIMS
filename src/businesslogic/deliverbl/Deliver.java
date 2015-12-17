@@ -1,14 +1,12 @@
 package businesslogic.deliverbl;
 
-import java.net.MalformedURLException;
-import java.rmi.Naming;
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
 import po.DeliverPO;
 import systemenum.DocumentState;
+import dataservice.DataService;
 import dataservice.DeliverDataService;
 import vo.DeliverVO;
 import vo.EmployeeVO;
@@ -16,6 +14,7 @@ import vo.OrderDeliverInfoVO;
 import businesslogic.BusinessLogicUtil;
 import businesslogic.employeebl.Employee;
 import businesslogic.idbl.IdManager;
+import businesslogic.logbl.Log;
 import businesslogic.orderbl.Order;
 import businesslogic.userbl.LoginController;
 import businesslogicservice.DeliverblService;
@@ -35,24 +34,16 @@ public class Deliver implements DeliverblService{
     private DeliverDataService deliverDataService;
     
     public Deliver(){
-        try {
-            deliverDataService = (DeliverDataService) Naming.lookup("rmi://localhost/DeliverData");
-        } catch (MalformedURLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (RemoteException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (NotBoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+            deliverDataService = DataService.getDeliverDataService();
     }
     
     @Override
     public boolean createDeliverPO(DeliverVO vo) {
         try {
             deliverDataService.insert(vo.getDeliverPO());
+            
+            Log logbl = new Log();
+            logbl.createLogPO("创建了派件单"+vo.getId());
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -67,6 +58,9 @@ public class Deliver implements DeliverblService{
             po = deliverDataService.find(vo.getId());
             po.update(vo);
             deliverDataService.update(po);
+            
+            Log logbl = new Log();
+            logbl.createLogPO("修改了派件单"+vo.getId());
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -98,7 +92,8 @@ public class Deliver implements DeliverblService{
             OrderDeliverInfoVO orderDeliverInfoVO = new OrderDeliverInfoVO(vo.getOrderId(), LoginController.getOrganizationName(), "", deliverInfo);
             orderbl.modifyDeliverInfo(orderDeliverInfoVO);
                 
-            
+            Log logbl = new Log();
+            logbl.createLogPO("审批了派件单"+vo.getId());
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

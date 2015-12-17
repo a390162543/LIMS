@@ -7,8 +7,6 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JRootPane;
 
-import org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper;
-
 /**
  * ÔÝÊ±·ÏÆú
  * @author ÁÖ×æ»ª
@@ -19,26 +17,20 @@ public class ScreenMessage{
     
     @SuppressWarnings("restriction")
     public static void putOnScreen(String message){
-        BeautyEyeLNFHelper.frameBorderStyle = BeautyEyeLNFHelper.FrameBorderStyle.generalNoTranslucencyShadow;
-        try {
-            org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper.launchBeautyEyeLNF();
-        } catch (Exception e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
-        }
         JDialog messageDialog = new JDialog();
-        messageDialog.setSize(300, 30);
+        messageDialog.setSize(12*message.length(), 15);
         messageDialog.setAlwaysOnTop(true);
         messageDialog.setLocationRelativeTo(null);
         messageDialog.setUndecorated(true);
         com.sun.awt.AWTUtilities.setWindowOpaque(messageDialog, false);
         messageDialog.getRootPane().setWindowDecorationStyle(JRootPane.NONE);
         JLabel textLabel = new JLabel(message, JLabel.CENTER);
-        textLabel.setFont(new Font("Î¢ÈíÑÅºÚ", Font.BOLD, 15));
-        textLabel.setBackground(Color.YELLOW);
-        textLabel.setForeground(Color.WHITE);
-        textLabel.setSize(300, 30);
-        textLabel.setOpaque(false);
+        textLabel.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 12));
+        textLabel.setBackground(new Color(0xFF, 0xFF, 0xCE));
+        textLabel.setForeground(Color.BLACK);
+        textLabel.setForeground(Color.RED);
+        textLabel.setSize(12*message.length(), 15);
+        textLabel.setOpaque(true);
         
         
         messageDialog.getContentPane().setBackground(null);
@@ -55,8 +47,7 @@ public class ScreenMessage{
     }
     
     public static void main(String[] args) {
-        ScreenMessage.putOnScreen("hello");
-        ScreenMessage.putOnScreen("hello");
+        ScreenMessage.putOnScreen("¿´¿´ÕâÀï");
         
     }
     

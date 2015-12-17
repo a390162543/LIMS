@@ -77,7 +77,6 @@ public class DriverPanel extends JPanel{
                 }else{
                     tableSorter.setRowFilter(RowFilter.regexFilter(filterText));
                 }
-                
             }
         });
         filterTextField.setBounds(320, 0, 235, 25);
@@ -90,7 +89,7 @@ public class DriverPanel extends JPanel{
             
             @Override
             public void actionPerformed(ActionEvent e) {
-                new DriverDialog().showCreateDialog(tableModel);
+                new DriverDialog(tableModel);
                 
             }
         });
@@ -114,7 +113,7 @@ public class DriverPanel extends JPanel{
                 if(row == -1)
                     return;
                 int modelRow = EmployeeTable.convertRowIndexToModel(row);
-                new DriverDialog().showQueryDialog(tableModel, modelRow, true);
+                new DriverDialog(tableModel, modelRow, true);
             }
         });
         queryButton.addActionListener(new ActionListener() {
@@ -125,7 +124,7 @@ public class DriverPanel extends JPanel{
                 if(row == -1)
                     return;
                 int modelRow = EmployeeTable.convertRowIndexToModel(row);
-                new DriverDialog().showQueryDialog(tableModel, modelRow, false);
+                new DriverDialog(tableModel, modelRow, false);
             }
         });
         createButton.setBounds(230, 420, 70, 30);

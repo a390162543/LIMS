@@ -137,6 +137,8 @@ public class RevenueDialog extends JDialog{
         
         costTextField = new JTextField();
         costTextField.setBounds(100, 25+35*6, 60, 25);
+        costTextField.setText("0");
+        costTextField.setEnabled(false);;
         this.add(costTextField);
         
         JButton confirmButton = new JButton("х╥хо");

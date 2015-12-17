@@ -109,6 +109,8 @@ public class DatePickPanel extends JPanel{
     }
     
     public void setDate(Date date){
+        if(date == null)
+            return;
         calendar.setTime(date);
         yearComboBox.setSelectedItem(calendar.get(Calendar.YEAR));
         monthComboBox.setSelectedItem(calendar.get(Calendar.MONTH)+1);

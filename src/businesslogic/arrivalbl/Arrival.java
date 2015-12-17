@@ -18,7 +18,6 @@ import businesslogic.loadbl.Load;
 import businesslogic.logbl.Log;
 import businesslogic.orderbl.Order;
 import businesslogic.transferbl.Transfer;
-import businesslogic.userbl.LoginController;
 import businesslogicservice.ArrivalblService;
 import businesslogicservice.IdblService;
 
@@ -43,10 +42,13 @@ public class Arrival implements ArrivalblService{
     public boolean createArrivalPO(ArrivalVO vo) {
         try {
             arrivalDataService.insert(vo.getArrivalPO());
+            Log logbl = new Log();
+            logbl.createLogPO("创建了到达单"+vo.getId());
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+
         return true;
     }
 
@@ -57,6 +59,8 @@ public class Arrival implements ArrivalblService{
             po = arrivalDataService.find(vo.getId());
             po.update(vo);
             arrivalDataService.update(po);
+            Log logbl = new Log();
+            logbl.createLogPO("修改了到达单"+vo.getId());
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -94,6 +98,9 @@ public class Arrival implements ArrivalblService{
                 OrderDeliverInfoVO orderDeliverInfoVO = new OrderDeliverInfoVO(orderId, vo.getDestination(), vo.getDestination(), deliverInfo);
                 orderbl.modifyDeliverInfo(orderDeliverInfoVO);
             }
+            
+            Log logbl = new Log();
+            logbl.createLogPO("审批了到达单"+vo.getId());
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

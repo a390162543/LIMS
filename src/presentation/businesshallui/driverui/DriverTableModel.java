@@ -27,7 +27,7 @@ public class DriverTableModel extends DefaultTableModel{
 	private static final long serialVersionUID = 5749745959779424336L;
 	private EmployeeblService EmployeeblService;
     private List<EmployeeVO> dataList;
-    private static final String[] TABLE_HEADER = {"司机编号","姓名","电话","生日",
+    private static final String[] TABLE_HEADER = {"司机编号","姓名","手机号码","出生日期",
     	"身份证号","性别","工资"};
     
     
