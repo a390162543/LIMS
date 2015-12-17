@@ -1,8 +1,6 @@
  package presentation.transitcenterui.transferui;
 
 import java.awt.Dimension;
-
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -10,7 +8,6 @@ import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -22,9 +19,9 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
-
 import presentation.util.CheckInfoGetter;
 import presentation.util.Checker;
+import presentation.util.DialogLayoutManager;
 import presentation.util.OrganizationComboBox;
 import presentation.util.RecentDatePickPanel;
 import systemenum.ShipForm;
@@ -80,7 +77,10 @@ public class TransferDialog extends JDialog{
 		way.add(flightButton);
 		way.add(trainButton);
 		way.add(truckButton);
-		 		
+		
+		//默认货运方式为航空
+		flightButton.setSelected(true);		
+		
 		JTextField idField = new JTextField();
 		idField.setBounds(105, 10, 180, 20);
 		JLabel idLabel = new JLabel("中转单编号");
@@ -90,7 +90,7 @@ public class TransferDialog extends JDialog{
 		
 		RecentDatePickPanel datePickPanel = new RecentDatePickPanel();
         datePickPanel.setBounds(100, 90, 200, 25);
-        this.add(datePickPanel);
+      
 		 
 		JLabel flightNumLabel = new JLabel("航班号");
 		flightNumLabel.setBounds(20, 130, 80, 20);
@@ -98,16 +98,19 @@ public class TransferDialog extends JDialog{
 		flightNumField.setBounds(105, 130, 180, 20);
 		
 		JLabel departLabel = new JLabel("出发地");
-		departLabel.setBounds(20, 170, 80, 20);		
+		departLabel.setBounds(20, 170, 80, 20);	
+		
+		//出发地为当前登录用户 的机构
 		departBox = new OrganizationComboBox();
 		departBox.setLocation(105, 170);
 		departBox.setSelectedItem(LoginController.getOrganizationName());
+		departBox.setEnabled(false);
 		JLabel destinationLabel = new JLabel("目的地");
 		destinationLabel.setBounds(20, 210, 80, 20);
 		
-		destinationBox = new OrganizationComboBox();
+		destinationBox = new OrganizationComboBox("中转中心");
 		destinationBox.setLocation(105, 210);		
-		destinationBox.setEnabled(false);
+		
 		
 		JLabel containerIdLabel = new JLabel("货柜号");
 		containerIdLabel.setBounds(20, 250, 80, 20);
@@ -134,12 +137,12 @@ public class TransferDialog extends JDialog{
 	    orderTable.setSize(250, 100);
 	    orderTable.setRowSorter(tableSorter); 
         orderTable.getTableHeader().setPreferredSize(new Dimension(180, 25));
-	    JScrollPane OrderScrollPane = new JScrollPane(orderTable);
-	    OrderScrollPane.setBounds(105, 290,250, 100);	        
+	    JScrollPane orderScrollPane = new JScrollPane(orderTable);
+	    orderScrollPane.setBounds(105, 290,250, 100);	        
 	    JButton addOrderButton = new JButton("添加订单");
-	    addOrderButton.setBounds(200, 400, 70, 20);
+	    addOrderButton.setBounds(280, 400, 70, 20);
 		JButton deleteOrderButton = new JButton("删除订单");
-		deleteOrderButton.setBounds(300, 400, 70, 20);
+		deleteOrderButton.setBounds(200, 400, 70, 20);
 		addOrderButton.addActionListener(new ActionListener() {
 				
 			@Override
@@ -197,6 +200,7 @@ public class TransferDialog extends JDialog{
 				for(int i = 0; i < orderTable.getRowCount(); i ++)
 					orderId.add((String)orderTable.getValueAt(i, 0));
 				double expenses = new Double(expensesField.getText());
+				
 				ShipForm shipForm = null;
 				if(trainButton.isSelected())
 					shipForm = ShipForm.TRAIN;
@@ -208,19 +212,21 @@ public class TransferDialog extends JDialog{
 				TransferVO vo = new TransferVO(id, loadDate, flightNum, depart, destination,
 						containerId, loadMan, orderId, expenses,shipForm);
 				transferblService.createTransferPO(vo);
+				TransferDialog.this.dispose();
 			}
 		});
 		
 		 
-		
+		this.add(idLabel);
+		this.add(idField);		
 		this.add(wayLabel);
 		this.add(trainButton);
 		this.add(flightButton);
 		this.add(truckButton);
-		this.add(idLabel);
-		this.add(idField);
+		DialogLayoutManager.fix(flightButton, trainButton, truckButton);
+		
 		this.add(dateLabel);
-		this.add(dateLabel);	 
+		this.add(datePickPanel);
 		this.add(flightNumLabel);
 		this.add(flightNumField);
 		this.add(departLabel);
@@ -231,16 +237,22 @@ public class TransferDialog extends JDialog{
 		this.add(containerIdField);
 		this.add(loanManLabel);
 		this.add(loanManField);
-		this.add(orderIdLabel);
-		this.add(expensesLabel);
-		this.add(expensesField);
-		this.add(cancleButton);
-		this.add(sureButton);	 
-		this.add(OrderScrollPane);
+		
+		this.add(orderIdLabel);	
+		this.add(orderScrollPane);
 		this.add(addOrderButton);
 		this.add(deleteOrderButton);
-		this.setBounds(400, 120, 400, 550);
-		this.setLayout(null);
+		DialogLayoutManager.fix(orderScrollPane, deleteOrderButton, addOrderButton);
+		
+		this.add(expensesLabel);
+		this.add(expensesField);	
+		this.setBounds(400, 120, 400, 550);	
+		this.add(sureButton);
+		this.add(cancleButton);	
+		this.setLayout(new DialogLayoutManager());
+		
+		
+		
 		this.setVisible(true);
 		
 		//添加检查
@@ -348,6 +360,9 @@ public class TransferDialog extends JDialog{
 			}
 		});
 		
+		//界面置顶
+		this.setModalityType(ModalityType.APPLICATION_MODAL);
+		
 	}
 
 	//显示运费
@@ -404,8 +419,15 @@ public class TransferDialog extends JDialog{
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
+					if(orderCheck.check()){
 					tableModel.add(orderField.getText());
 					setExpensesField();
+					AddOrderDialog.this.dispose();
+					}
+					else {
+						return;
+					}
+
 										
 				}
 			});
@@ -418,6 +440,7 @@ public class TransferDialog extends JDialog{
 			this.setLayout(null);
 			this.setBounds(400, 250, 380, 140);
 			this.setVisible(true);	
+			
 			//添加订单检查
 			orderCheck = new Checker(orderField,new CheckInfoGetter() {
 				

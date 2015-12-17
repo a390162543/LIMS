@@ -15,7 +15,7 @@ public interface EmployeeblService extends Identifiable{
      * @param vo 界面层传递来的{@code EmployeeVO}
      * @return  成功创建返回{@code true}，否则返回{@code false}
      */
-	public boolean creatEmployeePO(EmployeeVO vo);
+	public boolean createEmployeePO(EmployeeVO vo);
 	 
 	/**
      * 删除员工信息

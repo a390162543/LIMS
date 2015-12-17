@@ -1,5 +1,7 @@
 package presentation.financeui.primeinfoui.employeeui;
 
+ 
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -20,9 +22,12 @@ import businesslogic.BusinessLogicService;
 import businesslogic.checkbl.CheckInfo;
 import businesslogic.checkbl.Name;
 import businesslogic.checkbl.employeeinfo.EmployeeIdCard;
+import businesslogic.checkbl.employeeinfo.Rate;
+import businesslogic.checkbl.priceinfo.Price;
 import businesslogic.checkbl.PhoneNumber;
 import businesslogicservice.EmployeeblService;
 import businesslogicservice.IdblService;
+ 
 import presentation.util.CheckInfoGetter;
 import presentation.util.Checker;
 import presentation.util.DatePickPanel;
@@ -74,6 +79,8 @@ public class PrimeInfoEmployeeDialog extends JDialog{
     private Checker phoneNumberChecker;
     private Checker idcardChecker;
     private Checker nameChecker;
+    private Checker payChecker;
+    private Checker rateChecker;
     
     public PrimeInfoEmployeeDialog(PrimeInfoEmployeeTableModel em){		
 		tableModel = em;
@@ -104,7 +111,8 @@ public class PrimeInfoEmployeeDialog extends JDialog{
 		sureButton.addActionListener(new ActionListener(){			
 			  @Override
 			  public void actionPerformed(ActionEvent e){
-				  boolean isCorrect = idcardChecker.check() && phoneNumberChecker.check();
+				  boolean isCorrect = idcardChecker.check() & phoneNumberChecker.check() & 
+			  				nameChecker.check() & payChecker.check() & rateChecker.check();
 				  if(isCorrect){
 					  update(true,0);
 					  PrimeInfoEmployeeDialog.this.dispose();
@@ -114,6 +122,9 @@ public class PrimeInfoEmployeeDialog extends JDialog{
 				  }		
 			}
 		});		
+		
+		//界面置顶
+		this.setModalityType(ModalityType.APPLICATION_MODAL);
 	}
 	 
 	public PrimeInfoEmployeeDialog(PrimeInfoEmployeeTableModel em, int modelRow, boolean isEdit){
@@ -211,7 +222,8 @@ public class PrimeInfoEmployeeDialog extends JDialog{
 				public void actionPerformed(ActionEvent e) {
 
 					// TODO Auto-generated method stub
-					 boolean isCorrect = idcardChecker.check() && phoneNumberChecker.check();
+					 boolean isCorrect = idcardChecker.check() & phoneNumberChecker.check() & 
+							 			nameChecker.check() & payChecker.check() & rateChecker.check();
 					  if(isCorrect){
 						  if(idField.getText().equals(vo.getId())){
 							  update(false,modelRow);
@@ -236,10 +248,11 @@ public class PrimeInfoEmployeeDialog extends JDialog{
 					// TODO Auto-generated method stub
 					setId();
 				}
-			});
-			
-		
+			});		
 		}
+		
+		//界面置顶
+		this.setModalityType(ModalityType.APPLICATION_MODAL);
 	}
 	
 
@@ -251,14 +264,11 @@ public class PrimeInfoEmployeeDialog extends JDialog{
 	}
 	
     public void init(){    	 
-   
+    	 
 		employeeblService =  BusinessLogicService.getEmployeeblService();	 
- 
 		positions = new String[]{"总经理","营业厅业务员","中转中心业务员","快递员",
 				 "中转中心仓库管理员","高级财务人员","财务人员","管理员","司机"};
-	 
-		 
-		 
+	 	 
 		nameLabel = new JLabel("姓名");
 		nameField = new JTextField();
 		sexLabel = new JLabel("性别");
@@ -268,8 +278,8 @@ public class PrimeInfoEmployeeDialog extends JDialog{
 		idLabel = new JLabel("员工编号");	
 		idField = new JTextField();
 		organizationLabel = new JLabel("所在机构");
-		organizationBox = new OrganizationComboBox();
-		
+		organizationBox = new OrganizationComboBox(true);
+	 	
 		positionLabel = new JLabel("职位");
 		positionBox = new JComboBox<String>(positions);
 		phoneLabel = new JLabel("电话");	
@@ -291,6 +301,7 @@ public class PrimeInfoEmployeeDialog extends JDialog{
 		cancleButton = new JButton("取消");
 		sureButton = new JButton("确认");
 		
+		//添加期初建账中的机构
 		for(String s : tableModel.getOrganizationName())
 			organizationBox.addItem(s);
 		
@@ -509,8 +520,74 @@ public class PrimeInfoEmployeeDialog extends JDialog{
 				
 			}
 		});
+		payChecker = new Checker(basePayField,new CheckInfoGetter() {
+			
+			@Override
+			public CheckInfo getCheckInfo() {
+				// TODO Auto-generated method stub
+				if(basePayField.getText() == null){
+					return null;
+				}
+				return new Price(basePayField.getText());
+			}
+		});
+		
+		basePayField.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				payChecker.check();
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
+		rateChecker = new Checker(percentageField,new CheckInfoGetter() {
+			
+			@Override
+			public CheckInfo getCheckInfo() {
+				// TODO Auto-generated method stub
+				if(percentageField.getText() == null){
+					return null;
+				}
+				else{
+					return new Rate(percentageField.getText());
+				}
+			}
+		});
+		percentageField.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				rateChecker.check();
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
  
-		this.setLayout(null);
+		this.setLayout(new DialogLayoutManager());
 		this.setVisible(true);
  
 	}
@@ -520,12 +597,10 @@ public class PrimeInfoEmployeeDialog extends JDialog{
 		  
 		  String id = idField.getText();		
 		  String name = nameField.getText();
-		  String organization = organizationBox.getSelectedItem().toString();
+		  String organization = organizationBox.getSelectedOrganization();
 		  String phone = phoneField.getText();	
-		  String identityCardNum = new String(idCardField.getText());
-			@SuppressWarnings("deprecation")
-		 Date birth = new Date((int)yearBox.getSelectedItem(), 
-					   (int)monthBox.getSelectedItem(),(int)dayBox.getSelectedItem());
+		  String identityCardNum = new String(idCardField.getText());		 
+		  Date birth =  datePickPanel.getDate();		
 			//String idCardNum = new String(idCardField.getText());
 			Sex sex1 ;
 			 if(maleRadioButton.isSelected())

@@ -1,54 +1,53 @@
-package presentation.financeui.primeinfoui.organizationui;
- 
- 
-import java.awt.Container;
+package presentation.financeui.primeinfoui.cityui;
 
+import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
+
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
-import vo.OrganizationVO;
+ 
+import vo.CityVO;
 import businesslogicservice.PrimeInfoblService;
 
-public class PrimeInfoOrganizationPanel extends JPanel{
+public class PrimeInfoCityPanel extends JPanel{
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 5055537811206619490L;		
-	private JScrollPane OrganizationScrollPane;   
-    private JTable OrganizationTable;
-    private PrimeInfoOrganizationTableModel tableModel;
+	private static final long serialVersionUID = 4300686911538244505L;
+	private JScrollPane CityScrollPane;   
+    private JTable CityTable;
+    private PrimeInfoCityTableModel tableModel;
     private TableRowSorter<TableModel> tableSorter;   
     private PrimeInfoblService primeInfoblService;
     
-    public PrimeInfoOrganizationPanel(List<OrganizationVO> vos){
+    public PrimeInfoCityPanel(List<CityVO> vos){
     	 //build up account table
-        tableModel = new PrimeInfoOrganizationTableModel(vos);  
+        tableModel = new PrimeInfoCityTableModel(vos);  
         tableSorter = new TableRowSorter<TableModel>(tableModel);
-        OrganizationTable = new JTable(tableModel);
-        OrganizationTable.setSize(800, 500);
-        OrganizationTable.setRowSorter(tableSorter);        
+        CityTable = new JTable(tableModel);
+        CityTable.setSize(800, 500);
+        CityTable.setRowSorter(tableSorter);        
         //set scroll pane
-        OrganizationScrollPane = new JScrollPane(OrganizationTable);
-        OrganizationScrollPane.setBounds(0, 10, 560, 370);
+        CityScrollPane = new JScrollPane(CityTable);
+        CityScrollPane.setBounds(0, 10, 560, 370);
         
         JButton queryButton = new JButton("详情");
         queryButton.addActionListener(new ActionListener() {
             
             @Override
             public void actionPerformed(ActionEvent e) {
-                int row = OrganizationTable.getSelectedRow();
+                int row = CityTable.getSelectedRow();
                 if(row == -1)
                     return;
-                int modelRow = OrganizationTable.convertRowIndexToModel(row);
-                new PrimeInfoOrganizationDialog(tableModel, modelRow, false);
+                int modelRow = CityTable.convertRowIndexToModel(row);
+                new PrimeInfoCityDialog(tableModel, modelRow, false);
                 
             }
         });
@@ -57,21 +56,21 @@ public class PrimeInfoOrganizationPanel extends JPanel{
         //set panel
         this.setBounds(0, 15, 560, 370);
         this.setLayout(null);
-        this.add(OrganizationScrollPane);
+        this.add(CityScrollPane);
         this.add(queryButton);
     	
     }
-    public PrimeInfoOrganizationPanel(PrimeInfoblService pibs){
-    	 //build up Organization table
+    public PrimeInfoCityPanel(PrimeInfoblService pibs){
+    	 //build up City table
     	primeInfoblService = pibs;
-        tableModel = new  PrimeInfoOrganizationTableModel(primeInfoblService);
+        tableModel = new  PrimeInfoCityTableModel(primeInfoblService);
         tableSorter = new TableRowSorter<TableModel>(tableModel);
-        OrganizationTable = new JTable(tableModel);
-        OrganizationTable.setSize(800, 500);
-        OrganizationTable.setRowSorter(tableSorter);        
+        CityTable = new JTable(tableModel);
+        CityTable.setSize(800, 500);
+        CityTable.setRowSorter(tableSorter);        
         //set scroll pane
-        OrganizationScrollPane = new JScrollPane(OrganizationTable);
-        OrganizationScrollPane.setBounds(0, 10, 560, 370);
+        CityScrollPane = new JScrollPane(CityTable);
+        CityScrollPane.setBounds(0, 10, 560, 370);
         
         JButton createButton = new JButton("添加");
         JButton deleteButton = new JButton("删除");
@@ -82,7 +81,7 @@ public class PrimeInfoOrganizationPanel extends JPanel{
             
             @Override
             public void actionPerformed(ActionEvent e) {
-                new PrimeInfoOrganizationDialog(tableModel);
+                new PrimeInfoCityDialog(tableModel);
                 
             }
         });
@@ -90,10 +89,10 @@ public class PrimeInfoOrganizationPanel extends JPanel{
             
             @Override
             public void actionPerformed(ActionEvent e) {
-                int row = OrganizationTable.getSelectedRow();
+                int row = CityTable.getSelectedRow();
                 if(row == -1)
                     return;
-                int modelRow = OrganizationTable.convertRowIndexToModel(row);
+                int modelRow = CityTable.convertRowIndexToModel(row);
                 tableModel.delete(modelRow);
 
             }
@@ -102,22 +101,22 @@ public class PrimeInfoOrganizationPanel extends JPanel{
             
             @Override
             public void actionPerformed(ActionEvent e) {
-            	 int row = OrganizationTable.getSelectedRow();
+            	 int row = CityTable.getSelectedRow();
                  if(row == -1)
                      return;
-                 int modelRow = OrganizationTable.convertRowIndexToModel(row);
-                 new PrimeInfoOrganizationDialog(tableModel, modelRow, true);	 
+                 int modelRow = CityTable.convertRowIndexToModel(row);
+                 new PrimeInfoCityDialog(tableModel, modelRow, true);	 
             }
         });
         queryButton.addActionListener(new ActionListener() {
             
             @Override
             public void actionPerformed(ActionEvent e) {
-                int row = OrganizationTable.getSelectedRow();
+                int row = CityTable.getSelectedRow();
                 if(row == -1)
                     return;
-                int modelRow = OrganizationTable.convertRowIndexToModel(row);
-                new PrimeInfoOrganizationDialog(tableModel, modelRow, false);
+                int modelRow = CityTable.convertRowIndexToModel(row);
+                new PrimeInfoCityDialog(tableModel, modelRow, false);
             }
         });
         confirmButton.addActionListener(new ActionListener() {
@@ -127,7 +126,7 @@ public class PrimeInfoOrganizationPanel extends JPanel{
     		// TODO Auto-generated method stub
     			primeInfoblService.createPrimeInfoPO();
     			primeInfoblService.execute();   
-    	        Container container = PrimeInfoOrganizationPanel.this.getParent().getParent();
+    	        Container container = PrimeInfoCityPanel.this.getParent().getParent();
     	        container.removeAll();
     	        container.repaint();
     		}
@@ -138,11 +137,10 @@ public class PrimeInfoOrganizationPanel extends JPanel{
         modifyButton.setBounds(230, 390, 70, 30);
         queryButton.setBounds(315, 390, 70, 30);          
         confirmButton.setBounds(425, 390, 130, 30);
-        //set panel
-        //改成470高的话 jtabbedpane 就不显示选项卡了 不知为什么！！！！
+
         this.setBounds(0, 15, 560, 370);
         this.setLayout(null);
-        this.add(OrganizationScrollPane);
+        this.add(CityScrollPane);
         this.add(createButton);
         this.add(deleteButton);
         this.add(modifyButton);

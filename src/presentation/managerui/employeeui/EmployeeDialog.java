@@ -1,6 +1,5 @@
 package presentation.managerui.employeeui;
 
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -19,6 +18,8 @@ import businesslogic.BusinessLogicService;
 import businesslogic.checkbl.CheckInfo;
 import businesslogic.checkbl.Name;
 import businesslogic.checkbl.employeeinfo.EmployeeIdCard;
+import businesslogic.checkbl.employeeinfo.Rate;
+import businesslogic.checkbl.priceinfo.Price;
 import businesslogic.checkbl.PhoneNumber;
 import businesslogicservice.EmployeeblService;
 import businesslogicservice.IdblService;
@@ -79,6 +80,8 @@ public class EmployeeDialog extends JDialog{
     private Checker phoneNumberChecker;
     private Checker idcardChecker;
     private Checker nameChecker;
+    private Checker payChecker;
+    private Checker rateChecker;
     
     //创建员工的Dialog   
     public EmployeeDialog(EmployeeTableModel em){
@@ -108,7 +111,9 @@ public class EmployeeDialog extends JDialog{
 		sureButton.addActionListener(new ActionListener(){			
 			  @Override
 			  public void actionPerformed(ActionEvent e){
-				  boolean isCorrect = idcardChecker.check() && phoneNumberChecker.check();
+				  
+				  boolean isCorrect = idcardChecker.check() & phoneNumberChecker.check() & 
+						  				nameChecker.check() & payChecker.check() ;
 				  if(isCorrect){
 					  update(true,0);
 					  EmployeeDialog.this.dispose();
@@ -119,8 +124,8 @@ public class EmployeeDialog extends JDialog{
 			  }
 		});		
 		
-		
-		
+		//界面置顶
+		this.setModalityType(ModalityType.APPLICATION_MODAL);	
 		
 	}
 	
@@ -213,7 +218,9 @@ public class EmployeeDialog extends JDialog{
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
-					 boolean isCorrect = idcardChecker.check() && phoneNumberChecker.check();
+					
+					  boolean isCorrect = idcardChecker.check() & phoneNumberChecker.check() & 
+				  				nameChecker.check() & payChecker.check() ;
 					  if(isCorrect){
 						  if(idField.getText().equals(vo.getId())){
 							  update(false,modelRow);
@@ -239,7 +246,10 @@ public class EmployeeDialog extends JDialog{
 					setId();
 				}
 			});
-		}	
+		}
+		
+		//界面置顶
+		this.setModalityType(ModalityType.APPLICATION_MODAL);	
 	}
 	
 	/**
@@ -271,7 +281,7 @@ public class EmployeeDialog extends JDialog{
 		idLabel = new JLabel("员工编号");	
 		idField = new JTextField();
 		organizationLabel = new JLabel("所在机构");
-		organizationBox = new OrganizationComboBox();	
+		organizationBox = new OrganizationComboBox(true);	
 		positionLabel = new JLabel("职位");
 		positionBox = new JComboBox<String>(positions);
 		phoneLabel = new JLabel("电话");	
@@ -300,11 +310,16 @@ public class EmployeeDialog extends JDialog{
 		nameField.setBounds(100, 90, 60, 20);
 		sexLabel.setBounds(0, 120, 100, 24);	 
 		maleRadioButton.setBounds(100, 120, 60, 20);	 
-		femaleRadioButton.setBounds(170, 120, 60, 20);	 
+		femaleRadioButton.setBounds(170, 120, 60, 20);	
+		
+		//默认性别为男
+		maleRadioButton.setSelected(true);
+		
 		sex.add(maleRadioButton);
 		sex.add(femaleRadioButton);	 
 		idLabel.setBounds(0, 60, 100, 24);
-		idField.setBounds(100, 60, 180, 20);	 
+		idField.setBounds(100, 60, 180, 20);
+		idField.setEnabled(false);
 		organizationLabel.setBounds(0, 150, 100, 24);	 
 		organizationBox.setBounds(100, 150, 180, 20);	 
 		positionLabel.setBounds(0, 180, 100, 24);	 
@@ -402,9 +417,10 @@ public class EmployeeDialog extends JDialog{
 		
 		this.add(sureButton);
 		this.add(cancleButton);
-
+		
+		
 		this.setLayout(new DialogLayoutManager());
-		//this.setLayout(null);
+	 
 		this.setVisible(true);
 		
 		
@@ -500,6 +516,73 @@ public class EmployeeDialog extends JDialog{
 			public void keyReleased(KeyEvent e) {
 				// TODO Auto-generated method stub
 				nameChecker.check();
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
+		payChecker = new Checker(basePayField,new CheckInfoGetter() {
+			
+			@Override
+			public CheckInfo getCheckInfo() {
+				// TODO Auto-generated method stub
+				if(basePayField.getText() == null){
+					return null;
+				}
+				return new Price(basePayField.getText());
+			}
+		});
+		
+		basePayField.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				payChecker.check();
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
+		rateChecker = new Checker(percentageField,new CheckInfoGetter() {
+			
+			@Override
+			public CheckInfo getCheckInfo() {
+				// TODO Auto-generated method stub
+				if(percentageField.getText() == null){
+					return null;
+				}
+				else{
+					return new Rate(percentageField.getText());
+				}
+			}
+		});
+		percentageField.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				rateChecker.check();
 			}
 			
 			@Override

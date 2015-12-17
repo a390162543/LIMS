@@ -37,7 +37,7 @@ public interface UserblService {
 	 * @param vo, 界面层传递来的{@code UserVO}
 	 * @return 成功修改返回{@code true}, 否则返回{@code false}
 	 */
-	public boolean modifyPassword(UserVO vo);
+	public boolean modifyPassword(String id, String password);
 	 /**
 	  * 获取所有用户信息
 	  * @return 返回一个{@code List<UserVO>}对象，如果 不存在，则返回{@code null}

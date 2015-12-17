@@ -60,7 +60,8 @@ public class Transfer implements TransferblService{
 		default:
 			break;
 		}
-		cost = weight * rate * distance;
+		// weight µ¥Î»Îªkg
+		cost = weight * rate * distance / 1000;
 		return cost;
 	}
 

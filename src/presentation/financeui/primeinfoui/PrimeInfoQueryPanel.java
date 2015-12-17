@@ -4,6 +4,7 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 import presentation.financeui.primeinfoui.accountui.PrimeInfoAccountPanel;
+import presentation.financeui.primeinfoui.cityui.PrimeInfoCityPanel;
 import presentation.financeui.primeinfoui.employeeui.PrimeInfoEmployeePanel;
 import presentation.financeui.primeinfoui.orderui.PrimeInfoOrderPanel;
 import presentation.financeui.primeinfoui.organizationui.PrimeInfoOrganizationPanel;
@@ -34,6 +35,8 @@ public class PrimeInfoQueryPanel extends JPanel{
 		primeInfoOrganizationPanel.setLocation(0, 0);
 		PrimeInfoEmployeePanel primeInfoEmployeePanel = new PrimeInfoEmployeePanel(primeInfoVO.getEmployee());
 		primeInfoEmployeePanel.setLocation(0, 0);
+		PrimeInfoCityPanel primeInfoCityPanel = new PrimeInfoCityPanel(primeInfoVO.getCity());
+		primeInfoCityPanel.setLocation(0, 0);
 		PrimeInfoStoreinPanel primeInfoStoreinPanel = new PrimeInfoStoreinPanel(primeInfoVO.getStorage());
 		primeInfoStoreinPanel.setLocation(0, 0);
 		PrimeInfoOrderPanel primeInfoOrderPanel = new PrimeInfoOrderPanel(primeInfoVO.getOrder());
@@ -42,6 +45,7 @@ public class PrimeInfoQueryPanel extends JPanel{
 		JTabbedPane pane = new JTabbedPane();
 		pane.addTab("机构", primeInfoOrganizationPanel);
 		pane.addTab("人员", primeInfoEmployeePanel);
+		pane.addTab("城市", primeInfoCityPanel);
 		pane.addTab("车辆", primeInfoTruckPanel);
 		pane.addTab("库存", primeInfoStoreinPanel);
 		pane.addTab("订单", primeInfoOrderPanel);

@@ -1,6 +1,5 @@
-package presentation.managerui.cityui;
+package presentation.financeui.primeinfoui.cityui;
 
- 
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,6 +8,7 @@ import java.awt.event.KeyListener;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -16,6 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+
 import presentation.mainui.MainFrame;
 import presentation.util.CheckInfoGetter;
 import presentation.util.Checker;
@@ -26,27 +27,21 @@ import businesslogic.checkbl.cityinfo.CityName;
 import businesslogic.citybl.City;
 import businesslogicservice.CityblService;
 
-/**
- * 新建城市的Dialog
- * @author 刘航伸
- *@see businesslogic.City
- *@version 1.2
- */
-public class CreateCityDialog extends JDialog{
+public class PrimeInfoCityDialog extends JDialog{
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 8582259066297268768L;
-	
-	 
+	private static final long serialVersionUID = -6722175178600991034L;
 	private CityblService cityblService;
 	private JPanel mainPanel;
 	private Checker nameChecker;
 	private Checker idChecker;
+	private PrimeInfoCityTableModel tableModel;
 	
-	public CreateCityDialog( ){
+	public PrimeInfoCityDialog(PrimeInfoCityTableModel em ){
 		 this.setTitle("新增城市");
+		 this.tableModel = em;
 		 mainPanel = new JPanel();
 		 cityblService = new City();
 		 mainPanel.setBounds(0, 0, 400, 300);
@@ -59,6 +54,22 @@ public class CreateCityDialog extends JDialog{
 		 this.setLayout(null);
 		 this.setVisible(true);
 	}
+	
+	public PrimeInfoCityDialog(PrimeInfoCityTableModel em, int modelRow, boolean isEdit) {
+	// TODO Auto-generated constructor stub
+		 this.tableModel = em;
+		 mainPanel = new JPanel();
+		 cityblService = new City();
+		 mainPanel.setBounds(0, 0, 400, 300);
+		 mainPanel.add(new InputCityPanel(  em,   modelRow,   isEdit));
+		 mainPanel.setLayout(null);
+		 this.setModalityType(ModalityType.APPLICATION_MODAL);
+		 this.setLocationRelativeTo(MainFrame.getMainFrame());
+		 this.add(mainPanel);
+		 this.setBounds(400, 200, 400, 250);
+		 this.setLayout(null);
+		 this.setVisible(true);
+}
 	
 	/**
 	 * 输出城市名称，编号的Panel
@@ -90,7 +101,7 @@ public class CreateCityDialog extends JDialog{
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
-					 CreateCityDialog.this.dispose();
+					 PrimeInfoCityDialog.this.dispose();
 				}
 			});
 			
@@ -117,14 +128,151 @@ public class CreateCityDialog extends JDialog{
 					else{
 						mainPanel.removeAll();
 						 
-						CreateCityDialog.this.mainPanel.add(
+						PrimeInfoCityDialog.this.mainPanel.add(
 						new InputDistancePanel(nameField.getText(),idField.getText()));
 						mainPanel.repaint();
 						}
 					
 				}
+			});		
+			this.add(nameLabel);
+			this.add(nameField);
+			this.add(idField);
+			this.add(idLabel);
+		    this.add(cancelButton);
+			this.add(nextButton);			
+			this.setLayout(null);
+			this.setVisible(true);
+			
+			//添加检查项
+			nameChecker = new Checker(nameField,new CheckInfoGetter() {
+				
+				@Override
+				public CheckInfo getCheckInfo() {
+					// TODO Auto-generated method stub
+					if(nameField.getText() == null){
+						return null;
+					}
+					else{
+						return new CityName(nameField.getText());
+					}
+				}
+			});
+			nameField.addKeyListener(new KeyListener() {
+				
+				@Override
+				public void keyTyped(KeyEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void keyReleased(KeyEvent e) {
+					// TODO Auto-generated method stub
+					nameChecker.check();
+					 
+				}
+				
+				@Override
+				public void keyPressed(KeyEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
 			});
 			
+			idChecker = new Checker(idField,new CheckInfoGetter() {
+				
+				@Override
+				public CheckInfo getCheckInfo() {
+					// TODO Auto-generated method stub
+					if(idField.getText() == null){
+						return null;
+					}
+					else{
+						return new CityId(idField.getText());
+					}
+				}
+			});
+			idField.addKeyListener(new KeyListener() {
+				
+				@Override
+				public void keyTyped(KeyEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void keyReleased(KeyEvent e) {
+					// TODO Auto-generated method stub
+					idChecker.check();
+				 					 
+				}
+				
+				@Override
+				public void keyPressed(KeyEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+			});
+		}
+		
+	//查看的Panel
+		public InputCityPanel(PrimeInfoCityTableModel em, int modelRow, boolean isEdit){
+			CityVO vo = tableModel.getCityVO(modelRow);
+			this.setBounds(0, 0, 400, 250);					 
+			JLabel nameLabel = new JLabel("城市名称");
+			nameLabel.setBounds(50, 50, 100, 25);
+			JTextField nameField = new JTextField();
+			nameField.setBounds(180, 50, 60, 20);		 
+			JLabel idLabel = new JLabel("城市编号");
+			idLabel.setBounds(50, 100, 100, 25);
+			JTextField idField = new JTextField();
+			idField.setBounds(180, 100, 60, 20);	
+			idField.setEnabled(true);
+			//添加内容
+			idField.setText(vo.getId());
+			nameField.setText(vo.getName());
+			
+			JButton cancelButton = new JButton("取消");
+			cancelButton.setBounds(190, 150, 70, 30);
+			cancelButton.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					 PrimeInfoCityDialog.this.dispose();
+				}
+			});
+			
+			if(!isEdit){
+				nameField.setEnabled(false);
+				cancelButton.setVisible(false);
+			}
+			
+			JButton nextButton = new JButton("确定");
+			nextButton.setBounds(280, 150, 70, 30);
+			nextButton.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub	
+					if(isEdit){									
+						boolean isRight = idChecker.check() && nameChecker.check();
+						if(!isRight){
+							return;
+						}
+						else {
+							vo.setName(nameField.getName());
+							tableModel.modify(modelRow,vo);
+							PrimeInfoCityDialog.this.dispose();
+						}
+					}
+					else{
+						 PrimeInfoCityDialog.this.dispose();
+					}
+					
+				}
+			});		
 			this.add(nameLabel);
 			this.add(nameField);
 			this.add(idField);
@@ -258,7 +406,6 @@ public class CreateCityDialog extends JDialog{
 					Map<String, Double> distance = new HashMap<String, Double>();
 					List<CityVO> vos = cityblService.getAll();
 					for(int i = 0; i < cityName.length; i++){
-						System.out.println(i+":"+cityTabel.getValueAt(i, 1));
 						distance.put(cityName[i], new Double ((String)cityTabel.getValueAt(i, 1)) );
 						for(CityVO vo:vos){
 							if(vo.getName().equals(cityName[i])){
@@ -269,7 +416,8 @@ public class CreateCityDialog extends JDialog{
 					}
 					distance.put(name, 0.0);
 					CityVO vo = new CityVO(name, id, distance);
-					cityblService.createCityPO(vo);
+					tableModel.create(vo);
+					PrimeInfoCityDialog.this.dispose();
 				}
 			});
 			
@@ -283,7 +431,7 @@ public class CreateCityDialog extends JDialog{
 			this.setBounds(0, 0, 400, 300);
 			this.setVisible(true);
 			this.setLayout(null);
-		}	 
+		 
 		}
-	
+	}
 }

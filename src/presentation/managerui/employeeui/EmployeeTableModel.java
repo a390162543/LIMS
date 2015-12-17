@@ -36,7 +36,7 @@ public class EmployeeTableModel extends DefaultTableModel{
     public void create(EmployeeVO vo){
         addRow(convertToVector(vo));
         dataList.add(vo);
-        EmployeeblService.creatEmployeePO(vo);
+        EmployeeblService.createEmployeePO(vo);
         Power power = vo.getPosition().getPower();
      	 
         UserVO uservo = new UserVO(vo.getId(), "000000", power);

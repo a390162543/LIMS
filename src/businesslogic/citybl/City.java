@@ -161,19 +161,33 @@ public class City implements CityblService{
 		return id;
 	}
 	
+	public boolean isExist(String name){
+		String id = getId(name);
+		if( id.length() == 0)
+			return false;
+		else{
+			return true;
+		}
+		
+	}
+	
+	public void execute(CityVO vo){
+		createCityPO(vo);
+		
+	}
+	
 	/**
 	 * 增加新建城市的日记记录
 	 * @param name 城市名称
 	 * @return
 	 */
 	public boolean createCityLog(String name){
-		String employeeId = LoginController.getEmployeeId();
-		String employeeName = LoginController.getEmployeeName();
-		Position position = LoginController.getPosition();
+	 
+		 
 		String operation = "新建了城市：" + name;
-		LogVO vo = new LogVO(operation, employeeId, employeeName, position);
-		Log log = new Log();
-		log.createLogPO(vo);
+		 
+		//Log log = new Log(operation);
+		//log.createLogPO(vo);
 		return true;		
 	}
 

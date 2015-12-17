@@ -7,13 +7,11 @@ import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.List;
-
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-
 import presentation.util.CheckInfoGetter;
 import presentation.util.Checker;
 import presentation.util.DialogLayoutManager;
@@ -36,7 +34,7 @@ public class PrimeInfoOrganizationDialog extends JDialog{
 	 * 
 	 */
 	private static final long serialVersionUID = 3501551715388232778L;
-	private JDialog organizationDialog;
+ 
  
 	private JLabel nameLabel;
 	private JTextField nameField;
@@ -51,36 +49,26 @@ public class PrimeInfoOrganizationDialog extends JDialog{
 	private Checker organizationNameChecker;
  
 	
- 
-	
 	public PrimeInfoOrganizationDialog(PrimeInfoOrganizationTableModel tm){
-
+		tableModel = tm;	
 		init();
-		tableModel = tm;		
-		cancleButton.addActionListener(new ActionListener() {
+		
+		organizationblService =  BusinessLogicService.getOrganizationblService();
+		cityBox.addItemListener(new ItemListener() {
+			
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+			public void itemStateChanged(ItemEvent e) {
+				// TODO Auto-generated method stub			
 				setId(nameField.getText());
 				organizationNameChecker.check();
-
 			}
 		});
-		
-		cancleButton.addActionListener(new ActionListener() {		
- 
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				organizationDialog.dispose();
-			}
-		});
-		
+			
 		sureButton.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
- 
 				boolean isRight = organizationNameChecker.check();
 				if(isRight){
 					update(0,true);
@@ -89,10 +77,7 @@ public class PrimeInfoOrganizationDialog extends JDialog{
 				else{
 					return;
 				}
- 
-				 update(0, true);
-				 organizationDialog.dispose();
- 
+				 
 			}
 		});
 	}
@@ -123,13 +108,19 @@ public class PrimeInfoOrganizationDialog extends JDialog{
 		nameLabel = new JLabel();
 		nameField = new JTextField();
 		cityBox = new JComboBox<String>(cityStr);
+		
+		if(!tableModel.getCityName().isEmpty()){
+			for(String s : tableModel.getCityName())
+			cityBox.addItem(s);
+		}
+		
+		
+		
 		cityLabel = new JLabel();
 		idField = new JTextField();
 		idLabel = new JLabel();
 		cancleButton = new JButton("取消");
-		sureButton = new JButton("确定");
-		 
-		
+		sureButton = new JButton("确定");		
 		this.setBounds(0, 0, 380, 300);
 		 
 		nameLabel.setText("机构名称");
@@ -137,19 +128,30 @@ public class PrimeInfoOrganizationDialog extends JDialog{
 		nameField.setBounds(135, 65, 180, 20);
 		cityLabel.setText("所在城市");
 		cityLabel.setBounds(27, 100, 100, 20);
-		cityBox.setBounds(137, 100, 60, 20);
+		cityBox.setBounds(137, 100, 80, 20);
 		idLabel.setText("机构编号");
 		idLabel.setBounds(27, 135, 100, 20);
 		idField.setBounds(137, 135, 180, 20);		 
 		cancleButton.setBounds(180, 185, 70, 30);
 		sureButton.setBounds(270, 185, 70, 30);
 		
+		
+		
+		cancleButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				PrimeInfoOrganizationDialog.this.dispose();
+			}
+		});
+		
+		this.add(idLabel);
+		this.add(idField);
 		this.add(nameLabel);
 		this.add(nameField);
 		this.add(cityLabel);
 		this.add(cityBox);
-		this.add(idLabel);
-		this.add(idField);
 		this.add(sureButton);	
 		this.add(cancleButton);		
 		this.setLayout(new DialogLayoutManager());
@@ -190,8 +192,9 @@ public class PrimeInfoOrganizationDialog extends JDialog{
 	}
 	
 	public PrimeInfoOrganizationDialog(PrimeInfoOrganizationTableModel em, int modelRow,boolean isEdit){
-		init();
+	
 		this.tableModel = em;
+		init();
 		OrganizationVO vo = tableModel.getOrganizationVO(modelRow);
 		nameField.setText(vo.getName());
 		cityBox.setSelectedItem(vo.getCity());

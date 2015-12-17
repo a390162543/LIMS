@@ -105,8 +105,7 @@ public class QueryDistanceDialog extends JDialog{
 			}
 		});
 		
-		this.setModalityType(ModalityType.APPLICATION_MODAL);
-		this.setLocationRelativeTo(MainFrame.getMainFrame());
+		
 		this.setBounds(300, 200, 380, 250);		 
 		this.add(city1Label);
 		this.add(city2Label);
@@ -116,9 +115,12 @@ public class QueryDistanceDialog extends JDialog{
 		this.add(distanceField);
 		this.add(unitLabel);
 		this.add(cancelButton);
-		this.add(sureButton);		
+		this.add(sureButton);
+		this.setModalityType(ModalityType.APPLICATION_MODAL);		
 		this.setLayout(null);
 		this.setVisible(true);
+		
+		this.setLocationRelativeTo(MainFrame.getMainFrame());
 	}
 	
 	public void showDistance(){

@@ -215,12 +215,14 @@ public class OrganizationDialog extends JDialog{
 //		
 //		this.setModalityType(ModalityType.APPLICATION_MODAL);
 //		this.setLocationRelativeTo(MainFrame.getMainFrame()); 
+
+
+		this.add(idLabel);
+		this.add(idField);
 		this.add(nameLabel);
 		this.add(nameField);
 		this.add(cityLabel);
 		this.add(cityBox);
-		this.add(idLabel);
-		this.add(idField);
 		this.add(sureButton);	
 		this.add(cancleButton);		
 		this.setLayout(new DialogLayoutManager());

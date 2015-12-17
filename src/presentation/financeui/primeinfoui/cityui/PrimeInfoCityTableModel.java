@@ -1,4 +1,4 @@
-package presentation.financeui.primeinfoui.organizationui;
+package presentation.financeui.primeinfoui.cityui;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,63 +6,54 @@ import java.util.Vector;
 
 import javax.swing.table.DefaultTableModel;
 
-import vo.OrganizationVO;
+import vo.CityVO;
+ 
 import businesslogicservice.PrimeInfoblService;
-public class PrimeInfoOrganizationTableModel extends DefaultTableModel{
+
+public class PrimeInfoCityTableModel extends DefaultTableModel{
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 4859333754654184781L;
+	private static final long serialVersionUID = -5521046257920046856L;
 	private PrimeInfoblService primeInfoblService;
-    private List<OrganizationVO> dataList;
-    private static final String[] TABLE_HEADER = {"编号","名称","所在城市"};
+    private List<CityVO> dataList;
+    private static final String[] TABLE_HEADER = {"编号","城市名称"};
     
-    public PrimeInfoOrganizationTableModel(PrimeInfoblService p){
+    public PrimeInfoCityTableModel(PrimeInfoblService p){
     	primeInfoblService = p;
-		dataList = new ArrayList<OrganizationVO>();
+		dataList = new ArrayList<CityVO>();
         setDataVector(convertToVectorData(dataList), getColumnNamesVector());
     }
     
-    public PrimeInfoOrganizationTableModel(List<OrganizationVO> vos){
-    	 dataList = vos;
+    public PrimeInfoCityTableModel(List<CityVO> vos){
+    	dataList = vos;
  	    setDataVector(convertToVectorData(dataList), getColumnNamesVector());
     }
     
-    public void create(OrganizationVO vo){
+    public void create(CityVO vo){
         addRow(convertToVector(vo));
         dataList.add(vo);
-        primeInfoblService.addOrganizationVO(vo);
- 
+        primeInfoblService.addCityVO(vo);
     }
     
     public void delete(int row){
         removeRow(row);
-        OrganizationVO vo = dataList.get(row);
+        CityVO vo = dataList.get(row);
         dataList.remove(row);
-        primeInfoblService.removeOrganizationVO(vo);
+        primeInfoblService.removeCityVO(vo);
     }
     
-    public void modify(int row, OrganizationVO vo){
+    public void modify(int row, CityVO vo){
         removeRow(row);
         insertRow(row, convertToVector(vo));
         dataList.remove(row);
         dataList.add(row, vo);
-        primeInfoblService.modifyOrganizationVO(vo);
+        primeInfoblService.modifyCityVO(vo);
     }
     
-    public OrganizationVO getOrganizationVO(int row){
+    public CityVO getCityVO(int row){
         return getRowData(row);
-    }
-    
-    public List<String> getCityName(){    
-	    List<String> names = new ArrayList<String>();
-	    if(primeInfoblService.getCityName()!=null){
-	    	for(String s:primeInfoblService.getCityName())
-	    		names.add(s);
-	    }    
-	   	return names;
-	    
     }
     
     @SuppressWarnings({ "unchecked", "rawtypes" })
@@ -80,24 +71,24 @@ public class PrimeInfoOrganizationTableModel extends DefaultTableModel{
         return false;
     }
     
-    private OrganizationVO getRowData(int row){
+    private CityVO getRowData(int row){
         return dataList.get(row);
     }
     
-    private static Vector<Vector<Object>> convertToVectorData(List<OrganizationVO> list){
+ 
+    
+    private static Vector<Vector<Object>> convertToVectorData(List<CityVO> list){
         Vector<Vector<Object>> data = new Vector<Vector<Object>>();
-        for(OrganizationVO vo:list){
+        for(CityVO vo:list){
             data.add(convertToVector(vo));
         }
         return data;
     }
     
-    private static Vector<Object> convertToVector(OrganizationVO vo){
+    private static Vector<Object> convertToVector(CityVO vo){
         Vector<Object> rowVector = new Vector<Object>();
         rowVector.add(vo.getId());
         rowVector.add(vo.getName());
-        rowVector.add(vo.getCity());
-         
         return rowVector;
     }
     
@@ -108,5 +99,4 @@ public class PrimeInfoOrganizationTableModel extends DefaultTableModel{
         }
         return v;
     }
-
 }

@@ -124,6 +124,9 @@ public class Organization implements OrganizationblService{
 		List<OrganizationVO> vos = getOrganizationVO();
 		String city1 = "";
 		String city2 = "";
+		if(organization1.equals(organization2)){
+			return 0;
+		}
 		for(OrganizationVO vo : vos){
 			if(vo.getName().equals(organization1))
 				city1 = vo.getCity();
@@ -131,7 +134,12 @@ public class Organization implements OrganizationblService{
 				city2 = vo.getCity();
 		}
 		if(city1 != null && city2 != null){
-			return city.getDistance(city1, city2);
+			if(city1.equals(city2))
+				return 30;
+			else{
+				return city.getDistance(city1, city2);
+			}
+			
 		}
 		else{
 			return 0;
