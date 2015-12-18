@@ -18,7 +18,11 @@ import javax.swing.table.TableRowSorter;
 import vo.AccountVO;
 import businesslogicservice.PrimeInfoblService;
 
-
+/**
+ * {@code AccountPanel}继承{@code JPanel}，是期初建账显示账户信息和对账户操作的界面层面板展示
+ * @author 刘德宽
+ *
+ */
 public class PrimeInfoAccountPanel extends JPanel{
 
 	/**

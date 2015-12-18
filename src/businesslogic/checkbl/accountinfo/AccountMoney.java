@@ -3,24 +3,23 @@ package businesslogic.checkbl.accountinfo;
 import systemenum.CheckResult;
 import businesslogic.checkbl.CheckInfo;
 import businesslogic.checkbl.CheckResultMessage;
-
 /**
- * {@code CheckInfo}的实现类，为界面层提供账户编号的检查服务
+ * {@code CheckInfo}的实现类，为界面层提供账户金额的检查服务
  * @author 刘德宽
  *
  */
-public class AccountId implements CheckInfo{
+public class AccountMoney implements CheckInfo{
 
-	private String accountId;
+	private String accountMoney;
 	
-	public AccountId(String accountId){
-		this.accountId = accountId;
+	public AccountMoney(String accountMoney){
+		this.accountMoney = accountMoney;
 	}
 	@Override
 	public CheckResultMessage check() {
 		CheckResultMessage checkResultMessage = new CheckResultMessage();
-		if(!accountId.matches("[0-9]{19}")){
-			checkResultMessage.addInfo(CheckResult.FALSE, "账户编号长度应为19位数字");
+		if(!accountMoney.matches("^[0-9]+([.]{1}[0-9]+){0,1}$")){
+			checkResultMessage.addInfo(CheckResult.FALSE, "账户金额应是整数或者小数");
 			return checkResultMessage;
 		}
 			
