@@ -291,7 +291,7 @@ public class PrimeInfo implements PrimeInfoblService{
 		List<String> names = new ArrayList<String>();
 		for(OrganizationVO vo : primeInfoVO.getOrganization())
 			names.add(vo.getName());
-		return null;
+		return names;
 	}
 	
 	@Override
@@ -314,6 +314,12 @@ public class PrimeInfo implements PrimeInfoblService{
 		return id;
 	}
 
+	public List<String> getCityName(){
+		List<String> names = new ArrayList<String>();
+		for(CityVO vo : primeInfoVO.getCity())
+			names.add(vo.getName());
+		return names;
+	}
 
 
 }
