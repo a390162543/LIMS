@@ -1,6 +1,7 @@
 package presentation.businesshallui.driverui;
 
  
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Vector;
 
@@ -94,7 +95,7 @@ public class DriverTableModel extends DefaultTableModel{
         rowVector.add(vo.getId());
         rowVector.add(vo.getName());
         rowVector.add(vo.getTelephone());
-        rowVector.add(vo.getBirthday().toString());
+        rowVector.add(new SimpleDateFormat("yyyyƒÍMM‘¬dd»’").format(vo.getBirthday()));
         rowVector.add(vo.getIdentityCardNum());
         rowVector.add(vo.getSex().getName());
         rowVector.add(vo.getPay().getPayString());

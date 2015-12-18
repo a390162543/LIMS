@@ -93,7 +93,7 @@ public class TruckTableModel extends DefaultTableModel{
         rowVector.add(vo.getEngineNumber());
         rowVector.add(vo.getTruckNumber());
         rowVector.add(vo.getChassisNumber());
-        rowVector.add(new SimpleDateFormat().format(vo.getPurchaseDate()));
+        rowVector.add(new SimpleDateFormat("yyyyƒÍMM‘¬dd»’").format(vo.getPurchaseDate()));
         return rowVector;
     }
     

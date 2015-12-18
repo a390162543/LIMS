@@ -82,7 +82,7 @@ public class Deliver implements DeliverblService{
             EmployeeVO employeeVO = employeebl.find(vo.getCourierId());
             String courier = vo.getCourierId();
             if(employeeVO != null){
-                courier = employeeVO.getName()+"("+vo.getId()+")";
+                courier = employeeVO.getName()+"("+vo.getCourierId()+")";
             }
             
             //获取订单业务逻辑，并且更新订单状态

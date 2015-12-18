@@ -20,9 +20,18 @@ public class BusinessLogicUtil {
     }
     
     /**
-     * 获取当前系统时间的一种显示形式，格式为：yyyy年MM月dd日 HH:mm:ss
-     * <p>例如：当前为2008年9月1日15时0分5秒则返回2008年09月01日 15:00:05
-     * @return 当前系统时间日期的{@code String}
+     * 获取时间的一种显示形式，格式为：yyyy年MM月dd日
+     * <p>例如：2008年9月1日15时0分5秒则返回2008年09月01日
+     * @return 时间日期的{@code String}
+     */
+    public static String getDate(Date date){
+        return new SimpleDateFormat("yyyy年MM月dd日").format(new Date());
+    }
+    
+    /**
+     * 获取时间的一种显示形式，格式为：yyyy年MM月dd日 HH:mm:ss
+     * <p>例如：2008年9月1日15时0分5秒则返回2008年09月01日 15:00:05
+     * @return 时间日期的{@code String}
      */
     public static String getTime(Date date){
         return new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss").format(date);

@@ -177,7 +177,7 @@ public class RevenueDialog extends JDialog{
         this.add(confirmButton);
         this.add(cancleButton);
         
-        this.setTitle("装车单");
+        this.setTitle("收款单");
         this.setSize(340, 370);
         this.setLayout(new DialogLayoutManager());
         this.setLocationRelativeTo(null);

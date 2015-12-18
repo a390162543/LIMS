@@ -16,6 +16,7 @@ import javax.swing.table.TableRowSorter;
 
 import businesslogic.BusinessLogicService;
 import businesslogicservice.RevenueblService;
+import presentation.mainui.MainFrame;
 import presentation.managerui.approvalui.revenueui.OrderTableModel;
 import presentation.util.DialogLayoutManager;
 import presentation.util.RecentDatePickPanel;
@@ -35,7 +36,7 @@ public class RevenuePendingDialog extends JDialog {
     private static final long serialVersionUID = 6428790754440378980L;
 
     private static final String[] LABEL_NAMES = {"收款单编号","快递员编号","收款营业厅","收款账户","收款日期","收款订单号"};
-    
+
     private RevenueblService revenueblService;
     private RevenuePendingTableModel revenuePendingTableModel;
     private OrderTableModel tableModel;
@@ -150,7 +151,8 @@ public class RevenuePendingDialog extends JDialog {
 
         this.setSize(340, 400);
         this.setLayout(new DialogLayoutManager());
-        this.setLocationRelativeTo(null);
+        this.setLocationRelativeTo(MainFrame.getMainFrame());
+        this.setTitle("收款单");
         this.setModalityType(ModalityType.APPLICATION_MODAL);
         this.setVisible(true);
     }
