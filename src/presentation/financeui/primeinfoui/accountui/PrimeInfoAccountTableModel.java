@@ -8,7 +8,11 @@ import javax.swing.table.DefaultTableModel;
 
 import vo.AccountVO;
 import businesslogicservice.PrimeInfoblService;
-
+/**
+ * {@code AccountTableModel}继承{@code DefaultTableModel}，持有账户数据，提供界面层数据操作业务
+ * @author 刘德宽
+ *
+ */
 public class PrimeInfoAccountTableModel extends DefaultTableModel{
 
 	/**

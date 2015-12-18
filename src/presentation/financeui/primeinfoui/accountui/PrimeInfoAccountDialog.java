@@ -2,14 +2,26 @@ package presentation.financeui.primeinfoui.accountui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import presentation.util.CheckInfoGetter;
+import presentation.util.Checker;
+import businesslogic.checkbl.CheckInfo;
+import businesslogic.checkbl.accountinfo.AccountId;
+import businesslogic.checkbl.accountinfo.AccountMoney;
+import businesslogic.checkbl.accountinfo.AccountName;
 import vo.AccountVO;
-
+/**
+ * {@code AccountDialog}继承{@code JDialog}，是期初建账账户增删改查的界面层对话框展示
+ * @author 刘德宽
+ *
+ */
 public class PrimeInfoAccountDialog extends JDialog{
 
 	/**
@@ -41,16 +53,103 @@ public class PrimeInfoAccountDialog extends JDialog{
             	textFields[i].setBounds(140, 40+40*i, 180, 25);
             this.add(textFields[i]);
         }
+        //检查机制
+        Checker accountIdChecker = new Checker(textFields[0] , new CheckInfoGetter(){
+
+			@Override
+			public CheckInfo getCheckInfo() {
+				return new AccountId(textFields[0].getText());
+			}
+        	
+        });
+        textFields[0].addKeyListener(new KeyListener(){
+
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+				accountIdChecker.check();
+			}
+
+			@Override
+			public void keyTyped(KeyEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+        	
+        });
+        Checker accountNameChecker = new Checker(textFields[1] , new CheckInfoGetter(){
+
+				@Override
+				public CheckInfo getCheckInfo() {
+					return new AccountName(textFields[1].getText());
+				}
+	        	
+	        });
+	        textFields[1].addKeyListener(new KeyListener(){
+
+				@Override
+				public void keyPressed(KeyEvent arg0) {
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public void keyReleased(KeyEvent arg0) {
+					accountNameChecker.check();
+				}
+
+				@Override
+				public void keyTyped(KeyEvent arg0) {
+					// TODO Auto-generated method stub
+					
+				}
+	        	
+	        });
+	        Checker accountMoneyChecker = new Checker(textFields[2] , new CheckInfoGetter(){
+
+					@Override
+					public CheckInfo getCheckInfo() {
+						return new AccountMoney(textFields[2].getText());
+					}
+		        	
+		        });
+		        textFields[2].addKeyListener(new KeyListener(){
+
+					@Override
+					public void keyPressed(KeyEvent arg0) {
+						// TODO Auto-generated method stub
+						
+					}
+
+					@Override
+					public void keyReleased(KeyEvent arg0) {
+						accountMoneyChecker.check();
+					}
+
+					@Override
+					public void keyTyped(KeyEvent arg0) {
+						// TODO Auto-generated method stub
+						
+					}
+		        	
+		        });
         JButton confirmButton = new JButton("确认");
         confirmButton.setBounds(250, 170, 70, 30);
         confirmButton.addActionListener(new ActionListener() {
-            
-            @Override
+        	@Override
             public void actionPerformed(ActionEvent e) {
-            	AccountVO vo = new AccountVO(textFields[0].getText(),textFields[1].getText(),Double.parseDouble(textFields[2].getText()));
-                tableModel.create(vo);
-                System.out.println("you've clicked confirm button..");
-                PrimeInfoAccountDialog.this.dispose();
+            	boolean isCorrect = accountIdChecker.check()&&accountNameChecker.check()&&accountMoneyChecker.check();
+            	if(isCorrect){
+	            	AccountVO vo = new AccountVO(textFields[0].getText(),textFields[1].getText(),Double.parseDouble(textFields[2].getText()));
+	                tableModel.create(vo);
+	                System.out.println("you've clicked confirm button..");
+	                PrimeInfoAccountDialog.this.dispose();
+            	}
             }
         });
         JButton cancleButton = new JButton("取消");
@@ -93,7 +192,91 @@ public class PrimeInfoAccountDialog extends JDialog{
 	            	textFields[i].setBounds(140, 40+40*i, 180, 25);
 	            this.add(textFields[i]);
 	        }
+	      //检查机制
+	        Checker accountIdChecker = new Checker(textFields[0] , new CheckInfoGetter(){
 
+				@Override
+				public CheckInfo getCheckInfo() {
+					return new AccountId(textFields[0].getText());
+				}
+	        	
+	        });
+	        textFields[0].addKeyListener(new KeyListener(){
+
+				@Override
+				public void keyPressed(KeyEvent arg0) {
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public void keyReleased(KeyEvent arg0) {
+					accountIdChecker.check();
+				}
+
+				@Override
+				public void keyTyped(KeyEvent arg0) {
+					// TODO Auto-generated method stub
+					
+				}
+	        	
+	        });
+	        Checker accountNameChecker = new Checker(textFields[1] , new CheckInfoGetter(){
+
+					@Override
+					public CheckInfo getCheckInfo() {
+						return new AccountName(textFields[1].getText());
+					}
+		        	
+		        });
+		        textFields[1].addKeyListener(new KeyListener(){
+
+					@Override
+					public void keyPressed(KeyEvent arg0) {
+						// TODO Auto-generated method stub
+						
+					}
+
+					@Override
+					public void keyReleased(KeyEvent arg0) {
+						accountNameChecker.check();
+					}
+
+					@Override
+					public void keyTyped(KeyEvent arg0) {
+						// TODO Auto-generated method stub
+						
+					}
+		        	
+		        });
+		        Checker accountMoneyChecker = new Checker(textFields[2] , new CheckInfoGetter(){
+
+						@Override
+						public CheckInfo getCheckInfo() {
+							return new AccountMoney(textFields[2].getText());
+						}
+			        	
+			        });
+			        textFields[2].addKeyListener(new KeyListener(){
+
+						@Override
+						public void keyPressed(KeyEvent arg0) {
+							// TODO Auto-generated method stub
+							
+						}
+
+						@Override
+						public void keyReleased(KeyEvent arg0) {
+							accountMoneyChecker.check();
+						}
+
+						@Override
+						public void keyTyped(KeyEvent arg0) {
+							// TODO Auto-generated method stub
+							
+						}
+			        	
+			        });
         	AccountVO vo = tableModel.getAccountVO(modelRow);
         	textFields[0].setText(vo.getId());
         	textFields[1].setText(vo.getName());
@@ -116,9 +299,12 @@ public class PrimeInfoAccountDialog extends JDialog{
 	                if(!isEditable){
 	                	PrimeInfoAccountDialog.this.dispose();
 	                }
-	                AccountVO vo = new AccountVO(textFields[0].getText(),textFields[1].getText(),Double.parseDouble(textFields[2].getText()));
-	                tableModel.modify(modelRow, vo);
-	                PrimeInfoAccountDialog.this.dispose();
+	            	boolean isCorrect = accountIdChecker.check()&&accountNameChecker.check()&&accountMoneyChecker.check();
+	            	if(isCorrect){
+		                AccountVO vo = new AccountVO(textFields[0].getText(),textFields[1].getText(),Double.parseDouble(textFields[2].getText()));
+		                tableModel.modify(modelRow, vo);
+		                PrimeInfoAccountDialog.this.dispose();
+	            	}
 	                
 	            }
 	        });

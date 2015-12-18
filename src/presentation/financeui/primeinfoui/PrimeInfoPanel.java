@@ -33,6 +33,8 @@ public class PrimeInfoPanel extends JPanel{
 		primeInfoOrganizationPanel.setLocation(0, 0);
 		PrimeInfoEmployeePanel primeInfoEmployeePanel = new PrimeInfoEmployeePanel(primeInfoblService);
 		primeInfoEmployeePanel.setLocation(0, 0);
+		PrimeInfoCityPanel primeInfoCityPanel = new PrimeInfoCityPanel(primeInfoblService);
+		primeInfoCityPanel.setLocation(0, 0);
 		PrimeInfoStoreinPanel primeInfoStoreinPanel = new PrimeInfoStoreinPanel(primeInfoblService);
 		primeInfoStoreinPanel.setLocation(0, 0);
 		PrimeInfoOrderPanel primeInfoOrderPanel = new PrimeInfoOrderPanel(primeInfoblService);
@@ -41,10 +43,12 @@ public class PrimeInfoPanel extends JPanel{
 		JTabbedPane pane = new JTabbedPane();
 		pane.addTab("机构", primeInfoOrganizationPanel);
 		pane.addTab("人员", primeInfoEmployeePanel);
+		pane.addTab("城市", primeInfoCityPanel );
 		pane.addTab("车辆", primeInfoTruckPanel);
 		pane.addTab("库存", primeInfoStoreinPanel);
 		pane.addTab("订单", primeInfoOrderPanel);
 		pane.addTab("账户", primeInfoAccountPanel );
+	
 		pane.setBounds(0, 0, 560, 500);
 		
 		this.setLayout(null);

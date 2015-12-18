@@ -9,6 +9,7 @@ package businesslogicservice;
 import java.util.List;
 
 import vo.AccountVO;
+import vo.CityVO;
 import vo.EmployeeVO;
 import vo.OrderCreateVO;
 import vo.OrganizationVO;
@@ -118,6 +119,27 @@ public interface PrimeInfoblService {
      * @return 成功修改则返回{@code true}，否则返回{@code false}
      */
 	public boolean modifyEmployeeVO( EmployeeVO vo);
+	
+	 /**
+     * 添加城市信息
+     * @param vo 界面层传来的{@code CityVO}
+     * @return 成功添加则返回{@code true}，否则返回{@code false}
+     */
+	public boolean addCityVO( CityVO vo);
+	
+    /**
+     * 删除城市信息
+     * @param vo 界面层传来的{@code CityVO}
+     * @return 成功删除则返回{@code true}，否则返回{@code false}
+     */
+	public boolean removeCityVO( CityVO vo);
+	
+    /**
+     * 修改城市信息
+     * @param vo 界面层传来的{@code CityVO}
+     * @return 成功修改则返回{@code true}，否则返回{@code false}
+     */
+	public boolean modifyCityVO( CityVO vo);
 	
 	 /**
      * 添加库存信息
