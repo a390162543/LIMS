@@ -86,7 +86,7 @@ public class SettlementDialog extends JDialog{
 		this.add(businessHallBox);
 		this.add(confirmButton);
 		this.add(backButton);
-		
+		this.setModalityType(ModalityType.APPLICATION_MODAL);
 	    this.setVisible(true);
 	}
 	

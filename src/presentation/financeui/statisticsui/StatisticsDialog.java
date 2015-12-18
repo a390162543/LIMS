@@ -85,7 +85,7 @@ public class StatisticsDialog extends JDialog{
 		this.add(datePickPanel2);
 		this.add(confirmButton);
 		this.add(backButton);
-		
+		this.setModalityType(ModalityType.APPLICATION_MODAL);
 	    this.setVisible(true);
 	}
 	

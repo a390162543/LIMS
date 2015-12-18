@@ -79,6 +79,7 @@ public class PrimeInfoDialog extends JDialog{
 	      
 
 	        //set panel
+	        this.setModalityType(ModalityType.APPLICATION_MODAL);
 	        this.setSize(dialogx, dialogy);
 	        this.setLayout(null);
 	        this.add(promptLabel);

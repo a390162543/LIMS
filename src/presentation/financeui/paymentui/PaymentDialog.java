@@ -1,5 +1,6 @@
 package presentation.financeui.paymentui;
 
+import java.awt.Dialog.ModalityType;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -262,7 +263,7 @@ public class PaymentDialog extends JDialog{
 		this.add(confirmButton);
 		this.add(cancelButton);
 	
-		
+		this.setModalityType(ModalityType.APPLICATION_MODAL);
         this.setVisible(true);
 	}
 	

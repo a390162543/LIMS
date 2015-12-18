@@ -76,7 +76,7 @@ public class SetAccountDialog extends JDialog{
 				SetAccountDialog.this.dispose();
 			}	
 		});
-		
+		this.setModalityType(ModalityType.APPLICATION_MODAL);
 		this.setLayout(null);
 		this.add(promptLabel);
 		this.add(promptLabel);

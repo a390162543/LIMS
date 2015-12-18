@@ -1,6 +1,7 @@
 package presentation.financeui.logui;
 
 import java.awt.Font;
+import java.awt.Dialog.ModalityType;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -74,7 +75,7 @@ public class LogDialog extends JDialog{
 		this.add(datePickPanel);
 		this.add(confirmButton);
 		this.add(backButton);
-		
+		this.setModalityType(ModalityType.APPLICATION_MODAL);
 	    this.setVisible(true);
 	}
 	

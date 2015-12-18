@@ -4,6 +4,7 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 import presentation.financeui.primeinfoui.accountui.PrimeInfoAccountPanel;
+import presentation.financeui.primeinfoui.cityui.PrimeInfoCityPanel;
 import presentation.financeui.primeinfoui.employeeui.PrimeInfoEmployeePanel;
 import presentation.financeui.primeinfoui.orderui.PrimeInfoOrderPanel;
 import presentation.financeui.primeinfoui.organizationui.PrimeInfoOrganizationPanel;
