@@ -7,6 +7,8 @@ import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 
 import vo.EmployeeVO;
+import businesslogic.BusinessLogicService;
+import businesslogicservice.OrganizationblService;
 import businesslogicservice.PrimeInfoblService;
 
 public class PrimeInfoEmployeeTableModel extends DefaultTableModel{
@@ -117,6 +119,9 @@ public class PrimeInfoEmployeeTableModel extends DefaultTableModel{
 	    }
 		public String getOrganizationId(String selectedItem) {
 			// TODO Auto-generated method stub
-			return null;
+		    OrganizationblService organizationblService = BusinessLogicService.getOrganizationblService();
+		    String id = organizationblService.getId(selectedItem);
+			return id;
+
 		}
 }

@@ -89,7 +89,7 @@ public class EmployeeDialog extends JDialog{
 		
 		tableModel = em;
 			
-		setId();
+//		setId();
 		organizationBox.addItemListener(new ItemListener() {
 			
 			@Override

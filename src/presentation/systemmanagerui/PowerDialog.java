@@ -3,8 +3,12 @@ package presentation.systemmanagerui;
 
  
 
+ 
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -15,6 +19,7 @@ import javax.swing.JTextField;
 import presentation.mainui.MainFrame;
 import presentation.util.CheckInfoGetter;
 import presentation.util.Checker;
+import presentation.util.DialogLayoutManager;
 import systemenum.Power;
 import vo.UserVO;
 import businesslogic.BusinessLogicService;
@@ -47,24 +52,11 @@ public class PowerDialog extends JDialog{
 		idLabel.setBounds(30, 20, 100, 25);
 		JTextField idField = new JTextField();
 		idField.setBounds(145, 20, 180, 20);
-		JButton sureButton = new JButton("确定");
-		sureButton.setBounds(255, 50, 70, 20);
 		JLabel powerLabel = new JLabel("权限");
 		powerLabel.setBounds(50, 87, 100, 25);
 		JComboBox<String> powerBox = new JComboBox<String>(powerStr);
-		powerBox.setBounds(145, 87, 120, 20);
-		sureButton.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				if(idChecker.check()){		
-					UserVO vo = userblService.find(idField.getText());
-					powerBox.setSelectedIndex(vo.getPower().ordinal());
-					 
-				}
-			}
-		});
+		powerBox.setBounds(145, 87, 140, 20);
+	
 		
 		
 		
@@ -90,6 +82,7 @@ public class PowerDialog extends JDialog{
 					UserVO vo = userblService.find(idField.getText());
 					vo.setPower(Power.values()[powerBox.getSelectedIndex()]);
 					userblService.modifyPower(vo);
+					PowerDialog.this.dispose();
 				}
 			}
 		});
@@ -100,12 +93,10 @@ public class PowerDialog extends JDialog{
 		this.add(idLabel);
 		this.add(idField);
 		this.add(powerLabel);
-		this.add(powerBox);
+ 		this.add(powerBox);
 		this.add(saveButton);
 		this.add(cancelButton);
-		this.add(sureButton);
-		this.setLayout(null);
-		this.setVisible(true);
+	 
 		
 		//添加检查项
 				idChecker = new Checker(idField,new CheckInfoGetter() {
@@ -122,5 +113,35 @@ public class PowerDialog extends JDialog{
 						 
 					}
 				});
+				
+				idField.addKeyListener(new KeyListener() {
+					
+					@Override
+					public void keyTyped(KeyEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void keyReleased(KeyEvent e) {
+						// TODO Auto-generated method stub
+						if(idChecker.check()){							
+							UserVO vo = userblService.find(idField.getText());					 
+							powerBox.setSelectedIndex(vo.getPower().ordinal());
+							 
+						}
+					}
+					
+					@Override
+					public void keyPressed(KeyEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+				});
+				//界面置顶
+				this.setModalityType(ModalityType.APPLICATION_MODAL);	
+				
+				this.setLayout(new DialogLayoutManager());			
+				this.setVisible(true);
 	}
 }

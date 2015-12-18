@@ -42,7 +42,7 @@ public class SystemManagerPanel extends JPanel{
 				new InitPasswordDialog();
 			}
 		});
-		
+		this.add(new PersonInfoPanel());
 		this.add(powerBuuon);
 		this.add(passWordButton);
 		this.setVisible(true);

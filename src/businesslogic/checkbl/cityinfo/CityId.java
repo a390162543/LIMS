@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 import systemenum.CheckResult;
 import businesslogic.checkbl.CheckInfo;
 import businesslogic.checkbl.CheckResultMessage;
+import businesslogic.citybl.City;
 
 public class CityId implements CheckInfo{
 
@@ -22,17 +23,19 @@ public class CityId implements CheckInfo{
 			checkResultMessage.addInfo(CheckResult.FALSE, "城市编号不能为空");
 			return checkResultMessage;
 		}
-		if(!isNumeric(id)){
-			checkResultMessage.addInfo(CheckResult.FALSE, "城市编号只能为纯数字");
-			return checkResultMessage;
-		}
-		if(id.length() != 3){
+		if(id.length() != 3){		
 			checkResultMessage.addInfo(CheckResult.FALSE, "城市编号应为3位");
 			return checkResultMessage;
 		}
 		if(!isAreaCode(id)){
 			checkResultMessage.addInfo(CheckResult.FALSE, "城市编号应以0开头");
 			return checkResultMessage;
+		}
+		City city = new City();
+		if(city.getCity(id) != null){
+			checkResultMessage.addInfo(CheckResult.FALSE, "该城市已存在");
+			return checkResultMessage;
+
 		}
 		return checkResultMessage;
 	}

@@ -83,7 +83,7 @@ public class CityData extends UnicastRemoteObject implements CityDataService{
 	@Override
 	public CityPO find(String id) throws RemoteException {
 		// TODO Auto-generated method stub
-		String fileName = String.format("%03d", id);
+		String fileName =  id;
 		String path = "c:/LIMS/database/"+this.getClass().getSimpleName()+"/"+fileName+".ser";
 		CityPO po =(CityPO) DataUtil.readObject(path);
 		return po;

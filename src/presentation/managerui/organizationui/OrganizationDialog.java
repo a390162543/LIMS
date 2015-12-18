@@ -110,6 +110,7 @@ public class OrganizationDialog extends JDialog{
 		if(!isEdit){
 			nameField.setEnabled(false);
 			cityBox.setEnabled(false);
+			cancleButton.setVisible(false);
 			sureButton.addActionListener(new ActionListener() {
 				
 				@Override
@@ -120,7 +121,7 @@ public class OrganizationDialog extends JDialog{
 			});
 		}
 		else{
-			cancleButton.setVisible(false);
+			
 			cityBox.addItemListener(new ItemListener() {
 				
 				@Override
@@ -252,6 +253,9 @@ public class OrganizationDialog extends JDialog{
 			public void keyReleased(KeyEvent e) {
 				// TODO Auto-generated method stub
 				organizationNameChecker.check();
+				if(organizationNameChecker.check()){
+					setId(nameField.getText());
+				}
 			}
 			
 			@Override

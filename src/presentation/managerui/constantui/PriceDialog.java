@@ -1,7 +1,7 @@
 package presentation.managerui.constantui;
 
+ 
 import java.awt.event.ActionEvent;
-
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -10,6 +10,7 @@ import java.awt.event.KeyListener;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import presentation.util.CheckInfoGetter;
@@ -37,19 +38,27 @@ public class PriceDialog extends JDialog{
 	private Checker constantChecker;
 	public PriceDialog(){
 		 
-		this.setBounds(300, 200, 380, 170);
+		this.setBounds(300, 200, 400, 170);
 		this.setTitle("价格查询");
 		JLabel priceLabel = new JLabel("当前价格");
 		priceLabel.setBounds(80, 20, 90, 20);
+		
 		JTextField priceField = new JTextField();
 		priceField.setBounds(190, 20, 60, 20);
-		JLabel unitLabel = new JLabel(" 每公里每吨");
+		JLabel unitLabel = new JLabel(" 元/(公里*吨)");
 		unitLabel.setBounds(250, 20, 80, 20);
 		JButton cancelButton = new JButton("取消");
 		cancelButton.setBounds(185, 70, 70, 30);
 		JButton sureButton = new JButton("确定");
 		sureButton.setBounds(270, 70, 70, 30);
-		 
+		
+		JPanel temp = new JPanel();
+		temp.setBounds(0, 20, 140, 25);
+		temp.add(priceField);
+		temp.add(unitLabel);
+		temp.setLayout(null);
+		
+		
 		ConstantblService constantblService =  BusinessLogicService.getConstantblService();
 		ConstantVO vo1 = constantblService.getPrice();
 		
@@ -58,11 +67,15 @@ public class PriceDialog extends JDialog{
 			  public void keyTyped(KeyEvent e) {  
 	                int keyChar = e.getKeyChar();                 
 	                if(keyChar >= KeyEvent.VK_0 && keyChar <= KeyEvent.VK_9) {  
-	                      if(keyChar == KeyEvent.VK_PERIOD){
-	                    	  e.consume();  
-	                      }
+	 
 	                }else{  
-	                    e.consume();  
+	                      if(keyChar == KeyEvent.VK_PERIOD){
+	                    	 
+	                      }
+	                      else{
+	                    	   e.consume();
+	                      }
+	                     
 	                }  
 	            }            
 		});
@@ -92,13 +105,12 @@ public class PriceDialog extends JDialog{
 		});
 		
 		this.add(priceLabel);
-		this.add(priceField);
-		this.add(unitLabel);					
+		this.add(temp);		 				
 		this.add(sureButton);
 		this.add(cancelButton);
 		
 		//添加检查项
-		constantChecker = new Checker(priceField,new  CheckInfoGetter() {
+		constantChecker = new Checker(temp,new  CheckInfoGetter() {
 			
 			@Override
 			public CheckInfo getCheckInfo() {
@@ -131,8 +143,9 @@ public class PriceDialog extends JDialog{
 				
 			}
 		});
+		//见面置顶
+		this.setModalityType(ModalityType.APPLICATION_MODAL);	
 		
-
 		DialogLayoutManager.fix(priceField, unitLabel);
 		this.setLayout(new DialogLayoutManager());
 		this.setVisible(true);

@@ -3,11 +3,13 @@
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -19,6 +21,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
+
 import presentation.util.CheckInfoGetter;
 import presentation.util.Checker;
 import presentation.util.DialogLayoutManager;
@@ -97,6 +100,18 @@ public class TransferDialog extends JDialog{
 		JTextField flightNumField = new JTextField();
 		flightNumField.setBounds(105, 130, 180, 20);
 		
+		flightNumField.addKeyListener(new KeyAdapter() {
+			  public void keyTyped(KeyEvent e) {  
+	                int keyChar = e.getKeyChar();                 
+	                if(keyChar >= KeyEvent.VK_0 && keyChar <= KeyEvent.VK_9) {  
+	 
+	                }else{  
+	                     e.consume();
+	                     
+	                }  
+	            }        
+		});
+		
 		JLabel departLabel = new JLabel("出发地");
 		departLabel.setBounds(20, 170, 80, 20);	
 		
@@ -116,6 +131,18 @@ public class TransferDialog extends JDialog{
 		containerIdLabel.setBounds(20, 250, 80, 20);
 		JTextField containerIdField = new JTextField();
 		containerIdField.setBounds(105, 250, 60, 20);
+		containerIdField.addKeyListener(new KeyAdapter() {
+			  public void keyTyped(KeyEvent e) {  
+	                int keyChar = e.getKeyChar();                 
+	                if(keyChar >= KeyEvent.VK_0 && keyChar <= KeyEvent.VK_9) {  
+	 
+	                }else{  
+	                     e.consume();
+	                     
+	                }  
+	            }        
+		});
+
 		JLabel loanManLabel = new JLabel("监装员");
 		loanManLabel.setBounds(175, 250, 80, 20);
 		JTextField loanManField = new JTextField();

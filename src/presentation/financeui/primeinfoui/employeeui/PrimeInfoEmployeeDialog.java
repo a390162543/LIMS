@@ -3,6 +3,7 @@ package presentation.financeui.primeinfoui.employeeui;
  
 
 import java.awt.event.ActionEvent;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
@@ -88,7 +89,7 @@ public class PrimeInfoEmployeeDialog extends JDialog{
 		
 		init();		
 		
-		setId();
+//		setId();
 		
 		organizationBox.addItemListener(new ItemListener() {
 			
@@ -112,7 +113,7 @@ public class PrimeInfoEmployeeDialog extends JDialog{
 			  @Override
 			  public void actionPerformed(ActionEvent e){
 				  boolean isCorrect = idcardChecker.check() & phoneNumberChecker.check() & 
-			  				nameChecker.check() & payChecker.check() & rateChecker.check();
+			  				nameChecker.check() & payChecker.check()  ;
 				  if(isCorrect){
 					  update(true,0);
 					  PrimeInfoEmployeeDialog.this.dispose();
@@ -223,7 +224,7 @@ public class PrimeInfoEmployeeDialog extends JDialog{
 
 					// TODO Auto-generated method stub
 					 boolean isCorrect = idcardChecker.check() & phoneNumberChecker.check() & 
-							 			nameChecker.check() & payChecker.check() & rateChecker.check();
+							 			nameChecker.check() & payChecker.check() ;
 					  if(isCorrect){
 						  if(idField.getText().equals(vo.getId())){
 							  update(false,modelRow);
@@ -277,6 +278,7 @@ public class PrimeInfoEmployeeDialog extends JDialog{
 		sex = new ButtonGroup();
 		idLabel = new JLabel("员工编号");	
 		idField = new JTextField();
+		idField.setEnabled(false);
 		organizationLabel = new JLabel("所在机构");
 		organizationBox = new OrganizationComboBox(true);
 	 	

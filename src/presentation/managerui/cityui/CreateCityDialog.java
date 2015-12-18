@@ -4,11 +4,13 @@ package presentation.managerui.cityui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -16,6 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+
 import presentation.mainui.MainFrame;
 import presentation.util.CheckInfoGetter;
 import presentation.util.Checker;
@@ -85,6 +88,19 @@ public class CreateCityDialog extends JDialog{
 			idField.setBounds(180, 100, 60, 20);		
 			JButton cancelButton = new JButton("取消");
 			cancelButton.setBounds(190, 150, 70, 30);
+			
+			//设置idField只能输入数字
+			idField.addKeyListener(new KeyAdapter() {
+				  public void keyTyped(KeyEvent e) {  
+		                int keyChar = e.getKeyChar();                 
+		                if(keyChar >= KeyEvent.VK_0 && keyChar <= KeyEvent.VK_9) {  
+		 
+		                }else{  
+		                     e.consume();
+		                     
+		                }  
+		            }            
+			});
 			cancelButton.addActionListener(new ActionListener() {
 				
 				@Override

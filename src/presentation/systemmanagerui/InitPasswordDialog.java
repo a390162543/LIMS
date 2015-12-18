@@ -1,9 +1,11 @@
 package presentation.systemmanagerui;
 
 
-import java.awt.Dialog.ModalityType;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -13,6 +15,8 @@ import javax.swing.JTextField;
 import presentation.mainui.MainFrame;
 import presentation.util.CheckInfoGetter;
 import presentation.util.Checker;
+import presentation.util.DialogLayoutManager;
+ 
 import businesslogic.checkbl.CheckInfo;
 import businesslogic.checkbl.userinfo.UserId;
 import businesslogic.userbl.User;
@@ -70,14 +74,11 @@ public class InitPasswordDialog extends JDialog{
 		this.setModalityType(ModalityType.APPLICATION_MODAL);
 		this.setLocationRelativeTo(MainFrame.getMainFrame());
 		this.add(idLabel);
-		this.add(idField);
-		this.add(canceldButton);
+		this.add(idField);		
 		this.add(sureButton);
+		this.add(canceldButton);
 		this.setBounds(400, 300, 380, 150);
-		this.setModalityType(ModalityType.APPLICATION_MODAL);
-		this.setLocationRelativeTo(MainFrame.getMainFrame());
-		this.setLayout(null);
-		this.setVisible(true);
+
 		
 		//Ìí¼Ó¼ì²éÏî
 		idChecker = new Checker(idField,new CheckInfoGetter() {
@@ -94,6 +95,32 @@ public class InitPasswordDialog extends JDialog{
 				 
 			}
 		});
+		
+		idField.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				 idChecker.check();
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
+		this.setModalityType(ModalityType.APPLICATION_MODAL);
+		 
+		this.setLayout(new DialogLayoutManager());
+		this.setVisible(true);
 	
 	}
 }

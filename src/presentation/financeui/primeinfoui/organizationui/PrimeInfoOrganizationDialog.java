@@ -181,6 +181,9 @@ public class PrimeInfoOrganizationDialog extends JDialog{
 			public void keyReleased(KeyEvent e) {
 				// TODO Auto-generated method stub
 				organizationNameChecker.check();
+				if(organizationNameChecker.check()){
+					setId(nameField.getText());
+				}
 			}
 					
 			@Override

@@ -3,6 +3,7 @@ package presentation.financeui.primeinfoui.cityui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.HashMap;
@@ -95,6 +96,19 @@ public class PrimeInfoCityDialog extends JDialog{
 			JTextField idField = new JTextField();
 			idField.setBounds(180, 100, 60, 20);		
 			JButton cancelButton = new JButton("取消");
+			
+			//设置idField只能输入数字
+			idField.addKeyListener(new KeyAdapter() {
+				  public void keyTyped(KeyEvent e) {  
+		                int keyChar = e.getKeyChar();                 
+		                if(keyChar >= KeyEvent.VK_0 && keyChar <= KeyEvent.VK_9) {  
+		 
+		                }else{  
+		                     e.consume();
+		                     
+		                }  
+		            }            
+			});
 			cancelButton.setBounds(190, 150, 70, 30);
 			cancelButton.addActionListener(new ActionListener() {
 				
@@ -228,7 +242,9 @@ public class PrimeInfoCityDialog extends JDialog{
 			idLabel.setBounds(50, 100, 100, 25);
 			JTextField idField = new JTextField();
 			idField.setBounds(180, 100, 60, 20);	
-			idField.setEnabled(true);
+			idField.setEnabled(false);
+			
+			
 			//添加内容
 			idField.setText(vo.getId());
 			nameField.setText(vo.getName());
@@ -272,11 +288,11 @@ public class PrimeInfoCityDialog extends JDialog{
 					}
 					
 				}
-			});		
-			this.add(nameLabel);
-			this.add(nameField);
+			});
 			this.add(idField);
 			this.add(idLabel);
+			this.add(nameLabel);
+			this.add(nameField);
 		    this.add(cancelButton);
 			this.add(nextButton);			
 			this.setLayout(null);
