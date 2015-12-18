@@ -3,11 +3,7 @@ package businesslogic.checkbl.paymentinfo;
 import systemenum.CheckResult;
 import businesslogic.checkbl.CheckInfo;
 import businesslogic.checkbl.CheckResultMessage;
-/**
- * {@code CheckInfo}的实现类，为界面层提供收款账户编号的检查服务
- * @author 刘德宽
- *
- */
+
 public class PayeeAccountId implements CheckInfo{
 
 	private String payeeAccountId;

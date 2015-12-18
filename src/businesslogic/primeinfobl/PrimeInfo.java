@@ -9,7 +9,6 @@ import po.PrimeInfoPO;
 import dataservice.DataService;
 import dataservice.PrimeInfoDataService;
 import vo.AccountVO;
-import vo.CityVO;
 import vo.EmployeeVO;
 import vo.OrderCreateVO;
 import vo.OrganizationVO;
@@ -17,7 +16,6 @@ import vo.PrimeInfoVO;
 import vo.StoreinCreateVO;
 import vo.TruckVO;
 import businesslogic.accountbl.Account;
-import businesslogic.citybl.City;
 import businesslogic.employeebl.Employee;
 import businesslogic.logbl.Log;
 import businesslogic.orderbl.Order;
@@ -174,29 +172,6 @@ public class PrimeInfo implements PrimeInfoblService{
 		}
 		return true;
 	}
-		
-	@Override
-	public boolean addCityVO(CityVO vo) {
-		List<CityVO> cityVOs = primeInfoVO.getCity();
-		cityVOs.add(vo);		
-		return true;
-	}
-	@Override
-	public boolean removeCityVO(CityVO vo) {
-		List<CityVO> cityVOs = primeInfoVO.getCity();
-		cityVOs.remove(vo);		
-		return true;
-	}
-	@Override
-	public boolean modifyCityVO(CityVO vo) {
-		List<CityVO> cityVOs = primeInfoVO.getCity();
-		for(CityVO cityVO :cityVOs){
-			if(cityVO.getId().equals(vo.getId())){
-				cityVO.setName(vo.getName());
-			}
-		}
-		return true;
-	}
 	
 	@Override
 	public boolean addStoreinCheckResultVO(StoreinCreateVO vo) {
@@ -260,11 +235,6 @@ public class PrimeInfo implements PrimeInfoblService{
 		Employee employee = new Employee();
 		for(EmployeeVO vo: employeeVOs)
 			employee.execute(vo);
-		
-		List<CityVO> cityVOs = primeInfoVO.getCity();
-		City city = new City();
-		for(CityVO vo: cityVOs)
-			city.execute(vo);
 			
 		List<OrganizationVO> organizationVOs = primeInfoVO.getOrganization();
 		Organization organization = new Organization();
@@ -313,7 +283,6 @@ public class PrimeInfo implements PrimeInfoblService{
 		}
 		return id;
 	}
-
 
 
 }

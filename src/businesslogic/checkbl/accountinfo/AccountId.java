@@ -5,7 +5,7 @@ import businesslogic.checkbl.CheckInfo;
 import businesslogic.checkbl.CheckResultMessage;
 
 /**
- * {@code CheckInfo}的实现类，为界面层提供账户编号的检查服务
+ * {@code CheckInfo}的实现类，为界面层提供账号编号的检查服务
  * @author 刘德宽
  *
  */

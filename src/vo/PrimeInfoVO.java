@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.List;
 
 import po.AccountPO;
-import po.CityPO;
 import po.EmployeePO;
 import po.OrderPO;
 import po.OrganizationPO;
@@ -23,7 +22,6 @@ public class PrimeInfoVO {
 
 	private List<OrganizationVO>  organization;
 	private List<EmployeeVO>  employee;
-	private List<CityVO>  city;
 	private List<TruckVO>  truck;
 	private List<StoreinCreateVO>  storage;
 	private List<AccountVO>  account;
@@ -33,7 +31,6 @@ public class PrimeInfoVO {
 	public PrimeInfoVO(){
 		List<OrganizationVO>  organization = new ArrayList<OrganizationVO>();
     	List<EmployeeVO>  employee = new ArrayList<EmployeeVO>();
-    	List<CityVO>  city = new ArrayList<CityVO>();
     	List<TruckVO>  truck = new ArrayList<TruckVO>();
     	List<StoreinCreateVO>  storage = new ArrayList<StoreinCreateVO>();
     	List<AccountVO>  account = new ArrayList<AccountVO>();
@@ -41,17 +38,15 @@ public class PrimeInfoVO {
     	Date date = new Date();
 		this.organization = organization;
 		this.employee = employee;
-		this.city = city;
 		this.truck = truck;
 		this.storage = storage;
 		this.account = account;
 		this.order = order;
 		this.date = date;
 	}
-	public PrimeInfoVO(List<OrganizationVO>  organization,List<EmployeeVO>  employee,List<CityVO>  city,List<TruckVO>  truck,List<StoreinCreateVO>  storage,List<AccountVO>  account, List<OrderCreateVO> order,Date date){
+	public PrimeInfoVO(List<OrganizationVO>  organization,List<EmployeeVO>  employee,List<TruckVO>  truck,List<StoreinCreateVO>  storage,List<AccountVO>  account, List<OrderCreateVO> order,Date date){
 		this.organization = organization;
 		this.employee = employee;
-		this.city = city;
 		this.truck = truck;
 		this.storage = storage;
 		this.account = account;
@@ -64,10 +59,6 @@ public class PrimeInfoVO {
 	
 	public List<EmployeeVO> getEmployee(){
 		return employee;
-	}
-	
-	public List<CityVO> getCity(){
-		return city;
 	}
 	
 	public List<TruckVO> getTruck(){
@@ -103,9 +94,6 @@ public class PrimeInfoVO {
 		List<EmployeePO> employeePOs = new ArrayList<EmployeePO>();
 		for(EmployeeVO vo: employee)
 			employeePOs.add(vo.getEmployeePO());
-		List<CityPO> cityPOs = new ArrayList<CityPO>();
-		for(CityVO vo: city)
-			cityPOs.add(vo.getCityPO());
 		List<TruckPO> truckPOs = new ArrayList<TruckPO>();
 		for(TruckVO vo: truck)
 			truckPOs.add(vo.getTruckPO());
@@ -118,7 +106,7 @@ public class PrimeInfoVO {
 		List<OrderPO> orderPOs = new ArrayList<OrderPO>();
 		for(OrderCreateVO vo: order)
 			orderPOs.add(vo.getOrderPO());
-		PrimeInfoPO po = new PrimeInfoPO(organizationPOs,employeePOs,cityPOs,truckPOs,storagePOs,accountPOs,orderPOs,date);
+		PrimeInfoPO po = new PrimeInfoPO(organizationPOs,employeePOs,truckPOs,storagePOs,accountPOs,orderPOs,date);
 		return po;
 	}
 }

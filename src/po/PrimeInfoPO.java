@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.List;
 
 import vo.AccountVO;
-import vo.CityVO;
 import vo.EmployeeVO;
 import vo.OrderCreateVO;
 import vo.OrganizationVO;
@@ -27,17 +26,15 @@ public class PrimeInfoPO implements Serializable{
 	private static final long serialVersionUID = 3455486090934776890L;
 	private List<OrganizationPO>  organization;
 	private List<EmployeePO>  employee;
-	private List<CityPO>  city;
 	private List<TruckPO>  truck;
 	private List<StoreinPO>  storage;
 	private List<AccountPO>  account;
 	private List<OrderPO> order ;
 	private Date date;
 	
-	public PrimeInfoPO(List<OrganizationPO>  organization,List<EmployeePO>  employee,List<CityPO> city,List<TruckPO>  truck,List<StoreinPO>  storage,List<AccountPO>  account, List<OrderPO> order,Date date){
+	public PrimeInfoPO(List<OrganizationPO>  organization,List<EmployeePO>  employee,List<TruckPO>  truck,List<StoreinPO>  storage,List<AccountPO>  account, List<OrderPO> order,Date date){
 		this.organization = organization;
 		this.employee = employee;
-		this.city = city;
 		this.truck = truck;
 		this.storage = storage;
 		this.account = account;
@@ -48,7 +45,6 @@ public class PrimeInfoPO implements Serializable{
 	public PrimeInfoPO(){
 		List<OrganizationPO>  organization = new ArrayList<OrganizationPO>();
     	List<EmployeePO>  employee = new ArrayList<EmployeePO>();
-     	List<CityPO>  city = new ArrayList<CityPO>();
     	List<TruckPO>  truck = new ArrayList<TruckPO>();
     	List<StoreinPO>  storage = new ArrayList<StoreinPO>();
     	List<AccountPO>  account = new ArrayList<AccountPO>();
@@ -56,7 +52,6 @@ public class PrimeInfoPO implements Serializable{
     	Date date = new Date();
 		this.organization = organization;
 		this.employee = employee;
-		this.city = city;
 		this.truck = truck;
 		this.storage = storage;
 		this.account = account;
@@ -69,10 +64,6 @@ public class PrimeInfoPO implements Serializable{
 	
 	public List<EmployeePO> getEmployee(){
 		return employee;
-	}
-	
-	public List<CityPO> getCity(){
-		return city;
 	}
 	
 	public List<TruckPO> getTruck(){
@@ -105,9 +96,6 @@ public class PrimeInfoPO implements Serializable{
 		List<EmployeeVO> employeeVOs = new ArrayList<EmployeeVO>();
 		for(EmployeePO po: employee)
 			employeeVOs.add(po.getEmployeeVO());
-		List<CityVO> cityVOs = new ArrayList<CityVO>();
-		for(CityPO po: city)
-			cityVOs.add(po.getCityVO());
 		List<TruckVO> truckVOs = new ArrayList<TruckVO>();
 		for(TruckPO po: truck)
 			truckVOs.add(po.getTruckVO());
@@ -120,7 +108,7 @@ public class PrimeInfoPO implements Serializable{
 		List<OrderCreateVO> orderVOs = new ArrayList<OrderCreateVO>();
 		for(OrderPO po: order)
 			orderVOs.add(po.getOrderPendingVO());
-		PrimeInfoVO vo = new PrimeInfoVO(organizationVOs,employeeVOs,cityVOs,truckVOs,storageVOs,accountVOs,orderVOs ,date);
+		PrimeInfoVO vo = new PrimeInfoVO(organizationVOs,employeeVOs,truckVOs,storageVOs,accountVOs,orderVOs ,date);
 		return vo;
 	}
 }
