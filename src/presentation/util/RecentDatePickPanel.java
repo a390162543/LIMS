@@ -91,7 +91,8 @@ public class RecentDatePickPanel extends JPanel{
         SimpleDateFormat sdf = new SimpleDateFormat(
                 "yyyyƒÍMM‘¬dd»’");
         dateTextField.setText(sdf.format(date));
-        checker.check();
+        if(checker != null)
+            checker.check();
     }
     
     public void setTime(Date date){
@@ -103,7 +104,7 @@ public class RecentDatePickPanel extends JPanel{
         // TODO Auto-generated method stub
         super.setEnabled(enabled);
         popUpButton.setEnabled(enabled);
-        if(enabled == false)
+        if(enabled == false && checker != null)
             checker.discard();
     }
     

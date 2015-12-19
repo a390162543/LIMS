@@ -41,7 +41,7 @@ public class DriverTableModel extends DefaultTableModel{
     public void create(EmployeeVO vo){
         addRow(convertToVector(vo));
         dataList.add(vo);
-        EmployeeblService.creatEmployeePO(vo);
+        EmployeeblService.createEmployeePO(vo);
     }
     
     public void delete(int row){
