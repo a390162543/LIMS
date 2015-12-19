@@ -2,14 +2,15 @@ package presentation.managerui.approvalui.paymentui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import presentation.mainui.MainFrame;
+import presentation.util.DialogLayoutManager;
+import presentation.util.RecentDatePickPanel;
 import systemenum.Entry;
 import vo.PaymentVO;
 /**
@@ -43,24 +44,30 @@ public class PaymentPendingDialog extends JDialog{
             this.add(labels[i]);
         }
         
-        JTextField[] textFields = new JTextField[8];
+        JTextField idField = new JTextField();
+        PaymentVO vo = tableModel.getPaymentVO(modelRow);
+        idField.setText(vo.getId());
+        idField.setSize(150, 25);
+        this.add(idField);
+        
+        RecentDatePickPanel datePickPanel = new RecentDatePickPanel();
+        datePickPanel.setSize( 200, 25);
+        datePickPanel.setEnabled(false);
+        this.add(datePickPanel);
+       
+        JTextField[] textFields = new JTextField[6];
         for(int i=0;i<textFields.length;i++){
             textFields[i] = new JTextField();
-            textFields[i].setBounds(100, 10+35*i, 150, 25);
-
+            textFields[i].setSize(150, 25);
             textFields[i].setEditable(isEditable);
             this.add(textFields[i]);
         }
-        PaymentVO vo = tableModel.getPaymentVO(modelRow);
-        textFields[0].setText(vo.getId());
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");  
-        textFields[1].setText(sdf.format(vo.getDate()));
-        textFields[2].setText(String.format( "%.2f",vo.getMoney()));
-        textFields[3].setText(vo.getName());
-        textFields[4].setText(vo.getPayeeAccountId());
-        textFields[5].setText(vo.getAccountId());
-        textFields[6].setText(vo.getEntry().getName());
-        textFields[7].setText(vo.getRemarks());
+        textFields[0].setText(String.format( "%.2f",vo.getMoney()));
+        textFields[1].setText(vo.getName());
+        textFields[2].setText(vo.getPayeeAccountId());
+        textFields[3].setText(vo.getAccountId());
+        textFields[4].setText(vo.getEntry().getName());
+        textFields[5].setText(vo.getRemarks());
         
         JButton confirmButton = new JButton("确认");
         confirmButton.setBounds(230, 280, 80, 30);
@@ -71,13 +78,13 @@ public class PaymentPendingDialog extends JDialog{
                 if(!isEditable){
                 	PaymentPendingDialog.this.dispose();
                 }
-                @SuppressWarnings("deprecation")
-				PaymentVO vo = new PaymentVO(textFields[0].getText(), new Date(Integer.parseInt(textFields[1].getText().substring(0, 4)),Integer.parseInt(textFields[1].getText().substring(5, 7)),Integer.parseInt(textFields[1].getText().substring(8, 10))), 
-                		Double.parseDouble(textFields[2].getText()), textFields[3].getText(), textFields[4].getText(), 
-                		textFields[5].getText(), Entry.valueOf(textFields[6].getText()),textFields[7].getText());
-                tableModel.modify(modelRow, vo);
-                System.out.println("you've clicked confirm button..");
-                PaymentPendingDialog.this.dispose();
+                else{
+	                PaymentVO vo = new PaymentVO(idField.getText(),datePickPanel.getDate() , 
+	                		Double.parseDouble(textFields[0].getText()), textFields[1].getText(), textFields[2].getText(), 
+	                		textFields[3].getText(), Entry.valueOf(textFields[4].getText()),textFields[5].getText());
+	                tableModel.modify(modelRow, vo);
+	                PaymentPendingDialog.this.dispose();
+                }
                 return;
             }
         });
@@ -96,8 +103,9 @@ public class PaymentPendingDialog extends JDialog{
         this.add(confirmButton);
 
         this.setSize(340, 360);
-        this.setLayout(null);
-        this.setLocationRelativeTo(null);
+        this.setLayout(new DialogLayoutManager());
+        this.setLocationRelativeTo(MainFrame.getMainFrame());
+        this.setTitle("付款单");
         this.setModalityType(ModalityType.APPLICATION_MODAL);
         this.setVisible(true);
     }

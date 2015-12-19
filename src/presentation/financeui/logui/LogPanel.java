@@ -31,7 +31,7 @@ public class LogPanel extends JPanel{
 			 contents += logblService.getLogInfo(vo);
         
 		JTextArea operationArea = new JTextArea(contents);
-		operationArea.setEditable(true);
+		operationArea.setEditable(false);
 		operationArea.setLocation(0, 0);
 		operationArea.setSize(560, 100);
 		operationArea.setLineWrap(true);

@@ -1,6 +1,7 @@
 package businesslogic.checkbl.accountinfo;
 
 import systemenum.CheckResult;
+import businesslogic.accountbl.Account;
 import businesslogic.checkbl.CheckInfo;
 import businesslogic.checkbl.CheckResultMessage;
 
@@ -23,8 +24,15 @@ public class AccountId implements CheckInfo{
 			checkResultMessage.addInfo(CheckResult.FALSE, "账户编号长度应为19位数字");
 			return checkResultMessage;
 		}
-			
-		return checkResultMessage;
+		else{
+			Account account = new Account();
+			String[] accountIds = account.getAllAccountId();
+			for(String id : accountIds){
+				if(id.equals(accountId))
+					checkResultMessage.addInfo(CheckResult.FALSE, "账户已存在");
+			}
+			return checkResultMessage;
+		}
 	}
 
 }

@@ -210,7 +210,7 @@ public class Revenue implements RevenueblService{
             List<RevenuePO> pos = revenueDataService.finds("date", date);
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             for(RevenuePO po : pos){
-                if(po.getOrganization().equals(organization)&&sdf.format(po.getRevenueDate()).equals(sdf.format(date))&&po.getDocumentState().equals(DocumentState.PASS))
+               if(po.getOrganization().equals(organization)&&sdf.format(po.getRevenueDate()).equals(sdf.format(date))&&po.getDocumentState().equals(DocumentState.PASS))
                     vos.add(po.getRevenueVO());         
             }
         } catch (MalformedURLException e) {

@@ -1,6 +1,5 @@
 package presentation.financeui.paymentui;
 
-import java.awt.Dialog.ModalityType;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -16,6 +15,7 @@ import javax.swing.JTextField;
 import presentation.util.CheckInfoGetter;
 import presentation.util.Checker;
 import presentation.util.DatePickPanel;
+import presentation.util.DialogLayoutManager;
 import businesslogic.BusinessLogicService;
 import businesslogic.checkbl.CheckInfo;
 import businesslogic.checkbl.paymentinfo.PayeeAccountId;
@@ -54,11 +54,7 @@ public class PaymentDialog extends JDialog{
 		int dialogy=500;
 		this.setSize(dialogx+10, dialogy+30);
 		this.setLocationRelativeTo(null);
-  
-		JLabel paymentLabel=new JLabel("付款单");
-		paymentLabel.setSize(61,24);
-		paymentLabel.setLocation(dialogx/2-20, dialogy/30);
-		paymentLabel.setVisible(true);
+		this.setTitle("付款单");
 		
 		int labelWidth=80;
 		int labelHeight=25;
@@ -129,8 +125,7 @@ public class PaymentDialog extends JDialog{
 		remarksArea.setLocation(textFieldx, textFieldy+(interval2+textFieldHeight)*7);
 		
 		
-		this.setLayout(null);
-		this.add(paymentLabel);
+		this.setLayout(new DialogLayoutManager());
 		this.add(paymentIdLabel);
 		this.add(dateLabel);
 		this.add(moneyLabel);
