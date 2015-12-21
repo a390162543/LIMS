@@ -33,7 +33,7 @@ public class FreeCapacity implements CheckInfo{
 			return checkResultMessage;
 		}
 		if (freeCapacity<0||freeCapacity<max+1) {
-			checkResultMessage.addInfo(CheckResult.FALSE, "排的个数应在1-"+(max+1)+"");
+			checkResultMessage.addInfo(CheckResult.FALSE, "排的个数应该大于"+(max+1)+"小于20");
 		}
 		return checkResultMessage;
 	}

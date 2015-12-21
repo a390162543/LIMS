@@ -32,7 +32,7 @@ public class CarCapacity implements CheckInfo{
 			return checkResultMessage;
 		}
 		if (carCapacity<0||carCapacity<max+1) {
-			checkResultMessage.addInfo(CheckResult.FALSE, "排的个数应在1-"+(max+1)+"");
+			checkResultMessage.addInfo(CheckResult.FALSE, "排的个数应在大于"+(max+1)+"小于20");
 		}
 		return checkResultMessage;
 	}

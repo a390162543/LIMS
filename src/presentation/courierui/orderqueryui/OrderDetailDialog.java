@@ -1,11 +1,13 @@
 package presentation.courierui.orderqueryui;
 
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
@@ -31,6 +33,7 @@ public class OrderDetailDialog extends JDialog{
 	private JLabel orderIdLabel;
 	private JTextField orderIdTextField;
 	private JLabel deliveryInfoLabel;
+	private JPanel deliverLabel;
 	private JTextArea deliveryInfoTestTextArea;
 	
 	private JButton confirmButton;
@@ -38,7 +41,7 @@ public class OrderDetailDialog extends JDialog{
 	public OrderDetailDialog(){
 		
 		this.setTitle("货物信息");	
-		this.setSize(380, 460);
+		this.setSize(380, 480);
 
 		goodsStateLabel = new JLabel("货物状态");
 		goodsStateLabel.setBounds(20, 61, 80, 22);
@@ -53,16 +56,17 @@ public class OrderDetailDialog extends JDialog{
 		deliveryInfoLabel = new JLabel("物流轨迹");
 		deliveryInfoLabel.setBounds(20, 145, 80, 22);
 		deliveryInfoTestTextArea = new JTextArea();
-		deliveryInfoTestTextArea.setBounds(90, 147, 220, 220);
+		deliveryInfoTestTextArea.setBounds(90, 147, 220, 300);
 		deliveryInfoTestTextArea.setEditable(false);
 		confirmButton = new JButton("确定");
 		confirmButton.setBounds(280, 388, 70, 30);
+	    deliverLabel = new JPanel();
 		this.add(orderIdLabel);
 		this.add(orderIdTextField);
 		this.add(goodsStateLabel);
 		this.add(goodsStateTextField);
 		this.add(deliveryInfoLabel);
-		this.add(deliveryInfoTestTextArea);		
+		this.add(deliverLabel);	
 		this.add(confirmButton);
 		
 		this.setLayout(new DialogLayoutManager());
@@ -80,7 +84,18 @@ public class OrderDetailDialog extends JDialog{
 
 	public void setInfo(OrderQueryVO vo) {
 		goodsStateTextField.setText(vo.getState().getName());
-		orderIdTextField.setText(vo.getId());		
+		String info = vo.getDeliverInfo();
+		int length = 0;
+		for (int i = 0; i < info.length(); i++) {
+			if (info.charAt(i)=='\n') {
+				length++;
+			}
+		}
+		deliverLabel.setBounds(10, 100, 500, 30*length);
+		deliveryInfoTestTextArea.setBounds(10, 110, 480, 28*length);
+		orderIdTextField.setText(vo.getId());	
+		System.out.println(vo.getDeliverInfo());
+		deliverLabel.add(deliveryInfoTestTextArea);
 		deliveryInfoTestTextArea.setText(vo.getDeliverInfo());
 	}
 }

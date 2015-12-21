@@ -217,7 +217,7 @@ public class Order implements OrderblService{
 		String toCity = receiverAddress.substring(toBeginIndex+1, toEndIndex);
 		City city = new City();
 		double distance = city.getDistance(fromCity, toCity);
-		int time = (int) ((distance%30)/2+1);
+		int time = (int) ((distance%30)/15+1);
 		return time;
 	}
 

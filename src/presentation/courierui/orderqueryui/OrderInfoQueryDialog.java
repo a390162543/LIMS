@@ -46,16 +46,17 @@ public class OrderInfoQueryDialog extends JDialog{
 		
 		this.setTitle("订单查询");	
 		this.setSize(380, 210);
+		this.setLayout(null);
 		
 		confirmButton = new JButton("确定");
 		confirmButton.setBounds(275, 140, 70, 22);
 		orderInfoQueryLabel = new JLabel("请输入您要查询的订单号：");
-		orderInfoQueryLabel.setBounds(20, 54, 240, 22);
+		orderInfoQueryLabel.setBounds(20, 44, 240, 22);
 		orderInfoTextField = new JTextField();
-		orderInfoTextField.setBounds(80, 95, 230, 24);
+		orderInfoTextField.setBounds(50, 85, 189, 24);
 		
-		this.add(orderInfoTextField);	
 		this.add(orderInfoQueryLabel);
+		this.add(orderInfoTextField);		
 		this.add(confirmButton);
 		       	
 		Checker orderIdChecker = new Checker(orderInfoTextField, new CheckInfoGetter() {			

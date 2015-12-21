@@ -35,7 +35,7 @@ public class TrainCapacity implements CheckInfo{
 			return checkResultMessage;
 		}
 		if (trainCapacity<0||trainCapacity<max+1) {
-			checkResultMessage.addInfo(CheckResult.FALSE, "排的个数应在1-"+(max+1)+"");
+			checkResultMessage.addInfo(CheckResult.FALSE, "排的个数应大于"+(max+1)+"小于20");
 		}
 		return checkResultMessage;
 		

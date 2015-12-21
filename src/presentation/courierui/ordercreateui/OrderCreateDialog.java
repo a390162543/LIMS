@@ -2,8 +2,6 @@ package presentation.courierui.ordercreateui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -20,6 +18,7 @@ import javax.swing.JTextField;
 import presentation.util.CheckInfoGetter;
 import presentation.util.Checker;
 import presentation.util.DialogLayoutManager;
+import presentation.util.ScreenMessage;
 import businesslogic.BusinessLogicService;
 import businesslogic.checkbl.CheckInfo;
 import businesslogic.checkbl.Name;
@@ -1027,38 +1026,46 @@ public class OrderCreateDialog extends JDialog{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				double tempcost = Double.parseDouble(totalExpenseTextField.getText());
+				if (orderWeightChecker.check()&&orderVolumnChecker.check()&&senderNameChecker.check()&&
+						senderAddressChecker.check()&&senderCellChecker.check()&&senderTelChecker.check()&&
+						receiverNameChecker.check()&&receiverAddressChecker.check()&&receiverTelChecker.check()&&
+						receiverTelChecker.check()) {
+					double tempcost = Double.parseDouble(totalExpenseTextField.getText());
+					
+					WrapWay wrapWay;
+					if(woodenWrapButton.isSelected())
+						wrapWay = WrapWay.WOODEN;
+					else if(cartonWrapButton.isSelected())
+						wrapWay = WrapWay.CARTON;
+					else 
+						wrapWay = WrapWay.BAG;
+					
+					DeliveryWay deliverWay;
+					if(economicDeliveryButton.isSelected())
+						deliverWay = DeliveryWay.ECONOMIC;
+					else if(standardDeliveryButton.isSelected())
+						deliverWay = DeliveryWay.STANDARD;
+					else
+						deliverWay = DeliveryWay.FAST;
+					
+					OrderCreateVO orderCreateVO = new OrderCreateVO(orderIdTextField.getText(),
+							senderNameTextField.getText(),senderAdressTextField.getText(), 
+							senderTeltTextField.getText(), senderCellTextField.getText(), 
+							recipientNameTextField.getText(), recipientAdressTextField.getText(), 
+							recipientTeltTextField.getText(), recipientCellTextField.getText(), 
+							goodsInfoTextField.getText(), Double.parseDouble(weighTextField.getText()),
+							Double.parseDouble(volumeTextField.getText()), tempcost, wrapWay,
+							deliverWay,  Integer.parseInt(totalTimeTextField.getText()));
+					orderCreateVO.setGoodsState(GoodsState.COMPLETE);
+					orderCreateVO.setNowLocation(LoginController.getOrganizationName());
+					orderCreateVO.setOrganization(LoginController.getOrganizationName());
+					OrderblService orderblService = BusinessLogicService.getOrderblService();
+					orderblService.createOrderPO(orderCreateVO);
+					OrderCreateDialog.this.dispose();
+	
+				}
 				
-				WrapWay wrapWay;
-				if(woodenWrapButton.isSelected())
-					wrapWay = WrapWay.WOODEN;
-				else if(cartonWrapButton.isSelected())
-					wrapWay = WrapWay.CARTON;
-				else 
-					wrapWay = WrapWay.BAG;
 				
-				DeliveryWay deliverWay;
-				if(economicDeliveryButton.isSelected())
-					deliverWay = DeliveryWay.ECONOMIC;
-				else if(standardDeliveryButton.isSelected())
-					deliverWay = DeliveryWay.STANDARD;
-				else
-					deliverWay = DeliveryWay.FAST;
-				
-				OrderCreateVO orderCreateVO = new OrderCreateVO(orderIdTextField.getText(),
-						senderNameTextField.getText(),senderAdressTextField.getText(), 
-						senderTeltTextField.getText(), senderCellTextField.getText(), 
-						recipientNameTextField.getText(), recipientAdressTextField.getText(), 
-						recipientTeltTextField.getText(), recipientCellTextField.getText(), 
-						goodsInfoTextField.getText(), Double.parseDouble(weighTextField.getText()),
-						Double.parseDouble(volumeTextField.getText()), tempcost, wrapWay,
-						deliverWay,  Integer.parseInt(totalTimeTextField.getText()));
-				orderCreateVO.setGoodsState(GoodsState.COMPLETE);
-				orderCreateVO.setNowLocation(LoginController.getOrganizationName());
-				orderCreateVO.setOrganization(LoginController.getOrganizationName());
-				OrderblService orderblService = BusinessLogicService.getOrderblService();
-				orderblService.createOrderPO(orderCreateVO);
-				OrderCreateDialog.this.dispose();
 				
 			}
 		});

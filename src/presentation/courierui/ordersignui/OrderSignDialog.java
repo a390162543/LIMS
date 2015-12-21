@@ -162,6 +162,7 @@ public class OrderSignDialog extends JDialog{
 						signNameTextField.getText(),datePickPanel.getDate());
 				OrderblService orderblService = BusinessLogicService.getOrderblService();
 				orderblService.signOrder(orderSignVO);	
+				OrderSignDialog.this.dispose();
 			}
 		});
 		

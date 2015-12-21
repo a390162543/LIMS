@@ -28,6 +28,7 @@ import presentation.util.RecentDatePickPanel;
 import businesslogic.BusinessLogicService;
 import businesslogic.checkbl.CheckInfo;
 import businesslogic.checkbl.arrivalinfo.ArrivalTransferId;
+import businesslogic.checkbl.storeoutinfo.StoreoutTransferId;
 import businesslogic.storeoutbl.Storeout;
 import businesslogic.userbl.LoginController;
 import businesslogicservice.IdblService;
@@ -175,9 +176,9 @@ public class StoreoutDialogUI extends JDialog{
 			@Override
 			public CheckInfo getCheckInfo() {
 				if (transferIdTextField.getText()!=null) {
-					return new ArrivalTransferId(transferIdTextField.getText());
+					return new StoreoutTransferId(transferIdTextField.getText());
 				}
-				return new ArrivalTransferId("");
+				return new StoreoutTransferId("");
 			}
 		});
 		
@@ -263,6 +264,7 @@ public class StoreoutDialogUI extends JDialog{
 				StoreoutCreateVO vo = new StoreoutCreateVO(storeoutIdTextField.getText(), orderId, date, destination, shipForm, transferId,LoginController.getOrganizationName());
 				StoreoutblService storeoutblService = BusinessLogicService.getStoreoutblService();
 				storeoutblService.createStoreoutPO(vo);
+				StoreoutDialogUI.this.dispose();
 			}
 		});
 		

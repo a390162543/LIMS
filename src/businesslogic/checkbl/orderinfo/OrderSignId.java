@@ -39,11 +39,11 @@ public class OrderSignId implements CheckInfo {
 			checkResultMessage.addInfo(CheckResult.FALSE, "不存在该订单，请确认输入");
 			return checkResultMessage;
 		}
-		if (orderId.length() == 10 && orderSignVO.getSignName() != null ) {
+		if (orderId.length() == 10 && orderSignVO.getSignName() != null) {
 			checkResultMessage.addInfo(CheckResult.FALSE, "该订单已被签收");
 			return checkResultMessage;
 		}
-		if (orderId.length() == 10 && orderQueryVO.getNowLocation() != LoginController.getOrganizationName()) {
+		if (orderId.length() == 10 && orderQueryVO.getNowLocation().equals(LoginController.getOrganizationName()) ) {
 			checkResultMessage.addInfo(CheckResult.FALSE, "该订单还未送达，不能签收");
 			return checkResultMessage;
 		}

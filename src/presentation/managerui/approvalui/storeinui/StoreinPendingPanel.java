@@ -2,11 +2,15 @@ package presentation.managerui.approvalui.storeinui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JToggleButton;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
@@ -33,6 +37,9 @@ public class StoreinPendingPanel extends JPanel {
 	private JButton pendingButton;
 	private JButton modifyButton;
 	private JButton queryButton;
+	
+	private JToggleButton toggleButton;
+    ArrayList<Integer> indexes = new ArrayList<Integer>();
 
 	public StoreinPendingPanel() {
 
@@ -45,10 +52,21 @@ public class StoreinPendingPanel extends JPanel {
 		storeinPendingScrollPane = new JScrollPane(storeinPendingTable);
 		storeinPendingScrollPane.setBounds(0, 0, 560, 370);
 
+		toggleButton = new JToggleButton("批量审批");
 		pendingButton = new JButton("审批");
 		modifyButton = new JButton("修改");
 		queryButton = new JButton("详情");
 
+		
+		toggleButton.addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                indexes.clear();
+                storeinPendingTable.clearSelection();
+            }
+        });
+		
 		pendingButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -56,7 +74,18 @@ public class StoreinPendingPanel extends JPanel {
 				int row = storeinPendingTable.getSelectedRow();
 				if (row == -1)
 					return;
-				tableModel.approve(row);
+				int indexesNum = storeinPendingTable.getSelectedRowCount();
+				int[] selectedRows = storeinPendingTable.getSelectedRows();
+				for(int i=0;i<indexesNum;i++){
+				    for(int j=i+1;j<indexesNum;j++){
+				        selectedRows[j] -= 1;
+				    }
+				    int firstSelectedRow = selectedRows[i];
+                    int modelRow = storeinPendingTable.convertRowIndexToModel(firstSelectedRow);
+    				tableModel.approve(modelRow);
+				}
+				indexes.clear();
+				storeinPendingTable.clearSelection();
 			}
 		});
 
@@ -82,6 +111,54 @@ public class StoreinPendingPanel extends JPanel {
 				new StoreinPendingDialog(tableModel, modelRow, false);
 			}
 		});
+		
+		storeinPendingTable.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                if(!toggleButton.isSelected())
+                    return;
+                int clicked = storeinPendingTable.getSelectedRow();
+                System.out.println("click:"+clicked);
+                if(indexes.contains(clicked)){
+                    indexes.remove(new Integer(clicked));
+                    System.out.println("remove it");
+                }else{
+                    indexes.add(clicked);
+                    System.out.println("add it");
+                }
+                storeinPendingTable.clearSelection();
+
+                for(int i:indexes){
+                    storeinPendingTable.addRowSelectionInterval(i, i);
+                }
+                System.out.println("Num:"+indexes.size());
+            }
+            
+            @Override
+            public void mousePressed(MouseEvent e) {
+                // TODO Auto-generated method stub
+                
+            }
+            
+            @Override
+            public void mouseExited(MouseEvent e) {
+                // TODO Auto-generated method stub
+                
+            }
+            
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                // TODO Auto-generated method stub
+                
+            }
+            
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+            }
+        });
+		
+		toggleButton.setBounds(230, 390, 70, 30);	
 		pendingButton.setBounds(315, 390, 70, 30);
 		modifyButton.setBounds(400, 390, 70, 30);
 		queryButton.setBounds(485, 390, 70, 30);

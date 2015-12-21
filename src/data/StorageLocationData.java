@@ -89,7 +89,7 @@ public class StorageLocationData extends UnicastRemoteObject implements StorageL
 				for (int m = 0; m < 10; m++) {
 					for (int n = 0; n < 100; n++) {
 						String info = String.format("%02d", 0)+String.format("%02d", j)+String.format("%02d", m)
-								+String.format("%02d", n)+StorageState.FORBIDDEN.toString()+"   "+new SimpleDateFormat("yyyy-MM-dd").format(new Date())+storageId;
+								+String.format("%02d", n)+StorageState.FORBIDDEN.toString()+"     "+new SimpleDateFormat("yyyy-MM-dd").format(new Date())+storageId;
 						try {
 							writer.write(info);
 							
@@ -124,7 +124,7 @@ public class StorageLocationData extends UnicastRemoteObject implements StorageL
 				for (int m = 0; m < 10; m++) {
 					for (int n = 0; n < 100; n++) {
 						String info = String.format("%02d", 1)+String.format("%02d", j)+String.format("%02d", m)
-								+String.format("%02d", n)+StorageState.FORBIDDEN.toString()+"   "+new SimpleDateFormat("yyyy-MM-dd").format(new Date())+storageId;
+								+String.format("%02d", n)+StorageState.FORBIDDEN.toString()+"     "+new SimpleDateFormat("yyyy-MM-dd").format(new Date())+storageId;
 						
 						try {
 							writer.write(info);
@@ -158,7 +158,7 @@ public class StorageLocationData extends UnicastRemoteObject implements StorageL
 				for (int m = 0; m < 10; m++) {
 					for (int n = 0; n < 100; n++) {
 						String info = String.format("%02d", 2)+String.format("%02d", j)+String.format("%02d", m)
-								+String.format("%02d", n)+StorageState.FORBIDDEN.toString()+"   "+new SimpleDateFormat("yyyy-MM-dd").format(new Date())+storageId;
+								+String.format("%02d", n)+StorageState.FORBIDDEN.toString()+"     "+new SimpleDateFormat("yyyy-MM-dd").format(new Date())+storageId;
 						
 						try {
 							writer.write(info);
@@ -175,7 +175,7 @@ public class StorageLocationData extends UnicastRemoteObject implements StorageL
 				for (int m = 0; m < 10; m++) {
 					for (int n = 0; n < 100; n++) {
 						String info = String.format("%02d", 3)+String.format("%02d", j)+String.format("%02d", m)
-								+String.format("%02d", n)+StorageState.ISAVAILABLE.toString()+"   "+new SimpleDateFormat("yyyy-MM-dd").format(new Date())+storageId;
+								+String.format("%02d", n)+StorageState.ISAVAILABLE.toString()+"     "+new SimpleDateFormat("yyyy-MM-dd").format(new Date())+storageId;
 						
 						try {
 							writer.write(info);
@@ -192,7 +192,7 @@ public class StorageLocationData extends UnicastRemoteObject implements StorageL
 				for (int m = 0; m < 10; m++) {
 					for (int n = 0; n < 100; n++) {
 						String info = String.format("%02d", 3)+String.format("%02d", j)+String.format("%02d", m)
-								+String.format("%02d", n)+StorageState.FORBIDDEN.toString()+"   "+new SimpleDateFormat("yyyy-MM-dd").format(new Date())+storageId;
+								+String.format("%02d", n)+StorageState.FORBIDDEN.toString()+"     "+new SimpleDateFormat("yyyy-MM-dd").format(new Date())+storageId;
 						
 						try {
 							writer.write(info);
@@ -301,8 +301,6 @@ public class StorageLocationData extends UnicastRemoteObject implements StorageL
 			break;
 		}
 		try {
-			System.out.println("____________________");
-			System.out.println(checkline);
 			reader.skip(38*checkline);
 			info = reader.readLine();
 			System.out.println(info);
@@ -310,8 +308,7 @@ public class StorageLocationData extends UnicastRemoteObject implements StorageL
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println("+++++++++++++");
-		System.out.println(info+"   +++++++++++++++++++");
+		
 		return new StorageLocationPO(info).getState();
 	}
 

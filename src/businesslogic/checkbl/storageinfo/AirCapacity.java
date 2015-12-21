@@ -33,7 +33,7 @@ public class AirCapacity implements CheckInfo{
 			return checkResultMessage;
 		}
 		if (airCapacity<0||airCapacity<max+1) {
-			checkResultMessage.addInfo(CheckResult.FALSE, "排的个数应在1-"+(max+1)+"");
+			checkResultMessage.addInfo(CheckResult.FALSE, "排的个数应在大于"+(max+1)+"小于20");
 		}
 		return checkResultMessage;
 	}
