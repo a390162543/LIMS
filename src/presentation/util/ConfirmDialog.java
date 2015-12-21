@@ -27,7 +27,7 @@ public class ConfirmDialog extends JDialog{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				ConfirmDialog.this.dispose();;
+				ConfirmDialog.this.dispose();
 			}
 		});
 		

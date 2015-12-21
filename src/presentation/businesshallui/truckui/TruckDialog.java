@@ -25,11 +25,13 @@ import presentation.util.Checker;
 import presentation.util.DatePickPanel;
 import presentation.util.DialogLayoutManager;
 import presentation.util.OrganizationComboBox;
+import presentation.util.ScreenMessage;
 import businesslogic.BusinessLogicService;
 import businesslogic.checkbl.CheckInfo;
 import businesslogic.checkbl.truckinfo.TruckChassisNumber;
 import businesslogic.checkbl.truckinfo.TruckEngineNumber;
 import businesslogic.checkbl.truckinfo.TruckNumber;
+import businesslogic.checkbl.truckinfo.TruckPurchasedDate;
 import businesslogic.userbl.LoginController;
 import businesslogicservice.IdblService;
 import businesslogicservice.TruckblService;
@@ -224,7 +226,22 @@ public class TruckDialog extends JDialog{
                 
             }
         });
-
+        
+        Checker purchaseDateChecker = new Checker(datePickPanel, new CheckInfoGetter() {
+            
+            @Override
+            public CheckInfo getCheckInfo() {
+                return new TruckPurchasedDate(datePickPanel.getDate());
+            }
+        });
+        
+        datePickPanel.addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                purchaseDateChecker.check();
+            }
+        });
 
         JButton confirmButton = new JButton("确认");
         confirmButton.setBounds(230, 360, 80, 30);
@@ -232,16 +249,23 @@ public class TruckDialog extends JDialog{
             
             @Override
             public void actionPerformed(ActionEvent e) {
-                String id = idTextField.getText();
-                String organization = organizationComboBox.getSelectedOrganization();
-                String truckNumber = textFields[0].getText();
-                String engineNumber = textFields[1].getText();
-                String chassisNumber = textFields[2].getText();
-                Date purchaseDate = datePickPanel.getDate();
-                ImageIcon truckImage = image;
-                TruckVO vo = new TruckVO(id, organization, engineNumber, truckNumber, chassisNumber, purchaseDate, truckImage);
-                tableModel.create(vo);
-                TruckDialog.this.dispose();
+                if(truckNumberChecker.check() & engineNumberChecker.check() 
+                        & chassisNumberChecker.check() & purchaseDateChecker.check()){
+                    String id = idTextField.getText();
+                    String organization = organizationComboBox.getSelectedOrganization();
+                    String truckNumber = textFields[0].getText();
+                    String engineNumber = textFields[1].getText();
+                    String chassisNumber = textFields[2].getText();
+                    Date purchaseDate = datePickPanel.getDate();
+                    ImageIcon truckImage = image;
+                    TruckVO vo = new TruckVO(id, organization, engineNumber, truckNumber, chassisNumber, purchaseDate, truckImage);
+                    tableModel.create(vo);
+                    TruckDialog.this.dispose();
+                    ScreenMessage.putOnScreen(ScreenMessage.SAVE_SUCCESS);
+                }else{
+                    ScreenMessage.putOnScreen(ScreenMessage.SAVE_FAILURE);
+                }
+
             }
         });
         JButton cancleButton = new JButton("取消");
@@ -368,6 +392,11 @@ public class TruckDialog extends JDialog{
         imageLabel.setIcon(vo.getTruckImage());
         image = vo.getTruckImage();
         
+        
+        JButton confirmButton = new JButton("确认");
+        confirmButton.setBounds(230, 360, 80, 30);
+        this.add(confirmButton);
+        
         if(isEditable){
             
             Checker truckNumberChecker = new Checker(textFields[0],new CheckInfoGetter() {
@@ -450,36 +479,48 @@ public class TruckDialog extends JDialog{
                     
                 }
             });
-        }
-        
-        JButton confirmButton = new JButton("确认");
-        confirmButton.setBounds(230, 360, 80, 30);
-        confirmButton.addActionListener(new ActionListener() {
             
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(!isEditable){
-                    TruckDialog.this.dispose();
-                    return;
-                }
-
-                String truckNumber = textFields[0].getText();
-                String engineNumber = textFields[1].getText();
-                String chassisNumber = textFields[2].getText();
-                Date purchaseDate = datePickPanel.getDate();
-                ImageIcon truckImage = image;
-                vo.setTruckNumber(truckNumber);
-                vo.setEngineNumber(engineNumber);
-                vo.setChassisNumber(chassisNumber);
-                vo.setPurchaseDate(purchaseDate);
-                vo.setTruckImage(truckImage);
-                tableModel.modify(modelRow, vo);
-                TruckDialog.this.dispose();
+            Checker purchaseDateChecker = new Checker(datePickPanel, new CheckInfoGetter() {
                 
-            }
-        });
-        this.add(confirmButton);
-        if(isEditable){
+                @Override
+                public CheckInfo getCheckInfo() {
+                    return new TruckPurchasedDate(datePickPanel.getDate());
+                }
+            });
+            datePickPanel.addActionListener(new ActionListener() {
+                
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    purchaseDateChecker.check();
+                }
+            });
+            
+            confirmButton.addActionListener(new ActionListener() {
+                
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if(truckNumberChecker.check() & engineNumberChecker.check() 
+                    & chassisNumberChecker.check() & purchaseDateChecker.check()){
+                        String truckNumber = textFields[0].getText();
+                        String engineNumber = textFields[1].getText();
+                        String chassisNumber = textFields[2].getText();
+                        Date purchaseDate = datePickPanel.getDate();
+                        ImageIcon truckImage = image;
+                        vo.setTruckNumber(truckNumber);
+                        vo.setEngineNumber(engineNumber);
+                        vo.setChassisNumber(chassisNumber);
+                        vo.setPurchaseDate(purchaseDate);
+                        vo.setTruckImage(truckImage);
+                        tableModel.modify(modelRow, vo);
+                        TruckDialog.this.dispose();
+                        ScreenMessage.putOnScreen(ScreenMessage.SAVE_SUCCESS);
+                    }else{
+                        ScreenMessage.putOnScreen(ScreenMessage.SAVE_FAILURE);
+                    }
+                    
+                }
+            });
+            
             JButton cancleButton = new JButton("取消");
             cancleButton.setBounds(140, 360, 80, 30);
             cancleButton.addActionListener(new ActionListener() {
@@ -492,11 +533,20 @@ public class TruckDialog extends JDialog{
             this.add(cancleButton);
         }
         if(!isEditable){
+            confirmButton.addActionListener(new ActionListener() {
+                
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                        TruckDialog.this.dispose();
+                }
+            });
+            
             textFields[0].setEnabled(false);
             textFields[1].setEnabled(false);
             textFields[2].setEnabled(false);
             datePickPanel.setEnabled(false);
         }
+        
         this.setTitle("车辆信息");
         this.setSize(340, 440);
         this.setLayout(new DialogLayoutManager());
