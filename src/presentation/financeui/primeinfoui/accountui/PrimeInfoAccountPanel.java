@@ -15,6 +15,7 @@ import javax.swing.JTable;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
+import presentation.util.ConfirmDialog;
 import vo.AccountVO;
 import businesslogicservice.PrimeInfoblService;
 
@@ -102,18 +103,18 @@ public class PrimeInfoAccountPanel extends JPanel{
                     
                 }
             });
-            deleteButton.addActionListener(new ActionListener() {
-                
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    int row = accountTable.getSelectedRow();
-                    if(row == -1)
-                        return;
-                    int modelRow = accountTable.convertRowIndexToModel(row);
-                    tableModel.delete(modelRow);
+	        new ConfirmDialog(deleteButton,new ActionListener() {
+	            
+	            @Override
+	            public void actionPerformed(ActionEvent e) {
+	                int row = accountTable.getSelectedRow();
+	                if(row == -1)
+	                    return; 
+	                int modelRow = accountTable.convertRowIndexToModel(row);
+	                tableModel.delete(modelRow);
 
-                }
-            });
+	            }
+	        });
             modifyButton.addActionListener(new ActionListener() {
                 
                 @Override
