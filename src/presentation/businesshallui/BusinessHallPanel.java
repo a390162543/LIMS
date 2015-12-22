@@ -31,9 +31,13 @@ public class BusinessHallPanel extends JPanel{
     private JButton revenueButton;
     private JButton driverButton;
     private JButton truckButton;
-    private JPanel frameworkPanel;
     
     public BusinessHallPanel(){
+        // set framework panel
+        JPanel frameworkPanel = new JPanel();
+        frameworkPanel.setBounds(220, 50, 560, 450);
+        frameworkPanel.setLayout(null);
+        
         //set buttons
         deliverButton = new JButton("派件管理");
         arrivalButton = new JButton("货物验收");
@@ -96,9 +100,7 @@ public class BusinessHallPanel extends JPanel{
             }
         });
 
-        // set framework panel
-        frameworkPanel = new JPanel();
-        frameworkPanel.setBounds(220, 30, 560, 470);
+
         
         
         this.add(deliverButton);
@@ -111,6 +113,5 @@ public class BusinessHallPanel extends JPanel{
         
         this.setSize(800, 540);
         this.setLayout(null);
-        this.setVisible(true);
     }
 }

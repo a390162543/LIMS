@@ -478,7 +478,7 @@ public class DriverDialog extends JDialog{
                         double pay = new Double(payTextField.getText());
                         PayVO payVO = new PayVO(0, pay, 0, 0, 0);
                         EmployeeVO vo = new EmployeeVO(id, name, organization, Position.DRIVER, phoneNumber, birthday, idcardNumber, sex, payVO, ddlDate, "");
-                        driverTableModel.create(vo);
+                        driverTableModel.modify(modelRow,vo);
                         DriverDialog.this.dispose();
                         ScreenMessage.putOnScreen(ScreenMessage.SAVE_SUCCESS);
                     }else{

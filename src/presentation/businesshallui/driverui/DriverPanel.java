@@ -156,7 +156,7 @@ public class DriverPanel extends JPanel{
         this.add(deleteButton);
         this.add(modifyButton);
         this.add(queryButton);
-
+        this.setVisible(true);
     }
 
 
