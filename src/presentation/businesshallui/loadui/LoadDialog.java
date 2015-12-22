@@ -23,6 +23,7 @@ import presentation.util.Checker;
 import presentation.util.DialogLayoutManager;
 import presentation.util.OrganizationComboBox;
 import presentation.util.RecentDatePickPanel;
+import presentation.util.ScreenMessage;
 import vo.LoadVO;
 import businesslogic.BusinessLogicService;
 import businesslogic.checkbl.CheckInfo;
@@ -210,18 +211,21 @@ public class LoadDialog extends JDialog{
                      new AddOrderDialog();
             }
         });
-            
+        
         deleteOrderButton.addActionListener(new ActionListener() {
             
             @Override
             public void actionPerformed(ActionEvent e) {
                 // TODO Auto-generated method stub
                 int row = orderTable.getSelectedRow();
-                   if(row == -1)
+                   if(row == -1){
+                       ScreenMessage.putOnScreen(ScreenMessage.NO_CHOOSE_IN_TABLE);
                        return;
+                   }
                    int modelRow = orderTable.convertRowIndexToModel(row);
                    tableModel.delete(modelRow);
                    setExpensesField();
+                   ScreenMessage.putOnScreen(ScreenMessage.SAVE_SUCCESS);
             }
         });
         
@@ -247,25 +251,30 @@ public class LoadDialog extends JDialog{
             
             @Override
             public void actionPerformed(ActionEvent e) {
-                
-                String id = textFields[0].getText();
-                Date loadingDate = datePickPanel.getTime();
-                String transportId = id;
-                String depart = departComboBox.getSelectedOrganization();
-                String destination = destinationComboBox.getSelectedOrganization();
-                String driverId = driverComboBox.getSelectedDriver();
-                String truckId = truckComboBox.getSelectedTruck();
-                String loadMan = personTextFields[0].getText();
-                String transman = personTextFields[1].getText();
-                double cost = new Double(costTextField.getText());
-                
-                List<String> orderIdList = new ArrayList<String>();
-                for(int i = 0; i < orderTable.getRowCount(); i ++)
-                    orderIdList.add((String)orderTable.getValueAt(i, 0));
-                
-                LoadVO vo = new LoadVO(id, loadingDate, transportId, depart, destination, driverId, truckId, loadMan, transman, orderIdList, cost);
-                loadblService.createLoadPO(vo);
-                LoadDialog.this.dispose();
+                if(jianzhuangChecker.check() & yayunChecker.check() & datePickPanel.check()){
+                    String id = textFields[0].getText();
+                    Date loadingDate = datePickPanel.getTime();
+                    String transportId = id;
+                    String depart = departComboBox.getSelectedOrganization();
+                    String destination = destinationComboBox.getSelectedOrganization();
+                    String driverId = driverComboBox.getSelectedDriver();
+                    String truckId = truckComboBox.getSelectedTruck();
+                    String loadMan = personTextFields[0].getText();
+                    String transman = personTextFields[1].getText();
+                    double cost = new Double(costTextField.getText());
+                    
+                    List<String> orderIdList = new ArrayList<String>();
+                    for(int i = 0; i < orderTable.getRowCount(); i ++)
+                        orderIdList.add((String)orderTable.getValueAt(i, 0));
+                    
+                    LoadVO vo = new LoadVO(id, loadingDate, transportId, depart, destination, driverId, truckId, loadMan, transman, orderIdList, cost);
+                    loadblService.createLoadPO(vo);
+                    LoadDialog.this.dispose();
+                    ScreenMessage.putOnScreen(ScreenMessage.SAVE_SUCCESS);
+                }else{
+                    ScreenMessage.putOnScreen(ScreenMessage.SAVE_FAILURE);
+                }
+
             }
         });
         JButton cancleButton = new JButton("取消");
@@ -325,16 +334,7 @@ public class LoadDialog extends JDialog{
             }
         });
         
-        confirmButton.addActionListener(new ActionListener() {
-            
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // TODO Auto-generated method stub
-                tableModel.add(orderField.getText());
-                setExpensesField();
-                                    
-            }
-        });
+
         
         this.setTitle("添加订单");
         this.add(orderLabel);
@@ -368,7 +368,21 @@ public class LoadDialog extends JDialog{
                 
             }
         });
-
+        
+        confirmButton.addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(orderIdChecker.check()){
+                    tableModel.add(orderField.getText());
+                    setExpensesField();
+                    AddOrderDialog.this.dispose();
+                    ScreenMessage.putOnScreen(ScreenMessage.SAVE_SUCCESS);
+                }else{
+                    ScreenMessage.putOnScreen(ScreenMessage.SAVE_FAILURE);
+                }                 
+            }
+        });
 
         this.setLayout(new DialogLayoutManager());
         this.setBounds(100, 100, 380, 240);

@@ -14,6 +14,8 @@ import javax.swing.JToggleButton;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
+import presentation.util.ScreenMessage;
+
 /**
  * 审批时到达单的{@code Jpanel}，提供到达单的查看、修改、审批功能
  * @author 林祖华
@@ -68,8 +70,10 @@ public class ArrivalPendingPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int row = arrivalPendingTable.getSelectedRow();
-				if (row == -1)
-					return;
+                if(row == -1){
+                    ScreenMessage.putOnScreen(ScreenMessage.NO_CHOOSE_IN_TABLE);
+                    return;
+                }
 				int indexesNum = arrivalPendingTable.getSelectedRowCount();
 				int[] selectedRows = arrivalPendingTable.getSelectedRows();
 				for(int i=0;i<indexesNum;i++){
@@ -80,6 +84,7 @@ public class ArrivalPendingPanel extends JPanel {
                     int modelRow = arrivalPendingTable.convertRowIndexToModel(firstSelectedRow);
     				tableModel.approve(modelRow);
 				}
+				ScreenMessage.putOnScreen(ScreenMessage.SAVE_SUCCESS);
 				indexes.clear();
 				arrivalPendingTable.clearSelection();
 			}
@@ -90,8 +95,10 @@ public class ArrivalPendingPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int row = arrivalPendingTable.getSelectedRow();
-				if (row == -1)
-					return;
+                if(row == -1){
+                    ScreenMessage.putOnScreen(ScreenMessage.NO_CHOOSE_IN_TABLE);
+                    return;
+                }
 				int modelRow = arrivalPendingTable.convertRowIndexToModel(row);
 				new ArrivalPendingDialog(tableModel, modelRow, true);
 			}
@@ -101,8 +108,10 @@ public class ArrivalPendingPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int row = arrivalPendingTable.getSelectedRow();
-				if (row == -1)
-					return;
+                if(row == -1){
+                    ScreenMessage.putOnScreen(ScreenMessage.NO_CHOOSE_IN_TABLE);
+                    return;
+                }
 				int modelRow = arrivalPendingTable.convertRowIndexToModel(row);
 				new ArrivalPendingDialog(tableModel, modelRow, false);
 			}
@@ -114,20 +123,15 @@ public class ArrivalPendingPanel extends JPanel {
                 if(!toggleButton.isSelected())
                     return;
                 int clicked = arrivalPendingTable.getSelectedRow();
-                System.out.println("click:"+clicked);
                 if(indexes.contains(clicked)){
                     indexes.remove(new Integer(clicked));
-                    System.out.println("remove it");
                 }else{
                     indexes.add(clicked);
-                    System.out.println("add it");
                 }
                 arrivalPendingTable.clearSelection();
-
                 for(int i:indexes){
                     arrivalPendingTable.addRowSelectionInterval(i, i);
                 }
-                System.out.println("Num:"+indexes.size());
             }
             
             @Override

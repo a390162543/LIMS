@@ -14,6 +14,8 @@ import javax.swing.JToggleButton;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
+import presentation.util.ScreenMessage;
+
 /**
  * 审批时派件单的{@code Jpanel}，提供派件单的查看、修改、审批功能
  * @author 林祖华
@@ -71,8 +73,10 @@ public class DeliverPendingPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int row = deliverPendingTable.getSelectedRow();
-                if (row == -1)
+                if(row == -1){
+                    ScreenMessage.putOnScreen(ScreenMessage.NO_CHOOSE_IN_TABLE);
                     return;
+                }
                 int indexesNum = deliverPendingTable.getSelectedRowCount();
                 int[] selectedRows = deliverPendingTable.getSelectedRows();
                 for(int i=0;i<indexesNum;i++){
@@ -83,6 +87,7 @@ public class DeliverPendingPanel extends JPanel {
                     int modelRow = deliverPendingTable.convertRowIndexToModel(firstSelectedRow);
                     tableModel.approve(modelRow);
                 }
+                ScreenMessage.putOnScreen(ScreenMessage.SAVE_SUCCESS);
                 indexes.clear();
                 deliverPendingTable.clearSelection();
             }
@@ -93,8 +98,10 @@ public class DeliverPendingPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int row = deliverPendingTable.getSelectedRow();
-				if (row == -1)
-					return;
+                if(row == -1){
+                    ScreenMessage.putOnScreen(ScreenMessage.NO_CHOOSE_IN_TABLE);
+                    return;
+                }
 				int modelRow = deliverPendingTable.convertRowIndexToModel(row);
 				new DeliverPendingDialog(tableModel, modelRow, true);
 			}
@@ -104,8 +111,10 @@ public class DeliverPendingPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int row = deliverPendingTable.getSelectedRow();
-				if (row == -1)
-					return;
+                if(row == -1){
+                    ScreenMessage.putOnScreen(ScreenMessage.NO_CHOOSE_IN_TABLE);
+                    return;
+                }
 				int modelRow = deliverPendingTable.convertRowIndexToModel(row);
 				new DeliverPendingDialog(tableModel, modelRow, false);
 			}
@@ -117,20 +126,16 @@ public class DeliverPendingPanel extends JPanel {
                     if(!toggleButton.isSelected())
                         return;
                     int clicked = deliverPendingTable.getSelectedRow();
-                    System.out.println("click:"+clicked);
                     if(indexes.contains(clicked)){
                         indexes.remove(new Integer(clicked));
-                        System.out.println("remove it");
                     }else{
                         indexes.add(clicked);
-                        System.out.println("add it");
                     }
                     deliverPendingTable.clearSelection();
     
                     for(int i:indexes){
                         deliverPendingTable.addRowSelectionInterval(i, i);
                     }
-                    System.out.println("Num:"+indexes.size());
                 }
                 
                 @Override

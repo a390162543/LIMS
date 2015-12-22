@@ -20,6 +20,7 @@ import presentation.mainui.MainFrame;
 import presentation.managerui.approvalui.revenueui.OrderTableModel;
 import presentation.util.DialogLayoutManager;
 import presentation.util.RecentDatePickPanel;
+import presentation.util.ScreenMessage;
 import vo.RevenueVO;
 
 /**
@@ -127,9 +128,8 @@ public class RevenuePendingDialog extends JDialog {
                 
                 vo.setAccountId(accountIdTextField.getText());
                 revenuePendingTableModel.modify(modelRow, vo);
-                System.out.println("you've clicked confirm button..");
                 RevenuePendingDialog.this.dispose();
-                
+                ScreenMessage.putOnScreen(ScreenMessage.SAVE_SUCCESS);
             }
         });
         this.add(confirmButton);

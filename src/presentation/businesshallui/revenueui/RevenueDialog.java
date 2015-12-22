@@ -24,6 +24,7 @@ import presentation.util.Checker;
 import presentation.util.DialogLayoutManager;
 import presentation.util.OrganizationComboBox;
 import presentation.util.RecentDatePickPanel;
+import presentation.util.ScreenMessage;
 import vo.RevenueVO;
 import businesslogic.BusinessLogicService;
 import businesslogic.checkbl.CheckInfo;
@@ -147,21 +148,26 @@ public class RevenueDialog extends JDialog{
             
             @Override
             public void actionPerformed(ActionEvent e) {
-                
-                String id = textFields[0].getText();
-                Date revenueDate = datePickPanel.getTime();
-                String courierId = courierComboBox.getSelectedCourier();
-                double revenue = new Double(costTextField.getText());
-                String accountId = "";
-                String organization = (String) organizationComboBox.getSelectedItem();
-                
-                List<String> orderIdList = new ArrayList<String>();
-                for(int i = 0; i < orderTable.getRowCount(); i ++)
-                    orderIdList.add((String)orderTable.getValueAt(i, 0));
-                
-                RevenueVO vo = new RevenueVO(id, revenueDate, courierId, revenue, orderIdList, accountId, organization);
-                revenueblService.createRevenuePO(vo);
-                RevenueDialog.this.dispose();
+                if(datePickPanel.check()){
+                    String id = textFields[0].getText();
+                    Date revenueDate = datePickPanel.getTime();
+                    String courierId = courierComboBox.getSelectedCourier();
+                    double revenue = new Double(costTextField.getText());
+                    String accountId = "";
+                    String organization = (String) organizationComboBox.getSelectedItem();
+                    
+                    List<String> orderIdList = new ArrayList<String>();
+                    for(int i = 0; i < orderTable.getRowCount(); i ++)
+                        orderIdList.add((String)orderTable.getValueAt(i, 0));
+                    
+                    RevenueVO vo = new RevenueVO(id, revenueDate, courierId, revenue, orderIdList, accountId, organization);
+                    revenueblService.createRevenuePO(vo);
+                    RevenueDialog.this.dispose();
+                    ScreenMessage.putOnScreen(ScreenMessage.SAVE_SUCCESS);
+                }else{
+                    ScreenMessage.putOnScreen(ScreenMessage.SAVE_FAILURE);
+                }
+
             }
         });
         JButton cancleButton = new JButton("取消");
@@ -219,16 +225,7 @@ public class RevenueDialog extends JDialog{
                 }
             });
             
-            confirmButton.addActionListener(new ActionListener() {
-                
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    // TODO Auto-generated method stub
-                    tableModel.add(orderField.getText());
-                    setRevenueField();
-                                        
-                }
-            });
+
             
             this.setTitle("添加订单");
             this.add(orderLabel);
@@ -261,6 +258,21 @@ public class RevenueDialog extends JDialog{
                 public void keyPressed(KeyEvent e) {
                     // TODO Auto-generated method stub
                     
+                }
+            });
+            
+            confirmButton.addActionListener(new ActionListener() {
+                
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if(orderIdChecker.check()){
+                        tableModel.add(orderField.getText());
+                        setRevenueField();
+                        AddOrderDialog.this.dispose();
+                        ScreenMessage.putOnScreen(ScreenMessage.SAVE_SUCCESS);
+                    }else{
+                        ScreenMessage.putOnScreen(ScreenMessage.SAVE_FAILURE);
+                    }                
                 }
             });
             

@@ -17,6 +17,7 @@ import presentation.util.Checker;
 import presentation.util.DialogLayoutManager;
 import presentation.util.OrganizationComboBox;
 import presentation.util.RecentDatePickPanel;
+import presentation.util.ScreenMessage;
 import businesslogic.BusinessLogicService;
 import businesslogic.checkbl.CheckInfo;
 import businesslogic.checkbl.arrivalinfo.ArrivalTransferId;
@@ -102,6 +103,9 @@ public class ArrivalPendingDialog extends JDialog {
         datePickPanel.setTime(vo.getArrivalDate());
         jRadioButtons[vo.getGoodsState().ordinal()].setSelected(true);
 
+        JButton confirmButton = new JButton("确认");
+        confirmButton.setBounds(230, 240, 80, 30);
+        this.add(confirmButton);
         if(isEditable){
             Checker transferIdChecker = new Checker(textFields[1], new CheckInfoGetter() {
                 
@@ -137,35 +141,29 @@ public class ArrivalPendingDialog extends JDialog {
                 public void keyPressed(KeyEvent e) {
                 }
             });
-        }
-        
-        
-        JButton confirmButton = new JButton("确认");
-        confirmButton.setBounds(230, 240, 80, 30);
-        confirmButton.addActionListener(new ActionListener() {
             
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(!isEditable){
-                    ArrivalPendingDialog.this.dispose();
-                    return;
-                }
-                GoodsState goodsState = GoodsState.COMPLETE;
-                if(jRadioButtons[0].isSelected())
-                    goodsState = GoodsState.COMPLETE;
-                else if(jRadioButtons[1].isSelected())
-                    goodsState = GoodsState.BROKEN;
-                else if(jRadioButtons[2].isSelected())
-                    goodsState = GoodsState.LOST;
-                vo.setGoodsState(goodsState);
-                tableModel.modify(modelRow, vo);
-                System.out.println("you've clicked confirm button..");
-                ArrivalPendingDialog.this.dispose();
+            confirmButton.addActionListener(new ActionListener() {
                 
-            }
-        });
-        this.add(confirmButton);
-        if(isEditable){
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if(transferIdChecker.check()){
+                        GoodsState goodsState = GoodsState.COMPLETE;
+                        if(jRadioButtons[0].isSelected())
+                            goodsState = GoodsState.COMPLETE;
+                        else if(jRadioButtons[1].isSelected())
+                            goodsState = GoodsState.BROKEN;
+                        else if(jRadioButtons[2].isSelected())
+                            goodsState = GoodsState.LOST;
+                        vo.setGoodsState(goodsState);
+                        tableModel.modify(modelRow, vo);
+                        ArrivalPendingDialog.this.dispose();
+                        ScreenMessage.putOnScreen(ScreenMessage.SAVE_SUCCESS);
+                    }else{
+                        ScreenMessage.putOnScreen(ScreenMessage.SAVE_FAILURE);
+                    }
+                }
+            });
+            
             JButton cancleButton = new JButton("取消");
             cancleButton.setBounds(140, 240, 80, 30);
             cancleButton.addActionListener(new ActionListener() {
@@ -178,6 +176,13 @@ public class ArrivalPendingDialog extends JDialog {
             this.add(cancleButton);
         }
         if(!isEditable){
+            confirmButton.addActionListener(new ActionListener() {
+                
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                        ArrivalPendingDialog.this.dispose();
+                }
+            });
             jRadioButtons[0].setEnabled(false);
             jRadioButtons[1].setEnabled(false);
             jRadioButtons[2].setEnabled(false);

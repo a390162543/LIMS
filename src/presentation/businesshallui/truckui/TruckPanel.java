@@ -14,6 +14,9 @@ import javax.swing.event.DocumentListener;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
+import presentation.util.ConfirmDialog;
+import presentation.util.ScreenMessage;
+
 /**
  * 维护车辆信息列表的{@code JPanel}，提供了车辆信息的增删改查服务
  * @author 林祖华
@@ -97,11 +100,18 @@ public class TruckPanel extends JPanel{
             @Override
             public void actionPerformed(ActionEvent e) {
                 int row = truckTable.getSelectedRow();
-                if(row == -1)
-                    return;
-                int modelRow = truckTable.convertRowIndexToModel(row);
-                tableModel.delete(modelRow);
-
+                if(row == -1){
+                    ScreenMessage.putOnScreen(ScreenMessage.NO_CHOOSE_IN_TABLE);                
+                }else{
+                    ConfirmDialog.createConfirmDialog(deleteButton, new ActionListener() {                  
+                        @Override
+                        public void actionPerformed(ActionEvent e) {                         
+                            int modelRow = truckTable.convertRowIndexToModel(row);
+                            tableModel.delete(modelRow);
+                            ScreenMessage.putOnScreen(ScreenMessage.SAVE_SUCCESS);
+                        }
+                    });
+                }
             }
         });
         modifyButton.addActionListener(new ActionListener() {
@@ -109,8 +119,10 @@ public class TruckPanel extends JPanel{
             @Override
             public void actionPerformed(ActionEvent e) {
                 int row = truckTable.getSelectedRow();
-                if(row == -1)
+                if(row == -1){
+                    ScreenMessage.putOnScreen(ScreenMessage.NO_CHOOSE_IN_TABLE);
                     return;
+                }
                 int modelRow = truckTable.convertRowIndexToModel(row);
                 new TruckDialog(tableModel, modelRow, true);
             }
@@ -120,8 +132,10 @@ public class TruckPanel extends JPanel{
             @Override
             public void actionPerformed(ActionEvent e) {
                 int row = truckTable.getSelectedRow();
-                if(row == -1)
+                if(row == -1){
+                    ScreenMessage.putOnScreen(ScreenMessage.NO_CHOOSE_IN_TABLE);
                     return;
+                }
                 int modelRow = truckTable.convertRowIndexToModel(row);
                 new TruckDialog(tableModel, modelRow, false);
             }

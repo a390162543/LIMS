@@ -18,6 +18,7 @@ import presentation.util.Checker;
 import presentation.util.DialogLayoutManager;
 import presentation.util.OrganizationComboBox;
 import presentation.util.RecentDatePickPanel;
+import presentation.util.ScreenMessage;
 import businesslogic.BusinessLogicService;
 import businesslogic.checkbl.CheckInfo;
 import businesslogic.checkbl.arrivalinfo.ArrivalTransferId;
@@ -143,23 +144,27 @@ public class ArrivalDialog extends JDialog{
             
             @Override
             public void actionPerformed(ActionEvent e) {
-                
-                String id = textFields[0].getText();
-                String transferId = textFields[1].getText();
-                Date arrivalDate = datePickPanel.getTime();
-                String depart = (String)departComboBox.getSelectedItem();
-                String destination = (String)destinationComboBox.getSelectedItem();
-                GoodsState goodsState = GoodsState.COMPLETE;
-                if(jRadioButtons[0].isSelected())
-                    goodsState = GoodsState.COMPLETE;
-                else if(jRadioButtons[1].isSelected())
-                    goodsState = GoodsState.BROKEN;
-                else if(jRadioButtons[2].isSelected())
-                    goodsState = GoodsState.LOST;
-                
-                ArrivalVO vo = new ArrivalVO(id, arrivalDate, transferId, depart, destination, goodsState);
-                arrivalblService.createArrivalPO(vo);
-                ArrivalDialog.this.dispose();
+                if(transferIdChecker.check() & datePickPanel.check()){
+                    String id = textFields[0].getText();
+                    String transferId = textFields[1].getText();
+                    Date arrivalDate = datePickPanel.getTime();
+                    String depart = (String)departComboBox.getSelectedItem();
+                    String destination = (String)destinationComboBox.getSelectedItem();
+                    GoodsState goodsState = GoodsState.COMPLETE;
+                    if(jRadioButtons[0].isSelected())
+                        goodsState = GoodsState.COMPLETE;
+                    else if(jRadioButtons[1].isSelected())
+                        goodsState = GoodsState.BROKEN;
+                    else if(jRadioButtons[2].isSelected())
+                        goodsState = GoodsState.LOST;
+                    
+                    ArrivalVO vo = new ArrivalVO(id, arrivalDate, transferId, depart, destination, goodsState);
+                    arrivalblService.createArrivalPO(vo);
+                    ArrivalDialog.this.dispose();
+                    ScreenMessage.putOnScreen(ScreenMessage.SAVE_SUCCESS);
+                }else{
+                    ScreenMessage.putOnScreen(ScreenMessage.SAVE_FAILURE);
+                }
             }
         });
         JButton cancleButton = new JButton("取消");
@@ -178,7 +183,6 @@ public class ArrivalDialog extends JDialog{
         this.setTitle("到达单");
         this.setSize(340, 320);
         this.setLayout(new DialogLayoutManager());
-        this.setLocationRelativeTo(null);
         this.setModalityType(ModalityType.APPLICATION_MODAL);
         this.setVisible(true);
     }

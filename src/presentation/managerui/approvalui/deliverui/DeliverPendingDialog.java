@@ -10,6 +10,7 @@ import javax.swing.JTextField;
 
 import presentation.util.DialogLayoutManager;
 import presentation.util.RecentDatePickPanel;
+import presentation.util.ScreenMessage;
 import vo.DeliverVO;
 
 /**
@@ -71,6 +72,7 @@ public class DeliverPendingDialog extends JDialog {
         
         JButton confirmButton = new JButton("确认");
         confirmButton.setBounds(230, 240, 80, 30);
+        this.add(confirmButton);
         confirmButton.addActionListener(new ActionListener() {
             
             @Override
@@ -80,12 +82,12 @@ public class DeliverPendingDialog extends JDialog {
                     return;
                 }
                 tableModel.modify(modelRow, vo);
-                System.out.println("you've clicked confirm button..");
                 DeliverPendingDialog.this.dispose();
+                ScreenMessage.putOnScreen(ScreenMessage.SAVE_SUCCESS);
                 
             }
         });
-        this.add(confirmButton);
+
         if(isEditable){
             JButton cancleButton = new JButton("取消");
             cancleButton.setBounds(140, 240, 80, 30);

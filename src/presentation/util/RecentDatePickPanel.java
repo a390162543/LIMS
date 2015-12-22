@@ -78,6 +78,12 @@ public class RecentDatePickPanel extends JPanel{
         
     }
     
+    public boolean check(){
+        if(checker == null)
+            return true;
+        return checker.check();
+    }
+    
     public Date getDate(){
         return datePicker.getDate();
     }

@@ -1,6 +1,7 @@
 package presentation.financeui.primeinfoui.truckui;
 
 import java.awt.Color;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -25,13 +26,16 @@ import presentation.util.Checker;
 import presentation.util.DatePickPanel;
 import presentation.util.DialogLayoutManager;
 import presentation.util.OrganizationComboBox;
+import presentation.util.ScreenMessage;
 import businesslogic.BusinessLogicService;
 import businesslogic.checkbl.CheckInfo;
 import businesslogic.checkbl.truckinfo.TruckChassisNumber;
 import businesslogic.checkbl.truckinfo.TruckEngineNumber;
 import businesslogic.checkbl.truckinfo.TruckNumber;
+import businesslogic.checkbl.truckinfo.TruckPurchasedDate;
 import businesslogicservice.IdblService;
 import businesslogicservice.OrganizationblService;
+import businesslogicservice.PrimeInfoblService;
 import businesslogicservice.TruckblService;
 import vo.TruckVO;
 
@@ -52,11 +56,12 @@ public class PrimeInfoTruckDialog extends JDialog{
     private JTextField[] textFields;
     private JLabel imageLabel;
     private ImageIcon image;
-
+    private PrimeInfoblService primeInfoblService;
     /**
      * @param tm
      */
     public PrimeInfoTruckDialog(PrimeInfoTruckTableModel tm ){
+        primeInfoblService = BusinessLogicService.getPrimeInfoblService();
         this.tableModel = tm;
 
         JLabel[] labels = new JLabel[7];
@@ -73,6 +78,10 @@ public class PrimeInfoTruckDialog extends JDialog{
         
         OrganizationComboBox organizationComboBox = new OrganizationComboBox("营业厅");
         organizationComboBox.setBounds(20, 10+35*1, 180, 25);
+        List<String> newOrganizations = primeInfoblService.getOrganizationName();
+        for(String s:newOrganizations){
+            organizationComboBox.addItem(s);
+        }
         this.add(organizationComboBox);
         organizationComboBox.addActionListener(new ActionListener() {
             
@@ -82,6 +91,9 @@ public class PrimeInfoTruckDialog extends JDialog{
                 OrganizationblService organizationblService = BusinessLogicService.getOrganizationblService();
                 IdblService idblService = truckblService.getIdblService();
                 String organizationId = organizationblService.getId(organizationComboBox.getSelectedOrganization());
+                if(organizationId == null || organizationId.equals("")){
+                    organizationId = primeInfoblService.getOrganizationId(organizationComboBox.getSelectedOrganization());
+                }
                 truckIdTextField.setText(idblService.createNewId(organizationId));
             }
         });
@@ -228,22 +240,45 @@ public class PrimeInfoTruckDialog extends JDialog{
             }
         });
         
+        Checker purchaseDateChecker = new Checker(datePickPanel, new CheckInfoGetter() {
+            
+            @Override
+            public CheckInfo getCheckInfo() {
+                return new TruckPurchasedDate(datePickPanel.getDate());
+            }
+        });
+        
+        datePickPanel.addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                purchaseDateChecker.check();
+            }
+        });
+        
         JButton confirmButton = new JButton("确认");
         confirmButton.setBounds(230, 360, 80, 30);
         confirmButton.addActionListener(new ActionListener() {
             
             @Override
             public void actionPerformed(ActionEvent e) {
-                String id = truckIdTextField.getText();
-                String organization = organizationComboBox.getSelectedOrganization();
-                String truckNumber = textFields[0].getText();
-                String engineNumber = textFields[1].getText();
-                String chassisNumber = textFields[2].getText();
-                Date purchaseDate = datePickPanel.getDate();
-                ImageIcon truckImage = image;
-                TruckVO vo = new TruckVO(id, organization, engineNumber, truckNumber, chassisNumber, purchaseDate, truckImage);
-                tableModel.create(vo);
-                PrimeInfoTruckDialog.this.dispose();
+                if(truckNumberChecker.check() & engineNumberChecker.check()
+                        & chassisNumberChecker.check() & purchaseDateChecker.check()){
+                    String id = truckIdTextField.getText();
+                    String organization = organizationComboBox.getSelectedOrganization();
+                    String truckNumber = textFields[0].getText();
+                    String engineNumber = textFields[1].getText();
+                    String chassisNumber = textFields[2].getText();
+                    Date purchaseDate = datePickPanel.getDate();
+                    ImageIcon truckImage = image;
+                    TruckVO vo = new TruckVO(id, organization, engineNumber, truckNumber, chassisNumber, purchaseDate, truckImage);
+                    tableModel.create(vo);
+                    PrimeInfoTruckDialog.this.dispose();
+                    ScreenMessage.putOnScreen(ScreenMessage.SAVE_SUCCESS);
+                }else{
+                    ScreenMessage.putOnScreen(ScreenMessage.SAVE_FAILURE);
+                }
+
             }
         });
         JButton cancleButton = new JButton("取消");
@@ -284,6 +319,10 @@ public class PrimeInfoTruckDialog extends JDialog{
         
         OrganizationComboBox organizationComboBox = new OrganizationComboBox("营业厅");
         organizationComboBox.setBounds(20, 10+35*1, 180, 25);
+        List<String> newOrganizations = primeInfoblService.getOrganizationName();
+        for(String s:newOrganizations){
+            organizationComboBox.addItem(s);
+        }
         this.add(organizationComboBox);
         organizationComboBox.addActionListener(new ActionListener() {
             
@@ -293,6 +332,9 @@ public class PrimeInfoTruckDialog extends JDialog{
                 OrganizationblService organizationblService = BusinessLogicService.getOrganizationblService();
                 IdblService idblService = truckblService.getIdblService();
                 String organizationId = organizationblService.getId(organizationComboBox.getSelectedOrganization());
+                if(organizationId == null || organizationId.equals("")){
+                    organizationId = primeInfoblService.getOrganizationId(organizationComboBox.getSelectedOrganization());
+                }
                 truckIdTextField.setText(idblService.createNewId(organizationId));
             }
         });
@@ -439,6 +481,22 @@ public class PrimeInfoTruckDialog extends JDialog{
             }
         });
         
+        Checker purchaseDateChecker = new Checker(datePickPanel, new CheckInfoGetter() {
+            
+            @Override
+            public CheckInfo getCheckInfo() {
+                return new TruckPurchasedDate(datePickPanel.getDate());
+            }
+        });
+        
+        datePickPanel.addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                purchaseDateChecker.check();
+            }
+        });
+        
         TruckVO vo = tableModel.getTruckVO(modelRow);
         truckIdTextField.setText(vo.getId());
         organizationComboBox.setSelectedItem(vo.getOrganization());
@@ -467,20 +525,27 @@ public class PrimeInfoTruckDialog extends JDialog{
                     PrimeInfoTruckDialog.this.dispose();
                     return;
                 }
-                String truckId = truckIdTextField.getText();
-                String truckNumber = textFields[0].getText();
-                String engineNumber = textFields[1].getText();
-                String chassisNumber = textFields[2].getText();
-                Date purchaseDate = datePickPanel.getDate();
-                ImageIcon truckImage = image;
-                vo.setId(truckId);
-                vo.setTruckNumber(truckNumber);
-                vo.setEngineNumber(engineNumber);
-                vo.setChassisNumber(chassisNumber);
-                vo.setPurchaseDate(purchaseDate);
-                vo.setTruckImage(truckImage);
-                tableModel.modify(modelRow, vo);
-                PrimeInfoTruckDialog.this.dispose();
+                if(truckNumberChecker.check() & engineNumberChecker.check()
+                        & chassisNumberChecker.check() & purchaseDateChecker.check()){
+                    String truckId = truckIdTextField.getText();
+                    String truckNumber = textFields[0].getText();
+                    String engineNumber = textFields[1].getText();
+                    String chassisNumber = textFields[2].getText();
+                    Date purchaseDate = datePickPanel.getDate();
+                    ImageIcon truckImage = image;
+                    vo.setId(truckId);
+                    vo.setTruckNumber(truckNumber);
+                    vo.setEngineNumber(engineNumber);
+                    vo.setChassisNumber(chassisNumber);
+                    vo.setPurchaseDate(purchaseDate);
+                    vo.setTruckImage(truckImage);
+                    tableModel.modify(modelRow, vo);
+                    PrimeInfoTruckDialog.this.dispose();
+                    ScreenMessage.putOnScreen(ScreenMessage.SAVE_SUCCESS);
+                }else{
+                    ScreenMessage.putOnScreen(ScreenMessage.SAVE_FAILURE);
+                }
+
                 
             }
         });

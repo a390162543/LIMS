@@ -27,6 +27,7 @@ import presentation.util.Checker;
 import presentation.util.DatePickPanel;
 import presentation.util.DialogLayoutManager;
 import presentation.util.OrganizationComboBox;
+import presentation.util.ScreenMessage;
 import systemenum.Position;
 import systemenum.Sex;
 import vo.EmployeeVO;
@@ -218,23 +219,30 @@ public class DriverDialog extends JDialog{
             
             @Override
             public void actionPerformed(ActionEvent e) {
-                String name = nameTextField.getText();
-                Sex sex;
-                if(maleRadioButton.isSelected())
-                    sex = Sex.MALE;
-                else
-                    sex = Sex.FAMALE;
-                String id = idTextField.getText();
-                String organization = organizationComboBox.getSelectedOrganization();
-                String phoneNumber = phoneTextField.getText();
-                String idcardNumber = idcardNumberTextField.getText();
-                Date birthday = birthDatePickPanel.getDate();
-                Date ddlDate = ddlDatePickPanel.getDate();
-                double pay = new Double(payTextField.getText());
-                PayVO payVO = new PayVO(0, pay, 0, 0, 0);
-                EmployeeVO vo = new EmployeeVO(id, name, organization, Position.DRIVER, phoneNumber, birthday, idcardNumber, sex, payVO, ddlDate, "");
-                driverTableModel.create(vo);
-                DriverDialog.this.dispose();
+                if(nameChecker.check() & phoneNumeberChecker.check() 
+                        & idcardNumberChecker.check() & ddlDateChecker.check()){
+                    String name = nameTextField.getText();
+                    Sex sex;
+                    if(maleRadioButton.isSelected())
+                        sex = Sex.MALE;
+                    else
+                        sex = Sex.FAMALE;
+                    String id = idTextField.getText();
+                    String organization = organizationComboBox.getSelectedOrganization();
+                    String phoneNumber = phoneTextField.getText();
+                    String idcardNumber = idcardNumberTextField.getText();
+                    Date birthday = birthDatePickPanel.getDate();
+                    Date ddlDate = ddlDatePickPanel.getDate();
+                    double pay = new Double(payTextField.getText());
+                    PayVO payVO = new PayVO(0, pay, 0, 0, 0);
+                    EmployeeVO vo = new EmployeeVO(id, name, organization, Position.DRIVER, phoneNumber, birthday, idcardNumber, sex, payVO, ddlDate, "");
+                    driverTableModel.create(vo);
+                    DriverDialog.this.dispose();
+                    ScreenMessage.putOnScreen(ScreenMessage.SAVE_SUCCESS);
+                }else{
+                    ScreenMessage.putOnScreen(ScreenMessage.SAVE_FAILURE);
+                }
+
             }
         });
         
@@ -350,6 +358,10 @@ public class DriverDialog extends JDialog{
             ddlDatePickPanel.setEnabled(false);
         }
         
+        JButton confirmButton = new JButton("确认");
+        confirmButton.setSize(80, 30);
+        this.add(confirmButton);
+        
         if(isEditable){    
             Checker nameChecker = new Checker(nameTextField, new CheckInfoGetter() {
                 
@@ -444,42 +456,37 @@ public class DriverDialog extends JDialog{
                     ddlDateChecker.check();
                 }
             });
-        }
-        
-        JButton confirmButton = new JButton("确认");
-        confirmButton.setSize(80, 30);
-        this.add(confirmButton);
-        
 
-        
-        confirmButton.addActionListener(new ActionListener() {
-            
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(!isEditable){
-                    DriverDialog.this.dispose();
-                    return;
+            confirmButton.addActionListener(new ActionListener() {
+                
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if(nameChecker.check() & phoneNumeberChecker.check() 
+                            & idcardNumberChecker.check() & ddlDateChecker.check()){
+                        String name = nameTextField.getText();
+                        Sex sex;
+                        if(maleRadioButton.isSelected())
+                            sex = Sex.MALE;
+                        else
+                            sex = Sex.FAMALE;
+                        String id = idTextField.getText();
+                        String organization = organizationComboBox.getSelectedOrganization();
+                        String phoneNumber = phoneTextField.getText();
+                        String idcardNumber = idcardNumberTextField.getText();
+                        Date birthday = birthDatePickPanel.getDate();
+                        Date ddlDate = ddlDatePickPanel.getDate();
+                        double pay = new Double(payTextField.getText());
+                        PayVO payVO = new PayVO(0, pay, 0, 0, 0);
+                        EmployeeVO vo = new EmployeeVO(id, name, organization, Position.DRIVER, phoneNumber, birthday, idcardNumber, sex, payVO, ddlDate, "");
+                        driverTableModel.create(vo);
+                        DriverDialog.this.dispose();
+                        ScreenMessage.putOnScreen(ScreenMessage.SAVE_SUCCESS);
+                    }else{
+                        ScreenMessage.putOnScreen(ScreenMessage.SAVE_FAILURE);
+                    }
                 }
-                String name = nameTextField.getText();
-                Sex sex;
-                if(maleRadioButton.isSelected())
-                    sex = Sex.MALE;
-                else
-                    sex = Sex.FAMALE;
-                String id = idTextField.getText();
-                String organization = organizationComboBox.getSelectedOrganization();
-                String phoneNumber = phoneTextField.getText();
-                String idcardNumber = idcardNumberTextField.getText();
-                Date birthday = birthDatePickPanel.getDate();
-                Date ddlDate = ddlDatePickPanel.getDate();
-                double pay = new Double(payTextField.getText());
-                PayVO payVO = new PayVO(0, pay, 0, 0, 0);
-                EmployeeVO vo = new EmployeeVO(id, name, organization, Position.DRIVER, phoneNumber, birthday, idcardNumber, sex, payVO, ddlDate, "");
-                driverTableModel.create(vo);
-                DriverDialog.this.dispose();
-            }
-        });
-        if(isEditable){
+            });
+            
             JButton cancleButton = new JButton("取消");
             cancleButton.setSize(80, 30);
             this.add(cancleButton);
@@ -490,6 +497,17 @@ public class DriverDialog extends JDialog{
                 public void actionPerformed(ActionEvent e) {
                     DriverDialog.this.dispose();
                 }
+            });
+        }
+        if(!isEditable){
+            confirmButton.addActionListener(new ActionListener() {
+                
+                @Override
+                public void actionPerformed(ActionEvent e) {
+
+                        DriverDialog.this.dispose();
+                }
+
             });
         }
 

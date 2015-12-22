@@ -15,6 +15,7 @@ import presentation.util.CheckInfoGetter;
 import presentation.util.Checker;
 import presentation.util.DialogLayoutManager;
 import presentation.util.RecentDatePickPanel;
+import presentation.util.ScreenMessage;
 import vo.DeliverVO;
 import businesslogic.BusinessLogicService;
 import businesslogic.checkbl.CheckInfo;
@@ -102,15 +103,19 @@ public class DeliverDialog extends JDialog{
             
             @Override
             public void actionPerformed(ActionEvent e) {
-                
-                String id = textFields[0].getText();
-                Date deliverDate = datePickPanel.getTime();
-                String orderId = textFields[1].getText();
-                String courierId = courierComboBox.getSelectedCourier();
-                
-                DeliverVO vo = new DeliverVO(id, deliverDate, orderId, courierId);
-                deliverblService.createDeliverPO(vo);
-                DeliverDialog.this.dispose();
+                if(orderIdChecker.check() & datePickPanel.check()){
+                    String id = textFields[0].getText();
+                    Date deliverDate = datePickPanel.getTime();
+                    String orderId = textFields[1].getText();
+                    String courierId = courierComboBox.getSelectedCourier();
+                    
+                    DeliverVO vo = new DeliverVO(id, deliverDate, orderId, courierId);
+                    deliverblService.createDeliverPO(vo);
+                    DeliverDialog.this.dispose();
+                    ScreenMessage.putOnScreen(ScreenMessage.SAVE_SUCCESS);
+                }else{
+                    ScreenMessage.putOnScreen(ScreenMessage.SAVE_FAILURE);
+                }
             }
         });
         JButton cancleButton = new JButton("取消");
@@ -129,7 +134,6 @@ public class DeliverDialog extends JDialog{
         this.setTitle("派件单");
         this.setSize(340, 240);
         this.setLayout(new DialogLayoutManager());
-        this.setLocationRelativeTo(null);
         this.setModalityType(ModalityType.APPLICATION_MODAL);
         this.setVisible(true);
     }

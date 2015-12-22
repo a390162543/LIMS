@@ -14,6 +14,8 @@ import javax.swing.JToggleButton;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
+import presentation.util.ScreenMessage;
+
 /**
  * 审批时收款单的{@code Jpanel}，提供收款单的查看、修改、审批功能
  * @author 林祖华
@@ -69,8 +71,10 @@ public class RevenuePendingPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int row = revenuePendingTable.getSelectedRow();
-                if (row == -1)
+                if(row == -1){
+                    ScreenMessage.putOnScreen(ScreenMessage.NO_CHOOSE_IN_TABLE);
                     return;
+                }
                 int indexesNum = revenuePendingTable.getSelectedRowCount();
                 int[] selectedRows = revenuePendingTable.getSelectedRows();
                 for(int i=0;i<indexesNum;i++){
@@ -81,6 +85,7 @@ public class RevenuePendingPanel extends JPanel {
                     int modelRow = revenuePendingTable.convertRowIndexToModel(firstSelectedRow);
                     tableModel.approve(modelRow);
                 }
+                ScreenMessage.putOnScreen(ScreenMessage.SAVE_SUCCESS);
                 indexes.clear();
                 revenuePendingTable.clearSelection();
             }
@@ -92,8 +97,10 @@ public class RevenuePendingPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int row = revenuePendingTable.getSelectedRow();
-				if (row == -1)
-					return;
+                if(row == -1){
+                    ScreenMessage.putOnScreen(ScreenMessage.NO_CHOOSE_IN_TABLE);
+                    return;
+                }
 				int modelRow = revenuePendingTable.convertRowIndexToModel(row);
 				new RevenuePendingDialog(tableModel, modelRow, true);
 			}
@@ -103,8 +110,10 @@ public class RevenuePendingPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int row = revenuePendingTable.getSelectedRow();
-				if (row == -1)
-					return;
+                if(row == -1){
+                    ScreenMessage.putOnScreen(ScreenMessage.NO_CHOOSE_IN_TABLE);
+                    return;
+                }
 				int modelRow = revenuePendingTable.convertRowIndexToModel(row);
 				new RevenuePendingDialog(tableModel, modelRow, false);
 			}
@@ -115,20 +124,16 @@ public class RevenuePendingPanel extends JPanel {
                 if(!toggleButton.isSelected())
                     return;
                 int clicked = revenuePendingTable.getSelectedRow();
-                System.out.println("click:"+clicked);
                 if(indexes.contains(clicked)){
                     indexes.remove(new Integer(clicked));
-                    System.out.println("remove it");
                 }else{
                     indexes.add(clicked);
-                    System.out.println("add it");
                 }
                 revenuePendingTable.clearSelection();
 
                 for(int i:indexes){
                     revenuePendingTable.addRowSelectionInterval(i, i);
                 }
-                System.out.println("Num:"+indexes.size());
             }
             
             @Override

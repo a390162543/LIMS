@@ -15,6 +15,9 @@ import javax.swing.event.DocumentListener;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
+import presentation.util.ConfirmDialog;
+import presentation.util.ScreenMessage;
+
 
 /**
  * 司机信息的{@code JPanel}，提供了一个{@code Jtable}用以表格显示信息
@@ -93,25 +96,36 @@ public class DriverPanel extends JPanel{
                 
             }
         });
-        deleteButton.addActionListener(new ActionListener() {
+        
+        deleteButton.addActionListener(new ActionListener () {
             
             @Override
             public void actionPerformed(ActionEvent e) {
                 int row = EmployeeTable.getSelectedRow();
-                if(row == -1)
-                    return;
-                int modelRow = EmployeeTable.convertRowIndexToModel(row);
-                tableModel.delete(modelRow);
-
+                if(row == -1){
+                    ScreenMessage.putOnScreen(ScreenMessage.NO_CHOOSE_IN_TABLE);                
+                }else{
+                    ConfirmDialog.createConfirmDialog(deleteButton, new ActionListener() {                  
+                        @Override
+                        public void actionPerformed(ActionEvent e) {                         
+                             int modelRow = EmployeeTable.convertRowIndexToModel(row);
+                             tableModel.delete(modelRow);
+                             ScreenMessage.putOnScreen(ScreenMessage.SAVE_SUCCESS);
+                        }
+                    });
+                }
             }
         });
+        
         modifyButton.addActionListener(new ActionListener() {
             
             @Override
             public void actionPerformed(ActionEvent e) {
                 int row = EmployeeTable.getSelectedRow();
-                if(row == -1)
+                if(row == -1){
+                    ScreenMessage.putOnScreen(ScreenMessage.NO_CHOOSE_IN_TABLE);
                     return;
+                }
                 int modelRow = EmployeeTable.convertRowIndexToModel(row);
                 new DriverDialog(tableModel, modelRow, true);
             }
@@ -121,8 +135,10 @@ public class DriverPanel extends JPanel{
             @Override
             public void actionPerformed(ActionEvent e) {
                 int row = EmployeeTable.getSelectedRow();
-                if(row == -1)
+                if(row == -1){
+                    ScreenMessage.putOnScreen(ScreenMessage.NO_CHOOSE_IN_TABLE);
                     return;
+                }
                 int modelRow = EmployeeTable.convertRowIndexToModel(row);
                 new DriverDialog(tableModel, modelRow, false);
             }

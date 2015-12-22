@@ -14,6 +14,8 @@ import javax.swing.JToggleButton;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
+import presentation.util.ScreenMessage;
+
 /**
  * 审批时装车单的{@code Jpanel}，提供装车单的查看、修改、审批功能
  * @author 林祖华
@@ -69,8 +71,10 @@ public class LoadPendingPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int row = loadPendingTable.getSelectedRow();
-                if (row == -1)
+                if(row == -1){
+                    ScreenMessage.putOnScreen(ScreenMessage.NO_CHOOSE_IN_TABLE);
                     return;
+                }
                 int indexesNum = loadPendingTable.getSelectedRowCount();
                 int[] selectedRows = loadPendingTable.getSelectedRows();
                 for(int i=0;i<indexesNum;i++){
@@ -81,6 +85,7 @@ public class LoadPendingPanel extends JPanel {
                     int modelRow = loadPendingTable.convertRowIndexToModel(firstSelectedRow);
                     tableModel.approve(modelRow);
                 }
+                ScreenMessage.putOnScreen(ScreenMessage.SAVE_SUCCESS);
                 indexes.clear();
                 loadPendingTable.clearSelection();
             }
@@ -91,8 +96,10 @@ public class LoadPendingPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int row = loadPendingTable.getSelectedRow();
-				if (row == -1)
-					return;
+                if(row == -1){
+                    ScreenMessage.putOnScreen(ScreenMessage.NO_CHOOSE_IN_TABLE);
+                    return;
+                }
 				int modelRow = loadPendingTable.convertRowIndexToModel(row);
 				new LoadPendingDialog(tableModel, modelRow, true);
 			}
@@ -102,8 +109,10 @@ public class LoadPendingPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int row = loadPendingTable.getSelectedRow();
-				if (row == -1)
-					return;
+                if(row == -1){
+                    ScreenMessage.putOnScreen(ScreenMessage.NO_CHOOSE_IN_TABLE);
+                    return;
+                }
 				int modelRow = loadPendingTable.convertRowIndexToModel(row);
 				new LoadPendingDialog(tableModel, modelRow, false);
 			}
@@ -114,20 +123,16 @@ public class LoadPendingPanel extends JPanel {
 	                if(!toggleButton.isSelected())
 	                    return;
 	                int clicked = loadPendingTable.getSelectedRow();
-	                System.out.println("click:"+clicked);
 	                if(indexes.contains(clicked)){
 	                    indexes.remove(new Integer(clicked));
-	                    System.out.println("remove it");
 	                }else{
 	                    indexes.add(clicked);
-	                    System.out.println("add it");
 	                }
 	                loadPendingTable.clearSelection();
 
 	                for(int i:indexes){
 	                    loadPendingTable.addRowSelectionInterval(i, i);
 	                }
-	                System.out.println("Num:"+indexes.size());
 	            }
 	            
 	            @Override
