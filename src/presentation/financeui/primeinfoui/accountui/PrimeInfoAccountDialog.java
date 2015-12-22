@@ -12,6 +12,7 @@ import javax.swing.JTextField;
 
 import presentation.util.CheckInfoGetter;
 import presentation.util.Checker;
+import presentation.util.ScreenMessage;
 import businesslogic.checkbl.CheckInfo;
 import businesslogic.checkbl.accountinfo.AccountId;
 import businesslogic.checkbl.accountinfo.AccountMoney;
@@ -143,13 +144,15 @@ public class PrimeInfoAccountDialog extends JDialog{
         confirmButton.addActionListener(new ActionListener() {
         	@Override
             public void actionPerformed(ActionEvent e) {
-            	boolean isCorrect = accountIdChecker.check()&&accountNameChecker.check()&&accountMoneyChecker.check();
+            	boolean isCorrect = accountIdChecker.check()&&accountNameChecker.check();
             	if(isCorrect){
 	            	AccountVO vo = new AccountVO(textFields[0].getText(),textFields[1].getText(),Double.parseDouble(textFields[2].getText()));
 	                tableModel.create(vo);
-	                System.out.println("you've clicked confirm button..");
 	                PrimeInfoAccountDialog.this.dispose();
-            	}
+                    ScreenMessage.putOnScreen(ScreenMessage.SAVE_SUCCESS);
+            	}else{
+                    ScreenMessage.putOnScreen(ScreenMessage.SAVE_FAILURE);
+                }
             }
         });
         JButton cancleButton = new JButton("È¡Ïû");
@@ -298,13 +301,17 @@ public class PrimeInfoAccountDialog extends JDialog{
 	            public void actionPerformed(ActionEvent e) {
 	                if(!isEditable){
 	                	PrimeInfoAccountDialog.this.dispose();
+	                	return;
 	                }
-	            	boolean isCorrect = accountIdChecker.check()&&accountNameChecker.check()&&accountMoneyChecker.check();
+	            	boolean isCorrect = accountIdChecker.check()&&accountNameChecker.check();
 	            	if(isCorrect){
-		                AccountVO vo = new AccountVO(textFields[0].getText(),textFields[1].getText(),Double.parseDouble(textFields[2].getText()));
-		                tableModel.modify(modelRow, vo);
+		            	AccountVO vo = new AccountVO(textFields[0].getText(),textFields[1].getText(),Double.parseDouble(textFields[2].getText()));
+		                tableModel.create(vo);
 		                PrimeInfoAccountDialog.this.dispose();
-	            	}
+	                    ScreenMessage.putOnScreen(ScreenMessage.SAVE_SUCCESS);
+	            	}else{
+	                    ScreenMessage.putOnScreen(ScreenMessage.SAVE_FAILURE);
+	                }
 	                
 	            }
 	        });

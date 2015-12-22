@@ -16,6 +16,7 @@ import presentation.util.CheckInfoGetter;
 import presentation.util.Checker;
 import presentation.util.DatePickPanel;
 import presentation.util.DialogLayoutManager;
+import presentation.util.ScreenMessage;
 import businesslogic.BusinessLogicService;
 import businesslogic.checkbl.CheckInfo;
 import businesslogic.checkbl.paymentinfo.PayeeAccountId;
@@ -237,13 +238,16 @@ public class PaymentDialog extends JDialog{
 
  			@Override
  			public void actionPerformed(ActionEvent arg0) {			
- 				if(payeeNameChecker.check()&&payeeAccountIdChecker.check()&&remarksChecker.check()){
+ 				if(payeeNameChecker.check()&&payeeAccountIdChecker.check()&&remarksChecker.check()&&datePickPanel.check()){
  					double money = Double.parseDouble(moneyField.getText());
  					new java.text.DecimalFormat("#.00").format(money);
  					PaymentVO vo = new PaymentVO( paymentIdField.getText(), datePickPanel.getDate() , money ,nameField.getText() , payeeAccountField.getText(), payerAccountBox.getSelectedItem().toString() , 	Entry.values()[entryBox.getSelectedIndex()] , remarksArea.getText());
  					paymentblService.createPaymentPO(vo);
  					PaymentDialog.this.dispose();
- 				}		
+ 					ScreenMessage.putOnScreen(ScreenMessage.SAVE_SUCCESS);
+            	}else{
+                    ScreenMessage.putOnScreen(ScreenMessage.SAVE_FAILURE);
+                }		
  			}
  			
  		});

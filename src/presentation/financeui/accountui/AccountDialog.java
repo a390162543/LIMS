@@ -12,9 +12,11 @@ import javax.swing.JTextField;
 
 import businesslogic.checkbl.CheckInfo;
 import businesslogic.checkbl.accountinfo.AccountId;
+import businesslogic.checkbl.accountinfo.AccountMoney;
 import businesslogic.checkbl.accountinfo.AccountName;
 import presentation.util.CheckInfoGetter;
 import presentation.util.Checker;
+import presentation.util.ScreenMessage;
 import vo.AccountVO;
 /**
  * {@code AccountDialog}继承{@code JDialog}，是账户增删改查的界面层对话框展示
@@ -121,9 +123,12 @@ public class AccountDialog extends JDialog{
 	            	if(isCorrect){
 		            	AccountVO vo = new AccountVO(textFields[0].getText(),textFields[1].getText(),Double.parseDouble(textFields[2].getText()));
 		                tableModel.create(vo);
-		                System.out.println("you've clicked confirm button..");
 		                AccountDialog.this.dispose();
-	            	}
+	                    ScreenMessage.putOnScreen(ScreenMessage.SAVE_SUCCESS);
+	            	}else{
+	                    ScreenMessage.putOnScreen(ScreenMessage.SAVE_FAILURE);
+	                }
+	            	
 	            }
 	        });
 	        JButton cancleButton = new JButton("取消");
@@ -174,6 +179,91 @@ public class AccountDialog extends JDialog{
 		
 	            this.add(textFields[i]);
 	        }
+	      //检查机制
+	        Checker accountIdChecker = new Checker(textFields[0] , new CheckInfoGetter(){
+
+				@Override
+				public CheckInfo getCheckInfo() {
+					return new AccountId(textFields[0].getText());
+				}
+	        	
+	        });
+	        textFields[0].addKeyListener(new KeyListener(){
+
+				@Override
+				public void keyPressed(KeyEvent arg0) {
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public void keyReleased(KeyEvent arg0) {
+					accountIdChecker.check();
+				}
+
+				@Override
+				public void keyTyped(KeyEvent arg0) {
+					// TODO Auto-generated method stub
+					
+				}
+	        	
+	        });
+	        Checker accountNameChecker = new Checker(textFields[1] , new CheckInfoGetter(){
+
+					@Override
+					public CheckInfo getCheckInfo() {
+						return new AccountName(textFields[1].getText());
+					}
+		        	
+		        });
+		        textFields[1].addKeyListener(new KeyListener(){
+
+					@Override
+					public void keyPressed(KeyEvent arg0) {
+						// TODO Auto-generated method stub
+						
+					}
+
+					@Override
+					public void keyReleased(KeyEvent arg0) {
+						accountNameChecker.check();
+					}
+
+					@Override
+					public void keyTyped(KeyEvent arg0) {
+						// TODO Auto-generated method stub
+						
+					}
+		        	
+		        });
+		        Checker accountMoneyChecker = new Checker(textFields[2] , new CheckInfoGetter(){
+
+						@Override
+						public CheckInfo getCheckInfo() {
+							return new AccountMoney(textFields[2].getText());
+						}
+			        	
+			        });
+			        textFields[2].addKeyListener(new KeyListener(){
+
+						@Override
+						public void keyPressed(KeyEvent arg0) {
+							// TODO Auto-generated method stub
+							
+						}
+
+						@Override
+						public void keyReleased(KeyEvent arg0) {
+							accountMoneyChecker.check();
+						}
+
+						@Override
+						public void keyTyped(KeyEvent arg0) {
+							// TODO Auto-generated method stub
+							
+						}
+			        	
+			        });
 	        AccountVO vo = tableModel.getAccountVO(modelRow);
 	        textFields[0].setText(vo.getId());
 	        textFields[1].setText(vo.getName());
@@ -187,11 +277,17 @@ public class AccountDialog extends JDialog{
 	            public void actionPerformed(ActionEvent e) {
 	                if(!isEditable){
 	                	AccountDialog.this.dispose();
+	                	return;
 	                }
-	                AccountVO vo = new AccountVO(textFields[0].getText(),textFields[1].getText(),Double.parseDouble(textFields[2].getText()));
-	                tableModel.modify(modelRow, vo);
-	                System.out.println("you've clicked confirm button..");
-	                AccountDialog.this.dispose();
+	            	boolean isCorrect = accountIdChecker.check()&&accountNameChecker.check();
+	            	if(isCorrect){
+		            	AccountVO vo = new AccountVO(textFields[0].getText(),textFields[1].getText(),Double.parseDouble(textFields[2].getText()));
+		                tableModel.create(vo);
+		                AccountDialog.this.dispose();
+	                    ScreenMessage.putOnScreen(ScreenMessage.SAVE_SUCCESS);
+	            	}else{
+	                    ScreenMessage.putOnScreen(ScreenMessage.SAVE_FAILURE);
+	                }
 	                
 	            }
 	        });

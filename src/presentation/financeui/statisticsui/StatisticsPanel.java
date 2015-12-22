@@ -5,10 +5,12 @@ import java.awt.event.ActionListener;
 import java.io.File;
 
 
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import presentation.util.ScreenMessage;
 import businesslogic.statisticsbl.Statistics;
 import businesslogicservice.StatisticsblService;
 
@@ -46,7 +48,7 @@ public class StatisticsPanel extends JPanel{
 				StatisticsblService statisticsblService = new Statistics();
 				File file = new File("c:/LIMS/database/"+"StatisticsExcel"+".xls");
 				statisticsblService.gainExcel(((RevenuePanel)revenuePanel).getTable(),((PaymentPanel)paymentPanel).getTable(),file);
-				
+				ScreenMessage.putOnScreen(ScreenMessage.EXPORT_SUCCESS);
 			}
 			
 		});

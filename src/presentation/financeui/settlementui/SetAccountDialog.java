@@ -9,6 +9,7 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 
+import presentation.util.ScreenMessage;
 import businesslogic.BusinessLogicService;
 import businesslogicservice.SettlementblService;
 import vo.RevenueVO;
@@ -65,6 +66,7 @@ public class SetAccountDialog extends JDialog{
 				settlementblService.setAccountId(vo, accountBox.getSelectedItem().toString());
 				tableModel.delete(modelrow);
 				SetAccountDialog.this.dispose();
+				ScreenMessage.putOnScreen(ScreenMessage.SAVE_SUCCESS);
 			}		
 		});
 		JButton cancelButton = new JButton("È¡Ïû");
