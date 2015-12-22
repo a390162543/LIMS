@@ -2,7 +2,9 @@ package data;
 
 import org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper;
 
-import presentation.mainui.MainFrame;
+
+import presentation.mainui.LoginFrame;
+ 
 
 public class Main_tester {
    
@@ -15,7 +17,7 @@ public class Main_tester {
 		   
 		   DataBase.initDataBase();
 
-		   new MainFrame(); 	 
+		   new LoginFrame(); 	 
 		} 
 
 	
