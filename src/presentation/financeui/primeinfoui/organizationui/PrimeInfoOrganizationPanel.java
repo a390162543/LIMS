@@ -2,17 +2,19 @@ package presentation.financeui.primeinfoui.organizationui;
  
  
 import java.awt.Container;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
+
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
+
+import presentation.util.ConfirmDialog;
+import presentation.util.ScreenMessage;
 import vo.OrganizationVO;
 import businesslogicservice.PrimeInfoblService;
 
@@ -22,6 +24,7 @@ public class PrimeInfoOrganizationPanel extends JPanel{
 	 * 
 	 */
 	private static final long serialVersionUID = 5055537811206619490L;		
+	
 	private JScrollPane OrganizationScrollPane;   
     private JTable OrganizationTable;
     private PrimeInfoOrganizationTableModel tableModel;
@@ -46,10 +49,11 @@ public class PrimeInfoOrganizationPanel extends JPanel{
             public void actionPerformed(ActionEvent e) {
                 int row = OrganizationTable.getSelectedRow();
                 if(row == -1)
-                    return;
-                int modelRow = OrganizationTable.convertRowIndexToModel(row);
-                new PrimeInfoOrganizationDialog(tableModel, modelRow, false);
-                
+                	ScreenMessage.putOnScreen(ScreenMessage.NO_CHOOSE_IN_TABLE);
+                else{
+                	int modelRow = OrganizationTable.convertRowIndexToModel(row);
+                	new PrimeInfoOrganizationDialog(tableModel, modelRow, false);
+                }          
             }
         });
   
@@ -58,9 +62,10 @@ public class PrimeInfoOrganizationPanel extends JPanel{
         this.setBounds(0, 15, 560, 370);
         this.setLayout(null);
         this.add(OrganizationScrollPane);
-        this.add(queryButton);
-    	
+        this.add(queryButton);   	
     }
+    
+    
     public PrimeInfoOrganizationPanel(PrimeInfoblService pibs){
     	 //build up Organization table
     	primeInfoblService = pibs;
@@ -86,27 +91,43 @@ public class PrimeInfoOrganizationPanel extends JPanel{
                 
             }
         });
-        deleteButton.addActionListener(new ActionListener() {
+        
+        ActionListener actionListener = new ActionListener () {
             
             @Override
             public void actionPerformed(ActionEvent e) {
                 int row = OrganizationTable.getSelectedRow();
-                if(row == -1)
-                    return;
-                int modelRow = OrganizationTable.convertRowIndexToModel(row);
-                tableModel.delete(modelRow);
-
+                if(row == -1){
+                	ScreenMessage.putOnScreen(ScreenMessage.NO_CHOOSE_IN_TABLE);             	
+                }                
+                else{
+                	ConfirmDialog.createConfirmDialog(deleteButton, new ActionListener() {					
+						@Override
+						public void actionPerformed(ActionEvent e) {						 
+							 int modelRow = OrganizationTable.convertRowIndexToModel(row);
+							 tableModel.delete(modelRow);
+							 ScreenMessage.putOnScreen(ScreenMessage.SAVE_SUCCESS);
+						}
+                	  });
+                }
             }
-        });
+        };  
+       
+        deleteButton.addActionListener(actionListener);
+        
+        
         modifyButton.addActionListener(new ActionListener() {
             
             @Override
             public void actionPerformed(ActionEvent e) {
             	 int row = OrganizationTable.getSelectedRow();
                  if(row == -1)
-                     return;
-                 int modelRow = OrganizationTable.convertRowIndexToModel(row);
-                 new PrimeInfoOrganizationDialog(tableModel, modelRow, true);	 
+                	 ScreenMessage.putOnScreen(ScreenMessage.NO_CHOOSE_IN_TABLE);
+                 else{
+                	 int modelRow = OrganizationTable.convertRowIndexToModel(row);
+                	 new PrimeInfoOrganizationDialog(tableModel, modelRow, true); 
+                 }
+	 
             }
         });
         queryButton.addActionListener(new ActionListener() {
@@ -115,9 +136,12 @@ public class PrimeInfoOrganizationPanel extends JPanel{
             public void actionPerformed(ActionEvent e) {
                 int row = OrganizationTable.getSelectedRow();
                 if(row == -1)
-                    return;
-                int modelRow = OrganizationTable.convertRowIndexToModel(row);
-                new PrimeInfoOrganizationDialog(tableModel, modelRow, false);
+                	ScreenMessage.putOnScreen(ScreenMessage.NO_CHOOSE_IN_TABLE);
+                else{
+                	int modelRow = OrganizationTable.convertRowIndexToModel(row);
+                	new PrimeInfoOrganizationDialog(tableModel, modelRow, false);
+                }
+  
             }
         });
         confirmButton.addActionListener(new ActionListener() {

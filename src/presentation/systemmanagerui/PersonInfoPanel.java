@@ -6,8 +6,9 @@ import java.awt.event.MouseListener;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+ 
 
-import presentation.mainui.LoginPanel;
+import presentation.mainui.LoginFrame;
 import presentation.mainui.MainFrame;
 import businesslogic.userbl.LoginController;
 
@@ -92,9 +93,8 @@ public class PersonInfoPanel extends JPanel{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub
-				MainFrame.getMainFrame().getContentPane().removeAll();
-				MainFrame.getMainFrame().getContentPane().add(new LoginPanel());
-				MainFrame.getMainFrame().getContentPane().repaint();
+				MainFrame.getMainFrame().dispose();
+				new LoginFrame();
 			}
 		});
 		

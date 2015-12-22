@@ -7,6 +7,7 @@ package presentation.systemmanagerui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -52,6 +53,18 @@ public class PowerDialog extends JDialog{
 		idLabel.setBounds(30, 20, 100, 25);
 		JTextField idField = new JTextField();
 		idField.setBounds(145, 20, 180, 20);
+		idField.addKeyListener(new KeyAdapter() {
+			  public void keyTyped(KeyEvent e) {  
+	                int keyChar = e.getKeyChar();                 
+	                if(keyChar >= KeyEvent.VK_0 && keyChar <= KeyEvent.VK_9) {  
+	 
+	                }else{  
+	                     e.consume();
+	                     
+	                }  
+	            }      
+		});
+		
 		JLabel powerLabel = new JLabel("х╗оч");
 		powerLabel.setBounds(50, 87, 100, 25);
 		JComboBox<String> powerBox = new JComboBox<String>(powerStr);

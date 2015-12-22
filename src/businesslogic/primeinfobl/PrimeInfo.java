@@ -320,6 +320,19 @@ public class PrimeInfo implements PrimeInfoblService{
 			names.add(vo.getName());
 		return names;
 	}
+	
+	@Override
+	public String getCityId(String name) {
+		// TODO Auto-generated method stub
+		String id = "";
+		for(CityVO vo : primeInfoVO.getCity()){
+			if(vo.getName().equals(name)){
+				id = vo.getId();
+				break;
+			}
+		}
+		return id;
+	}
 
 
 }

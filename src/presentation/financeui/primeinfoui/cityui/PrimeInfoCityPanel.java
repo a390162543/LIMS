@@ -12,6 +12,9 @@ import javax.swing.JTable;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
  
+
+import presentation.util.ConfirmDialog;
+import presentation.util.ScreenMessage;
 import vo.CityVO;
 import businesslogicservice.PrimeInfoblService;
 
@@ -85,38 +88,55 @@ public class PrimeInfoCityPanel extends JPanel{
                 
             }
         });
-        deleteButton.addActionListener(new ActionListener() {
+       ActionListener actionListener = new ActionListener () {
             
             @Override
             public void actionPerformed(ActionEvent e) {
                 int row = CityTable.getSelectedRow();
                 if(row == -1)
-                    return;
-                int modelRow = CityTable.convertRowIndexToModel(row);
-                tableModel.delete(modelRow);
-
+                   	ScreenMessage.putOnScreen(ScreenMessage.NO_CHOOSE_IN_TABLE);         
+                else{
+                	  ConfirmDialog.createConfirmDialog(deleteButton, new ActionListener() {
+						
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							// TODO Auto-generated method stub
+							 int modelRow = CityTable.convertRowIndexToModel(row);
+							 tableModel.delete(modelRow);	
+							 ScreenMessage.putOnScreen(ScreenMessage.SAVE_SUCCESS);
+						}
+					});
+                }
             }
-        });
+        };  
+        deleteButton.addActionListener(actionListener);
+        
         modifyButton.addActionListener(new ActionListener() {
             
             @Override
             public void actionPerformed(ActionEvent e) {
             	 int row = CityTable.getSelectedRow();
                  if(row == -1)
-                     return;
-                 int modelRow = CityTable.convertRowIndexToModel(row);
-                 new PrimeInfoCityDialog(tableModel, modelRow, true);	 
+                		ScreenMessage.putOnScreen(ScreenMessage.NO_CHOOSE_IN_TABLE);  
+                 else{
+                	 int modelRow = CityTable.convertRowIndexToModel(row);
+                	 new PrimeInfoCityDialog(tableModel, modelRow, true);	
+                 }
             }
         });
+        
+        
         queryButton.addActionListener(new ActionListener() {
             
             @Override
             public void actionPerformed(ActionEvent e) {
                 int row = CityTable.getSelectedRow();
                 if(row == -1)
-                    return;
-                int modelRow = CityTable.convertRowIndexToModel(row);
-                new PrimeInfoCityDialog(tableModel, modelRow, false);
+                	ScreenMessage.putOnScreen(ScreenMessage.NO_CHOOSE_IN_TABLE);  
+                else{
+                	int modelRow = CityTable.convertRowIndexToModel(row);
+                	new PrimeInfoCityDialog(tableModel, modelRow, false);
+                }
             }
         });
         confirmButton.addActionListener(new ActionListener() {

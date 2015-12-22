@@ -3,13 +3,17 @@ package presentation.managerui.approvalui.transferui;
  
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JToggleButton;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
+
+import presentation.util.ScreenMessage;
 
 /**
  * 审批中转单界面
@@ -33,7 +37,8 @@ public class TransferPendingPanel extends JPanel {
 	private JButton approveButton;
 	private JButton modifyButton;
 	private JButton queryButton;
-	
+	private JToggleButton toggleButton;
+	ArrayList<Integer> indexes = new ArrayList<Integer>();
 
 	public TransferPendingPanel() {
 
@@ -46,19 +51,43 @@ public class TransferPendingPanel extends JPanel {
 		transferPendingScrollPane = new JScrollPane(transferPendingTable);
 		transferPendingScrollPane.setBounds(0, 0, 560, 370);
 
+		toggleButton = new JToggleButton("批量审批");
 		approveButton = new JButton("审批");
 		modifyButton = new JButton("修改");
 		queryButton = new JButton("详情");
 
+		
+		toggleButton.addActionListener(new ActionListener() {          
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                indexes.clear();
+                transferPendingTable.clearSelection();
+            }
+        });
+		
 		approveButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int row = transferPendingTable.getSelectedRow();
 				if (row == -1)
-					return;
-                int modelRow = transferPendingTable.convertRowIndexToModel(row);
-				tableModel.approve(modelRow);
+					ScreenMessage.putOnScreen(ScreenMessage.NO_CHOOSE_IN_TABLE);
+				else{
+					int indexesNum = transferPendingTable.getSelectedRowCount();
+					int[] selectedRows = transferPendingTable.getSelectedRows();
+					for(int i=0;i<indexesNum;i++){
+						for(int j=i+1;j<indexesNum;j++){
+							selectedRows[j] -= 1;
+						}
+						int firstSelectedRow = selectedRows[i];
+						int modelRow = transferPendingTable.convertRowIndexToModel(firstSelectedRow);
+						tableModel.approve(modelRow);
+					}
+					indexes.clear();
+					transferPendingTable.clearSelection();
+				 
+				}
+         
 			}
 		});
 
@@ -68,9 +97,13 @@ public class TransferPendingPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				int row = transferPendingTable.getSelectedRow();
 				if (row == -1)
-					return;
-				int modelRow = transferPendingTable.convertRowIndexToModel(row);
-				new TransferPendingDialog(tableModel, modelRow, true);
+					ScreenMessage.putOnScreen(ScreenMessage.NO_CHOOSE_IN_TABLE);
+				else{
+					int modelRow = transferPendingTable.convertRowIndexToModel(row);
+					new TransferPendingDialog(tableModel, modelRow, true);
+					 
+				}
+	
 			}
 		});
 		queryButton.addActionListener(new ActionListener() {
@@ -79,9 +112,12 @@ public class TransferPendingPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				int row = transferPendingTable.getSelectedRow();
 				if (row == -1)
-					return;
-				int modelRow = transferPendingTable.convertRowIndexToModel(row);
-				new TransferPendingDialog(tableModel, modelRow, false);
+					ScreenMessage.putOnScreen(ScreenMessage.NO_CHOOSE_IN_TABLE);
+				else{
+					int modelRow = transferPendingTable.convertRowIndexToModel(row);
+					new TransferPendingDialog(tableModel, modelRow, false);
+				}
+
 			}
 		});
 		approveButton.setBounds(315, 390, 70, 30);

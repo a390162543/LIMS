@@ -4,6 +4,7 @@ package presentation.systemmanagerui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -45,6 +46,17 @@ public class InitPasswordDialog extends JDialog{
 		idLabel.setBounds(20, 20, 70, 30);
 		JTextField idField = new JTextField();
 		idField.setBounds(100, 20, 180, 20);
+		idField.addKeyListener(new KeyAdapter() {
+			  public void keyTyped(KeyEvent e) {  
+	                int keyChar = e.getKeyChar();                 
+	                if(keyChar >= KeyEvent.VK_0 && keyChar <= KeyEvent.VK_9) {  
+	 
+	                }else{  
+	                     e.consume();
+	                     
+	                }  
+	            }      
+		});
 		
 		JButton canceldButton = new JButton("È¡Ïû");
 		canceldButton.setBounds(195, 60, 70, 30);

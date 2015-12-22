@@ -3,6 +3,7 @@ package presentation.managerui.organizationui;
 
 
 
+ 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -11,14 +12,17 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+
 import presentation.util.CheckInfoGetter;
 import presentation.util.Checker;
 import presentation.util.DialogLayoutManager;
+import presentation.util.ScreenMessage;
 import businesslogic.BusinessLogicService;
 import businesslogic.checkbl.CheckInfo;
 import businesslogic.checkbl.organizationinfo.OrganizationName;
@@ -83,13 +87,19 @@ public class OrganizationDialog extends JDialog{
 				if(isRight){
 					update(0,true);
 					OrganizationDialog.this.dispose();
+					ScreenMessage.putOnScreen(ScreenMessage.SAVE_SUCCESS);
 				}
 				else{
+					ScreenMessage.putOnScreen(ScreenMessage.SAVE_FAILURE);
 					return;
 				}
 				 
 			}
 		});
+		//界面置顶
+		this.setModalityType(ModalityType.APPLICATION_MODAL);
+		
+		this.setVisible(true);
 	}
 	/**
 	 * 查询、修改的Dialog
@@ -104,8 +114,7 @@ public class OrganizationDialog extends JDialog{
 		nameField.setText(vo.getName());
 		cityBox.setSelectedItem(vo.getCity());
 		cityBox.setEnabled(false);
-		idField.setText(""+vo.getId());
-		
+		idField.setText(""+vo.getId());		
 		idField.setEnabled(false);
 		if(!isEdit){
 			nameField.setEnabled(false);
@@ -139,15 +148,22 @@ public class OrganizationDialog extends JDialog{
 					boolean isRight = organizationNameChecker.check();
 					if(isRight){
 						update(modelRow,false);
-						OrganizationDialog.this.dispose();						
+						OrganizationDialog.this.dispose();	
+						ScreenMessage.putOnScreen(ScreenMessage.SAVE_SUCCESS);
 					}
 					else{
+						ScreenMessage.putOnScreen(ScreenMessage.SAVE_FAILURE);
 						return;
 					}
 					
 				}
 			});
-		}		
+		}	
+		
+		//界面置顶
+		this.setModalityType(ModalityType.APPLICATION_MODAL);
+ 
+		this.setVisible(true);
 	}
 	
 /**
@@ -227,7 +243,10 @@ public class OrganizationDialog extends JDialog{
 		this.add(sureButton);	
 		this.add(cancleButton);		
 		this.setLayout(new DialogLayoutManager());
-		this.setVisible(true);
+		
+
+		
+
 		
 		//添加检查项
 		organizationNameChecker = new Checker(nameField,new CheckInfoGetter() {

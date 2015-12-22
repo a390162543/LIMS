@@ -21,6 +21,7 @@ import javax.swing.JTextField;
 import presentation.mainui.MainFrame;
 import presentation.util.CheckInfoGetter;
 import presentation.util.Checker;
+import presentation.util.ScreenMessage;
 import vo.CityVO;
 import businesslogic.checkbl.CheckInfo;
 import businesslogic.checkbl.cityinfo.CityId;
@@ -275,12 +276,13 @@ public class PrimeInfoCityDialog extends JDialog{
 					if(isEdit){									
 						boolean isRight = idChecker.check() && nameChecker.check();
 						if(!isRight){
-							return;
+							ScreenMessage.putOnScreen(ScreenMessage.SAVE_FAILURE);  
 						}
 						else {
 							vo.setName(nameField.getName());
 							tableModel.modify(modelRow,vo);
 							PrimeInfoCityDialog.this.dispose();
+							ScreenMessage.putOnScreen(ScreenMessage.SAVE_SUCCESS);  
 						}
 					}
 					else{
@@ -434,6 +436,7 @@ public class PrimeInfoCityDialog extends JDialog{
 					CityVO vo = new CityVO(name, id, distance);
 					tableModel.create(vo);
 					PrimeInfoCityDialog.this.dispose();
+					ScreenMessage.putOnScreen(ScreenMessage.SAVE_SUCCESS);  
 				}
 			});
 			

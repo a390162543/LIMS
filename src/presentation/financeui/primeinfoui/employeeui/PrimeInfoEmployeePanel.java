@@ -13,6 +13,8 @@ import javax.swing.JTable;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
+import presentation.util.ConfirmDialog;
+import presentation.util.ScreenMessage;
 import vo.EmployeeVO;
 import businesslogicservice.PrimeInfoblService;
 
@@ -28,6 +30,8 @@ public class PrimeInfoEmployeePanel extends JPanel{
 	 private PrimeInfoEmployeeTableModel tableModel;
 	 private TableRowSorter<TableModel> tableSorter;    
 	 private PrimeInfoblService primeInfoblService;	 
+	 
+	 
 	 public PrimeInfoEmployeePanel(List<EmployeeVO> vos){
 		 	tableModel = new PrimeInfoEmployeeTableModel(vos);  
 	        tableSorter = new TableRowSorter<TableModel>(tableModel);
@@ -45,9 +49,11 @@ public class PrimeInfoEmployeePanel extends JPanel{
 	            public void actionPerformed(ActionEvent e) {
 	                int row = employeeTable.getSelectedRow();
 	                if(row == -1)
-	                    return;
-	                int modelRow = employeeTable.convertRowIndexToModel(row);
-	                new PrimeInfoEmployeeDialog(tableModel, modelRow, false); 	                
+	                	ScreenMessage.putOnScreen(ScreenMessage.NO_CHOOSE_IN_TABLE);  
+	                else{
+	                	int modelRow = employeeTable.convertRowIndexToModel(row);
+	                	new PrimeInfoEmployeeDialog(tableModel, modelRow, false); 
+	                }                
 	            }
 	        });
 	  
@@ -75,7 +81,8 @@ public class PrimeInfoEmployeePanel extends JPanel{
 	       JButton modifyButton = new JButton("修改");
 	       JButton queryButton = new JButton("查询");
 	       JButton confirmButton = new JButton("完成建账");
-	        createButton.addActionListener(new ActionListener() {
+	       
+	       createButton.addActionListener(new ActionListener() {
 	            
 	            @Override
 	            public void actionPerformed(ActionEvent e) {
@@ -83,28 +90,43 @@ public class PrimeInfoEmployeePanel extends JPanel{
 	                
 	            }
 	        });
-	        deleteButton.addActionListener(new ActionListener() {
-	            
-	            @Override
-	            public void actionPerformed(ActionEvent e) {
-	                int row = employeeTable.getSelectedRow();
-	                if(row == -1)
-	                    return;
-	                int modelRow = employeeTable.convertRowIndexToModel(row);
-	                tableModel.delete(modelRow);
-
-	            }
-	        });
+	        
+	        
+	         ActionListener actionListener = new ActionListener () {
+	             
+	             @Override
+	             public void actionPerformed(ActionEvent e) {
+	                 int row = employeeTable.getSelectedRow();
+	                 if(row == -1){
+	                 	ScreenMessage.putOnScreen(ScreenMessage.NO_CHOOSE_IN_TABLE);             	
+	                 }                
+	                 else{
+	                 	ConfirmDialog.createConfirmDialog(deleteButton, new ActionListener() {					
+	 						@Override
+	 						public void actionPerformed(ActionEvent e) {						 
+	 							 int modelRow = employeeTable.convertRowIndexToModel(row);
+	 							 tableModel.delete(modelRow);
+	 							 ScreenMessage.putOnScreen(ScreenMessage.SAVE_SUCCESS);
+	 						}
+	                 	  });
+	                 }
+	             }
+	         };  
+	        
+	         deleteButton.addActionListener(actionListener);
+	        
+	        
 	        modifyButton.addActionListener(new ActionListener() {
 	            
 	            @Override
 	            public void actionPerformed(ActionEvent e) {
 	            	 int row = employeeTable.getSelectedRow();
 		             if(row == -1)
-		                return;
-		             int modelRow = employeeTable.convertRowIndexToModel(row);
-		             new PrimeInfoEmployeeDialog(tableModel, modelRow, true);
-
+		            	 ScreenMessage.putOnScreen(ScreenMessage.NO_CHOOSE_IN_TABLE);
+		             else{
+		            	 int modelRow = employeeTable.convertRowIndexToModel(row);
+		            	 new PrimeInfoEmployeeDialog(tableModel, modelRow, true);
+		             }
 	            }
 	        });
 	        
@@ -115,9 +137,12 @@ public class PrimeInfoEmployeePanel extends JPanel{
 					// TODO Auto-generated method stub
 					int row = employeeTable.getSelectedRow();
 		            if(row == -1)
-		               return;
-		            int modelRow = employeeTable.convertRowIndexToModel(row);
-		            new PrimeInfoEmployeeDialog(tableModel, modelRow, false);
+		            	ScreenMessage.putOnScreen(ScreenMessage.NO_CHOOSE_IN_TABLE);
+		            else{
+		            	int modelRow = employeeTable.convertRowIndexToModel(row);
+		            	new PrimeInfoEmployeeDialog(tableModel, modelRow, false);
+		            }
+
 
 				}
 			});

@@ -1,14 +1,12 @@
 package presentation.financeui.primeinfoui.employeeui;
 
 import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Vector;
 
 import javax.swing.table.DefaultTableModel;
-
 import vo.EmployeeVO;
-import businesslogic.BusinessLogicService;
-import businesslogicservice.OrganizationblService;
 import businesslogicservice.PrimeInfoblService;
 
 public class PrimeInfoEmployeeTableModel extends DefaultTableModel{
@@ -119,8 +117,8 @@ public class PrimeInfoEmployeeTableModel extends DefaultTableModel{
 	    }
 		public String getOrganizationId(String selectedItem) {
 			// TODO Auto-generated method stub
-		    OrganizationblService organizationblService = BusinessLogicService.getOrganizationblService();
-		    String id = organizationblService.getId(selectedItem);
+		   
+		    String id = primeInfoblService.getOrganizationId(selectedItem);
 			return id;
 
 		}

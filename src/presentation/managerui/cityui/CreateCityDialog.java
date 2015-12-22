@@ -22,6 +22,7 @@ import javax.swing.JTextField;
 import presentation.mainui.MainFrame;
 import presentation.util.CheckInfoGetter;
 import presentation.util.Checker;
+import presentation.util.ScreenMessage;
 import vo.CityVO;
 import businesslogic.checkbl.CheckInfo;
 import businesslogic.checkbl.cityinfo.CityId;
@@ -286,6 +287,7 @@ public class CreateCityDialog extends JDialog{
 					distance.put(name, 0.0);
 					CityVO vo = new CityVO(name, id, distance);
 					cityblService.createCityPO(vo);
+					ScreenMessage.putOnScreen(ScreenMessage.SAVE_SUCCESS);
 				}
 			});
 			

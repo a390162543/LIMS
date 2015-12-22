@@ -4,6 +4,7 @@ package presentation.managerui.approvalui.transferui;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ import presentation.util.Checker;
 import presentation.util.DialogLayoutManager;
 import presentation.util.OrganizationComboBox;
 import presentation.util.RecentDatePickPanel;
+import presentation.util.ScreenMessage;
 import systemenum.ShipForm;
 import businesslogic.BusinessLogicService;
 import businesslogic.checkbl.CheckInfo;
@@ -99,8 +101,22 @@ public class TransferPendingDialog extends JDialog {
 		 
 		JLabel flightNumLabel = new JLabel("航班号");
 		flightNumLabel.setBounds(20, 130, 80, 20);
+		
+		
 		JTextField flightNumField = new JTextField();
 		flightNumField.setBounds(105, 130, 180, 20);
+		flightNumField.addKeyListener(new KeyAdapter() {
+			  public void keyTyped(KeyEvent e) {  
+	                int keyChar = e.getKeyChar();                 
+	                if(keyChar >= KeyEvent.VK_0 && keyChar <= KeyEvent.VK_9) {  
+	 
+	                }else{  
+	                     e.consume();
+	                     
+	                }  
+	            }        
+		});
+
 		JLabel departLabel = new JLabel("出发地");
 		departLabel.setBounds(20, 170, 80, 20);
 		departBox = new OrganizationComboBox();
@@ -112,7 +128,20 @@ public class TransferPendingDialog extends JDialog {
 		JLabel containerIdLabel = new JLabel("货柜号");
 		containerIdLabel.setBounds(20, 250, 80, 20);
 		JTextField containerIdField = new JTextField();
+		
+		
 		containerIdField.setBounds(105, 250, 60, 20);
+		containerIdField.addKeyListener(new KeyAdapter() {
+			  public void keyTyped(KeyEvent e) {  
+	                int keyChar = e.getKeyChar();                 
+	                if(keyChar >= KeyEvent.VK_0 && keyChar <= KeyEvent.VK_9) {  
+	 
+	                }else{  
+	                     e.consume();
+	                     
+	                }  
+	            }        
+		});
 		JLabel loanManLabel = new JLabel("监装员");
 		loanManLabel.setBounds(175, 250, 80, 20);
 		JTextField loanManField = new JTextField();
@@ -173,7 +202,7 @@ public class TransferPendingDialog extends JDialog {
 				// TODO Auto-generated method stub
 				int row = orderTable.getSelectedRow();
 	               if(row == -1)
-	                   return;
+	            	   ScreenMessage.putOnScreen(ScreenMessage.NO_CHOOSE_IN_TABLE);
 	               int modelRow = orderTable.convertRowIndexToModel(row);
 	               orderTableModel.delete(modelRow);
 			}
@@ -200,6 +229,13 @@ public class TransferPendingDialog extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				if(isEditable){
+					boolean isRight = containerNumberChecker.check() & flightNumberChecker.check()
+							& nameChecker.check();
+					if(!isRight){
+						ScreenMessage.putOnScreen(ScreenMessage.SAVE_FAILURE);
+						return;
+					}
+								  
 					String id = idField.getText();
 					Date loadDate = datePickPanel.getTime();
 					String flightNum = flightNumField.getText();
@@ -222,7 +258,8 @@ public class TransferPendingDialog extends JDialog {
 						shipForm = ShipForm.CAR;
 					TransferVO vo = new TransferVO(id, loadDate, flightNum, depart, destination,
 							containerId, loadMan, orderId, expenses,shipForm);
-					transferblService.modifyTransferPO(vo);	
+					transferblService.modifyTransferPO(vo);
+					ScreenMessage.putOnScreen(ScreenMessage.SAVE_SUCCESS);
 				}
 				else {
 					TransferPendingDialog.this.dispose();

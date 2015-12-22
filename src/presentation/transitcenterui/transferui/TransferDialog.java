@@ -27,6 +27,7 @@ import presentation.util.Checker;
 import presentation.util.DialogLayoutManager;
 import presentation.util.OrganizationComboBox;
 import presentation.util.RecentDatePickPanel;
+import presentation.util.ScreenMessage;
 import systemenum.ShipForm;
 import vo.TransferVO;
 import businesslogic.BusinessLogicService;
@@ -112,6 +113,8 @@ public class TransferDialog extends JDialog{
 	            }        
 		});
 		
+		
+		
 		JLabel departLabel = new JLabel("³ö·¢µØ");
 		departLabel.setBounds(20, 170, 80, 20);	
 		
@@ -186,10 +189,13 @@ public class TransferDialog extends JDialog{
 				// TODO Auto-generated method stub
 				int row = orderTable.getSelectedRow();
 	               if(row == -1)
-	                   return;
-	               int modelRow = orderTable.convertRowIndexToModel(row);
-	               tableModel.delete(modelRow);
-	               setExpensesField();
+	            	   ScreenMessage.putOnScreen(ScreenMessage.NO_CHOOSE_IN_TABLE);
+	               else{
+	            	   int modelRow = orderTable.convertRowIndexToModel(row);
+	            	   tableModel.delete(modelRow);
+	            	   setExpensesField();
+	             }
+	             
 			}
 		});
 		
@@ -210,8 +216,10 @@ public class TransferDialog extends JDialog{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				boolean isRight = containerNumberChecker.check() && flightNumberChecker.check();
+				boolean isRight = containerNumberChecker.check() & flightNumberChecker.check()
+								& nameChecker.check();
 				if(!isRight){
+					 ScreenMessage.putOnScreen(ScreenMessage.SAVE_FAILURE);
 					return;
 				}
 									  
@@ -240,6 +248,7 @@ public class TransferDialog extends JDialog{
 						containerId, loadMan, orderId, expenses,shipForm);
 				transferblService.createTransferPO(vo);
 				TransferDialog.this.dispose();
+				 ScreenMessage.putOnScreen(ScreenMessage.SAVE_SUCCESS);
 			}
 		});
 		
@@ -450,6 +459,7 @@ public class TransferDialog extends JDialog{
 					tableModel.add(orderField.getText());
 					setExpensesField();
 					AddOrderDialog.this.dispose();
+					 
 					}
 					else {
 						return;

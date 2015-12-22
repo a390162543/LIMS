@@ -3,10 +3,10 @@ package presentation.financeui.primeinfoui.employeeui;
  
 
 import java.awt.event.ActionEvent;
-
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Date;
@@ -34,6 +34,7 @@ import presentation.util.Checker;
 import presentation.util.DatePickPanel;
 import presentation.util.DialogLayoutManager;
 import presentation.util.OrganizationComboBox;
+import presentation.util.ScreenMessage;
 import systemenum.Position;
 import systemenum.Sex;
 import vo.EmployeeVO;
@@ -117,15 +118,18 @@ public class PrimeInfoEmployeeDialog extends JDialog{
 				  if(isCorrect){
 					  update(true,0);
 					  PrimeInfoEmployeeDialog.this.dispose();
+						ScreenMessage.putOnScreen(ScreenMessage.SAVE_SUCCESS);  
 				  }
 				  else{
+					  ScreenMessage.putOnScreen(ScreenMessage.SAVE_FAILURE);  
 					  return;
 				  }		
 			}
 		});		
 		
 		//界面置顶
-		this.setModalityType(ModalityType.APPLICATION_MODAL);
+		this.setModalityType(ModalityType.APPLICATION_MODAL);	
+		this.setVisible(true);
 	}
 	 
 	public PrimeInfoEmployeeDialog(PrimeInfoEmployeeTableModel em, int modelRow, boolean isEdit){
@@ -226,18 +230,22 @@ public class PrimeInfoEmployeeDialog extends JDialog{
 					 boolean isCorrect = idcardChecker.check() & phoneNumberChecker.check() & 
 							 			nameChecker.check() & payChecker.check() ;
 					  if(isCorrect){
+						  //员工id发生变化
 						  if(idField.getText().equals(vo.getId())){
 							  update(false,modelRow);
 							  PrimeInfoEmployeeDialog.this.dispose();
+							  ScreenMessage.putOnScreen(ScreenMessage.SAVE_SUCCESS);  
 						  }
 						  else{
 							  tableModel.delete(modelRow);
 							  update(true,0);
 							  PrimeInfoEmployeeDialog.this.dispose();
+							  ScreenMessage.putOnScreen(ScreenMessage.SAVE_SUCCESS);  
 						  }
 						  
 					  }
 					  else{
+						  ScreenMessage.putOnScreen(ScreenMessage.SAVE_FAILURE);  
 						  return;
 					  }				 						
 				}
@@ -254,6 +262,8 @@ public class PrimeInfoEmployeeDialog extends JDialog{
 		
 		//界面置顶
 		this.setModalityType(ModalityType.APPLICATION_MODAL);
+		
+		this.setVisible(true);
 	}
 	
 
@@ -335,6 +345,29 @@ public class PrimeInfoEmployeeDialog extends JDialog{
 		percentageLabel1.setBounds(95, 345, 70, 24);
 		percentageField.setBounds(175, 345, 60, 20);
 		percentageLabel2.setBounds(235, 345, 70, 24);
+		
+		//设置身份证号码，手机号输入框只能输入数字
+		idCardField.addKeyListener(new KeyAdapter() {
+			  public void keyTyped(KeyEvent e) {  
+	                int keyChar = e.getKeyChar();                 
+	                if(keyChar >= KeyEvent.VK_0 && keyChar <= KeyEvent.VK_9) {  
+	 
+	                }else{  
+	                     e.consume();                     
+	                }  
+	            }         
+		});
+		
+		phoneField.addKeyListener(new KeyAdapter() {
+			  public void keyTyped(KeyEvent e) {  
+	                int keyChar = e.getKeyChar();                 
+	                if(keyChar >= KeyEvent.VK_0 && keyChar <= KeyEvent.VK_9) {  
+	 
+	                }else{  
+	                     e.consume();	                     
+	                }  
+	            }         
+		});
 		
 		cancleButton.addActionListener(new  ActionListener() {
 			
@@ -422,8 +455,7 @@ public class PrimeInfoEmployeeDialog extends JDialog{
 		this.add(cancleButton);
 
 		this.setLayout(new DialogLayoutManager());
-		//this.setLayout(null);
-		this.setVisible(true);
+	 
 		
 		//添加检查项
 		phoneNumberChecker = new Checker(phoneField, new CheckInfoGetter() {

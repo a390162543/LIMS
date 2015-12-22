@@ -4,9 +4,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Date;
+
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -14,6 +16,7 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
+
 import businesslogic.BusinessLogicService;
 import businesslogic.checkbl.CheckInfo;
 import businesslogic.checkbl.Name;
@@ -29,6 +32,7 @@ import presentation.util.Checker;
 import presentation.util.DatePickPanel;
 import presentation.util.DialogLayoutManager;
 import presentation.util.OrganizationComboBox;
+import presentation.util.ScreenMessage;
 import systemenum.Position;
 import systemenum.Sex;
 import vo.EmployeeVO;
@@ -117,8 +121,10 @@ public class EmployeeDialog extends JDialog{
 				  if(isCorrect){
 					  update(true,0);
 					  EmployeeDialog.this.dispose();
+					  ScreenMessage.putOnScreen(ScreenMessage.SAVE_SUCCESS);
 				  }
 				  else{
+					  ScreenMessage.putOnScreen(ScreenMessage.SAVE_FAILURE);
 					  return;
 				  }
 			  }
@@ -126,6 +132,8 @@ public class EmployeeDialog extends JDialog{
 		
 		//界面置顶
 		this.setModalityType(ModalityType.APPLICATION_MODAL);	
+		
+		this.setVisible(true);
 		
 	}
 	
@@ -230,10 +238,12 @@ public class EmployeeDialog extends JDialog{
 							  tableModel.delete(modelRow);
 							  update(true,0);
 							  EmployeeDialog.this.dispose();
+							  ScreenMessage.putOnScreen(ScreenMessage.SAVE_SUCCESS);
 						  }
 						  
 					  }
 					  else{
+						  ScreenMessage.putOnScreen(ScreenMessage.SAVE_FAILURE);
 						  return;
 					  }
 				}
@@ -250,6 +260,8 @@ public class EmployeeDialog extends JDialog{
 		
 		//界面置顶
 		this.setModalityType(ModalityType.APPLICATION_MODAL);	
+		
+		this.setVisible(true);
 	}
 	
 	/**
@@ -338,7 +350,28 @@ public class EmployeeDialog extends JDialog{
 		percentageField.setBounds(175, 345, 60, 20);
 		percentageLabel2.setBounds(235, 345, 70, 24);
 		
-	//
+	//设置身份证号码，手机号输入框只能输入数字
+		idCardField.addKeyListener(new KeyAdapter() {
+			  public void keyTyped(KeyEvent e) {  
+	                int keyChar = e.getKeyChar();                 
+	                if(keyChar >= KeyEvent.VK_0 && keyChar <= KeyEvent.VK_9) {  
+	 
+	                }else{  
+	                     e.consume();                     
+	                }  
+	            }         
+		});
+		
+		phoneField.addKeyListener(new KeyAdapter() {
+			  public void keyTyped(KeyEvent e) {  
+	                int keyChar = e.getKeyChar();                 
+	                if(keyChar >= KeyEvent.VK_0 && keyChar <= KeyEvent.VK_9) {  
+	 
+	                }else{  
+	                     e.consume();	                     
+	                }  
+	            }         
+		});
 		
 		positionBox.addItemListener(new ItemListener() {
 			
@@ -421,7 +454,7 @@ public class EmployeeDialog extends JDialog{
 		
 		this.setLayout(new DialogLayoutManager());
 	 
-		this.setVisible(true);
+		
 		
 		
 		

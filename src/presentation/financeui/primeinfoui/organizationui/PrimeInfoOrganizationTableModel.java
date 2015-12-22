@@ -61,8 +61,11 @@ public class PrimeInfoOrganizationTableModel extends DefaultTableModel{
 	    	for(String s:primeInfoblService.getCityName())
 	    		names.add(s);
 	    }    
-	   	return names;
-	    
+	   	return names;	    
+    }
+    
+    public String getCityId(String name){
+    	return primeInfoblService.getCityId(name);
     }
     
     @SuppressWarnings({ "unchecked", "rawtypes" })

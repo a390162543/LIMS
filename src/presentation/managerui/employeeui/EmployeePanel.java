@@ -16,6 +16,7 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
 import presentation.util.ConfirmDialog;
+import presentation.util.ScreenMessage;
 
 
 /**
@@ -101,15 +102,24 @@ public class EmployeePanel extends JPanel{
             @Override
             public void actionPerformed(ActionEvent e) {
                 int row = EmployeeTable.getSelectedRow();
-                if(row == -1)
-                    return;
-                int modelRow = EmployeeTable.convertRowIndexToModel(row);
-                tableModel.delete(modelRow);
-
+                if(row == -1){
+                	ScreenMessage.putOnScreen(ScreenMessage.NO_CHOOSE_IN_TABLE);             	
+                }                
+                else{
+                	ConfirmDialog.createConfirmDialog(deleteButton, new ActionListener() {					
+						@Override
+						public void actionPerformed(ActionEvent e) {						 
+							 int modelRow = EmployeeTable.convertRowIndexToModel(row);
+							 tableModel.delete(modelRow);
+							 ScreenMessage.putOnScreen(ScreenMessage.SAVE_SUCCESS);
+						}
+                	  });
+                }
             }
         };  
-        
-        new ConfirmDialog(deleteButton, actionListener);
+       
+        deleteButton.addActionListener(actionListener);
+       
         
         modifyButton.addActionListener(new ActionListener() {
             
@@ -138,7 +148,7 @@ public class EmployeePanel extends JPanel{
         modifyButton.setBounds(400, 420, 70, 30);
         queryButton.setBounds(485, 420, 70, 30);
         //set panel
-        this.setBounds(0, 0, 560, 470);
+        this.setBounds(0, 0, 560, 450);
         this.setLayout(null);
         this.add(EmployeeScrollPane);
         this.add(filterTextField);

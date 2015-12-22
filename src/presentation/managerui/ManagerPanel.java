@@ -2,17 +2,21 @@ package presentation.managerui;
 
 import java.awt.event.ActionEvent;
 
+
+
 import java.awt.event.ActionListener;
+
 import javax.swing.JButton; 
 import javax.swing.JPanel;
-import presentation.financeui.paymentui.PaymentDialog;
+
+import presentation.financeui.statisticsui.StatisticsDialog;
 import presentation.managerui.approvalui.ApprovalPanel;
 import presentation.managerui.cityui.CreateCityDialog;
 import presentation.managerui.cityui.QueryDistanceDialog;
 import presentation.managerui.constantui.PriceDialog;
 import presentation.managerui.employeeui.EmployeePanel;
 import presentation.managerui.organizationui.OrganizationPanel;
-import presentation.systemmanagerui.PersonInfoPanel;
+ 
 
  
 /**
@@ -41,9 +45,9 @@ public class ManagerPanel  extends JPanel{
 	public ManagerPanel() {
 		// TODO Auto-generated constructor stub
 		JPanel mainPanel = new JPanel();
-		mainPanel.setBounds(200, 50, 560, 470);
+		mainPanel.setBounds(200, 50, 560, 450);
 		mainPanel.setLayout(null);
-		this.setSize(800, 600);
+		this.setSize(800, 540);
 		int buttonWidth = 150;
 		int buttonHeight = 40;	
 		
@@ -54,7 +58,7 @@ public class ManagerPanel  extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				new PaymentDialog();
+				new StatisticsDialog(mainPanel);
 				 ManagerPanel.this.repaint();
 			}
 		});
@@ -146,7 +150,7 @@ public class ManagerPanel  extends JPanel{
 		this.add(organizationButton);	 
 		this.add(paymentButton);
 		this.add(mainPanel);
-	 	this.add(new PersonInfoPanel());
+	 
 	}
 	 
 	 

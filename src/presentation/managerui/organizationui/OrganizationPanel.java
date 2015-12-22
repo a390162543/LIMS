@@ -4,6 +4,7 @@ package presentation.managerui.organizationui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -14,6 +15,9 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
+
+import presentation.util.ConfirmDialog;
+import presentation.util.ScreenMessage;
 
 
 /**
@@ -96,18 +100,32 @@ public class OrganizationPanel extends JPanel{
                 
             }
         });
-        deleteButton.addActionListener(new ActionListener() {
+        
+        
+       ActionListener actionListener = new ActionListener () {
             
             @Override
             public void actionPerformed(ActionEvent e) {
                 int row = OrganizationTable.getSelectedRow();
                 if(row == -1)
-                    return;
-                int modelRow = OrganizationTable.convertRowIndexToModel(row);
-                tableModel.delete(modelRow);
-
+                   	ScreenMessage.putOnScreen(ScreenMessage.NO_CHOOSE_IN_TABLE);         
+                else{
+                	  ConfirmDialog.createConfirmDialog(deleteButton, new ActionListener() {
+						
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							// TODO Auto-generated method stub
+							 int modelRow = OrganizationTable.convertRowIndexToModel(row);
+							 tableModel.delete(modelRow);	
+							 ScreenMessage.putOnScreen(ScreenMessage.SAVE_SUCCESS);
+						}
+					});
+                }
             }
-        });
+        };  
+        deleteButton.addActionListener(actionListener);
+        
+        
         modifyButton.addActionListener(new ActionListener() {
             
             @Override

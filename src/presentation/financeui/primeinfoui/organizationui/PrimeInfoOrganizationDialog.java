@@ -1,5 +1,7 @@
 package presentation.financeui.primeinfoui.organizationui;
 
+ 
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -7,14 +9,17 @@ import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.List;
+
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+
 import presentation.util.CheckInfoGetter;
 import presentation.util.Checker;
 import presentation.util.DialogLayoutManager;
+import presentation.util.ScreenMessage;
 import vo.OrganizationVO;
 import businesslogic.BusinessLogicService;
 import businesslogic.checkbl.CheckInfo;
@@ -73,17 +78,84 @@ public class PrimeInfoOrganizationDialog extends JDialog{
 				if(isRight){
 					update(0,true);
 					PrimeInfoOrganizationDialog.this.dispose();
+					ScreenMessage.putOnScreen(ScreenMessage.SAVE_SUCCESS);
 				}
 				else{
-					return;
+					ScreenMessage.putOnScreen(ScreenMessage.SAVE_FAILURE);
 				}
 				 
 			}
 		});
+		
+		//界面置顶
+		this.setModalityType(ModalityType.APPLICATION_MODAL);
+ 
+		this.setVisible(true);
 	}
+	
+	public PrimeInfoOrganizationDialog(PrimeInfoOrganizationTableModel em, int modelRow,boolean isEdit){
+		
+		this.tableModel = em;
+		init();
+		OrganizationVO vo = tableModel.getOrganizationVO(modelRow);
+		nameField.setText(vo.getName());
+		cityBox.setSelectedItem(vo.getCity());
+		cityBox.setEnabled(false);
+		idField.setText(""+vo.getId());	
+		idField.setEnabled(false);
+		if(!isEdit){
+			cancleButton.setVisible(false);
+			nameField.setEnabled(false);
+			cityBox.setEnabled(false);
+			sureButton.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					PrimeInfoOrganizationDialog.this.dispose();
+				}
+			});
+		}
+		else{		 
+			cityBox.addItemListener(new ItemListener() {
+				
+				@Override
+				public void itemStateChanged(ItemEvent e) {
+					// TODO Auto-generated method stub			
+					setId(nameField.getText());
+					organizationNameChecker.check();
+				}
+			});
+			sureButton.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					boolean isRight = organizationNameChecker.check();
+					if(isRight){
+						update(modelRow,false);
+						PrimeInfoOrganizationDialog.this.dispose();	
+						ScreenMessage.putOnScreen(ScreenMessage.SAVE_SUCCESS);
+					}
+					else{
+						ScreenMessage.putOnScreen(ScreenMessage.SAVE_FAILURE);
+						return;
+					}
+					
+				}
+			});
+		}		
+		//界面置顶
+		this.setModalityType(ModalityType.APPLICATION_MODAL);
+		this.setVisible(true);
+	}
+	
 	public void setId(String organizationName){
 		String cityId =  organizationblService.getCityId
 				((String)cityBox.getSelectedItem());
+		if(cityId == null){
+			cityId = tableModel.getCityId((String)cityBox.getSelectedItem());
+		}
 		if(organizationName.contains("中转中心")){
 			IdblService idblService = organizationblService.getIdblService(1);
 			idField.setText(idblService.createNewId(cityId));
@@ -105,6 +177,7 @@ public class PrimeInfoOrganizationDialog extends JDialog{
 		List<String> cityList = organizationblService.getAllCityName();
 		String[] cityStr = cityList.toArray(new String[cityList.size()]);
 		 
+	
 		nameLabel = new JLabel();
 		nameField = new JTextField();
 		cityBox = new JComboBox<String>(cityStr);
@@ -131,7 +204,9 @@ public class PrimeInfoOrganizationDialog extends JDialog{
 		cityBox.setBounds(137, 100, 80, 20);
 		idLabel.setText("机构编号");
 		idLabel.setBounds(27, 135, 100, 20);
-		idField.setBounds(137, 135, 180, 20);		 
+		idField.setBounds(137, 135, 180, 20);	
+		idField.setEnabled(false);
+		
 		cancleButton.setBounds(180, 185, 70, 30);
 		sureButton.setBounds(270, 185, 70, 30);
 		
@@ -155,7 +230,7 @@ public class PrimeInfoOrganizationDialog extends JDialog{
 		this.add(sureButton);	
 		this.add(cancleButton);		
 		this.setLayout(new DialogLayoutManager());
-		this.setVisible(true);
+	
 		
 		//添加检查项
 		organizationNameChecker = new Checker(nameField,new CheckInfoGetter() {
@@ -194,67 +269,15 @@ public class PrimeInfoOrganizationDialog extends JDialog{
 		});
 	}
 	
-	public PrimeInfoOrganizationDialog(PrimeInfoOrganizationTableModel em, int modelRow,boolean isEdit){
-	
-		this.tableModel = em;
-		init();
-		OrganizationVO vo = tableModel.getOrganizationVO(modelRow);
-		nameField.setText(vo.getName());
-		cityBox.setSelectedItem(vo.getCity());
-		cityBox.setEnabled(false);
-		idField.setText(""+vo.getId());	
-		idField.setEnabled(false);
-		if(!isEdit){
-			nameField.setEnabled(false);
-			cityBox.setEnabled(false);
-			sureButton.addActionListener(new ActionListener() {
-				
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					// TODO Auto-generated method stub
-					PrimeInfoOrganizationDialog.this.dispose();
-				}
-			});
-		}
-		else{
-			cancleButton.setVisible(false);
-			cityBox.addItemListener(new ItemListener() {
-				
-				@Override
-				public void itemStateChanged(ItemEvent e) {
-					// TODO Auto-generated method stub			
-					setId(nameField.getText());
-					organizationNameChecker.check();
-				}
-			});
-			sureButton.addActionListener(new ActionListener() {
-				
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					// TODO Auto-generated method stub
-					boolean isRight = organizationNameChecker.check();
-					if(isRight){
-						update(modelRow,false);
-						PrimeInfoOrganizationDialog.this.dispose();						
-					}
-					else{
-						return;
-					}
-					
-				}
-			});
-		}		
-	}
-	
+
  
 	
 	public void update( int modelRow, boolean isNew){
-		OrganizationblService organizationblService = new Organization();
+		 
 		String name = nameField.getText();
 		String city = (String) cityBox.getSelectedItem();
 		String id = idField.getText();
-		OrganizationVO vo= new OrganizationVO(id, name, city);
-		organizationblService.createOrganizationPO(vo); 
+		OrganizationVO vo= new OrganizationVO(id, name, city);	 
 		if(isNew)
 			tableModel.create(vo);
 		else
