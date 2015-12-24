@@ -30,7 +30,7 @@ public class OrderUI extends JPanel{
 
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.LEFT);
 
-        tabbedPane.addTab("  订单创建   ", null);
+        tabbedPane.addTab("  订单创建  ", null);
         tabbedPane.addTab("订单签收", null);
        
         tabbedPane.setBounds(0, 30, 800, 480);

@@ -1,6 +1,7 @@
 package businesslogic.orderbl;
 
 
+import java.math.BigDecimal;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
@@ -195,16 +196,18 @@ public class Order implements OrderblService{
 		}
 		switch (deliveryWay) {
 		case ECONOMIC:
-			deliverCost = distance/1000*18*weight;
+			deliverCost = distance/1000*720*weight;
 			break;
 		case STANDARD:
-			deliverCost = distance/1000*23*weight;
+			deliverCost = distance/1000*920*weight;
 			break;
 		case FAST:
-			deliverCost = distance/1000*25*weight;
+			deliverCost = distance/1000*1000*weight;
 			break;
 		}
-		return deliverCost+wrapCost;
+		BigDecimal bg = new BigDecimal(deliverCost+wrapCost);  
+        double cost = bg.setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue();
+		return cost;
 	}
 
 
