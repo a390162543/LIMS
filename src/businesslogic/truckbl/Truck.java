@@ -1,8 +1,5 @@
 package businesslogic.truckbl;
 
-import java.net.MalformedURLException;
-import java.rmi.Naming;
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +10,7 @@ import businesslogic.idbl.IdManager;
 import businesslogic.logbl.Log;
 import businesslogicservice.IdblService;
 import businesslogicservice.TruckblService;
+import dataservice.DataService;
 import dataservice.TruckDataService;
 
 /**
@@ -29,18 +27,8 @@ public class Truck implements TruckblService{
     private TruckDataService truckDataService;
     
     public Truck(){
-        try {
-            truckDataService = (TruckDataService) Naming.lookup("rmi://localhost/TruckData");
-        } catch (MalformedURLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (RemoteException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (NotBoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+            truckDataService = DataService.getTruckDataService();
+
     }
     
     @Override

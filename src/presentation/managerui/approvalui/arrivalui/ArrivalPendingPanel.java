@@ -50,7 +50,7 @@ public class ArrivalPendingPanel extends JPanel {
 		arrivalPendingTable.setRowSorter(tableSorter);
 
 		arrivalPendingScrollPane = new JScrollPane(arrivalPendingTable);
-		arrivalPendingScrollPane.setBounds(0, 0, 560, 370);
+		arrivalPendingScrollPane.setBounds(0, 0, 650, 390);
 
 		toggleButton = new JToggleButton("批量审批");
 		approveButton = new JButton("审批");
@@ -159,13 +159,13 @@ public class ArrivalPendingPanel extends JPanel {
         });
 		
 		
-        toggleButton.setBounds(230, 390, 70, 30);		
-        approveButton.setBounds(315, 390, 70, 30);
-        modifyButton.setBounds(400, 390, 70, 30);
-        queryButton.setBounds(485, 390, 70, 30);
+        toggleButton.setBounds(325, 400, 70, 30);		
+        approveButton.setBounds(405, 400, 70, 30);
+        modifyButton.setBounds(490, 400, 70, 30);
+        queryButton.setBounds(575, 400, 70, 30);
 
 		// set panel
-		this.setBounds(0, 0, 560, 470);
+		this.setBounds(0, 0, 650, 470);
 		this.setLayout(null);
 		this.add(arrivalPendingScrollPane);
 		this.add(toggleButton);

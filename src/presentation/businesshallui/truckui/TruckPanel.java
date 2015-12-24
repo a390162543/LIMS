@@ -48,11 +48,11 @@ public class TruckPanel extends JPanel{
         tableModel = new TruckTableModel();  
         tableSorter = new TableRowSorter<TableModel>(tableModel);
         truckTable = new JTable(tableModel);
-        truckTable.setSize(800, 500);
+        truckTable.setSize(650, 390);
         truckTable.setRowSorter(tableSorter);        
         //set scroll pane
         truckScrollPane = new JScrollPane(truckTable);
-        truckScrollPane.setBounds(0, 40, 560, 370);
+        truckScrollPane.setBounds(0, 40, 650, 390);
         //set other components on panel
         filterTextField = new JTextField();
         filterTextField.setToolTipText("请输入模糊查找字段");
@@ -81,7 +81,7 @@ public class TruckPanel extends JPanel{
                 
             }
         });
-        filterTextField.setBounds(320, 0, 235, 25);
+        filterTextField.setBounds(410, 0, 235, 25);
         
         createButton = new JButton("创建");
         deleteButton = new JButton("删除");
@@ -140,12 +140,12 @@ public class TruckPanel extends JPanel{
                 new TruckDialog(tableModel, modelRow, false);
             }
         });
-        createButton.setBounds(230, 420, 70, 30);
-        deleteButton.setBounds(315, 420, 70, 30);
-        modifyButton.setBounds(400, 420, 70, 30);
-        queryButton.setBounds(485, 420, 70, 30);
+        createButton.setBounds(320, 420, 70, 30);
+        deleteButton.setBounds(405, 420, 70, 30);
+        modifyButton.setBounds(490, 420, 70, 30);
+        queryButton.setBounds(575, 420, 70, 30);
         //set panel
-        this.setBounds(0, 0, 560, 470);
+        this.setBounds(0, 0, 560, 450);
         this.setLayout(null);
         this.add(truckScrollPane);
         this.add(filterTextField);

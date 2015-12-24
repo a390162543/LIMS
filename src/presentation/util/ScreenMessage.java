@@ -49,7 +49,7 @@ public class ScreenMessage{
         JLabel backgroundLabel = new JLabel(BACKGROUND_ICON);
         
         JLabel textLabel = new JLabel(message, JLabel.CENTER);
-        textLabel.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 12));
+        textLabel.setFont(new Font("ËÎÌå", Font.PLAIN, 12));
         textLabel.setForeground(Color.black);
 
         textLabel.setOpaque(false);

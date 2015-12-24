@@ -25,7 +25,7 @@ public class BusinessLogicUtil {
      * @return 时间日期的{@code String}
      */
     public static String getDate(Date date){
-        return new SimpleDateFormat("yyyy年MM月dd日").format(new Date());
+        return new SimpleDateFormat("yyyy年MM月dd日").format(date);
     }
     
     /**

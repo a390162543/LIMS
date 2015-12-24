@@ -44,11 +44,11 @@ public class PrimeInfoTruckPanel extends JPanel{
         tableModel = new PrimeInfoTruckTableModel(vos);  
         tableSorter = new TableRowSorter<TableModel>(tableModel);
         truckTable = new JTable(tableModel);
-        truckTable.setSize(800, 500);
+        truckTable.setSize(650, 390);
         truckTable.setRowSorter(tableSorter);        
         //set scroll pane
         truckScrollPane = new JScrollPane(truckTable);
-        truckScrollPane.setBounds(0, 10, 560, 370);
+        truckScrollPane.setBounds(0, 0, 650, 390);
         
         queryButton = new JButton("ÏêÇé");
         queryButton.addActionListener(new ActionListener() {
@@ -64,9 +64,9 @@ public class PrimeInfoTruckPanel extends JPanel{
             }
         });
   
-        queryButton.setBounds(485, 390, 70, 30);
+        queryButton.setBounds(575, 400, 70, 30);
         //set panel
-        this.setBounds(0, 15, 560, 470);
+        this.setBounds(0, 15, 650, 470);
         this.setLayout(null);
         this.add(truckScrollPane);
         this.add(queryButton);
@@ -80,11 +80,11 @@ public class PrimeInfoTruckPanel extends JPanel{
             tableModel = new PrimeInfoTruckTableModel(primeInfoblService);  
             tableSorter = new TableRowSorter<TableModel>(tableModel);
             truckTable = new JTable(tableModel);
-            truckTable.setSize(800, 500);
+            truckTable.setSize(650, 390);
             truckTable.setRowSorter(tableSorter);        
             //set scroll pane
             truckScrollPane = new JScrollPane(truckTable);
-            truckScrollPane.setBounds(0, 10, 560, 370);
+            truckScrollPane.setBounds(0, 0, 650, 390);
             
             addButton = new JButton("Ìí¼Ó");
             deleteButton = new JButton("É¾³ý");
@@ -145,13 +145,13 @@ public class PrimeInfoTruckPanel extends JPanel{
                 	container.repaint();
                 }
             });
-            addButton.setBounds(60, 390, 70, 30);
-            deleteButton.setBounds(145, 390, 70, 30);
-            modifyButton.setBounds(230, 390, 70, 30);
-            queryButton.setBounds(315, 390, 70, 30);          
-            createButton.setBounds(425, 390, 130, 30);
+            addButton.setBounds(150, 400, 70, 30);
+            deleteButton.setBounds(235, 400, 70, 30);
+            modifyButton.setBounds(320, 400, 70, 30);
+            queryButton.setBounds(405, 400, 70, 30);          
+            createButton.setBounds(515, 400, 130, 30);
             //set panel
-            this.setBounds(0, 15, 560, 470);
+            this.setBounds(0, 15, 650, 470);
             this.setLayout(null);
             this.add(truckScrollPane);
             this.add(addButton);
