@@ -14,6 +14,12 @@ import javax.swing.table.TableRowSorter;
 
 
 
+
+
+
+import presentation.util.ConfirmDialog;
+import presentation.util.PresentationUtil;
+import presentation.util.ScreenMessage;
 import vo.OrderCreateVO;
 import businesslogicservice.PrimeInfoblService;
 
@@ -54,15 +60,17 @@ public class PrimeInfoOrderPanel extends JPanel{
         //set scroll pane
         orderScrollPane = new JScrollPane(orderTable);
         orderScrollPane.setBounds(0, 10, 560, 370);
-        
+        PresentationUtil.fitTableColumns(orderTable);
         queryButton = new JButton("ฯ๊ว้");
         queryButton.addActionListener(new ActionListener() {
             
             @Override
             public void actionPerformed(ActionEvent e) {
                 int row = orderTable.getSelectedRow();
-                if(row == -1)
+                if(row == -1){
+                	ScreenMessage.putOnScreen(ScreenMessage.NO_CHOOSE_IN_TABLE);
                     return;
+                }
                 int modelRow = orderTable.convertRowIndexToModel(row);
                 new PrimeInfoOrderDialog(tableModel ,modelRow , false);
                 
@@ -110,11 +118,21 @@ public class PrimeInfoOrderPanel extends JPanel{
             @Override
             public void actionPerformed(ActionEvent e) {
                 int row = orderTable.getSelectedRow();
-                if(row == -1)
+                if(row == -1){
+                	ScreenMessage.putOnScreen(ScreenMessage.NO_CHOOSE_IN_TABLE);
                     return;
-                int modelRow = orderTable.convertRowIndexToModel(row);
-                tableModel.delete(modelRow);
-
+                }
+                else {
+                	ConfirmDialog.createConfirmDialog(deleteButton, new ActionListener() {					
+						@Override
+						public void actionPerformed(ActionEvent e) {						 
+							 int modelRow = orderTable.convertRowIndexToModel(row);
+			                 tableModel.delete(modelRow);
+							 ScreenMessage.putOnScreen(ScreenMessage.SAVE_SUCCESS);
+						}
+                	  });
+                }
+				       
             }
         });
         modifyButton.addActionListener(new ActionListener() {
@@ -122,8 +140,10 @@ public class PrimeInfoOrderPanel extends JPanel{
             @Override
             public void actionPerformed(ActionEvent e) {
                 int row = orderTable.getSelectedRow();
-                if(row == -1)
+                if(row == -1){
+                	ScreenMessage.putOnScreen(ScreenMessage.NO_CHOOSE_IN_TABLE);
                     return;
+                }
                 int modelRow = orderTable.convertRowIndexToModel(row);
                 new PrimeInfoOrderDialog(tableModel ,modelRow ,true);
             }

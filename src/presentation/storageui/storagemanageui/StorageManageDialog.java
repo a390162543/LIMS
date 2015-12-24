@@ -13,6 +13,7 @@ import javax.swing.JTextField;
 import presentation.util.CheckInfoGetter;
 import presentation.util.Checker;
 import presentation.util.DialogLayoutManager;
+import presentation.util.ScreenMessage;
 import vo.StorageSetAreaVO;
 import businesslogic.BusinessLogicService;
 import businesslogic.checkbl.CheckInfo;
@@ -99,9 +100,7 @@ public class StorageManageDialog extends JDialog{
 		this.add(confirmButton);
 		this.add(cancleButton);
 		
-		this.setLayout(new DialogLayoutManager());
-        this.setResizable(false);
-        this.setVisible(true);
+		
 	
         Checker airAreaChecker = new Checker(planeAreaTextField, new CheckInfoGetter() {
 			
@@ -276,12 +275,18 @@ public class StorageManageDialog extends JDialog{
 		confirmButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				StorageSetAreaVO vo = new StorageSetAreaVO(LoginController.getOrganizationId(), Integer.parseInt(planeAreaTextField.getText()), 
-						Integer.parseInt(freeAreaTextField.getText()), Integer.parseInt(carAreaTextField.getText()),
-						Integer.parseInt(trainAreaTextField.getText()), Double.parseDouble(warnTextField.getText()));
-				StorageblService storageblService = BusinessLogicService.getStorageblService();
-				storageblService.setArea(vo);
-				StorageManageDialog.this.dispose();
+				if (airAreaChecker.check()&&trainAreaChecker.check()&&carAreaChecker.check()&&freeAreaChecker.check()) {
+					StorageSetAreaVO vo = new StorageSetAreaVO(LoginController.getOrganizationId(), Integer.parseInt(planeAreaTextField.getText()), 
+							Integer.parseInt(freeAreaTextField.getText()), Integer.parseInt(carAreaTextField.getText()),
+							Integer.parseInt(trainAreaTextField.getText()), Double.parseDouble(warnTextField.getText()));
+					StorageblService storageblService = BusinessLogicService.getStorageblService();
+					storageblService.setArea(vo);
+					StorageManageDialog.this.dispose();
+					ScreenMessage.putOnScreen(ScreenMessage.SAVE_SUCCESS);
+				}
+				else {
+					ScreenMessage.putOnScreen(ScreenMessage.SAVE_FAILURE);
+				}
 			}
 		});
 	
@@ -303,6 +308,10 @@ public class StorageManageDialog extends JDialog{
 			warnTextField.setText(vo.getAlarm()+"");
 		}
 		
+		this.setLayout(new DialogLayoutManager());
+		this.setModalityType(ModalityType.APPLICATION_MODAL);
+        this.setResizable(false);
+        this.setVisible(true);
 }
 
 }

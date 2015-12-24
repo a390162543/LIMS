@@ -59,7 +59,7 @@ public class StoreinPendingDialog extends JDialog {
             textFields[i] = new JTextField();
             textFields[i].setBounds(100, 10+35*i, 150, 25);
 
-            textFields[i].setEditable(isEditable);
+            textFields[i].setEditable(false);
             this.add(textFields[i]);
         }
         StoreinCreateVO vo = tableModel.getStoreinPendingVO(modelRow);
@@ -122,6 +122,7 @@ public class StoreinPendingDialog extends JDialog {
           
         this.setSize(360, 510);
         this.setLayout(new DialogLayoutManager());
+        this.setModalityType(ModalityType.APPLICATION_MODAL);
         this.setVisible(true);
     }
 

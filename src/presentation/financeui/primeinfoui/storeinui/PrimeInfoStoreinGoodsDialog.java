@@ -110,9 +110,7 @@ public class PrimeInfoStoreinGoodsDialog extends JDialog {
 		this.add(confirmButton);
 		this.add(cancleButton);
 		
-		this.setLayout(new DialogLayoutManager());
-        this.setResizable(false);
-        this.setVisible(true);		
+			
 	
         Checker storeinOrderIdChecker = new Checker(orderIdTextField, new CheckInfoGetter() {
 			
@@ -348,7 +346,10 @@ public class PrimeInfoStoreinGoodsDialog extends JDialog {
 			}
 		});
 		
-		
+		this.setLayout(new DialogLayoutManager());
+		this.setModalityType(ModalityType.APPLICATION_MODAL);
+        this.setResizable(false);
+        this.setVisible(true);	
 	}
 
 

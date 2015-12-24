@@ -15,6 +15,8 @@ import javax.swing.event.DocumentListener;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
+import presentation.util.PresentationUtil;
+import presentation.util.ScreenMessage;
 import businesslogic.BusinessLogicService;
 import businesslogicservice.StorageblService;
 import vo.StorageQueryResultVO;
@@ -56,6 +58,7 @@ public class StorageQueryPanel extends JPanel{
         //set scroll pane
         storageQueryScrollPane = new JScrollPane(storageQueryTable);
         storageQueryScrollPane.setBounds(0, 40, 540, 300);
+        PresentationUtil.fitTableColumns(storageQueryTable);
         //set other components on panel
         filterTextField = new JTextField();
         filterTextField.setToolTipText("«Î ‰»Îƒ£∫˝≤È’“◊÷∂Œ");
@@ -92,6 +95,7 @@ public class StorageQueryPanel extends JPanel{
 			public void actionPerformed(ActionEvent e) {
 				StorageblService storageblService = BusinessLogicService.getStorageblService();
 				storageblService.gainExcel(storageQueryTable);	
+				ScreenMessage.putOnScreen(ScreenMessage.EXPORT_SUCCESS);
 			}
 		});
         

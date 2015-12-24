@@ -15,6 +15,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+
 import businesslogic.BusinessLogicService;
 import businesslogic.checkbl.CheckInfo;
 import businesslogic.checkbl.storeininfo.AlarmNum;
@@ -26,7 +27,9 @@ import presentation.util.CheckInfoGetter;
 import presentation.util.Checker;
 import presentation.util.DialogLayoutManager;
 import presentation.util.OrganizationComboBox;
+import presentation.util.PresentationUtil;
 import presentation.util.RecentDatePickPanel;
+import presentation.util.ScreenMessage;
 import systemenum.StorageState;
 import vo.StorageLocationVO;
 import vo.StoreinCreateVO;
@@ -101,8 +104,10 @@ public class StoreinDialogUI extends JDialog{
         goodsInfoTable.setSize(250, 180);  
         goodsInfoTable.getColumnModel().getColumn(0).setPreferredWidth(120);
         
+        
         JScrollPane scrollpane = new JScrollPane(goodsInfoTable);
         scrollpane.setBounds(82, 130, 290, 180); 
+        PresentationUtil.fitTableColumns(goodsInfoTable);
         
         addButton = new JButton("ÐÂÔö");
         addButton.setBounds(200, 325, 70, 30);
@@ -127,13 +132,7 @@ public class StoreinDialogUI extends JDialog{
         this.add(confirmButton);
         this.add(cancleButton);
         		
-		this.setLayout(new DialogLayoutManager());
-        this.setResizable(false);
-        this.setVisible(true);
-	
-        
-        
-        
+		
         Checker alarmNumChecker = new Checker(addButton, new CheckInfoGetter() {
 			
 			@Override
@@ -187,8 +186,10 @@ public class StoreinDialogUI extends JDialog{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				  int selectedRow = goodsInfoTable.getSelectedRow();
-	              if(selectedRow == -1)
+	              if(selectedRow == -1){
+	            	  ScreenMessage.putOnScreen(ScreenMessage.NO_CHOOSE_IN_TABLE);
 	            	  return;
+	              }
 	              
 	              String orderId = (String) tableModel.getValueAt(selectedRow, 0);
 	              int areaNum = Integer.parseInt((String)tableModel.getValueAt(selectedRow, 1));
@@ -226,12 +227,18 @@ public class StoreinDialogUI extends JDialog{
 				Date inDate = datePickPanel.getDate();
 				
 				String destination = destinationComboBox.getItemAt(destinationComboBox.getSelectedIndex());
+				if (orderId.size()!=0&&datePickPanel.check()) {
+					StoreinCreateVO vo = new StoreinCreateVO(storeinIdTextField.getText(), orderId, inDate, 
+							destination, areaNum, rowNum, frameNum, item, LoginController.getOrganizationName());
+					StoreinblService storeinblService = BusinessLogicService.getStoreinblService();
+					storeinblService.createStoreinPO(vo);	
+					StoreinDialogUI.this.dispose();
+					ScreenMessage.putOnScreen(ScreenMessage.SAVE_SUCCESS);
+				}
+				else {
+					ScreenMessage.putOnScreen(ScreenMessage.SAVE_FAILURE);
+				}
 				
-				StoreinCreateVO vo = new StoreinCreateVO(storeinIdTextField.getText(), orderId, inDate, 
-						destination, areaNum, rowNum, frameNum, item, LoginController.getOrganizationName());
-				StoreinblService storeinblService = BusinessLogicService.getStoreinblService();
-				storeinblService.createStoreinPO(vo);	
-				StoreinDialogUI.this.dispose();
 			}
 		});
 		
@@ -259,6 +266,11 @@ public class StoreinDialogUI extends JDialog{
 			
 			}
 		});
+		
+		this.setLayout(new DialogLayoutManager());
+		this.setModalityType(ModalityType.APPLICATION_MODAL);
+        this.setResizable(false);
+        this.setVisible(true);
 	}
 	
 }

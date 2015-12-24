@@ -48,7 +48,8 @@ public class OrderPendingDialog extends JDialog{
             textFields[i] = new JTextField();
             textFields[i].setBounds(100, 10+35*i, 150, 25);
 
-            textFields[i].setEditable(isEditable);
+           // textFields[i].setEditable(isEditable);
+            textFields[i].setEditable(false);
             this.add(textFields[i]);
         }
         OrderCreateVO vo = tableModel.getOrderPendingVO(modelRow);
@@ -77,6 +78,7 @@ public class OrderPendingDialog extends JDialog{
                     OrderPendingDialog.this.dispose(); 
                     return;
                 }
+                
                 OrderCreateVO orderCreateVO = new OrderCreateVO(textFields[0].getText(),vo.getSenderName(),textFields[1].getText(),vo.getSenderTel(),vo.getSenderCell(), 
                 		vo.getReceiverName(),textFields[2].getText(),vo.getReceiverTel(),vo.getReceiverCell(), textFields[3].getText(), Double.parseDouble(textFields[4].getText()), 
                 		Double.parseDouble(textFields[5].getText()), Double.parseDouble(textFields[6].getText()),vo.getWrapWay(),vo.getDeliverWay(),vo.getTotalTime());
@@ -102,6 +104,7 @@ public class OrderPendingDialog extends JDialog{
         
         this.setSize(340, 450);
         this.setLayout(new DialogLayoutManager());
+        this.setModalityType(ModalityType.APPLICATION_MODAL);
         this.setVisible(true);
     }
 

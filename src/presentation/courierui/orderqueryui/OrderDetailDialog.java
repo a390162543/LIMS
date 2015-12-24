@@ -69,9 +69,7 @@ public class OrderDetailDialog extends JDialog{
 		this.add(deliverLabel);	
 		this.add(confirmButton);
 		
-		this.setLayout(new DialogLayoutManager());
-        this.setResizable(false);
-        this.setVisible(true);
+		
 		
 		confirmButton.addActionListener(new ActionListener() {
 			@Override
@@ -80,6 +78,11 @@ public class OrderDetailDialog extends JDialog{
 				
 			}
 		});
+		
+		this.setLayout(new DialogLayoutManager());
+		this.setModalityType(ModalityType.APPLICATION_MODAL);
+        this.setResizable(false);
+        this.setVisible(true);
 	}
 
 	public void setInfo(OrderQueryVO vo) {

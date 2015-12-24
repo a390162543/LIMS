@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import javax.lang.model.element.Modifier;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -15,6 +16,7 @@ import presentation.util.CheckInfoGetter;
 import presentation.util.Checker;
 import presentation.util.DialogLayoutManager;
 import presentation.util.RecentDatePickPanel;
+import presentation.util.ScreenMessage;
 import businesslogic.BusinessLogicService;
 import businesslogic.checkbl.CheckInfo;
 import businesslogic.checkbl.Name;
@@ -91,10 +93,7 @@ public class OrderSignDialog extends JDialog{
         this.add(signNameLabel);
 	
         
-        this.setLayout(new DialogLayoutManager());      
-        this.setLocationRelativeTo(null);
-        this.setResizable(false);
-        this.setVisible(true);
+       
         
         Checker orderIdChecker = new Checker(orderIdTextField, new CheckInfoGetter() {	
 			@Override
@@ -157,12 +156,18 @@ public class OrderSignDialog extends JDialog{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				if (orderIdChecker.check()&&orderSignName.check()) {
+					OrderSignVO orderSignVO = new OrderSignVO(orderIdTextField.getText(), 
+							signNameTextField.getText(),datePickPanel.getDate());
+					OrderblService orderblService = BusinessLogicService.getOrderblService();
+					orderblService.signOrder(orderSignVO);	
+					OrderSignDialog.this.dispose();
+					ScreenMessage.putOnScreen(ScreenMessage.SAVE_SUCCESS);
+				}
+				else {
+					ScreenMessage.putOnScreen(ScreenMessage.SAVE_FAILURE);
+				}
 				
-				OrderSignVO orderSignVO = new OrderSignVO(orderIdTextField.getText(), 
-						signNameTextField.getText(),datePickPanel.getDate());
-				OrderblService orderblService = BusinessLogicService.getOrderblService();
-				orderblService.signOrder(orderSignVO);	
-				OrderSignDialog.this.dispose();
 			}
 		});
 		
@@ -173,6 +178,11 @@ public class OrderSignDialog extends JDialog{
 				
 			}
 		});
+		
+		 this.setLayout(new DialogLayoutManager());      
+	     this.setModalityType(ModalityType.APPLICATION_MODAL);
+	     this.setResizable(false);
+	     this.setVisible(true);
 		
 	}
 }

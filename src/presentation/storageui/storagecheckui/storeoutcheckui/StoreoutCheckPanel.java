@@ -12,6 +12,8 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
+
+import presentation.util.PresentationUtil;
 import vo.OutOrderCheckResultVO;
 
 /**
@@ -48,8 +50,9 @@ public class StoreoutCheckPanel extends JPanel{
         storeoutTable = new JTable(tableModel);
         storeoutTable.setSize(800, 500);
         storeoutTable.setRowSorter(tableSorter);        
-        //set scroll pane
+
         storeoutScrollPane = new JScrollPane(storeoutTable);
+        PresentationUtil.fitTableColumns(storeoutTable);
         storeoutScrollPane.setBounds(0, 40, 560, 150);
         //set other components on panel
         filterTextField = new JTextField();

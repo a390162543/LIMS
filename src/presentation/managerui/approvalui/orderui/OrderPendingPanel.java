@@ -14,6 +14,9 @@ import javax.swing.JToggleButton;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
+import presentation.util.PresentationUtil;
+import presentation.util.ScreenMessage;
+
 
 
 /**
@@ -52,6 +55,7 @@ public class OrderPendingPanel extends JPanel{
 
 		orderPendingScrollPane = new JScrollPane(orderPendingTable);
 		orderPendingScrollPane.setBounds(0, 0, 560, 370);
+		PresentationUtil.fitTableColumns(orderPendingTable);
 
 		toggleButton = new JToggleButton("批量审批");
 		pendingButton = new JButton("审批");
@@ -72,8 +76,10 @@ public class OrderPendingPanel extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int row = orderPendingTable.getSelectedRow();
-				if (row == -1)
+				if (row == -1){
+					ScreenMessage.putOnScreen(ScreenMessage.NO_CHOOSE_IN_TABLE);
 					return;
+				}
 				int indexesNum = orderPendingTable.getSelectedRowCount();
 				int[] selectedRows = orderPendingTable.getSelectedRows();
 				for(int i=0;i<indexesNum;i++){
@@ -94,8 +100,10 @@ public class OrderPendingPanel extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int row = orderPendingTable.getSelectedRow();
-				if (row == -1)
+				if (row == -1){
+					ScreenMessage.putOnScreen(ScreenMessage.NO_CHOOSE_IN_TABLE);
 					return;
+				}
 				int modelRow = orderPendingTable.convertRowIndexToModel(row);
 				new OrderPendingDialog(tableModel, modelRow, true);
 			}
@@ -105,8 +113,10 @@ public class OrderPendingPanel extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int row = orderPendingTable.getSelectedRow();
-				if (row == -1)
+				if (row == -1){
+					ScreenMessage.putOnScreen(ScreenMessage.NO_CHOOSE_IN_TABLE);
 					return;
+				}
 				int modelRow = orderPendingTable.convertRowIndexToModel(row);
 				new OrderPendingDialog(tableModel, modelRow, false);
 			}

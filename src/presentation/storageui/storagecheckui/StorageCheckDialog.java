@@ -9,6 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 
 import presentation.mainui.MainFrame;
 import presentation.storageui.storagecheckui.storeincheckui.StoreinCheckPanel;
@@ -33,7 +34,7 @@ public class StorageCheckDialog extends JDialog{
 
 
 	private JLabel checkDateLabel;
-	private JPanel fatherPanel;
+	private JTabbedPane fatherPanel;
 	
 	
 	private JButton confirmButton;
@@ -41,7 +42,7 @@ public class StorageCheckDialog extends JDialog{
 	private RecentDatePickPanel fromDatePickPanel;
 	private RecentDatePickPanel toDatePickPanel;
 	
-	public StorageCheckDialog(JPanel panel){
+	public StorageCheckDialog(JTabbedPane panel){
 		fatherPanel = panel;
 
 		this.setTitle("¿â´æ²é¿´");
@@ -61,25 +62,32 @@ public class StorageCheckDialog extends JDialog{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				StorageCheckDialog.this.dispose();
-				Date fromDate = fromDatePickPanel.getDate();
-				Date toDate = toDatePickPanel.getDate();
-				StoreinCheckVo storeinCheckVo = new StoreinCheckVo("date",
-						fromDate, toDate);
+				if (fromDatePickPanel.check()&&toDatePickPanel.check()) {
+					StorageCheckDialog.this.dispose();
+					Date fromDate = fromDatePickPanel.getDate();
+					Date toDate = toDatePickPanel.getDate();
+					StoreinCheckVo storeinCheckVo = new StoreinCheckVo("date",
+							fromDate, toDate);
 
-				StorageblService storageblService = new Storage();
-				storageblService.storeoutCheck(storeinCheckVo);
-				storageblService.storeinCheck(storeinCheckVo);
-				StoreinCheckPanel storeinCheckPanel = new StoreinCheckPanel(
-						storageblService.storeinCheck(storeinCheckVo));
-				StoreoutCheckPanel storeoutCheckPanel = new StoreoutCheckPanel(
-						storageblService.storeoutCheck(storeinCheckVo));
-				fatherPanel.setLayout(null);
-				storeinCheckPanel.setBounds(0, 0, 560, 250);
-				storeoutCheckPanel.setBounds(0, 250, 560, 250);
-				fatherPanel.add(storeinCheckPanel);
-				fatherPanel.add(storeoutCheckPanel);
-
+					StorageblService storageblService = new Storage();
+					storageblService.storeoutCheck(storeinCheckVo);
+					storageblService.storeinCheck(storeinCheckVo);
+					StoreinCheckPanel storeinCheckPanel = new StoreinCheckPanel(
+							storageblService.storeinCheck(storeinCheckVo));
+					StoreoutCheckPanel storeoutCheckPanel = new StoreoutCheckPanel(
+							storageblService.storeoutCheck(storeinCheckVo));
+					//fatherPanel.setLayout(null);
+					storeinCheckPanel.setBounds(0, 0, 560, 250);
+					storeoutCheckPanel.setBounds(0, 250, 560, 250);
+					JPanel combPanel = new JPanel();
+					combPanel.setLayout(null);
+					combPanel.setBounds(0, 0, 560, 500);
+					combPanel.add(storeinCheckPanel);
+					combPanel.add(storeoutCheckPanel);
+					fatherPanel.setComponentAt(3, combPanel);					
+					fatherPanel.repaint();
+				}
+				
 			}
 		});
 

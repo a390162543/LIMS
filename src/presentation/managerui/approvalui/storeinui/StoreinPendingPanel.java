@@ -14,6 +14,9 @@ import javax.swing.JToggleButton;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
+import presentation.util.PresentationUtil;
+import presentation.util.ScreenMessage;
+
 
 /**
  * 这是总经理审批入库单时显示在界面上的面板
@@ -51,6 +54,7 @@ public class StoreinPendingPanel extends JPanel {
 
 		storeinPendingScrollPane = new JScrollPane(storeinPendingTable);
 		storeinPendingScrollPane.setBounds(0, 0, 560, 370);
+		PresentationUtil.fitTableColumns(storeinPendingTable);
 
 		toggleButton = new JToggleButton("批量审批");
 		pendingButton = new JButton("审批");
@@ -72,8 +76,10 @@ public class StoreinPendingPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int row = storeinPendingTable.getSelectedRow();
-				if (row == -1)
+				if (row == -1){
+					ScreenMessage.putOnScreen(ScreenMessage.NO_CHOOSE_IN_TABLE);
 					return;
+				}
 				int indexesNum = storeinPendingTable.getSelectedRowCount();
 				int[] selectedRows = storeinPendingTable.getSelectedRows();
 				for(int i=0;i<indexesNum;i++){
@@ -94,8 +100,10 @@ public class StoreinPendingPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int row = storeinPendingTable.getSelectedRow();
-				if (row == -1)
+				if (row == -1){
+					ScreenMessage.putOnScreen(ScreenMessage.NO_CHOOSE_IN_TABLE);
 					return;
+				}
 				int modelRow = storeinPendingTable.convertRowIndexToModel(row);
 				new StoreinPendingDialog(tableModel, modelRow, true);
 			}
@@ -105,8 +113,10 @@ public class StoreinPendingPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int row = storeinPendingTable.getSelectedRow();
-				if (row == -1)
+				if (row == -1){
+					ScreenMessage.putOnScreen(ScreenMessage.NO_CHOOSE_IN_TABLE);
 					return;
+				}
 				int modelRow = storeinPendingTable.convertRowIndexToModel(row);
 				new StoreinPendingDialog(tableModel, modelRow, false);
 			}

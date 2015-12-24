@@ -128,6 +128,7 @@ public class PrimeInfoOrderDialog extends JDialog{
 				orderInfoTextFields[i].setBounds(120, 80 + 35 * i, 180, 25);
 			else
 				orderInfoTextFields[i].setBounds(120, 80 + 35 * i, 90, 25);
+			orderInfoTextFields[i].setEditable(false);
 			this.add(orderInfoTextFields[i]);
 		}
 		
@@ -178,6 +179,7 @@ public class PrimeInfoOrderDialog extends JDialog{
 				senderInfoTextFields[i].setBounds(90, 530 + 30 * i, 90, 25);
 			else
 				senderInfoTextFields[i].setBounds(90, 530 + 30 * i, 180, 25);
+			senderInfoTextFields[i].setEditable(false);
 			this.add(senderInfoTextFields[i]);
 		}
 
@@ -191,6 +193,7 @@ public class PrimeInfoOrderDialog extends JDialog{
 				receiverInfoTextFields[i].setBounds(90, 330 + 30 * i, 90, 25);
 			else
 				receiverInfoTextFields[i].setBounds(90, 330 + 30 * i, 180, 25);
+			receiverInfoTextFields[i].setEditable(false);
 			this.add(receiverInfoTextFields[i]);
 		}
 		
@@ -752,6 +755,8 @@ public class PrimeInfoOrderDialog extends JDialog{
 					deliverWay = DeliveryWay.STANDARD;
 				else
 					deliverWay = DeliveryWay.FAST;
+				
+
 				OrderCreateVO orderCreateVO = new OrderCreateVO(new String(orderInfoTextFields[0].getText()),
 						senderInfoTextFields[0].getText(),senderInfoTextFields[3].getText(), 
 						senderInfoTextFields[1].getText(), senderInfoTextFields[2].getText(), 
@@ -781,6 +786,7 @@ public class PrimeInfoOrderDialog extends JDialog{
         this.setTitle("∂©µ•–≈œ¢");
 		this.setSize(380, 800);
 		this.setLayout(new DialogLayoutManager());
+		this.setModalityType(ModalityType.APPLICATION_MODAL);
 	    this.setResizable(false);
 	    this.setVisible(true);
 	    this.repaint();

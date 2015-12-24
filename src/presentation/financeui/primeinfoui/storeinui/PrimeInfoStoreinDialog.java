@@ -4,7 +4,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +17,7 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 
+
 import businesslogic.organizationbl.Organization;
 import businesslogic.storeinbl.Storein;
 import businesslogicservice.IdblService;
@@ -25,6 +25,7 @@ import businesslogicservice.OrganizationblService;
 import businesslogicservice.StoreinblService;
 import presentation.util.DialogLayoutManager;
 import presentation.util.OrganizationComboBox;
+import presentation.util.PresentationUtil;
 import presentation.util.RecentDatePickPanel;
 import vo.StoreinCreateVO;
 
@@ -77,7 +78,7 @@ public class PrimeInfoStoreinDialog extends JDialog{
 		
 		this.setTitle("货物入库");	
 		this.setSize(380, 440);
-		this.setLayout(null);
+		
 		
 		storeinIdLabel = new JLabel("入库单号");
 		storeinIdLabel.setBounds(20, 9, 80, 22);
@@ -103,10 +104,10 @@ public class PrimeInfoStoreinDialog extends JDialog{
         
         goodsInfoTable = new JTable(tableModel);
         goodsInfoTable.setSize(250, 180);  
-        goodsInfoTable.getColumnModel().getColumn(0).setPreferredWidth(120);
-        
+     
         JScrollPane scrollpane = new JScrollPane(goodsInfoTable);
         scrollpane.setBounds(82, 130, 290, 180); 
+        PresentationUtil.fitTableColumns(goodsInfoTable);
         
         addButton = new JButton("新增");
         addButton.setBounds(210, 325, 70, 30);
@@ -199,8 +200,7 @@ public class PrimeInfoStoreinDialog extends JDialog{
 					frameNum.add(Integer.parseInt((String)tableModel.getValueAt(i, 3)));
 					item.add(Integer.parseInt((String)tableModel.getValueAt(i, 4)));
 				}
-				for(int i=0;i<totalRow;i++)
-					System.out.println(orderId.get(i));
+
 				
 				Date inDate = datePickPanel.getDate();
 				
@@ -241,6 +241,7 @@ public class PrimeInfoStoreinDialog extends JDialog{
             textFields[i].setBounds(100, 10+35*i, 150, 25);
 
             textFields[i].setEditable(isEditable);
+            textFields[i].setEditable(false);
             this.add(textFields[i]);
         }
         StoreinCreateVO vo = primeInfoStoreinTableModel.getStoreinCreateVO(modelRow);
@@ -305,6 +306,7 @@ public class PrimeInfoStoreinDialog extends JDialog{
         
         this.setSize(360, 510);
         this.setLayout(new DialogLayoutManager());
+        this.setModalityType(ModalityType.APPLICATION_MODAL);
         this.setVisible(true);
     }
 }

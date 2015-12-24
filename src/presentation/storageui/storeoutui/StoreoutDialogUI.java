@@ -4,8 +4,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -25,9 +23,9 @@ import presentation.util.Checker;
 import presentation.util.DialogLayoutManager;
 import presentation.util.OrganizationComboBox;
 import presentation.util.RecentDatePickPanel;
+import presentation.util.ScreenMessage;
 import businesslogic.BusinessLogicService;
 import businesslogic.checkbl.CheckInfo;
-import businesslogic.checkbl.arrivalinfo.ArrivalTransferId;
 import businesslogic.checkbl.storeoutinfo.StoreoutTransferId;
 import businesslogic.storeoutbl.Storeout;
 import businesslogic.userbl.LoginController;
@@ -166,10 +164,7 @@ public class StoreoutDialogUI extends JDialog{
 		this.add(confirmButton);
 		this.add(cancleButton);
        
-		this.setLayout(new DialogLayoutManager());
-		this.setLocationRelativeTo(null);
-        this.setResizable(false);
-        this.setVisible(true);
+		
 	
 		Checker transferIdChecker = new Checker(transferIdTextField, new CheckInfoGetter() {
 			
@@ -233,38 +228,42 @@ public class StoreoutDialogUI extends JDialog{
 		});
         
         
-		
-		
-		
+
 		
 		confirmButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				
-				int totalRow = goodsInfoTable.getRowCount();
-				ArrayList<String> orderId = new ArrayList<String>();
-				for(int i=0;i<totalRow;i++){
-					orderId.add(new String((String)tableModel.getValueAt(i, 0)));
+				if (transferIdChecker.check()&&datePickPanel.check()) {
+					int totalRow = goodsInfoTable.getRowCount();
+					ArrayList<String> orderId = new ArrayList<String>();
+					for(int i=0;i<totalRow;i++){
+						orderId.add(new String((String)tableModel.getValueAt(i, 0)));
+					}
+					
+
+					Date date = datePickPanel.getDate();
+					String destination = destinationComboBox.getItemAt(destinationComboBox.getSelectedIndex());
+					
+					ShipForm shipForm;
+					if(airWayButton.isSelected())
+						shipForm = ShipForm.PLANE;
+					else if(carWayButton.isSelected())
+						shipForm = ShipForm.CAR;
+					else
+						shipForm = ShipForm.TRAIN;
+					
+					String transferId = transferIdTextField.getText();
+					StoreoutCreateVO vo = new StoreoutCreateVO(storeoutIdTextField.getText(), orderId, date, destination, shipForm, transferId,LoginController.getOrganizationName());
+					StoreoutblService storeoutblService = BusinessLogicService.getStoreoutblService();
+					storeoutblService.createStoreoutPO(vo);
+					StoreoutDialogUI.this.dispose();
+					ScreenMessage.putOnScreen(ScreenMessage.SAVE_SUCCESS);
+				}
+				else {
+					ScreenMessage.putOnScreen(ScreenMessage.SAVE_FAILURE);
 				}
 				
-
-				Date date = datePickPanel.getDate();
-				String destination = destinationComboBox.getItemAt(destinationComboBox.getSelectedIndex());
-				
-				ShipForm shipForm;
-				if(airWayButton.isSelected())
-					shipForm = ShipForm.PLANE;
-				else if(carWayButton.isSelected())
-					shipForm = ShipForm.CAR;
-				else
-					shipForm = ShipForm.TRAIN;
-				
-				String transferId = transferIdTextField.getText();
-				StoreoutCreateVO vo = new StoreoutCreateVO(storeoutIdTextField.getText(), orderId, date, destination, shipForm, transferId,LoginController.getOrganizationName());
-				StoreoutblService storeoutblService = BusinessLogicService.getStoreoutblService();
-				storeoutblService.createStoreoutPO(vo);
-				StoreoutDialogUI.this.dispose();
 			}
 		});
 		
@@ -280,5 +279,10 @@ public class StoreoutDialogUI extends JDialog{
 				
 			}
 		});
+		
+		this.setLayout(new DialogLayoutManager());
+		this.setModalityType(ModalityType.APPLICATION_MODAL);
+        this.setResizable(false);
+        this.setVisible(true);
 	}
 }

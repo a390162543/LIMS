@@ -58,10 +58,8 @@ public class OrderCreateDialog extends JDialog{
 	private JTextField orderIdTextField;
 	private JLabel weightLabel;
 	private JTextField weighTextField;
-	private JLabel weightUnitLabel;
 	private JLabel volumeLabel;
 	private JTextField volumeTextField;
-	private JLabel volumnUnitLabel;
 	private JLabel goodsInfoLabel;
 	private JTextField goodsInfoTextField;
 	private JLabel wrapWayLabel;
@@ -139,15 +137,15 @@ public class OrderCreateDialog extends JDialog{
 		weighTextField = new JTextField();
 		weighTextField.setBounds(105, 118, 60, 22);
 		weighTextField.setText("0");
-		weightUnitLabel = new JLabel("Kg");
-		weightUnitLabel.setBounds(170, 118, 30, 22);
+//		weightUnitLabel = new JLabel("Kg");
+//		weightUnitLabel.setBounds(170, 118, 30, 22);
 		volumeLabel = new JLabel("体积(m^3)");
 		volumeLabel.setBounds(54, 152, 40, 22);
 		volumeTextField = new JTextField();
 		volumeTextField.setBounds(105, 152, 60, 22);
 		volumeTextField.setText("0");
-		volumnUnitLabel = new JLabel("m^3");
-		volumnUnitLabel.setBounds(165, 153, 30, 22);
+//		volumnUnitLabel = new JLabel("m^3");
+//		volumnUnitLabel.setBounds(165, 153, 30, 22);
 		goodsInfoLabel = new JLabel("物品信息");
 		goodsInfoLabel.setBounds(35, 184, 80, 22);
 		goodsInfoTextField = new JTextField();
@@ -177,12 +175,12 @@ public class OrderCreateDialog extends JDialog{
 		deliveryWayButtonGroup.add(economicDeliveryButton);
 		deliveryWayButtonGroup.add(standardDeliveryButton);
 		deliveryWayButtonGroup.add(fastDeliveryButton);
-		totalExpenseLabel = new JLabel("总费用");
-		totalExpenseLabel.setBounds(235, 675, 60, 22);
+		totalExpenseLabel = new JLabel("总费用(元)");
+		totalExpenseLabel.setBounds(235, 675, 90, 22);
 		totalExpenseTextField = new JTextField();
-		totalExpenseTextField.setBounds(300, 675, 60, 22);
-		totalTimeLabel = new JLabel("预估时间");
-		totalTimeLabel.setBounds(85, 675, 80, 22);
+		totalExpenseTextField.setBounds(330, 675, 60, 22);
+		totalTimeLabel = new JLabel("预估时间(天)");
+		totalTimeLabel.setBounds(85, 675, 140, 22);
 		totalTimeTextField = new JTextField();
 		totalTimeTextField.setBounds(170, 675, 60, 22);
 			
@@ -292,11 +290,9 @@ public class OrderCreateDialog extends JDialog{
 		this.add(totalExpenseLabel);
 		this.add(totalExpenseTextField);
 			
-		
+		DialogLayoutManager.fix(totalTimeTextField,totalExpenseLabel,totalExpenseTextField);
 				
-		this.setLayout(new DialogLayoutManager());
-		this.setResizable(false);
-	    this.setVisible(true);
+		
 		
 	    bagWrapButton.setSelected(true);
 	    economicDeliveryButton.setSelected(true);
@@ -1062,11 +1058,12 @@ public class OrderCreateDialog extends JDialog{
 					OrderblService orderblService = BusinessLogicService.getOrderblService();
 					orderblService.createOrderPO(orderCreateVO);
 					OrderCreateDialog.this.dispose();
-	
+					ScreenMessage.putOnScreen(ScreenMessage.SAVE_SUCCESS);
 				}
-				
-				
-				
+				else {
+					ScreenMessage.putOnScreen(ScreenMessage.SAVE_FAILURE);
+				}
+			
 			}
 		});
 		
@@ -1077,6 +1074,11 @@ public class OrderCreateDialog extends JDialog{
 				
 			}
 		});
+		
+		this.setLayout(new DialogLayoutManager());
+		this.setModalityType(ModalityType.APPLICATION_MODAL);
+		this.setResizable(false);
+	    this.setVisible(true);
 	}
 
 }

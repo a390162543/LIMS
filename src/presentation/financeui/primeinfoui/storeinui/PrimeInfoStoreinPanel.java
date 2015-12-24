@@ -12,6 +12,9 @@ import javax.swing.JTable;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
+import presentation.util.ConfirmDialog;
+import presentation.util.PresentationUtil;
+import presentation.util.ScreenMessage;
 import vo.StoreinCreateVO;
 import businesslogicservice.PrimeInfoblService;
 
@@ -53,15 +56,17 @@ public class PrimeInfoStoreinPanel extends JPanel{
         //set scroll pane
         storeinScrollPane = new JScrollPane(storeinTable);
         storeinScrollPane.setBounds(0, 10, 560, 370);
-        
+        PresentationUtil.fitTableColumns(storeinTable);
         queryButton = new JButton("ฯ๊ว้");
         queryButton.addActionListener(new ActionListener() {
             
             @Override
             public void actionPerformed(ActionEvent e) {
                 int row = storeinTable.getSelectedRow();
-                if(row == -1)
+                if(row == -1){
+                	ScreenMessage.putOnScreen(ScreenMessage.NO_CHOOSE_IN_TABLE);
                     return;
+                }
                 int modelRow = storeinTable.convertRowIndexToModel(row);
                 new PrimeInfoStoreinDialog(tableModel ,modelRow , false);
                 
@@ -107,10 +112,21 @@ public class PrimeInfoStoreinPanel extends JPanel{
             @Override
             public void actionPerformed(ActionEvent e) {
                 int row = storeinTable.getSelectedRow();
-                if(row == -1)
+                if(row == -1){
+                	ScreenMessage.putOnScreen(ScreenMessage.NO_CHOOSE_IN_TABLE);
                     return;
-                int modelRow = storeinTable.convertRowIndexToModel(row);
-                tableModel.delete(modelRow);
+                }
+                else {
+                	ConfirmDialog.createConfirmDialog(deleteButton, new ActionListener() {					
+						@Override
+						public void actionPerformed(ActionEvent e) {						 
+							int modelRow = storeinTable.convertRowIndexToModel(row);
+			                tableModel.delete(modelRow);
+							ScreenMessage.putOnScreen(ScreenMessage.SAVE_SUCCESS);
+						}
+                	  });
+				}
+                
 
             }
         });
@@ -119,8 +135,10 @@ public class PrimeInfoStoreinPanel extends JPanel{
             @Override
             public void actionPerformed(ActionEvent e) {
                 int row = storeinTable.getSelectedRow();
-                if(row == -1)
+                if(row == -1){
+                	ScreenMessage.putOnScreen(ScreenMessage.NO_CHOOSE_IN_TABLE);
                     return;
+                }
                 int modelRow = storeinTable.convertRowIndexToModel(row);
                 new PrimeInfoStoreinDialog(tableModel ,modelRow ,true);
             }

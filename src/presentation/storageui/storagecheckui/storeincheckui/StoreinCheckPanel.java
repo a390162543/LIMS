@@ -13,6 +13,7 @@ import javax.swing.event.DocumentListener;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
+import presentation.util.PresentationUtil;
 import vo.InOrderCheckResultVO;
 
 
@@ -54,7 +55,8 @@ public class StoreinCheckPanel extends JPanel{
         //set scroll pane
         storeinScrollPane = new JScrollPane(storeinTable);
         storeinScrollPane.setBounds(0, 40, 560, 150);
-        //set other components on panel
+       
+        PresentationUtil.fitTableColumns(storeinTable);
         filterTextField = new JTextField();
         filterTextField.setToolTipText("«Î ‰»Îƒ£∫˝≤È’“◊÷∂Œ");
         filterTextField.getDocument().addDocumentListener(new DocumentListener() {
