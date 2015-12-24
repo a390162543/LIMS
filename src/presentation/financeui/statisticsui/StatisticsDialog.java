@@ -8,7 +8,7 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 
 import presentation.util.DatePickPanel;
 import businesslogic.BusinessLogicService;
@@ -26,13 +26,13 @@ public class StatisticsDialog extends JDialog{
 	 * 
 	 */
 	private static final long serialVersionUID = 564672213975177599L;
-	private JPanel parent;
+	private JTabbedPane tabbedPane;
 	private DatePickPanel datePickPanel1;
 	private DatePickPanel datePickPanel2;
 
-	public StatisticsDialog(JPanel panel){
+	public StatisticsDialog(JTabbedPane tabbedPane){
 	
-		this.parent = panel;
+		this.tabbedPane =  tabbedPane;
 		int dialogx = 380;
 		int dialogy = 240;
 		this.setSize(dialogx, dialogy);
@@ -100,7 +100,7 @@ public class StatisticsDialog extends JDialog{
 			PaymentPanel paymentPanel = new PaymentPanel(vos);
 	        
 			@SuppressWarnings("unused")
-			StatisticsPanel statisticsPanel = new StatisticsPanel(parent, paymentPanel,revenuePanel);
+			StatisticsPanel statisticsPanel = new StatisticsPanel(tabbedPane, paymentPanel,revenuePanel);
 			StatisticsDialog.this.dispose();
 		}
 		

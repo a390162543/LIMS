@@ -20,12 +20,9 @@ public class PrimeInfoQueryPanel extends JPanel{
 	private static final long serialVersionUID = -1644129520094516933L;
 	private PrimeInfoTableModel tableModel;
 	
-	public PrimeInfoQueryPanel(JPanel panel ,PrimeInfoTableModel tm ,int modelRow){
+	public PrimeInfoQueryPanel(JTabbedPane tabbedPane ,PrimeInfoTableModel tm ,int modelRow){
 		tableModel = tm;
 		PrimeInfoVO primeInfoVO = tableModel.getPrimeInfoVO(modelRow);
-
-		panel.removeAll();
-
 		
 		PrimeInfoAccountPanel primeInfoAccountPanel = new PrimeInfoAccountPanel(primeInfoVO.getAccount());
 		primeInfoAccountPanel.setLocation(0, 0);
@@ -56,10 +53,6 @@ public class PrimeInfoQueryPanel extends JPanel{
 		this.add(pane);
 		this.setBounds(0, 0, 560, 540);
 		
-		panel.setLayout(null);
-		panel.setLayout(null);
-		panel.add(this);
-		panel.setVisible(true);
-		panel.repaint();
+		tabbedPane.setComponentAt(6, this);
 	}
 }

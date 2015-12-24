@@ -1,7 +1,6 @@
 package presentation.financeui.logui;
 
 import java.awt.Font;
-import java.awt.Dialog.ModalityType;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -9,7 +8,7 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 
 import presentation.util.DatePickPanel;
 import businesslogic.BusinessLogicService;
@@ -26,11 +25,11 @@ public class LogDialog extends JDialog{
 	 * 
 	 */
 	private static final long serialVersionUID = -5032227141174912005L;
-	private JPanel parent;
+	private JTabbedPane tabbedPane;
 	private DatePickPanel datePickPanel;
 
-	public LogDialog(JPanel panel){
-		this.parent=panel;
+	public LogDialog(JTabbedPane tabbedPane){
+		this.tabbedPane = tabbedPane;
 		
 		int dialogx = 380;
 		int dialogy = 240;
@@ -85,7 +84,7 @@ public class LogDialog extends JDialog{
 			List<LogVO> vos = lbs.queryLogVO(datePickPanel.getDate());
 			
 			@SuppressWarnings("unused")
-			LogPanel logPanel = new LogPanel(parent, vos);
+			LogPanel logPanel = new LogPanel(tabbedPane, vos);
 			LogDialog.this.dispose();
 		}
 		

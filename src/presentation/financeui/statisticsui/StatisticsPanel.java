@@ -6,9 +6,11 @@ import java.io.File;
 
 
 
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 
 import presentation.util.ScreenMessage;
 import businesslogic.statisticsbl.Statistics;
@@ -27,8 +29,7 @@ public class StatisticsPanel extends JPanel{
 	 */
 	private static final long serialVersionUID = -8910285590324569708L;
 
-	public StatisticsPanel(JPanel panel, JPanel paymentPanel ,JPanel revenuePanel){
-		panel.removeAll();
+	public StatisticsPanel(JTabbedPane tabbedPane, JPanel paymentPanel ,JPanel revenuePanel){
 		this.setBounds(0, 0, 560, 430);
 		
 		int labelWidth = 65;
@@ -86,9 +87,7 @@ public class StatisticsPanel extends JPanel{
 		this.add(profitLabel2);
 		this.add(excelButton);
 		
-		panel.setLayout(null);
-		panel.add(this);
-		panel.setVisible(true);
-		panel.repaint();
+		tabbedPane.setComponentAt(4, this);
+		
 	}
 }

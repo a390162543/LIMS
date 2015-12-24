@@ -21,8 +21,7 @@ public class PrimeInfoPanel extends JPanel{
 	 */
 	private static final long serialVersionUID = 5816655519200291427L;
 	
-	public PrimeInfoPanel(JPanel panel){
-		panel.removeAll();
+	public PrimeInfoPanel(JTabbedPane tabbedPane){
 		
 		PrimeInfoblService primeInfoblService = BusinessLogicService.getPrimeInfoblService(); 
 
@@ -56,10 +55,7 @@ public class PrimeInfoPanel extends JPanel{
 		this.add(pane);
 		this.setBounds(0, 0, 560, 540);
 		
-		panel.setLayout(null);
-		panel.add(this);
-		panel.setVisible(true);
-		panel.repaint();
+		tabbedPane.setComponentAt(6, this);
 		
 	}
 }

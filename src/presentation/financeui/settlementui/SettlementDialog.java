@@ -8,7 +8,7 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 
 import presentation.util.DatePickPanel;
 import presentation.util.OrganizationComboBox;
@@ -26,13 +26,13 @@ public class SettlementDialog extends JDialog{
 	 * 
 	 */
 	private static final long serialVersionUID = -1781730997983572841L;
-	private JPanel parent;
+	private JTabbedPane tabbedPane;   
 	
 	private DatePickPanel datePickPanel;
 	private OrganizationComboBox businessHallBox;
 	
-	public SettlementDialog(JPanel panel){
-		this.parent = panel;
+	public SettlementDialog(JTabbedPane tabbedPane){
+		this.tabbedPane = tabbedPane;
 		int dialogx = 380;
 		int dialogy = 240;
 		this.setSize(dialogx, dialogy);
@@ -88,6 +88,7 @@ public class SettlementDialog extends JDialog{
 		this.add(backButton);
 		this.setModalityType(ModalityType.APPLICATION_MODAL);
 	    this.setVisible(true);
+
 	}
 	
 	class ConfirmButtonListener implements ActionListener{
@@ -97,7 +98,7 @@ public class SettlementDialog extends JDialog{
 			List<RevenueVO> ros = sbs.queryRevenueVO( datePickPanel.getDate(), businessHallBox.getSelectedItem().toString());
 
 			@SuppressWarnings("unused")
-			SettlementPanel settlementPanel = new SettlementPanel(SettlementDialog.this.parent,ros);
+			SettlementPanel settlementPanel = new SettlementPanel(SettlementDialog.this.tabbedPane,ros);
 			SettlementDialog.this.dispose();
 		}
 		

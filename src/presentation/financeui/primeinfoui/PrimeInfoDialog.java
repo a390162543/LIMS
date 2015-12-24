@@ -7,8 +7,8 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
@@ -20,7 +20,6 @@ public class PrimeInfoDialog extends JDialog{
 	 * 
 	 */
 	private static final long serialVersionUID = -8284713439380769197L;
-	private JPanel parent;
 	private JScrollPane primeInfoScrollPane;
 	    
 	private JTable primeInfoTable;
@@ -30,8 +29,7 @@ public class PrimeInfoDialog extends JDialog{
 	private JButton confirmButton;
 	private JButton createButton;
 	
-	public PrimeInfoDialog(JPanel panel){
-		parent = panel;
+	public PrimeInfoDialog(JTabbedPane tabbedPane){
 		int dialogx = 380;
 		int dialogy = 300;
 		promptLabel = new JLabel("您可以选择账单进行期初账单查询:");
@@ -56,7 +54,7 @@ public class PrimeInfoDialog extends JDialog{
 	            
 	            @Override
 	            public void actionPerformed(ActionEvent e) {
-	                new PrimeInfoPanel(parent);
+	                new PrimeInfoPanel( tabbedPane);
 	                PrimeInfoDialog.this.dispose();
 	            }
 	        });
@@ -70,7 +68,7 @@ public class PrimeInfoDialog extends JDialog{
 	                    return;
 	                int modelRow = primeInfoTable.convertRowIndexToModel(row);
 	                
-	            	new PrimeInfoQueryPanel(parent ,tableModel,modelRow);
+	            	new PrimeInfoQueryPanel(tabbedPane ,tableModel,modelRow);
 	            	PrimeInfoDialog.this.dispose();
 	            }
 	        });

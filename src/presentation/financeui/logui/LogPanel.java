@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 
 import businesslogic.BusinessLogicService;
@@ -21,8 +22,7 @@ public class LogPanel extends JPanel{
 	 */
 	private static final long serialVersionUID = -2071902369087985351L;
 
-	public LogPanel(JPanel panel, List<LogVO> vos){
-		panel.removeAll();
+	public LogPanel(JTabbedPane tabbedPane, List<LogVO> vos){
 		this.setBounds(0, 40, 560, 360);
 
 		String contents="";
@@ -42,9 +42,7 @@ public class LogPanel extends JPanel{
 		this.setLayout(null);
 		this.add(scrollPane);
 	
-		panel.setLayout(null);
-		panel.add(this);
-		panel.repaint();
+		tabbedPane.setComponentAt(5, this);
 		
 	}
 }

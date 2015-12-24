@@ -39,17 +39,16 @@ public class AccountPanel extends JPanel{
 	    private JButton modifyButton;
 	    private JButton queryButton;
 	    
-	    public AccountPanel(JPanel panel){
-	    	panel.removeAll();
+	    public AccountPanel(){
 	        //build up account table
 	        tableModel = new AccountTableModel();  
 	        tableSorter = new TableRowSorter<TableModel>(tableModel);
 	        accountTable = new JTable(tableModel);
-	        accountTable.setSize(800, 500);
+	        accountTable.setSize(650, 390);
 	        accountTable.setRowSorter(tableSorter);        
 	        //set scroll pane
 	        accountScrollPane = new JScrollPane(accountTable);
-	        accountScrollPane.setBounds(0, 40, 560, 370);
+	        accountScrollPane.setBounds(0, 40, 650, 390);
 	        //set other components on panel
 	        filterTextField = new JTextField();
 	        filterTextField.setToolTipText("请输入模糊查找字段");
@@ -78,7 +77,7 @@ public class AccountPanel extends JPanel{
 	                
 	            }
 	        });
-	        filterTextField.setBounds(320, 0, 235, 25);
+	        filterTextField.setBounds(320 + 90, 0, 235, 25);
 	        
 	        createButton = new JButton("创建");
 	        deleteButton = new JButton("删除");
@@ -126,10 +125,10 @@ public class AccountPanel extends JPanel{
 	                new AccountDialog(tableModel, modelRow, false);
 	            }
 	        });
-	        createButton.setBounds(230, 420, 70, 30);
-	        deleteButton.setBounds(315, 420, 70, 30);
-	        modifyButton.setBounds(400, 420, 70, 30);
-	        queryButton.setBounds(485, 420, 70, 30);
+	        createButton.setBounds(230 + 90, 420, 70, 30);
+	        deleteButton.setBounds(315 + 90, 420, 70, 30);
+	        modifyButton.setBounds(400 + 90, 420, 70, 30);
+	        queryButton.setBounds(485 + 90 , 420, 70, 30);
 	        //set panel
 	        this.setBounds(0, 0, 560, 470);
 	        this.setLayout(null);
@@ -140,10 +139,6 @@ public class AccountPanel extends JPanel{
 	        this.add(modifyButton);
 	        this.add(queryButton);
 	        
-	        panel.setLayout(null);
-	        panel.add(this);
-			panel.setVisible(true);
-			panel.repaint();
 	    }
 
 
