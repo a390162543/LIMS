@@ -33,10 +33,10 @@ public class ApprovalPanel extends JPanel{
 		approvalPane.addTab("入库单",new StoreinPendingPanel());
 		approvalPane.addTab("付款单", new PaymentPendingPanel());
 		approvalPane.addTab("到达单", new ArrivalPendingPanel());		
-		approvalPane.setBounds(0, 0,560, 470);
+		approvalPane.setBounds(0, 0,650, 500);
 		
 		this.add(approvalPane);
-		this.setBounds(0, 0, 560, 470);
+		this.setBounds(0, 0, 650, 500);
 		this.setLayout(null);
 		this.setVisible(true);
 

@@ -1,7 +1,6 @@
 package businesslogic.citybl;
 
 import java.rmi.RemoteException;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +10,7 @@ import dataservice.CityDataService;
 import dataservice.DataService;
 import vo.CityVO;
  
+import businesslogic.logbl.Log;
 import businesslogicservice.CityblService;
 
 /**
@@ -34,14 +34,14 @@ public class City implements CityblService{
 		// TODO Auto-generated method stub
 		try {        
 			cityDataService.insert(vo.getCityPO());
-			System.out.println("citybl createcitypo");
+		 
 			   	
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		//添加日志记录
-		createCityLog(vo.getName());
+		cityLog("新建了城市 " + vo.getName());
 		return true;
 	}
 
@@ -58,6 +58,8 @@ public class City implements CityblService{
 	            // TODO Auto-generated catch block
 	            e.printStackTrace();	        
 	        }
+		 
+			cityLog("删除了城市 " + vo.getName());
 		return true;
 	}
 
@@ -73,6 +75,7 @@ public class City implements CityblService{
 	            // TODO Auto-generated catch block
 	            e.printStackTrace();
 	        } 
+			cityLog("修改了城市 " + vo.getName());
 		return true;
 	}
 
@@ -180,13 +183,10 @@ public class City implements CityblService{
 	 * @param name 城市名称
 	 * @return
 	 */
-	public boolean createCityLog(String name){
-	 
-		 
-		String operation = "新建了城市：" + name;
-		 
-		//Log log = new Log(operation);
-		//log.createLogPO(vo);
+	public boolean cityLog(String s ){		 
+		String operation = s;		 
+		Log log = new Log();
+		log.createLogPO(operation);
 		return true;		
 	}
 

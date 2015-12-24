@@ -4,11 +4,14 @@ package businesslogic.transferbl;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
+
 import dataservice.DataService;
 import dataservice.TransferDataService; 
 import po.TransferPO;
 import systemenum.DocumentState; 
+import businesslogic.BusinessLogicUtil;
 import businesslogic.idbl.IdManager;
+import businesslogic.logbl.Log;
 import businesslogic.orderbl.Order;
 import businesslogic.organizationbl.Organization;
 import businesslogicservice.IdblService;
@@ -74,6 +77,7 @@ public class Transfer implements TransferblService{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		log("创建了中转单" + vo.getId());
 		return true;
 	}
 
@@ -118,7 +122,8 @@ public class Transfer implements TransferblService{
 		
 		String depart = vo.getDepart();
 		String distination = vo.getDestination();
-		String info = "正发往 " + vo.getDestination() + "中";
+		String info = BusinessLogicUtil.getTime(vo.getLoadDate())+ "\n" +
+				"正发往  " + vo.getDestination() + " 中";
 		for(String s : vo.getOrderId()){
 			OrderDeliverInfoVO infoVO = new OrderDeliverInfoVO(s, depart, distination, info);
 			order.modifyDeliverInfo(infoVO);
@@ -194,5 +199,12 @@ public class Transfer implements TransferblService{
         }
         return null;
     }
+    
+	 public void  log(String s){
+			String operation = s;		 
+			Log log = new Log();
+			log.createLogPO(operation);
+		 	
+	 }
 	
 }

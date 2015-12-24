@@ -9,7 +9,6 @@ import java.awt.event.KeyListener;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -17,7 +16,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-
 import presentation.mainui.MainFrame;
 import presentation.util.CheckInfoGetter;
 import presentation.util.Checker;
@@ -398,23 +396,24 @@ public class PrimeInfoCityDialog extends JDialog{
 				 
 			}
 			JButton cancelButton = new JButton("取消");
-			cancelButton.setBounds(10, 250, 80, 20);		
+			cancelButton.setBounds(60, 220, 80, 20);		
 			JTable cityTabel = new JTable(data,citySrt);
 			JScrollPane cityScrollpane = new JScrollPane(cityTabel);
-			cityScrollpane.setBounds(0, 0, 200, 200);
+			cityScrollpane.setBounds(0, 0, 230, 200);
 			cancelButton.addActionListener(new ActionListener() {
 				
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
 					mainPanel.removeAll();
-					 mainPanel.add(new InputCityPanel());
-					 mainPanel.repaint();
+					PrimeInfoCityDialog.this.setSize(400, 250);
+					mainPanel.add(new InputCityPanel());
+					mainPanel.repaint();
 				}
 			});
 
 			JButton sureButton = new JButton("确定");
-			sureButton.setBounds(100, 250, 80, 20);
+			sureButton.setBounds(150, 220, 80, 20);
 			sureButton.addActionListener(new ActionListener() {
 				
 			 
@@ -442,7 +441,7 @@ public class PrimeInfoCityDialog extends JDialog{
 			
 			
 			
-			
+			PrimeInfoCityDialog.this.setSize(250, 300);
 			
 			this.add(cityScrollpane);
 			this.add(cancelButton);

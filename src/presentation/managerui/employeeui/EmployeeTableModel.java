@@ -3,7 +3,10 @@ package presentation.managerui.employeeui;
  
 import java.util.List;
 import java.util.Vector;
+
 import javax.swing.table.DefaultTableModel;
+
+import presentation.util.PresentationUtil;
 import businesslogic.BusinessLogicService;
 import businesslogic.userbl.User;
 import businesslogicservice.EmployeeblService;
@@ -97,7 +100,7 @@ public class EmployeeTableModel extends DefaultTableModel{
         rowVector.add(vo.getOrganization());
         rowVector.add(vo.getPosition().getName());
         rowVector.add(vo.getTelephone());
-        rowVector.add(vo.getBirthday().toString());
+        rowVector.add(PresentationUtil.getDate(vo.getBirthday()));
         rowVector.add(vo.getIdentityCardNum());
         rowVector.add(vo.getSex().getName());
         rowVector.add(vo.getPay().getPayString());

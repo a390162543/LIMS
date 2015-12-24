@@ -3,6 +3,7 @@ package businesslogic.employeebl;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
+
 import po.EmployeePO;
 import systemenum.Position;
 import systemenum.Power;
@@ -13,6 +14,7 @@ import vo.PayVO;
 import vo.UserVO;
 import businesslogic.BusinessLogicService;
 import businesslogic.idbl.IdManager;
+import businesslogic.logbl.Log;
 import businesslogic.userbl.User;
 import businesslogicservice.EmployeeblService;
 import businesslogicservice.IdblService;
@@ -51,7 +53,9 @@ public class Employee implements EmployeeblService{
         UserVO uservo = new UserVO(vo.getId(), "000000", Power.valueOf(vo.getPosition().toString()));		  	  		 
 		user.creatUserPO(uservo);
 		
-		
+	
+		employeeLog("增加了员工 " + vo.getName() );
+		 
 		return true;
 	}
 
@@ -68,6 +72,8 @@ public class Employee implements EmployeeblService{
 		 
 		 //删除用户帐号信息  	  		 
 		 user.deleteUserPO(vo.getId());
+		 
+		employeeLog("删除了员工 " + vo.getName() );
 		 return true;
 	}
 
@@ -81,8 +87,12 @@ public class Employee implements EmployeeblService{
 	            e.printStackTrace();
 	        }  
 		UserVO uservo = user.find(vo.getId());
-		uservo.setPower(vo.getPosition().getPower());
-		user.modifyPower(uservo);
+		if(vo.getPosition().getPower() != uservo.getPower()){			
+			uservo.setPower(vo.getPosition().getPower());
+			user.modifyPower(uservo);
+		}
+		
+		employeeLog("修改了员工 " + vo.getName() );
 		return true;
 	}
 
@@ -129,13 +139,13 @@ public class Employee implements EmployeeblService{
 	}
 	
 
-	public List<EmployeeVO> getCourierVO(String organiztion ) {
+	public List<EmployeeVO> getCourierVO(String organization ) {
 		// TODO Auto-generated method stub
 		List<EmployeeVO> vos = new ArrayList<EmployeeVO>();
 		try {
 			
 			 
-			 List<EmployeePO> pos= employeeDataService.finds("organization", organiztion);
+			 List<EmployeePO> pos= employeeDataService.finds("organization", organization);
 			 for(EmployeePO po : pos){
 				 if(po.getPosition().equals(Position.COURIER))
 					 vos.add(po.getEmployeeVO());
@@ -155,7 +165,7 @@ public class Employee implements EmployeeblService{
 		try {
 			 
 			 if(employeeDataService.find(id) == null){
-				 System.out.println("here");
+				 
 				 return null;}
 			 else {
 				 EmployeeVO vo = employeeDataService.find(id).getEmployeeVO();
@@ -221,10 +231,35 @@ public class Employee implements EmployeeblService{
 		return id;
 	}
 	 
+	/**
+	 * 删除机构时将其机构的所有员工删除
+	 * @param organization
+	 * @return
+	 */
+	public boolean deleteEmployeePO(String organization){
+		List<EmployeePO> pos = new ArrayList<>();
+		try {
+			  pos= employeeDataService.finds("organization", organization);
+			 
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
-	 public void createEmployeeLog(){
-		 
-	 }
+		for(EmployeePO po : pos){
+			deleteEmployeePO(po.getEmployeeVO());
+		}
+		
+		return true;
+		
+	}
+ 
 	
+	 public void employeeLog(String s){
+			String operation = s;		 
+			Log log = new Log();
+			log.createLogPO(operation);
+		 	
+	 }
 
 }

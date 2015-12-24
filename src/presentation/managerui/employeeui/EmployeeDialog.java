@@ -20,6 +20,7 @@ import javax.swing.JTextField;
 import businesslogic.BusinessLogicService;
 import businesslogic.checkbl.CheckInfo;
 import businesslogic.checkbl.Name;
+import businesslogic.checkbl.employeeinfo.EmployeeBirth;
 import businesslogic.checkbl.employeeinfo.EmployeeIdCard;
 import businesslogic.checkbl.employeeinfo.Rate;
 import businesslogic.checkbl.priceinfo.Price;
@@ -86,14 +87,16 @@ public class EmployeeDialog extends JDialog{
     private Checker nameChecker;
     private Checker payChecker;
     private Checker rateChecker;
+    private Checker birthChecker;
     
     //创建员工的Dialog   
     public EmployeeDialog(EmployeeTableModel em){
 		init();		
-		
+		this.setTitle("员工信息");
 		tableModel = em;
 			
-//		setId();
+		
+		setId();
 		organizationBox.addItemListener(new ItemListener() {
 			
 			@Override
@@ -142,6 +145,7 @@ public class EmployeeDialog extends JDialog{
 
 
 		init();
+		this.setTitle("员工信息");
 		tableModel = em;
 		EmployeeVO vo = tableModel.getEmployeeVO(modelRow);
 		
@@ -232,6 +236,7 @@ public class EmployeeDialog extends JDialog{
 					  if(isCorrect){
 						  if(idField.getText().equals(vo.getId())){
 							  update(false,modelRow);
+							  ScreenMessage.putOnScreen(ScreenMessage.SAVE_SUCCESS);
 							  EmployeeDialog.this.dispose();
 						  }
 						  else{
@@ -303,7 +308,7 @@ public class EmployeeDialog extends JDialog{
 		birthLabel = new JLabel("出生日期");
 		datePickPanel = new DatePickPanel();
 		payLabel = new JLabel("工资");
-		basePayLabel = new JLabel();
+		basePayLabel = new JLabel("月薪");
 		basePayField = new JTextField();	
 		unitLabel = new JLabel();
 		percentageLabel1 = new JLabel("提成率"); 
@@ -341,7 +346,7 @@ public class EmployeeDialog extends JDialog{
 		idCardLabel.setBounds(0, 245, 100, 20);	 
 		idCardField.setBounds(100, 245, 180, 20);	 
 		birthLabel.setBounds(0, 275, 100, 20);		 
-		datePickPanel.setBounds(95, 275, 200, 25);
+		datePickPanel.setBounds(95, 275, 180, 25);
 		payLabel.setBounds(0, 310, 100, 20);	 
 		basePayLabel.setBounds(95, 310, 70, 24);	 
 		basePayField.setBounds(175, 310, 60, 20);	 
@@ -450,7 +455,7 @@ public class EmployeeDialog extends JDialog{
 		
 		this.add(sureButton);
 		this.add(cancleButton);
-		
+		this.setResizable(false);
 		
 		this.setLayout(new DialogLayoutManager());
 	 
@@ -624,6 +629,24 @@ public class EmployeeDialog extends JDialog{
 				
 			}
 		});
+		
+		birthChecker = new Checker(datePickPanel,new CheckInfoGetter() {
+			
+			@Override
+			public CheckInfo getCheckInfo() {
+				// TODO Auto-generated method stub
+				return new EmployeeBirth(datePickPanel.getDate());
+			}
+		});
+	     
+        datePickPanel.addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                birthChecker.check();
+            }
+        });
+		
 	}
 	
 	//将界面数据更新到数据区

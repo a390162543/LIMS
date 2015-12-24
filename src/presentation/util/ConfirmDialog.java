@@ -20,12 +20,12 @@ public class ConfirmDialog extends JDialog{
 	
 	private ConfirmDialog(JButton button, ActionListener actionListener){
 		
-		JLabel infoLabel = new JLabel("你确认删除选中的项目吗？");
-		infoLabel.setBounds(80, 20, 160, 40);
+		JLabel infoLabel = new JLabel("你确认删除选中的项目吗？", JLabel.CENTER);
+		infoLabel.setBounds(0, 20, 250, 40);
 		JButton cancleButton = new JButton("取消");
-		cancleButton.setBounds(120, 70, 70, 30);
+		cancleButton.setBounds(90, 75, 60, 25);
 		JButton confirmButton = new JButton("确定");
-		confirmButton.setBounds(200, 70, 70, 30);
+		confirmButton.setBounds(160, 75, 60, 25);
 		
 
 		
@@ -58,7 +58,7 @@ public class ConfirmDialog extends JDialog{
 		this.add(cancleButton);
 		this.add(confirmButton);
 		this.setLayout(null);
-		this.setSize(300, 150);
+		this.setSize(250, 150);
 		ConfirmDialog.this.setVisible(true);
 		this.setModalityType(ModalityType.APPLICATION_MODAL);
 		this.setLocationRelativeTo(MainFrame.getMainFrame());

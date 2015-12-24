@@ -10,9 +10,12 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JToggleButton;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
+import presentation.util.PresentationUtil;
 import presentation.util.ScreenMessage;
 
 /**
@@ -49,13 +52,23 @@ public class TransferPendingPanel extends JPanel {
 		transferPendingTable.setRowSorter(tableSorter);
 
 		transferPendingScrollPane = new JScrollPane(transferPendingTable);
-		transferPendingScrollPane.setBounds(0, 0, 560, 370);
+		transferPendingScrollPane.setBounds(0, 0, 650, 390);
 
 		toggleButton = new JToggleButton("批量审批");
 		approveButton = new JButton("审批");
 		modifyButton = new JButton("修改");
 		queryButton = new JButton("详情");
-
+		
+        tableModel.addTableModelListener(new TableModelListener() {
+			
+			@Override
+			public void tableChanged(TableModelEvent e) {
+				// TODO Auto-generated method stub
+				PresentationUtil.fitTableColumns(transferPendingTable);
+			}
+		});
+        
+		PresentationUtil.fitTableColumns(transferPendingTable);
 		
 		toggleButton.addActionListener(new ActionListener() {          
             @Override
@@ -120,15 +133,18 @@ public class TransferPendingPanel extends JPanel {
 
 			}
 		});
-		approveButton.setBounds(315, 390, 70, 30);
-		modifyButton.setBounds(400, 390, 70, 30);
-		queryButton.setBounds(485, 390, 70, 30);
+		
+		toggleButton.setBounds(235+90, 400, 70, 30);
+		approveButton.setBounds(315+90, 400, 70, 30);
+		modifyButton.setBounds(400+90, 400, 70, 30);
+		queryButton.setBounds(485+90, 400, 70, 30);
 		// set panel
-		this.setBounds(0, 0, 560, 470);
-		this.setLayout(null);
+		this.setBounds(0, 0, 650, 470);		
 		this.add(transferPendingScrollPane);
+		this.add(toggleButton);
 		this.add(approveButton);
 		this.add(modifyButton);
 		this.add(queryButton);
+		this.setLayout(null);
 	}
 }

@@ -10,10 +10,13 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
 import presentation.util.ConfirmDialog;
+import presentation.util.PresentationUtil;
 import presentation.util.ScreenMessage;
 import vo.EmployeeVO;
 import businesslogicservice.PrimeInfoblService;
@@ -36,11 +39,23 @@ public class PrimeInfoEmployeePanel extends JPanel{
 		 	tableModel = new PrimeInfoEmployeeTableModel(vos);  
 	        tableSorter = new TableRowSorter<TableModel>(tableModel);
 	        employeeTable = new JTable(tableModel);
-	        employeeTable.setSize(800, 500);
+	        employeeTable.setSize(650,390);
 	        employeeTable.setRowSorter(tableSorter);        
 	        //set scroll pane
 	        employeeScrollPane = new JScrollPane(employeeTable);
-	        employeeScrollPane.setBounds(0, 10, 560, 370);
+	        employeeScrollPane.setBounds(0, 40, 650, 390);
+	        
+	        
+	        tableModel.addTableModelListener(new TableModelListener() {
+				
+				@Override
+				public void tableChanged(TableModelEvent e) {
+					// TODO Auto-generated method stub
+				       PresentationUtil.fitTableColumns(employeeTable);
+				}
+			});
+	        
+	        PresentationUtil.fitTableColumns(employeeTable);
 	        
 	       JButton  queryButton = new JButton("ÏêÇé");
 	        queryButton.addActionListener(new ActionListener() {
@@ -57,9 +72,9 @@ public class PrimeInfoEmployeePanel extends JPanel{
 	            }
 	        });
 	  
-	        queryButton.setBounds(485, 390, 70, 30);
+	        queryButton.setBounds(485+90, 400, 70, 30);
 	        //set panel
-	        this.setBounds(0, 15, 560, 370);
+	        this.setBounds(0, 15, 650, 470);
 	        this.setLayout(null);
 	        this.add(employeeScrollPane);
 	        this.add(queryButton);
@@ -69,13 +84,15 @@ public class PrimeInfoEmployeePanel extends JPanel{
 		primeInfoblService = pibs;	 
 		tableModel = new PrimeInfoEmployeeTableModel(primeInfoblService);
 	    employeeTable = new JTable(tableModel);
-	    employeeTable.setSize(800, 500);
+	    employeeTable.setSize(650, 390);
 	    employeeTable.setRowSorter(tableSorter);        
 	     //set scroll pane
 	    employeeScrollPane = new JScrollPane(employeeTable);
-	    employeeScrollPane.setBounds(0, 10, 560, 370);
+	    employeeScrollPane.setBounds(0, 40, 650, 390);
 	
-	        
+        PresentationUtil.fitTableColumns(employeeTable);
+        
+        
 	       JButton createButton = new JButton("Ìí¼Ó");
 	       JButton deleteButton = new JButton("É¾³ý");
 	       JButton modifyButton = new JButton("ÐÞ¸Ä");
@@ -160,13 +177,14 @@ public class PrimeInfoEmployeePanel extends JPanel{
 				}
 			});
 	       
-	        createButton.setBounds(60, 390, 70, 30);
-	        deleteButton.setBounds(145, 390, 70, 30);
-	        modifyButton.setBounds(230, 390, 70, 30);
-	        queryButton.setBounds(315, 390, 70, 30);          
-	        confirmButton.setBounds(425, 390, 130, 30);
+	        createButton.setBounds(60+90, 400, 70, 30);
+	        deleteButton.setBounds(145+90, 400, 70, 30);
+	        modifyButton.setBounds(230+90, 400, 70, 30);
+	        queryButton.setBounds(315+90, 400, 70, 30);          
+	        confirmButton.setBounds(425+90, 400, 130, 30);
+
 	        //set panel
-	        this.setBounds(0, 15, 560, 370);
+	        this.setBounds(0, 15, 650, 470);
 	        this.setLayout(null);
 	        this.add(employeeScrollPane);     
 	        this.add(createButton);

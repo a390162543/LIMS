@@ -90,7 +90,7 @@ public class InitPasswordDialog extends JDialog{
 		this.add(sureButton);
 		this.add(canceldButton);
 		this.setBounds(400, 300, 380, 150);
-
+		this.setResizable(false);
 		
 		//Ìí¼Ó¼ì²éÏî
 		idChecker = new Checker(idField,new CheckInfoGetter() {

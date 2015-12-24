@@ -286,7 +286,7 @@ public class TransferDialog extends JDialog{
 		this.add(sureButton);
 		this.add(cancleButton);	
 		this.setLayout(new DialogLayoutManager());
-		
+		this.setResizable(false);
 		
 		
 		this.setVisible(true);
@@ -396,6 +396,8 @@ public class TransferDialog extends JDialog{
 			}
 		});
 		
+		
+		
 		//界面置顶
 		this.setModalityType(ModalityType.APPLICATION_MODAL);
 		
@@ -476,6 +478,7 @@ public class TransferDialog extends JDialog{
 			this.add(confirmButton);
 			this.setLayout(null);
 			this.setBounds(400, 250, 380, 140);
+			this.setResizable(false);
 			this.setVisible(true);	
 			
 			//添加订单检查

@@ -3,16 +3,19 @@ package presentation.systemmanagerui;
  
 
 import java.awt.event.ActionEvent;
+
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
-import javax.swing.JTextField;
-
-import presentation.mainui.MainFrame;
+import javax.swing.JPasswordField;
 import presentation.util.CheckInfoGetter;
 import presentation.util.Checker;
+import presentation.util.DialogLayoutManager;
+import presentation.util.ScreenMessage;
 import businesslogic.BusinessLogicService;
 import businesslogic.checkbl.CheckInfo;
 import businesslogic.checkbl.userinfo.ConfirmPassword;
@@ -37,20 +40,21 @@ public class ModifyPasswordDialog extends JDialog{
 		// TODO Auto-generated constructor stub
 		userblService = BusinessLogicService.getUserblService();
 		JLabel[] labels = new JLabel[3];
-		JTextField[] fields = new JTextField[3];
+		JPasswordField[] fields = new JPasswordField[3];
 		String[] strs  = {"原密码", "新密码", "确认新密码"};
 		
 		for(int i = 0; i < 3; i ++){
 			labels[i] = new JLabel();
-			fields[i] = new JTextField();
+			fields[i] = new JPasswordField();
 			labels[i].setBounds(20, 40 * (i+1), 70, 25);
 			labels[i].setText(strs[i]);
 			fields[i].setBounds(120, 40 * (i+1), 150, 25);
+			fields[i].setEchoChar('*');
 			this.add(labels[i]);
 			this.add(fields[i]);
 		}
 		JButton cancelButton = new JButton("取消");
-		cancelButton.setBounds(100, 180, 80, 20);
+		cancelButton.setBounds(100, 190, 60, 20);
 		cancelButton.addActionListener(new ActionListener() {
 			
 			@Override
@@ -61,16 +65,19 @@ public class ModifyPasswordDialog extends JDialog{
 		});
 		
 		JButton confirmButton = new JButton("确认");
-		confirmButton.setBounds(200, 180, 80, 20);
+		confirmButton.setBounds(180, 190, 60, 20);
 		confirmButton.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				boolean isCorrect = passwordCheck.check() && newPasswordCheck.check()
-									&& confirmPassword.check();
+				boolean isCorrect = passwordCheck.check() & newPasswordCheck.check()
+									& confirmPassword.check();
 				if(isCorrect){
-					userblService.modifyPassword(LoginController.getEmployeeId(), fields[1].getText());
+					userblService.modifyPassword(LoginController.getEmployeeId(),
+							new String(fields[1].getPassword()));
+					ModifyPasswordDialog.this.dispose();
+					ScreenMessage.putOnScreen(ScreenMessage.SAVE_SUCCESS);
 				}
 			}
 		});
@@ -84,9 +91,30 @@ public class ModifyPasswordDialog extends JDialog{
 				if(fields[0] == null){
 					return null;
 				}
-				return new UserPassword(fields[0].getText(), LoginController.getEmployeeId());
+				return new UserPassword(new String(fields[0].getPassword()), LoginController.getEmployeeId());
 			}
 		});
+		fields[0].addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				passwordCheck.check();
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
 		
 		newPasswordCheck = new Checker(fields[1],new  CheckInfoGetter() {
 			
@@ -96,7 +124,28 @@ public class ModifyPasswordDialog extends JDialog{
 				if(fields[1] == null){
 					return null;
 				}
-				return new NewPassword(fields[1].getText());
+				return new NewPassword(new String(fields[1].getPassword()));
+			}
+		});
+		
+		fields[1].addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				newPasswordCheck.check();
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
 			}
 		});
 		
@@ -108,19 +157,46 @@ public class ModifyPasswordDialog extends JDialog{
 				if(fields[2] == null){
 					return null;
 				}
-				return new ConfirmPassword(fields[1].getText(), fields[2].getText());
+				return new ConfirmPassword(new String(fields[1].getPassword()), 
+						new String(fields[2].getPassword()));
 			}
 		});
 		
-		this.setModalityType(ModalityType.APPLICATION_MODAL);
-		this.setLocationRelativeTo(MainFrame.getMainFrame());
-		this.add(cancelButton);
+		fields[2].addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				confirmPassword.check();
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
+		
+		for(int i = 0; i < 3; i ++){
+			this.add(labels[i]);
+			this.add(fields[i]);
+		}
 		this.add(confirmButton);
-		this.setLayout(null);
+		this.add(cancelButton);
+		this.setModalityType(ModalityType.APPLICATION_MODAL);
+//		this.setLocationRelativeTo(MainFrame.getMainFrame());
+		this.setLayout(new DialogLayoutManager());
 		this.setBounds(100, 200, 350, 270);
 		this.setVisible(true);
 		this.setTitle("修改密码");
-		
+		this.setResizable(false);
 	}
 
 }

@@ -27,7 +27,7 @@ public class OrganizationComboBox extends JComboBox<String>{
 		ComboBoxModel<String> comboBoxModel = new DefaultComboBoxModel<String>(organizationStr);
 		this.removeItem("×Ü²¿");
 		this.setModel(comboBoxModel);
-		this.setSize(180, 20);
+		this.setSize(180, 25);
 	}
 	
 	public OrganizationComboBox(String s){
@@ -43,7 +43,7 @@ public class OrganizationComboBox extends JComboBox<String>{
 		String[] organizationStr = list.toArray(new String[list.size()]);
 		ComboBoxModel<String> comboBoxModel = new DefaultComboBoxModel<String>(organizationStr);
 		this.setModel(comboBoxModel);
-		this.setSize(180, 20);
+		this.setSize(180, 25);
 	}
 	
 	public OrganizationComboBox(boolean s){
@@ -52,7 +52,7 @@ public class OrganizationComboBox extends JComboBox<String>{
 		String[] organizationStr = nameList.toArray(new String[nameList.size()]);
 		ComboBoxModel<String> comboBoxModel = new DefaultComboBoxModel<String>(organizationStr);
 		this.setModel(comboBoxModel);
-		this.setSize(180, 20);
+		this.setSize(180, 25);
 	}
 	public String getSelectedOrganization(){
 	    return (String)getSelectedItem();

@@ -108,6 +108,7 @@ public class PriceDialog extends JDialog{
 		this.add(temp);		 				
 		this.add(sureButton);
 		this.add(cancelButton);
+		this.setResizable(false);
 		
 		//Ìí¼Ó¼ì²éÏî
 		constantChecker = new Checker(temp,new  CheckInfoGetter() {

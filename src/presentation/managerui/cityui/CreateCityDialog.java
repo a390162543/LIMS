@@ -60,6 +60,7 @@ public class CreateCityDialog extends JDialog{
 		 this.setLocationRelativeTo(MainFrame.getMainFrame());
 		 this.add(mainPanel);
 		 this.setBounds(400, 200, 400, 250);
+		 this.setResizable(false);
 		 this.setLayout(null);
 		 this.setVisible(true);
 	}
@@ -249,29 +250,31 @@ public class CreateCityDialog extends JDialog{
 				 
 			}
 			JButton cancelButton = new JButton("取消");
-			cancelButton.setBounds(10, 250, 80, 20);		
+			cancelButton.setBounds(60, 220, 80, 20);		
 			JTable cityTabel = new JTable(data,citySrt);
 			JScrollPane cityScrollpane = new JScrollPane(cityTabel);
-			cityScrollpane.setBounds(0, 0, 200, 200);
+			cityScrollpane.setBounds(0, 0, 230, 200);
 			cancelButton.addActionListener(new ActionListener() {
 				
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
 					mainPanel.removeAll();
+					CreateCityDialog.this.setSize(400, 250);
 					 mainPanel.add(new InputCityPanel());
 					 mainPanel.repaint();
 				}
 			});
 
 			JButton sureButton = new JButton("确定");
-			sureButton.setBounds(100, 250, 80, 20);
+			sureButton.setBounds(150, 220, 80, 20);
 			sureButton.addActionListener(new ActionListener() {
 				
 			 
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
+					//cityTabel.updateUI();
 					Map<String, Double> distance = new HashMap<String, Double>();
 					List<CityVO> vos = cityblService.getAll();
 					for(int i = 0; i < cityName.length; i++){
@@ -293,7 +296,7 @@ public class CreateCityDialog extends JDialog{
 			
 			
 			
-			
+			CreateCityDialog.this.setSize(250, 300);
 			
 			this.add(cityScrollpane);
 			this.add(cancelButton);

@@ -23,8 +23,13 @@ public class PersonInfoPanel extends JPanel{
 		String position = LoginController.getPosition().getName();
 		String name = LoginController.getEmployeeName();
 		JLabel infoLabel = new JLabel();
-		infoLabel.setBounds(400, 0, 180, 20);
+		
+		infoLabel.setBounds(400  - 20 * position.length(), 0, 180 + 20 * position.length(), 20);
+		
+		
+		
 		infoLabel.setText(name+"("+"ID: "+id+")"+"   "+position);
+		
 		infoLabel.setHorizontalAlignment(JLabel.RIGHT);
 		JLabel modifyPasswordLabel = new JLabel("ÐÞ¸ÄÃÜÂë");
 		modifyPasswordLabel.setBounds(630, 0, 50, 20);

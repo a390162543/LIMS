@@ -4,9 +4,9 @@ package presentation.mainui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -14,13 +14,13 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JRootPane;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 import presentation.businesshallui.BusinessHallPanel;
 import presentation.courierui.OrderUI;
 import presentation.courierui.orderqueryui.OrderInfoQueryDialog;
 import presentation.financeui.FinancePanel;
 import presentation.managerui.ManagerPanel;
 import presentation.storageui.StorageUI;
- 
 import presentation.systemmanagerui.SystemManagerPanel;
 import presentation.transitcenterui.TransitcenterPanel;
 import businesslogic.userbl.LoginController;
@@ -49,7 +49,7 @@ public class LoginFrame extends JFrame{
 		this.setUndecorated(true);
  
 		this.getRootPane().setWindowDecorationStyle(JRootPane.NONE);
-
+		this.setLocationRelativeTo(null);
 		this.setLayout(null);
 		this.setVisible(true);
 		
@@ -84,15 +84,21 @@ public class LoginFrame extends JFrame{
 			JButton loginButton = new JButton("登录");
 			loginButton.setBounds(250, 240 - 20, 90, 30);
 			
-			
-			loginButton.addActionListener(new ActionListener() {		
-			 
+			ActionListener a = 	new ActionListener() {		
+				 
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
 					log();
 				}
-			});
+			};
+			loginButton.addActionListener(a);
+			
+			//回车登录
+			this.registerKeyboardAction(a, 
+				    KeyStroke.getKeyStroke(KeyEvent.VK_ENTER,0),JComponent.WHEN_IN_FOCUSED_WINDOW);
+			
+			
 			
 			JButton queryOrderButton = new JButton("订单查询");
 			queryOrderButton.setBounds(10,240 , 90, 30);
@@ -106,31 +112,9 @@ public class LoginFrame extends JFrame{
 				}
 			});
 			
-			this.addKeyListener(new KeyListener() {
-				
-				@Override
-				public void keyTyped(KeyEvent e) {
-					// TODO Auto-generated method stub
-					
-				}
-				
-				@Override
-				public void keyReleased(KeyEvent e) {
-					// TODO Auto-generated method stub
-					
-				}
-				
-				@Override
-				public void keyPressed(KeyEvent e) {
-					// TODO Auto-generated method stub
-					System.out.println(e.getKeyCode());
-					if(e.getKeyCode() == KeyEvent.VK_ENTER){
-						
-						log();
-					}
-				}
-			});
 			
+			
+			 
 		 
 			this.add(idField);
 			this.add(warnLabel);
@@ -148,7 +132,7 @@ public class LoginFrame extends JFrame{
 		void log(){
 
 			if(idField.getText().equals("") || passwordField.getPassword().toString().equals("")){
-				warnLabel.setText("请输入用户名和密码");
+				 
 				return;
 			}
 			String id = idField.getText();
@@ -170,6 +154,7 @@ public class LoginFrame extends JFrame{
 					 MainFrame.getMainFrame().repaint();
 					break;
 				case DRIVER:
+					new ErrorDialog();
 					break;
 				case FINANCIALSTAFF: 				 
 					 MainFrame.getMainFrame().getContentPane().add( new FinancePanel());					
@@ -239,6 +224,7 @@ public class LoginFrame extends JFrame{
 			this.setLocationRelativeTo(LoginFrame.this);
 			this.setVisible(true);
 		}
+		
 		
 	}
 

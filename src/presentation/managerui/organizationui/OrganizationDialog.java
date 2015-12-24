@@ -242,6 +242,7 @@ public class OrganizationDialog extends JDialog{
 		this.add(cityBox);
 		this.add(sureButton);	
 		this.add(cancleButton);		
+		this.setResizable(false);
 		this.setLayout(new DialogLayoutManager());
 		
 

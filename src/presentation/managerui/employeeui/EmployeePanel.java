@@ -3,6 +3,7 @@ package presentation.managerui.employeeui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+ 
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -10,12 +11,16 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.RowFilter;
+ 
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
 import presentation.util.ConfirmDialog;
+import presentation.util.PresentationUtil;
 import presentation.util.ScreenMessage;
 
 
@@ -32,9 +37,9 @@ public class EmployeePanel extends JPanel{
      */
     private static final long serialVersionUID = -7230933721561303362L;
     
-    private JScrollPane EmployeeScrollPane;
+    private JScrollPane employeeScrollPane;
     
-    private JTable EmployeeTable;
+    private JTable employeeTable;
     private EmployeeTableModel tableModel;
     private TableRowSorter<TableModel> tableSorter;
     
@@ -45,15 +50,28 @@ public class EmployeePanel extends JPanel{
     private JButton queryButton;
     
     public EmployeePanel(){
-        //build up Employee table
+        //build up Employee table 
+    	 
         tableModel = new EmployeeTableModel();  
         tableSorter = new TableRowSorter<TableModel>(tableModel);
-        EmployeeTable = new JTable(tableModel);
-        EmployeeTable.setSize(800, 500);
-        EmployeeTable.setRowSorter(tableSorter);        
+        employeeTable = new JTable(tableModel);
+        employeeTable.setSize( 650, 390);
+        employeeTable.setRowSorter(tableSorter); 
+ 
         //set scroll pane
-        EmployeeScrollPane = new JScrollPane(EmployeeTable);
-        EmployeeScrollPane.setBounds(0, 40, 560, 370);
+        employeeScrollPane = new JScrollPane(employeeTable);
+        employeeScrollPane.setBounds(0, 40, 650, 390);
+        
+        tableModel.addTableModelListener(new TableModelListener() {
+			
+			@Override
+			public void tableChanged(TableModelEvent e) {
+				// TODO Auto-generated method stub
+			       PresentationUtil.fitTableColumns(employeeTable);
+			}
+		});
+        
+        
         //set other components on panel
         filterTextField = new JTextField();
         filterTextField.setToolTipText("ÇëÊäÈëÄ£ºý²éÕÒ×Ö¶Î");
@@ -82,7 +100,12 @@ public class EmployeePanel extends JPanel{
                 
             }
         });
-        filterTextField.setBounds(320, 0, 235, 25);
+        
+
+//        EmployeeTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF); 
+        PresentationUtil.fitTableColumns(employeeTable);
+        
+        filterTextField.setBounds(320 + 90, 0, 235, 25);
         
         createButton = new JButton("´´½¨");
         deleteButton = new JButton("É¾³ý");
@@ -101,7 +124,7 @@ public class EmployeePanel extends JPanel{
             
             @Override
             public void actionPerformed(ActionEvent e) {
-                int row = EmployeeTable.getSelectedRow();
+                int row = employeeTable.getSelectedRow();
                 if(row == -1){
                 	ScreenMessage.putOnScreen(ScreenMessage.NO_CHOOSE_IN_TABLE);             	
                 }                
@@ -109,7 +132,7 @@ public class EmployeePanel extends JPanel{
                 	ConfirmDialog.createConfirmDialog(deleteButton, new ActionListener() {					
 						@Override
 						public void actionPerformed(ActionEvent e) {						 
-							 int modelRow = EmployeeTable.convertRowIndexToModel(row);
+							 int modelRow = employeeTable.convertRowIndexToModel(row);
 							 tableModel.delete(modelRow);
 							 ScreenMessage.putOnScreen(ScreenMessage.SAVE_SUCCESS);
 						}
@@ -125,32 +148,43 @@ public class EmployeePanel extends JPanel{
             
             @Override
             public void actionPerformed(ActionEvent e) {
-                int row = EmployeeTable.getSelectedRow();
+                int row = employeeTable.getSelectedRow();
                 if(row == -1)
-                    return;
-                int modelRow = EmployeeTable.convertRowIndexToModel(row);
-                new EmployeeDialog(tableModel, modelRow, true);
+                	ScreenMessage.putOnScreen(ScreenMessage.NO_CHOOSE_IN_TABLE);
+                else{
+                	int modelRow = employeeTable.convertRowIndexToModel(row);
+                	new EmployeeDialog(tableModel, modelRow, true);
+                }
+
             }
         });
         queryButton.addActionListener(new ActionListener() {
             
             @Override
             public void actionPerformed(ActionEvent e) {
-                int row = EmployeeTable.getSelectedRow();
+                int row = employeeTable.getSelectedRow();
                 if(row == -1)
-                    return;
-                int modelRow = EmployeeTable.convertRowIndexToModel(row);
-                new EmployeeDialog(tableModel, modelRow, false);
+                	ScreenMessage.putOnScreen(ScreenMessage.NO_CHOOSE_IN_TABLE);
+                else{
+                	int modelRow = employeeTable.convertRowIndexToModel(row);
+                	new EmployeeDialog(tableModel, modelRow, false);	
+                }
+               
             }
         });
-        createButton.setBounds(230, 420, 70, 30);
-        deleteButton.setBounds(315, 420, 70, 30);
-        modifyButton.setBounds(400, 420, 70, 30);
-        queryButton.setBounds(485, 420, 70, 30);
+        
+       
+        createButton.setBounds(230 +90 , 440, 70, 30 );
+        deleteButton.setBounds(315+ 90, 440, 70, 30);
+        modifyButton.setBounds(400+ 90, 440, 70, 30);
+        queryButton.setBounds(485+ 90, 440, 70, 30);
+        
+        
+        
         //set panel
         this.setBounds(0, 0, 560, 450);
         this.setLayout(null);
-        this.add(EmployeeScrollPane);
+        this.add(employeeScrollPane);
         this.add(filterTextField);
         this.add(createButton);
         this.add(deleteButton);
@@ -159,6 +193,6 @@ public class EmployeePanel extends JPanel{
 
     }
 
-
+  
     
 }

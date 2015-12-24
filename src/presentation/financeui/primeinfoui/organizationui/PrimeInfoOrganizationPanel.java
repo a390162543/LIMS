@@ -10,10 +10,13 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
 import presentation.util.ConfirmDialog;
+import presentation.util.PresentationUtil;
 import presentation.util.ScreenMessage;
 import vo.OrganizationVO;
 import businesslogicservice.PrimeInfoblService;
@@ -26,7 +29,7 @@ public class PrimeInfoOrganizationPanel extends JPanel{
 	private static final long serialVersionUID = 5055537811206619490L;		
 	
 	private JScrollPane OrganizationScrollPane;   
-    private JTable OrganizationTable;
+    private JTable organizationTable;
     private PrimeInfoOrganizationTableModel tableModel;
     private TableRowSorter<TableModel> tableSorter;   
     private PrimeInfoblService primeInfoblService;
@@ -35,31 +38,42 @@ public class PrimeInfoOrganizationPanel extends JPanel{
     	 //build up account table
         tableModel = new PrimeInfoOrganizationTableModel(vos);  
         tableSorter = new TableRowSorter<TableModel>(tableModel);
-        OrganizationTable = new JTable(tableModel);
-        OrganizationTable.setSize(800, 500);
-        OrganizationTable.setRowSorter(tableSorter);        
+        organizationTable = new JTable(tableModel);
+        organizationTable.setSize(650, 390);
+        organizationTable.setRowSorter(tableSorter);        
         //set scroll pane
-        OrganizationScrollPane = new JScrollPane(OrganizationTable);
-        OrganizationScrollPane.setBounds(0, 10, 560, 370);
+        OrganizationScrollPane = new JScrollPane(organizationTable);
+        OrganizationScrollPane.setBounds(0, 0, 650, 390);
+        
+        tableModel.addTableModelListener(new TableModelListener() {
+			
+			@Override
+			public void tableChanged(TableModelEvent e) {
+				// TODO Auto-generated method stub
+			       PresentationUtil.fitTableColumns(organizationTable);
+			}
+		});
+        
+        PresentationUtil.fitTableColumns(organizationTable);
         
         JButton queryButton = new JButton("详情");
         queryButton.addActionListener(new ActionListener() {
             
             @Override
             public void actionPerformed(ActionEvent e) {
-                int row = OrganizationTable.getSelectedRow();
+                int row = organizationTable.getSelectedRow();
                 if(row == -1)
                 	ScreenMessage.putOnScreen(ScreenMessage.NO_CHOOSE_IN_TABLE);
                 else{
-                	int modelRow = OrganizationTable.convertRowIndexToModel(row);
+                	int modelRow = organizationTable.convertRowIndexToModel(row);
                 	new PrimeInfoOrganizationDialog(tableModel, modelRow, false);
                 }          
             }
         });
-  
-        queryButton.setBounds(485, 390, 70, 30);
+
+        queryButton.setBounds(485+90, 400, 70, 30);
         //set panel
-        this.setBounds(0, 15, 560, 370);
+        this.setBounds(0, 15, 650, 470);
         this.setLayout(null);
         this.add(OrganizationScrollPane);
         this.add(queryButton);   	
@@ -71,12 +85,14 @@ public class PrimeInfoOrganizationPanel extends JPanel{
     	primeInfoblService = pibs;
         tableModel = new  PrimeInfoOrganizationTableModel(primeInfoblService);
         tableSorter = new TableRowSorter<TableModel>(tableModel);
-        OrganizationTable = new JTable(tableModel);
-        OrganizationTable.setSize(800, 500);
-        OrganizationTable.setRowSorter(tableSorter);        
+        organizationTable = new JTable(tableModel);
+        organizationTable.setSize(650, 390);
+        organizationTable.setRowSorter(tableSorter);        
         //set scroll pane
-        OrganizationScrollPane = new JScrollPane(OrganizationTable);
-        OrganizationScrollPane.setBounds(0, 10, 560, 370);
+        OrganizationScrollPane = new JScrollPane(organizationTable);
+        OrganizationScrollPane.setBounds(0, 0, 650, 390);
+        
+        PresentationUtil.fitTableColumns(organizationTable);
         
         JButton createButton = new JButton("添加");
         JButton deleteButton = new JButton("删除");
@@ -96,7 +112,7 @@ public class PrimeInfoOrganizationPanel extends JPanel{
             
             @Override
             public void actionPerformed(ActionEvent e) {
-                int row = OrganizationTable.getSelectedRow();
+                int row = organizationTable.getSelectedRow();
                 if(row == -1){
                 	ScreenMessage.putOnScreen(ScreenMessage.NO_CHOOSE_IN_TABLE);             	
                 }                
@@ -104,7 +120,7 @@ public class PrimeInfoOrganizationPanel extends JPanel{
                 	ConfirmDialog.createConfirmDialog(deleteButton, new ActionListener() {					
 						@Override
 						public void actionPerformed(ActionEvent e) {						 
-							 int modelRow = OrganizationTable.convertRowIndexToModel(row);
+							 int modelRow = organizationTable.convertRowIndexToModel(row);
 							 tableModel.delete(modelRow);
 							 ScreenMessage.putOnScreen(ScreenMessage.SAVE_SUCCESS);
 						}
@@ -120,11 +136,11 @@ public class PrimeInfoOrganizationPanel extends JPanel{
             
             @Override
             public void actionPerformed(ActionEvent e) {
-            	 int row = OrganizationTable.getSelectedRow();
+            	 int row = organizationTable.getSelectedRow();
                  if(row == -1)
                 	 ScreenMessage.putOnScreen(ScreenMessage.NO_CHOOSE_IN_TABLE);
                  else{
-                	 int modelRow = OrganizationTable.convertRowIndexToModel(row);
+                	 int modelRow = organizationTable.convertRowIndexToModel(row);
                 	 new PrimeInfoOrganizationDialog(tableModel, modelRow, true); 
                  }
 	 
@@ -134,11 +150,11 @@ public class PrimeInfoOrganizationPanel extends JPanel{
             
             @Override
             public void actionPerformed(ActionEvent e) {
-                int row = OrganizationTable.getSelectedRow();
+                int row = organizationTable.getSelectedRow();
                 if(row == -1)
                 	ScreenMessage.putOnScreen(ScreenMessage.NO_CHOOSE_IN_TABLE);
                 else{
-                	int modelRow = OrganizationTable.convertRowIndexToModel(row);
+                	int modelRow = organizationTable.convertRowIndexToModel(row);
                 	new PrimeInfoOrganizationDialog(tableModel, modelRow, false);
                 }
   
@@ -157,11 +173,11 @@ public class PrimeInfoOrganizationPanel extends JPanel{
     		}
     	});
        
-        createButton.setBounds(60, 390, 70, 30);
-        deleteButton.setBounds(145, 390, 70, 30);
-        modifyButton.setBounds(230, 390, 70, 30);
-        queryButton.setBounds(315, 390, 70, 30);          
-        confirmButton.setBounds(425, 390, 130, 30);
+        createButton.setBounds(60+90, 400, 70, 30);
+        deleteButton.setBounds(145+90, 400, 70, 30);
+        modifyButton.setBounds(230+90, 400, 70, 30);
+        queryButton.setBounds(315+90, 400, 70, 30);          
+        confirmButton.setBounds(425+90, 400, 130, 30);
         //set panel
         //改成470高的话 jtabbedpane 就不显示选项卡了 不知为什么！！！！
         this.setBounds(0, 15, 560, 370);

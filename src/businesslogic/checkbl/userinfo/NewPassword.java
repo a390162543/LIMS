@@ -1,9 +1,10 @@
 package businesslogic.checkbl.userinfo;
 
 import systemenum.CheckResult;
+
 import businesslogic.checkbl.CheckInfo;
 import businesslogic.checkbl.CheckResultMessage;
-import businesslogic.userbl.User;
+ 
 
 public class NewPassword implements CheckInfo{
 	

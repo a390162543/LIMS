@@ -109,7 +109,7 @@ public class PowerDialog extends JDialog{
  		this.add(powerBox);
 		this.add(saveButton);
 		this.add(cancelButton);
-	 
+		this.setResizable(false);
 		
 		//Ìí¼Ó¼ì²éÏî
 				idChecker = new Checker(idField,new CheckInfoGetter() {

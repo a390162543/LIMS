@@ -4,12 +4,15 @@ package businesslogic.organizationbl;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
+
 import dataservice.DataService;
 import dataservice.OrganizationDataService; 
 import po.OrganizationPO;
 import vo.OrganizationVO;
 import businesslogic.citybl.City;
+import businesslogic.employeebl.Employee;
 import businesslogic.idbl.IdManager;
+import businesslogic.logbl.Log;
 import businesslogicservice.IdblService;
 import businesslogicservice.OrganizationblService;
 
@@ -39,7 +42,8 @@ public class Organization implements OrganizationblService{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			return true;
+		  log("新建了机构" + vo.getName());
+		  return true;
 	}
 
 	@Override
@@ -54,6 +58,12 @@ public class Organization implements OrganizationblService{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		 log("删除了机构" + vo.getName());
+		 
+		 
+		 Employee employee = new Employee();
+		 employee.deleteEmployeePO(vo.getName());
+		 
 		return true;
 	}
 
@@ -182,6 +192,11 @@ public class Organization implements OrganizationblService{
 		}
 		
 	}
-
+	
+	public void log(String s){
+		String operation = s;		 
+		Log log = new Log();
+		log.createLogPO(operation);
+	}
 	 
 }

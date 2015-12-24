@@ -35,11 +35,11 @@ public class PrimeInfoCityPanel extends JPanel{
         tableModel = new PrimeInfoCityTableModel(vos);  
         tableSorter = new TableRowSorter<TableModel>(tableModel);
         CityTable = new JTable(tableModel);
-        CityTable.setSize(800, 500);
+        CityTable.setSize(650, 390);
         CityTable.setRowSorter(tableSorter);        
         //set scroll pane
         CityScrollPane = new JScrollPane(CityTable);
-        CityScrollPane.setBounds(0, 10, 560, 370);
+        CityScrollPane.setBounds(0, 0, 650,390);
         
         JButton queryButton = new JButton("ÏêÇé");
         queryButton.addActionListener(new ActionListener() {
@@ -55,9 +55,9 @@ public class PrimeInfoCityPanel extends JPanel{
             }
         });
   
-        queryButton.setBounds(485, 390, 70, 30);
+        queryButton.setBounds(485 +90, 400, 70, 30);
         //set panel
-        this.setBounds(0, 15, 560, 370);
+        this.setBounds(0, 15, 650, 470);
         this.setLayout(null);
         this.add(CityScrollPane);
         this.add(queryButton);
@@ -69,11 +69,11 @@ public class PrimeInfoCityPanel extends JPanel{
         tableModel = new  PrimeInfoCityTableModel(primeInfoblService);
         tableSorter = new TableRowSorter<TableModel>(tableModel);
         CityTable = new JTable(tableModel);
-        CityTable.setSize(800, 500);
+        CityTable.setSize(650,390);
         CityTable.setRowSorter(tableSorter);        
         //set scroll pane
         CityScrollPane = new JScrollPane(CityTable);
-        CityScrollPane.setBounds(0, 10, 560, 370);
+        CityScrollPane.setBounds(0, 0, 650,390);
         
         JButton createButton = new JButton("Ìí¼Ó");
         JButton deleteButton = new JButton("É¾³ý");
@@ -152,13 +152,13 @@ public class PrimeInfoCityPanel extends JPanel{
     		}
     	});
        
-        createButton.setBounds(60, 390, 70, 30);
-        deleteButton.setBounds(145, 390, 70, 30);
-        modifyButton.setBounds(230, 390, 70, 30);
-        queryButton.setBounds(315, 390, 70, 30);          
-        confirmButton.setBounds(425, 390, 130, 30);
+        createButton.setBounds(60+90, 400, 70, 30);
+        deleteButton.setBounds(145+90, 400, 70, 30);
+        modifyButton.setBounds(230+90, 400, 70, 30);
+        queryButton.setBounds(315+90, 400, 70, 30);          
+        confirmButton.setBounds(425+90, 400, 130, 30);
 
-        this.setBounds(0, 15, 560, 370);
+        this.setBounds(0, 15, 650, 470);
         this.setLayout(null);
         this.add(CityScrollPane);
         this.add(createButton);

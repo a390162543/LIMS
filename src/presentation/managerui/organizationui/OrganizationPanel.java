@@ -3,7 +3,9 @@ package presentation.managerui.organizationui;
 
 
 import java.awt.event.ActionEvent;
+
 import java.awt.event.ActionListener;
+ 
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -11,12 +13,16 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.RowFilter;
+ 
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
 import presentation.util.ConfirmDialog;
+import presentation.util.PresentationUtil;
 import presentation.util.ScreenMessage;
 
 
@@ -36,7 +42,7 @@ public class OrganizationPanel extends JPanel{
 
 	private JScrollPane OrganizationScrollPane;
     
-    private JTable OrganizationTable;
+    private JTable organizationTable;
     private OrganizationTableModel tableModel;
     private TableRowSorter<TableModel> tableSorter;
     
@@ -50,13 +56,22 @@ public class OrganizationPanel extends JPanel{
         //build up Organization table
         tableModel = new OrganizationTableModel();  
         tableSorter = new TableRowSorter<TableModel>(tableModel);
-        OrganizationTable = new JTable(tableModel);
-        OrganizationTable.setSize(800, 500);
-        OrganizationTable.setRowSorter(tableSorter);   
+        organizationTable = new JTable(tableModel);
+        organizationTable.setSize(650, 500);
+        organizationTable.setRowSorter(tableSorter);   
         
         //set scroll pane
-        OrganizationScrollPane = new JScrollPane(OrganizationTable);
-        OrganizationScrollPane.setBounds(0, 40, 560, 370);
+        OrganizationScrollPane = new JScrollPane(organizationTable);
+        OrganizationScrollPane.setBounds(0, 40, 650, 390);
+        
+        tableModel.addTableModelListener(new TableModelListener() {
+			
+			@Override
+			public void tableChanged(TableModelEvent e) {
+				// TODO Auto-generated method stub
+			       PresentationUtil.fitTableColumns(organizationTable);
+			}
+		});
         
         //set other components on panel
         filterTextField = new JTextField();
@@ -86,7 +101,11 @@ public class OrganizationPanel extends JPanel{
                 
             }
         });
-        filterTextField.setBounds(320, 0, 235, 25);
+        
+        PresentationUtil.fitTableColumns(organizationTable);
+        
+        
+        filterTextField.setBounds(410, 0, 235, 25);
         
         createButton = new JButton("´´½¨");
         deleteButton = new JButton("É¾³ý");
@@ -106,7 +125,7 @@ public class OrganizationPanel extends JPanel{
             
             @Override
             public void actionPerformed(ActionEvent e) {
-                int row = OrganizationTable.getSelectedRow();
+                int row = organizationTable.getSelectedRow();
                 if(row == -1)
                    	ScreenMessage.putOnScreen(ScreenMessage.NO_CHOOSE_IN_TABLE);         
                 else{
@@ -115,7 +134,7 @@ public class OrganizationPanel extends JPanel{
 						@Override
 						public void actionPerformed(ActionEvent e) {
 							// TODO Auto-generated method stub
-							 int modelRow = OrganizationTable.convertRowIndexToModel(row);
+							 int modelRow = organizationTable.convertRowIndexToModel(row);
 							 tableModel.delete(modelRow);	
 							 ScreenMessage.putOnScreen(ScreenMessage.SAVE_SUCCESS);
 						}
@@ -130,28 +149,34 @@ public class OrganizationPanel extends JPanel{
             
             @Override
             public void actionPerformed(ActionEvent e) {
-                int row = OrganizationTable.getSelectedRow();
+                int row = organizationTable.getSelectedRow();
                 if(row == -1)
-                    return;
-                int modelRow = OrganizationTable.convertRowIndexToModel(row);
-                new OrganizationDialog(tableModel, modelRow, true);
+                	ScreenMessage.putOnScreen(ScreenMessage.NO_CHOOSE_IN_TABLE); 
+                else{
+                    int modelRow = organizationTable.convertRowIndexToModel(row);
+                    new OrganizationDialog(tableModel, modelRow, true);
+                }
+ 
             }
         });
         queryButton.addActionListener(new ActionListener() {
             
             @Override
             public void actionPerformed(ActionEvent e) {
-                int row = OrganizationTable.getSelectedRow();
+                int row = organizationTable.getSelectedRow();
                 if(row == -1)
-                    return;
-                int modelRow = OrganizationTable.convertRowIndexToModel(row);
-                new OrganizationDialog(tableModel, modelRow, false);
+                	ScreenMessage.putOnScreen(ScreenMessage.NO_CHOOSE_IN_TABLE);
+                else{
+                	int modelRow = organizationTable.convertRowIndexToModel(row);
+                	new OrganizationDialog(tableModel, modelRow, false);
+                }
+ 
             }
         });
-        createButton.setBounds(230, 420, 70, 30);
-        deleteButton.setBounds(315, 420, 70, 30);
-        modifyButton.setBounds(400, 420, 70, 30);
-        queryButton.setBounds(485, 420, 70, 30);
+        createButton.setBounds(230 + 90, 440, 70, 30);
+        deleteButton.setBounds(315+ 90, 440, 70, 30);
+        modifyButton.setBounds(400+ 90, 440, 70, 30);
+        queryButton.setBounds(485+ 90, 440, 70, 30);
         //set panel
         this.setBounds(0, 0, 560, 470);
         this.setLayout(null);
