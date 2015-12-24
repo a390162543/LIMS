@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -16,12 +17,14 @@ import presentation.util.Checker;
 import presentation.util.DialogLayoutManager;
 import systemenum.StorageState;
 import vo.StorageLocationVO;
+import businesslogic.BusinessLogicService;
 import businesslogic.checkbl.CheckInfo;
 import businesslogic.checkbl.storeininfo.AreaNum;
 import businesslogic.checkbl.storeininfo.FrameNum;
 import businesslogic.checkbl.storeininfo.Item;
+import businesslogic.checkbl.storeininfo.PrimeStoreinOrderId;
 import businesslogic.checkbl.storeininfo.RowNum;
-import businesslogic.checkbl.storeininfo.StoreinOrderId;
+import businesslogic.primeinfobl.PrimeInfo;
 import businesslogic.storeinbl.Storein;
 import businesslogic.userbl.LoginController;
 import businesslogicservice.StoreinblService;
@@ -69,6 +72,9 @@ public class PrimeInfoStoreinGoodsDialog extends JDialog {
 		this.setTitle("货物入库");	
 		this.setSize(380, 250);
 		
+		PrimeInfo primeInfo = (PrimeInfo) BusinessLogicService.getPrimeInfoblService();
+		List<String> orderId = primeInfo.getOrderId();
+		System.out.println(orderId.size());
 		
 		orderIdLabel = new JLabel("订单号");
 		orderIdLabel.setBounds(30, 60, 60, 22);
@@ -116,7 +122,7 @@ public class PrimeInfoStoreinGoodsDialog extends JDialog {
 			
 			@Override
 			public CheckInfo getCheckInfo() {
-				return new StoreinOrderId(orderIdTextField.getText());
+				return new PrimeStoreinOrderId(orderIdTextField.getText(),orderId);
 			}
 		});
         

@@ -1,5 +1,7 @@
 package businesslogic.checkbl.storeininfo;
 
+import java.util.List;
+
 import systemenum.CheckResult;
 import systemenum.StorageState;
 import vo.OrderQueryVO;
@@ -9,23 +11,17 @@ import businesslogic.checkbl.CheckResultMessage;
 import businesslogic.orderbl.Order;
 import businesslogic.userbl.LoginController;
 
-
-/**
- * 该类用于检查中转中心仓库管理人员在进行
- * 货物入库添加的订单号是否正确
- * 
- * @author lc
- * @version 1.1
- *
- */
-public class StoreinOrderId implements CheckInfo{
+public class PrimeStoreinOrderId implements CheckInfo{
 
 	private String orderId;
+	private List<String> prime;
 	
-	public StoreinOrderId(String orderId) {
+	public PrimeStoreinOrderId(String orderId, List<String> prime) {
 		this.orderId = orderId;
+		this.prime = prime;
 	}
 
+		
 	@Override
 	public CheckResultMessage check() {
 		CheckResultMessage checkResultMessage = new CheckResultMessage();
@@ -37,8 +33,14 @@ public class StoreinOrderId implements CheckInfo{
 			checkResultMessage.addInfo(CheckResult.FALSE, "订单号长度应为10位数字");
 			return checkResultMessage;
 		}
-		if (orderId.length() == 10 && orderQueryVO == null) {
+		if (orderId.length() == 10 && prime.contains(orderId)) {
 			
+			checkResultMessage.addInfo(CheckResult.CORRECT,"正确");
+			return checkResultMessage;
+		}
+		if (orderId.length() == 10 && orderQueryVO == null) {
+			System.out.println(orderId);
+			System.out.println(prime.size());
 			checkResultMessage.addInfo(CheckResult.FALSE, "该订单不存在，请确认输入");
 			return checkResultMessage;
 		}
@@ -56,7 +58,6 @@ public class StoreinOrderId implements CheckInfo{
 		}
 		return checkResultMessage;
 	}
-	
 	
 
 }

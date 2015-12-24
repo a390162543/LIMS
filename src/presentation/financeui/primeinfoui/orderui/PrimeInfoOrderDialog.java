@@ -128,7 +128,6 @@ public class PrimeInfoOrderDialog extends JDialog{
 				orderInfoTextFields[i].setBounds(120, 80 + 35 * i, 180, 25);
 			else
 				orderInfoTextFields[i].setBounds(120, 80 + 35 * i, 90, 25);
-			orderInfoTextFields[i].setEditable(false);
 			this.add(orderInfoTextFields[i]);
 		}
 		
@@ -179,7 +178,7 @@ public class PrimeInfoOrderDialog extends JDialog{
 				senderInfoTextFields[i].setBounds(90, 530 + 30 * i, 90, 25);
 			else
 				senderInfoTextFields[i].setBounds(90, 530 + 30 * i, 180, 25);
-			senderInfoTextFields[i].setEditable(false);
+			
 			this.add(senderInfoTextFields[i]);
 		}
 
@@ -193,7 +192,7 @@ public class PrimeInfoOrderDialog extends JDialog{
 				receiverInfoTextFields[i].setBounds(90, 330 + 30 * i, 90, 25);
 			else
 				receiverInfoTextFields[i].setBounds(90, 330 + 30 * i, 180, 25);
-			receiverInfoTextFields[i].setEditable(false);
+			
 			this.add(receiverInfoTextFields[i]);
 		}
 		
@@ -627,10 +626,15 @@ public class PrimeInfoOrderDialog extends JDialog{
 		orderInfoTextFields = new JTextField[6];
 		for (int i = 0; i < orderInfoTextFields.length; i++) {
 			orderInfoTextFields[i] = new JTextField();
-			if (i == 0 || i ==3)
+			orderInfoTextFields[i].setEnabled(false);
+			if (i == 0 || i ==3){
 				orderInfoTextFields[i].setBounds(120, 80 + 35 * i, 180, 25);
-			else
+				
+			}
+			else{
 				orderInfoTextFields[i].setBounds(120, 80 + 35 * i, 90, 25);
+			
+			}
 			this.add(orderInfoTextFields[i]);
 		}
 		
@@ -647,6 +651,7 @@ public class PrimeInfoOrderDialog extends JDialog{
 		senderInfoTextFields = new JTextField[4];
 		for (int i = 0; i < senderInfoTextFields.length; i++) {
 			senderInfoTextFields[i] = new JTextField();
+			senderInfoTextFields[i].setEnabled(false);
 			if (i == 0)
 				senderInfoTextFields[i].setBounds(90, 530 + 30 * i, 90, 25);
 			else
@@ -660,6 +665,7 @@ public class PrimeInfoOrderDialog extends JDialog{
 		receiverInfoTextFields = new JTextField[4];
 		for (int i = 0; i < receiverInfoTextFields.length; i++) {
 			receiverInfoTextFields[i] = new JTextField();
+			receiverInfoTextFields[i].setEnabled(false);
 			if (i == 0)
 				receiverInfoTextFields[i].setBounds(90, 330 + 30 * i, 90, 25);
 			else
