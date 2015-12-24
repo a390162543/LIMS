@@ -15,6 +15,7 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
 import presentation.util.ConfirmDialog;
+import presentation.util.ScreenMessage;
 /**
  * {@code AccountPanel}继承{@code JPanel}，是显示账户信息和对账户操作的界面层面板展示
  * @author 刘德宽
@@ -91,18 +92,28 @@ public class AccountPanel extends JPanel{
 	                
 	            }
 	        });
-	        new ConfirmDialog(deleteButton,new ActionListener() {
-	            
-	            @Override
-	            public void actionPerformed(ActionEvent e) {
-	                int row = accountTable.getSelectedRow();
-	                if(row == -1)
-	                    return; 
-	                int modelRow = accountTable.convertRowIndexToModel(row);
-	                tableModel.delete(modelRow);
-
-	            }
-	        });
+	         ActionListener actionListener = new ActionListener () {
+	             
+	             @Override
+	             public void actionPerformed(ActionEvent e) {
+	                 int row = accountTable.getSelectedRow();
+	                 if(row == -1){
+	                 	ScreenMessage.putOnScreen(ScreenMessage.NO_CHOOSE_IN_TABLE);             	
+	                 }                
+	                 else{
+	                 	ConfirmDialog.createConfirmDialog(deleteButton, new ActionListener() {					
+	 						@Override
+	 						public void actionPerformed(ActionEvent e) {						 
+	 							 int modelRow = accountTable.convertRowIndexToModel(row);
+	 							 tableModel.delete(modelRow);
+	 							 ScreenMessage.putOnScreen(ScreenMessage.SAVE_SUCCESS);
+	 						}
+	                 	  });
+	                 }
+	             }
+	         };  
+	        
+	         deleteButton.addActionListener(actionListener);
 	        modifyButton.addActionListener(new ActionListener() {
 	            
 	            @Override
@@ -125,10 +136,10 @@ public class AccountPanel extends JPanel{
 	                new AccountDialog(tableModel, modelRow, false);
 	            }
 	        });
-	        createButton.setBounds(230 + 90, 420, 70, 30);
-	        deleteButton.setBounds(315 + 90, 420, 70, 30);
-	        modifyButton.setBounds(400 + 90, 420, 70, 30);
-	        queryButton.setBounds(485 + 90 , 420, 70, 30);
+	        createButton.setBounds(230 + 90, 440, 70, 30);
+	        deleteButton.setBounds(315 + 90, 440, 70, 30);
+	        modifyButton.setBounds(400 + 90, 440, 70, 30);
+	        queryButton.setBounds(485 + 90 , 440, 70, 30);
 	        //set panel
 	        this.setBounds(0, 0, 560, 470);
 	        this.setLayout(null);

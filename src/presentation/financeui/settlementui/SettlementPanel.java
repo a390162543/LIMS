@@ -29,16 +29,17 @@ public class SettlementPanel extends JPanel{
     private TableRowSorter<TableModel> tableSorter;
 
 	public SettlementPanel(JTabbedPane tabbedPane,List<RevenueVO> vos){
-		this.setBounds(0, 0, 560, 370);
+		this.setBounds(0, 0, 650, 430);
 
     	tableModel = new RevenueTableModel(vos);  
         tableSorter = new TableRowSorter<TableModel>(tableModel);
         revenueTable = new JTable(tableModel);
-        revenueTable.setSize(930, 160);
+        revenueTable.setSize(650, 390);
         scrollPane = new JScrollPane(revenueTable);	
-		scrollPane.setBounds(0, 0, 560, 370);
+		scrollPane.setBounds(0, 40, 650, 390);
         revenueTable.setRowSorter(tableSorter);
 		PresentationUtil.fitTableColumns(revenueTable);
+		this.setLayout(null);
 		this.add(scrollPane);
 
 		tabbedPane.setComponentAt(2, this);

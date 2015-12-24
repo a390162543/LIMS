@@ -39,18 +39,18 @@ public class RevenuePanel extends JPanel{
         revenueTable = new JTable(tableModel);       
         revenueTable.setSize(650, 390);
         scrollPane = new JScrollPane(revenueTable);
-        scrollPane.setBounds(0, 0, 560, 370);
+        scrollPane.setBounds(0, 40, 650, 390);
         revenueTable.setRowSorter(tableSorter);
 		PresentationUtil.fitTableColumns(revenueTable);
 		
         JButton setAccountButton  =  new JButton("设置收款账户");
-		setAccountButton.setBounds(560-120, 370+10, 120, 30);
+		setAccountButton.setBounds(650-120, 440, 120, 30);
 		setAccountButton.addActionListener(new SetAccountButtonActionListener());
 		
 		this.setLayout(null);
 		this.add(scrollPane);
 		this.add(setAccountButton);
-		this.setBounds(0, 40,650,370+10+30);
+		this.setBounds(0, 0,650, 430);
 		this.setVisible(true);
 		
 	}

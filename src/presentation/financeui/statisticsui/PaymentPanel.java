@@ -35,13 +35,13 @@ public class PaymentPanel extends JPanel{
     	tableModel = new PaymentTableModel(vos);  
         tableSorter = new TableRowSorter<TableModel>(tableModel);
         paymentTable = new JTable(tableModel);
-        paymentTable.setSize(930, 160);
+        paymentTable.setSize(650, 160);
       
         paymentScrollPane = new JScrollPane(paymentTable);
-        paymentScrollPane.setBounds(0,0,560,160);
+        paymentScrollPane.setBounds(0,0,650,160);
         paymentTable.setRowSorter(tableSorter);
 		PresentationUtil.fitTableColumns(paymentTable);
-        this.setBounds(0, 0, 560 , 160 );
+        this.setBounds(0, 0, 650 , 160 );
         this.setLayout(null);
         this.add(paymentScrollPane);    
     }

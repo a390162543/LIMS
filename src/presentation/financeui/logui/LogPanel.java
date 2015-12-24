@@ -23,7 +23,7 @@ public class LogPanel extends JPanel{
 	private static final long serialVersionUID = -2071902369087985351L;
 
 	public LogPanel(JTabbedPane tabbedPane, List<LogVO> vos){
-		this.setBounds(0, 40, 560, 360);
+		this.setBounds(0, 0, 560, 360);
 
 		String contents="";
 		LogblService logblService = BusinessLogicService.getLogblService();
@@ -38,7 +38,7 @@ public class LogPanel extends JPanel{
 		operationArea.setWrapStyleWord(true);
 		
 		JScrollPane scrollPane = new JScrollPane(operationArea);
-		scrollPane.setBounds(0,0, 560, 360);	
+		scrollPane.setBounds(0,40, 650, 390);	
 		this.setLayout(null);
 		this.add(scrollPane);
 	

@@ -33,14 +33,14 @@ private JScrollPane revenueScrollPane;
     	tableModel = new RevenueTableModel(vos);  
         tableSorter = new TableRowSorter<TableModel>(tableModel);
         revenueTable = new JTable(tableModel);
-        revenueTable.setSize(930, 160);
+        revenueTable.setSize(650, 160);
       
         revenueScrollPane = new JScrollPane(revenueTable);
-        revenueScrollPane.setBounds(0,0,560,160);
+        revenueScrollPane.setBounds(0,0,650,160);
         revenueTable.setRowSorter(tableSorter);
 		PresentationUtil.fitTableColumns(revenueTable);
         
-        this.setBounds(0, 0, 560 , 160 );
+        this.setBounds(0, 0, 650 , 160 );
         this.setLayout(null);
         this.add(revenueScrollPane);    
     }

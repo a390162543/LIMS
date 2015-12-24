@@ -16,6 +16,7 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
 import presentation.util.ConfirmDialog;
+import presentation.util.ScreenMessage;
 import vo.AccountVO;
 import businesslogicservice.PrimeInfoblService;
 
@@ -48,11 +49,11 @@ public class PrimeInfoAccountPanel extends JPanel{
         tableModel = new PrimeInfoAccountTableModel(vos);  
         tableSorter = new TableRowSorter<TableModel>(tableModel);
         accountTable = new JTable(tableModel);
-        accountTable.setSize(800, 500);
+        accountTable.setSize(650,390);
         accountTable.setRowSorter(tableSorter);        
         //set scroll pane
         accountScrollPane = new JScrollPane(accountTable);
-        accountScrollPane.setBounds(0, 10, 560, 370);
+        accountScrollPane.setBounds(0, 0, 650,390);
         
         queryButton = new JButton("ÏêÇé");
         queryButton.addActionListener(new ActionListener() {
@@ -68,9 +69,9 @@ public class PrimeInfoAccountPanel extends JPanel{
             }
         });
   
-        queryButton.setBounds(485, 390, 70, 30);
+        queryButton.setBounds(485 +90, 400, 70, 30);
         //set panel
-        this.setBounds(0, 15, 560, 470);
+        this.setBounds(0, 15, 650, 470);
         this.setLayout(null);
         this.add(accountScrollPane);
         this.add(queryButton);
@@ -84,11 +85,11 @@ public class PrimeInfoAccountPanel extends JPanel{
             tableModel = new PrimeInfoAccountTableModel(primeInfoblService);  
             tableSorter = new TableRowSorter<TableModel>(tableModel);
             accountTable = new JTable(tableModel);
-            accountTable.setSize(800, 500);
+            accountTable.setSize(650,390);
             accountTable.setRowSorter(tableSorter);        
             //set scroll pane
             accountScrollPane = new JScrollPane(accountTable);
-            accountScrollPane.setBounds(0, 10, 560, 370);
+            accountScrollPane.setBounds(0, 0, 650,390);
             
             addButton = new JButton("Ìí¼Ó");
             deleteButton = new JButton("É¾³ý");
@@ -103,18 +104,28 @@ public class PrimeInfoAccountPanel extends JPanel{
                     
                 }
             });
-	        new ConfirmDialog(deleteButton,new ActionListener() {
-	            
-	            @Override
-	            public void actionPerformed(ActionEvent e) {
-	                int row = accountTable.getSelectedRow();
-	                if(row == -1)
-	                    return; 
-	                int modelRow = accountTable.convertRowIndexToModel(row);
-	                tableModel.delete(modelRow);
-
-	            }
-	        });
+            ActionListener actionListener = new ActionListener () {
+                
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    int row = accountTable.getSelectedRow();
+                    if(row == -1){
+                    	ScreenMessage.putOnScreen(ScreenMessage.NO_CHOOSE_IN_TABLE);             	
+                    }                
+                    else{
+                    	ConfirmDialog.createConfirmDialog(deleteButton, new ActionListener() {					
+    						@Override
+    						public void actionPerformed(ActionEvent e) {						 
+    							 int modelRow = accountTable.convertRowIndexToModel(row);
+    							 tableModel.delete(modelRow);
+    							 ScreenMessage.putOnScreen(ScreenMessage.SAVE_SUCCESS);
+    						}
+                    	  });
+                    }
+                }
+            };  
+           
+            deleteButton.addActionListener(actionListener);
             modifyButton.addActionListener(new ActionListener() {
                 
                 @Override
@@ -149,13 +160,13 @@ public class PrimeInfoAccountPanel extends JPanel{
                 	container.repaint();
                 }
             });
-            addButton.setBounds(60, 390, 70, 30);
-            deleteButton.setBounds(145, 390, 70, 30);
-            modifyButton.setBounds(230, 390, 70, 30);
-            queryButton.setBounds(315, 390, 70, 30);          
-            createButton.setBounds(425, 390, 130, 30);
+            addButton.setBounds(60 + 90 , 400, 70, 30);
+            deleteButton.setBounds(145+ 90 , 400, 70, 30);
+            modifyButton.setBounds(230+ 90 , 400, 70, 30);
+            queryButton.setBounds(315+ 90, 400, 70, 30);          
+            createButton.setBounds(425 + 90, 400, 130, 30);
             //set panel
-            this.setBounds(0, 15, 560, 470);
+            this.setBounds(0, 15, 650, 470);
             this.setLayout(null);
             this.add(accountScrollPane);
             this.add(addButton);

@@ -14,8 +14,8 @@ import javax.swing.JTextField;
 
 import presentation.util.CheckInfoGetter;
 import presentation.util.Checker;
-import presentation.util.DatePickPanel;
 import presentation.util.DialogLayoutManager;
+import presentation.util.RecentDatePickPanel;
 import presentation.util.ScreenMessage;
 import businesslogic.BusinessLogicService;
 import businesslogic.checkbl.CheckInfo;
@@ -47,7 +47,7 @@ public class PaymentDialog extends JDialog{
  	private JComboBox<String> payerAccountBox;
  	private JComboBox<String> entryBox;
  	private JTextArea remarksArea;
- 	private DatePickPanel datePickPanel;
+ 	private RecentDatePickPanel recentDatePickPanel;
  	
 	public PaymentDialog(){
 		paymentblService = BusinessLogicService.getPaymentblService();
@@ -101,8 +101,8 @@ public class PaymentDialog extends JDialog{
 		IdblService idblService = paymentblService.getIdblService();
 		paymentIdField.setText(idblService.createNewId());
 	
-		datePickPanel  = new DatePickPanel();
-		datePickPanel.setLocation(textFieldx,textFieldy+(interval2+textFieldHeight)*1);
+		recentDatePickPanel  = new RecentDatePickPanel();
+		recentDatePickPanel.setLocation(textFieldx,textFieldy+(interval2+textFieldHeight)*1);
 		
 		moneyField=new JTextField();
 		moneyField.setSize(shortWidth,textFieldHeight);
@@ -137,7 +137,7 @@ public class PaymentDialog extends JDialog{
 		this.add(remarksLabel);
 		
 		this.add(paymentIdField);
-		this.add(datePickPanel);
+		this.add(recentDatePickPanel);
 		this.add(moneyField);
 		this.add(nameField);
 		this.add(payeeAccountField);
@@ -238,10 +238,10 @@ public class PaymentDialog extends JDialog{
 
  			@Override
  			public void actionPerformed(ActionEvent arg0) {			
- 				if(payeeNameChecker.check()&&payeeAccountIdChecker.check()&&remarksChecker.check()&&datePickPanel.check()){
+ 				if(payeeNameChecker.check()&&payeeAccountIdChecker.check()&&remarksChecker.check()){
  					double money = Double.parseDouble(moneyField.getText());
  					new java.text.DecimalFormat("#.00").format(money);
- 					PaymentVO vo = new PaymentVO( paymentIdField.getText(), datePickPanel.getDate() , money ,nameField.getText() , payeeAccountField.getText(), payerAccountBox.getSelectedItem().toString() , 	Entry.values()[entryBox.getSelectedIndex()] , remarksArea.getText());
+ 					PaymentVO vo = new PaymentVO( paymentIdField.getText(), recentDatePickPanel.getDate() , money ,nameField.getText() , payeeAccountField.getText(), payerAccountBox.getSelectedItem().toString() , 	Entry.values()[entryBox.getSelectedIndex()] , remarksArea.getText());
  					paymentblService.createPaymentPO(vo);
  					PaymentDialog.this.dispose();
  					ScreenMessage.putOnScreen(ScreenMessage.SAVE_SUCCESS);

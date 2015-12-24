@@ -30,18 +30,18 @@ public class StatisticsPanel extends JPanel{
 	private static final long serialVersionUID = -8910285590324569708L;
 
 	public StatisticsPanel(JTabbedPane tabbedPane, JPanel paymentPanel ,JPanel revenuePanel){
-		this.setBounds(0, 0, 560, 430);
+		this.setBounds(0, 0, 650, 430);
 		
 		int labelWidth = 65;
 		int labelHeight = 20;
 		int interval=10;
-		int scrollPaneWidth = 560;
+		int scrollPaneWidth = 650;
 		int scrollPaneHeight = 160;
 		JLabel revenueLabel = new JLabel("收款单：");
 		revenueLabel.setBounds(0,20,labelWidth,labelHeight);
 		revenuePanel.setLocation(0,20+labelHeight);
 		JButton excelButton = new JButton("生成到Excel");
-		excelButton.setBounds(418, 10, 140, 30);
+		excelButton.setBounds(418 + 90, 10, 140, 30);
 		excelButton.addActionListener(new ActionListener(){
 
 			@Override
@@ -61,16 +61,16 @@ public class StatisticsPanel extends JPanel{
 		JLabel incomeLabel = new JLabel("总收入：");
 		incomeLabel.setBounds(0,20+labelHeight+scrollPaneHeight+interval+labelHeight+scrollPaneHeight+20,labelWidth,labelHeight);	
 		JLabel incomeLabel2 = new JLabel( String.format("%.2f", ((RevenuePanel)revenuePanel).getTotalIncome()));
-		incomeLabel2.setBounds(labelWidth,20+labelHeight+scrollPaneHeight+interval+labelHeight+scrollPaneHeight+20,labelWidth*2,labelHeight);
+		incomeLabel2.setBounds(labelWidth ,20+labelHeight+scrollPaneHeight+interval+labelHeight+scrollPaneHeight+20,labelWidth*2,labelHeight);
 		JLabel expenditureLabel = new JLabel("总支出：");
-		expenditureLabel.setBounds(scrollPaneWidth/3+15,20+labelHeight+scrollPaneHeight+interval+labelHeight+scrollPaneHeight+20,labelWidth,labelHeight);	
+		expenditureLabel.setBounds(scrollPaneWidth/3+45,20+labelHeight+scrollPaneHeight+interval+labelHeight+scrollPaneHeight+20,labelWidth,labelHeight);	
 		JLabel expenditureLabel2 = new JLabel( String.format("%.2f", ((PaymentPanel)paymentPanel).getTotalExpenditure()));
-		expenditureLabel2.setBounds(scrollPaneWidth/3+15+labelWidth,20+labelHeight+scrollPaneHeight+interval+labelHeight+scrollPaneHeight+20,labelWidth*2,labelHeight);
+		expenditureLabel2.setBounds(scrollPaneWidth/3+45+labelWidth,20+labelHeight+scrollPaneHeight+interval+labelHeight+scrollPaneHeight+20,labelWidth*2,labelHeight);
 		
 		JLabel profitLabel = new JLabel("总利润：");
-		profitLabel.setBounds((scrollPaneWidth/3)*2+30,20+labelHeight+scrollPaneHeight+interval+labelHeight+scrollPaneHeight+20,labelWidth,labelHeight);	
+		profitLabel.setBounds((scrollPaneWidth/3)*2+90,20+labelHeight+scrollPaneHeight+interval+labelHeight+scrollPaneHeight+20,labelWidth,labelHeight);	
 		JLabel profitLabel2 = new JLabel( String.format("%.2f", ((RevenuePanel)revenuePanel).getTotalIncome()-((PaymentPanel)paymentPanel).getTotalExpenditure()));
-		profitLabel2.setBounds((scrollPaneWidth/3)*2+labelWidth+30,20+labelHeight+scrollPaneHeight+interval+labelHeight+scrollPaneHeight+20,labelWidth*2,labelHeight);
+		profitLabel2.setBounds((scrollPaneWidth/3)*2+labelWidth+90,20+labelHeight+scrollPaneHeight+interval+labelHeight+scrollPaneHeight+20,labelWidth*2,labelHeight);
 
 
 		

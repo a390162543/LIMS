@@ -49,11 +49,11 @@ public class PrimeInfoPanel extends JPanel{
 		pane.addTab("∂©µ•", primeInfoOrderPanel);
 		pane.addTab("’Àªß", primeInfoAccountPanel );
 	
-		pane.setBounds(0, 0, 560, 500);
+		pane.setBounds(0, 0, 650, 500);
 		
 		this.setLayout(null);
 		this.add(pane);
-		this.setBounds(0, 0, 560, 540);
+		this.setBounds(0, 0, 650, 540);
 		
 		tabbedPane.setComponentAt(6, this);
 		

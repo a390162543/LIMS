@@ -30,7 +30,7 @@ public class SettlementDialog extends JDialog{
 	
 	private DatePickPanel datePickPanel;
 	private OrganizationComboBox businessHallBox;
-	
+	 
 	public SettlementDialog(JTabbedPane tabbedPane){
 		this.tabbedPane = tabbedPane;
 		int dialogx = 380;

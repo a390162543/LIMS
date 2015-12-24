@@ -201,4 +201,10 @@ public interface PrimeInfoblService {
      * @return {@code String}列表，如果没有城市名称信息或获取失败，则返回空列表
      */
 	public List<String> getCityName() ;
+	
+	/**
+     * 通过名称获取城市编号信息
+     * @return {@code String}列表，如果没有城市编号信息或获取失败，则返回空列表
+     */
+	public String getCityId(String name) ;
 }

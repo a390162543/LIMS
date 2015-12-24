@@ -7,6 +7,7 @@ import javax.swing.event.ChangeListener;
 
 import presentation.financeui.accountui.AccountPanel;
 import presentation.financeui.logui.LogDialog;
+import presentation.financeui.paymentui.PaymentDialog;
 import presentation.financeui.primeinfoui.PrimeInfoDialog;
 import presentation.financeui.settlementui.RevenuePanel;
 import presentation.financeui.settlementui.SettlementDialog;
@@ -39,10 +40,19 @@ public class FinancePanel extends JPanel {
 	            
 	            @Override
 	            public void stateChanged(ChangeEvent e) {
+	            	tabbedPane.setTabComponentAt(1, null);
+	            	tabbedPane.setTabComponentAt(2, null);
+	            	tabbedPane.setTabComponentAt(4, null);
+	            	tabbedPane.setTabComponentAt(5, null);
+	            	tabbedPane.setTabComponentAt(6, null);
+	            	tabbedPane.repaint();
 	                int index = tabbedPane.getSelectedIndex();
 	                if(index==1)
 	                    tabbedPane.setSelectedIndex(-1);
 	                switch (index) {
+	                case 1:
+	                	new PaymentDialog();
+	                	break;
 	                case 2:
 	                    new SettlementDialog(tabbedPane);
 	                    break;
