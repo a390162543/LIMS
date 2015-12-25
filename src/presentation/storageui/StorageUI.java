@@ -3,6 +3,7 @@ package presentation.storageui;
 import java.util.List;
 
 
+
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
@@ -14,6 +15,7 @@ import presentation.storageui.storagequeryui.StorageQueryPanel;
 import presentation.storageui.storeinui.StoreinDialogUI;
 import presentation.storageui.storeoutui.StoreoutDialogUI;
 import businesslogic.BusinessLogicService;
+import businesslogic.userbl.LoginController;
 import businesslogicservice.StorageblService;
 import vo.StorageQueryResultVO;
 
@@ -38,14 +40,12 @@ public class StorageUI extends JPanel{
 	
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.LEFT);
 
-		StorageblService storageblService = BusinessLogicService.getStorageblService();
-		List<StorageQueryResultVO> storageQueryResultVOs = storageblService.storageQuery("organization", "南京中转中心");
-		StorageQueryPanel storageQueryPanel = new StorageQueryPanel(storageQueryResultVOs);
+		
         tabbedPane.addTab("  货物入库   ", null);
         tabbedPane.addTab("货物出库", null);
         tabbedPane.addTab("库存管理", null);
         tabbedPane.addTab("库存查看", null);
-        tabbedPane.addTab("库存盘点", storageQueryPanel);
+        tabbedPane.addTab("库存盘点", null);
         
         tabbedPane.setBounds(0, 30, 800, 480);
         this.add(tabbedPane);
@@ -71,6 +71,12 @@ public class StorageUI extends JPanel{
                 case 3:
                     new StorageCheckDialog(tabbedPane);
                     break;
+                case 4:
+                	StorageblService storageblService = BusinessLogicService.getStorageblService();
+            		List<StorageQueryResultVO> storageQueryResultVOs = storageblService.storageQuery("organization", LoginController.getOrganizationName());
+            		StorageQueryPanel storageQueryPanel = new StorageQueryPanel(storageQueryResultVOs);
+                	tabbedPane.setComponentAt(4, storageQueryPanel);
+                	break;
                 default:
                     break;
                 }

@@ -89,7 +89,7 @@ public class StoreinDialogUI extends JDialog{
 		storeinIdTextField.setEditable(false);
 		
 		storeinDateLabel = new JLabel("入库日期");
-		storeinDateLabel.setBounds(20, 64, 80, 22);
+		storeinDateLabel.setBounds(20, 64, 80, 25);
 		datePickPanel = new RecentDatePickPanel();
 		datePickPanel.setBounds(110, 64, 200, 22);
         
@@ -106,7 +106,7 @@ public class StoreinDialogUI extends JDialog{
         
         
         JScrollPane scrollpane = new JScrollPane(goodsInfoTable);
-        scrollpane.setBounds(82, 130, 290, 180); 
+        scrollpane.setBounds(82, 130, 240, 180); 
         PresentationUtil.fitTableColumns(goodsInfoTable);
         
         addButton = new JButton("新增");

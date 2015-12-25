@@ -14,6 +14,7 @@ import javax.swing.JTabbedPane;
 import presentation.mainui.MainFrame;
 import presentation.storageui.storagecheckui.storeincheckui.StoreinCheckPanel;
 import presentation.storageui.storagecheckui.storeoutcheckui.StoreoutCheckPanel;
+import presentation.util.DatePickPanel;
 import presentation.util.RecentDatePickPanel;
 import vo.StoreinCheckVo;
 import businesslogic.storagebl.Storage;
@@ -39,8 +40,8 @@ public class StorageCheckDialog extends JDialog{
 	
 	private JButton confirmButton;
 	
-	private RecentDatePickPanel fromDatePickPanel;
-	private RecentDatePickPanel toDatePickPanel;
+	private DatePickPanel fromDatePickPanel;
+	private DatePickPanel toDatePickPanel;
 	
 	public StorageCheckDialog(JTabbedPane panel){
 		fatherPanel = panel;
@@ -51,10 +52,10 @@ public class StorageCheckDialog extends JDialog{
 
 		checkDateLabel = new JLabel("请输入要查询的时间段：");
 		checkDateLabel.setBounds(80, 40, 220, 22);
-		fromDatePickPanel = new RecentDatePickPanel();
-		toDatePickPanel = new RecentDatePickPanel();
-		fromDatePickPanel.setBounds(80, 80, 200, 22);
-		toDatePickPanel.setBounds(80, 112, 200, 22);
+		fromDatePickPanel = new DatePickPanel();
+		toDatePickPanel = new DatePickPanel();
+		fromDatePickPanel.setBounds(80, 80, 200, 25);
+		toDatePickPanel.setBounds(80, 112, 200, 25);
 
 		confirmButton = new JButton("确定");
 		confirmButton.setBounds(270, 150, 70, 30);
@@ -62,7 +63,7 @@ public class StorageCheckDialog extends JDialog{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				if (fromDatePickPanel.check()&&toDatePickPanel.check()) {
+				
 					StorageCheckDialog.this.dispose();
 					Date fromDate = fromDatePickPanel.getDate();
 					Date toDate = toDatePickPanel.getDate();
@@ -86,7 +87,7 @@ public class StorageCheckDialog extends JDialog{
 					combPanel.add(storeoutCheckPanel);
 					fatherPanel.setComponentAt(3, combPanel);					
 					fatherPanel.repaint();
-				}
+				
 				
 			}
 		});

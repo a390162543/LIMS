@@ -289,6 +289,15 @@ public class StorageManageDialog extends JDialog{
 				}
 			}
 		});
+		
+		cancleButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				StorageManageDialog.this.dispose();
+				
+			}
+		});
 	
 		
 		StorageblService storageblService = new Storage();

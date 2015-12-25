@@ -101,7 +101,7 @@ public class StoreoutDialogUI extends JDialog{
 		storeoutIdTextField.setEditable(false);
 		
 		storeoutDateLabel = new JLabel("出库日期");
-		storeoutDateLabel.setBounds(20, 44, 80, 22);
+		storeoutDateLabel.setBounds(20, 44, 80, 25);
 		datePickPanel = new RecentDatePickPanel();       
         datePickPanel.setBounds(110, 44, 200, 22);
         destinationLabel = new JLabel("目的地");
@@ -270,6 +270,7 @@ public class StoreoutDialogUI extends JDialog{
 		cancleButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				StoreoutDialogUI.this.dispose();
 				StoreoutblService storeoutblService = BusinessLogicService.getStoreoutblService();
 				int totalRow = goodsInfoTable.getRowCount();
 				for (int i = 0; i < totalRow; i++) {

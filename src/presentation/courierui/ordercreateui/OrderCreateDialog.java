@@ -1070,7 +1070,7 @@ public class OrderCreateDialog extends JDialog{
 		cancleButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				OrderCreateDialog.this.dispose();
 				
 			}
 		});
