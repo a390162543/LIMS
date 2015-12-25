@@ -255,6 +255,7 @@ public class Storeout implements StoreoutblService{
 		List<String> orders = new ArrayList<String>();
 		TransferVO transferVO = transfer.find(transferId);
 		orders = transferVO.getOrderId();
+		System.out.println(orders);
 		return orders;
 	}
 

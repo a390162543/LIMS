@@ -459,6 +459,9 @@ public class StorageLocationData extends UnicastRemoteObject implements StorageL
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
+					if (info==null) {
+						return 0;
+					}
 					if (info.indexOf(StorageState.ISSTORED.toString())!=-1||info.indexOf(StorageState.ISSTORING.toString())!=-1) {
 						
 						maxRow = j;
@@ -501,6 +504,9 @@ public class StorageLocationData extends UnicastRemoteObject implements StorageL
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
+					if (info==null) {
+						return 0;
+					}
 					if (info.indexOf(StorageState.ISSTORED.toString())!=-1||info.indexOf(StorageState.ISSTORING.toString())!=-1) {
 						
 						maxRow = j;
@@ -517,6 +523,7 @@ public class StorageLocationData extends UnicastRemoteObject implements StorageL
 		int maxRow = 0;
 		String path = "c:/LIMS/database/StorageLocationData/"+storageId+".txt";
 		File file = new File(path);
+		
 		InputStream in = null;
 		try {
 			in = new FileInputStream(file);
@@ -542,6 +549,10 @@ public class StorageLocationData extends UnicastRemoteObject implements StorageL
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
+					if (info==null) {
+						return 0;
+					}
+					
 					if (info.indexOf(StorageState.ISSTORED.toString())!=-1||info.indexOf(StorageState.ISSTORING.toString())!=-1) {
 						
 						maxRow = j;
@@ -582,6 +593,9 @@ public class StorageLocationData extends UnicastRemoteObject implements StorageL
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
+					}
+					if (info==null) {
+						return 0;
 					}
 					if (info.indexOf(StorageState.ISSTORED.toString())!=-1||info.indexOf(StorageState.ISSTORING.toString())!=-1) {
 						

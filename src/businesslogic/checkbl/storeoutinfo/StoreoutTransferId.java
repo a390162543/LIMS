@@ -51,6 +51,7 @@ public class StoreoutTransferId implements CheckInfo{
 	        }else{
 	            Transfer transferbl = new Transfer();
 	            TransferVO transferVO = transferbl.getTransferVO(transferId);
+
 	            if(transferVO == null){
 	                checkResultMessage.addInfo(CheckResult.FALSE, "不存在该中转单，请确认输入");
 	            }else if(!transferVO.getDepart().equals(organization)){

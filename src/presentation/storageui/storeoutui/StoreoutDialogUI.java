@@ -7,6 +7,7 @@ import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Vector;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -187,6 +188,8 @@ public class StoreoutDialogUI extends JDialog{
 			
 			@Override
 			public void keyReleased(KeyEvent e) {
+				
+				
 				transferIdChecker.check();
 				if (transferIdChecker.check()) {
 					String transId = transferIdTextField.getText();
@@ -201,12 +204,16 @@ public class StoreoutDialogUI extends JDialog{
 						orders = storeoutblService.getLoadVO(transId);
 					}
 					
-					String[] data = new String[orders.size()];
+					
+					
 					for (int i = 0; i < orders.size(); i++) {
-						data[i] = orders.get(i);
+						Vector<String> vector = new Vector<String>();						
+						vector.add(orders.get(i));
 						storeoutblService.changeLocationState(orders.get(i));
+						tableModel.addRow(vector);
 					}
-					tableModel.addRow(data);
+					
+					
 				}
 				else {
 					
@@ -280,6 +287,7 @@ public class StoreoutDialogUI extends JDialog{
 				
 			}
 		});
+		
 		
 		this.setLayout(new DialogLayoutManager());
 		this.setModalityType(ModalityType.APPLICATION_MODAL);
