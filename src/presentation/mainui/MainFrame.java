@@ -23,6 +23,7 @@ public class MainFrame  {
 		mainFrame.repaint();
 		mainFrame.setVisible(true);	
 		mainFrame.setLocationRelativeTo(null);
+		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
 	public static JFrame getMainFrame(){

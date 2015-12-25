@@ -95,7 +95,7 @@ public class EmployeeDialog extends JDialog{
 		this.setTitle("员工信息");
 		tableModel = em;
 			
-		
+	
 		setId();
 		organizationBox.addItemListener(new ItemListener() {
 			
