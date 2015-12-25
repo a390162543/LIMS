@@ -11,6 +11,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JToggleButton;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
@@ -54,6 +56,16 @@ public class StoreinPendingPanel extends JPanel {
 
 		storeinPendingScrollPane = new JScrollPane(storeinPendingTable);
 		storeinPendingScrollPane.setBounds(0, 0, 650, 390);
+		
+		tableModel.addTableModelListener(new TableModelListener() {
+			
+			@Override
+			public void tableChanged(TableModelEvent e) {
+				// TODO Auto-generated method stub
+				PresentationUtil.fitTableColumns(storeinPendingTable);
+			}
+		});
+		
 		PresentationUtil.fitTableColumns(storeinPendingTable);
 
 		toggleButton = new JToggleButton("≈˙¡ø…Û≈˙");
