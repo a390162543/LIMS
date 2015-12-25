@@ -160,7 +160,7 @@ public class LoadPendingPanel extends JPanel {
 	        });
 	        
 	        
-	      toggleButton.setBounds(325, 400, 70, 30);       
+	      toggleButton.setBounds(320, 400, 70, 30);       
 	      approveButton.setBounds(405, 400, 70, 30);
 	      modifyButton.setBounds(490, 400, 70, 30);
 	      queryButton.setBounds(575, 400, 70, 30);

@@ -26,7 +26,7 @@ public class BusinessHallPanel extends JPanel{
     private static final long serialVersionUID = -7570872020990366584L;
     
     public BusinessHallPanel(){
-
+        
         
         JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.LEFT);
 
