@@ -19,6 +19,7 @@ import businesslogicservice.RevenueblService;
 import presentation.mainui.MainFrame;
 import presentation.managerui.approvalui.revenueui.OrderTableModel;
 import presentation.util.DialogLayoutManager;
+import presentation.util.PresentationUtil;
 import presentation.util.RecentDatePickPanel;
 import presentation.util.ScreenMessage;
 import vo.RevenueVO;
@@ -92,6 +93,7 @@ public class RevenuePendingDialog extends JDialog {
         tableModel = new OrderTableModel(revenueblService,vo.getOrderId());  
         TableRowSorter<TableModel>  tableSorter = new TableRowSorter<TableModel>(tableModel);
         JTable orderTable = new JTable(tableModel);
+        PresentationUtil.fitTableColumns(orderTable);
         orderTable.getTableHeader().setPreferredSize(new Dimension(180, 25));
         orderTable.setSize(250, 100);
         orderTable.setRowSorter(tableSorter);   

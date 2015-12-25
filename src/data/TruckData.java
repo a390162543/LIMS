@@ -70,6 +70,8 @@ public class TruckData extends UnicastRemoteObject implements TruckDataService {
         List<TruckPO> truckPOs = new ArrayList<TruckPO>();
         
         File[] files = DataUtil.getAll(path);
+        if(files == null)
+            return truckPOs;
         for(File f : files){
             TruckPO po = (TruckPO)DataUtil.readObject(f.getAbsolutePath());
             switch (field) {

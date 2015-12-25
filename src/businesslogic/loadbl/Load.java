@@ -1,18 +1,13 @@
 package businesslogic.loadbl;
 
-import java.net.MalformedURLException;
-import java.rmi.Naming;
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
 import po.LoadPO;
-import po.OrderPO;
 import systemenum.DocumentState;
 import dataservice.DataService;
 import dataservice.LoadDataService;
-import dataservice.OrderDataService;
 import vo.GoodsVO;
 import vo.LoadVO;
 import vo.OrderDeliverInfoVO;
@@ -104,29 +99,8 @@ public class Load implements LoadblService{
     @Override
     public GoodsVO getGoodsVO(String id) {
         // TODO Auto-generated method stub  
-        try {
-            OrderDataService orderDataService = (OrderDataService)Naming.lookup("rmi://localhost/OrderData");
-            if(orderDataService.find(id) == null)
-                return null;
-            else{
-                OrderPO po = orderDataService.find(id);
-                GoodsVO vo = po.getGoodsVO();
-                 
-                return vo;
-            }
-            
-             
-        } catch (MalformedURLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (RemoteException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (NotBoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }        
-        return null;
+        Order orderbl = new Order();
+        return orderbl.getGoodsVO(id);
     }
     
     @Override

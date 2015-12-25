@@ -34,8 +34,8 @@ public class BusinessHallPanel extends JPanel{
         tabbedPane.addTab("货物验收", null);
         tabbedPane.addTab("装车管理", null);
         tabbedPane.addTab("收款管理", null);
-        tabbedPane.addTab("司机管理", new DriverPanel());
-        tabbedPane.addTab("车辆管理", new TruckPanel());
+        tabbedPane.addTab("司机管理", null);
+        tabbedPane.addTab("车辆管理", null);
         tabbedPane.setBounds(0, 30, 800, 480);
         this.add(tabbedPane);
         tabbedPane.setSelectedIndex(-1);
@@ -58,6 +58,12 @@ public class BusinessHallPanel extends JPanel{
                     break;
                 case 3:
                     new RevenueDialog();
+                    break;
+                case 4:
+                    tabbedPane.setComponentAt(index, new DriverPanel());
+                    break;
+                case 5:
+                    tabbedPane.setComponentAt(index, new TruckPanel());
                     break;
                 default:
                     break;
