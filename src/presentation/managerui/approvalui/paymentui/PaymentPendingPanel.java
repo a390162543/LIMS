@@ -13,6 +13,8 @@ import javax.swing.JTable;
 import javax.swing.JToggleButton;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
+
+import presentation.util.PresentationUtil;
 /**
  * {@code PaymentPendingPanel}继承{@code JPanel}，是显示待审批付款单和对待审批付款单操作的界面层面板展示
  * @author 刘德宽
@@ -45,8 +47,10 @@ public class PaymentPendingPanel extends JPanel{
 		paymentPendingTable.setRowSorter(tableSorter);
 
 		paymentPendingScrollPane = new JScrollPane(paymentPendingTable);
-		paymentPendingScrollPane.setBounds(0, 0, 560, 370);
+		paymentPendingScrollPane.setBounds(0, 0, 650, 390);
 
+		PresentationUtil.fitTableColumns(paymentPendingTable);
+		
 		toggleButton = new JToggleButton("批量审批");
 		pendingButton = new JButton("审批");
 		modifyButton = new JButton("修改");
@@ -137,12 +141,12 @@ public class PaymentPendingPanel extends JPanel{
             }
         });
 	     
-		toggleButton.setBounds(230, 390, 70, 30);
-		pendingButton.setBounds(315, 390, 70, 30);
-		modifyButton.setBounds(400, 390, 70, 30);
-		queryButton.setBounds(485, 390, 70, 30);
+		toggleButton.setBounds(235+90, 400, 70, 30);
+		pendingButton.setBounds(315+90, 400, 70, 30);
+		modifyButton.setBounds(400+90, 400, 70, 30);
+		queryButton.setBounds(485+90, 400, 70, 30);
 		// set panel
-		this.setBounds(0, 0, 560, 470);
+		this.setBounds(0, 0, 650, 470);
 		this.setLayout(null);
 		this.add(paymentPendingScrollPane);
 		this.add(toggleButton);
