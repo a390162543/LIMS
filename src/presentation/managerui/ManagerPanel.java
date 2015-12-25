@@ -7,6 +7,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
  
+
+import presentation.financeui.statisticsui.StatisticsDialog;
 import presentation.managerui.approvalui.ApprovalPanel;
 import presentation.managerui.cityui.CreateCityDialog;
 import presentation.managerui.cityui.QueryDistanceDialog;
@@ -58,11 +60,11 @@ public class ManagerPanel  extends JPanel{
             @Override
             public void stateChanged(ChangeEvent e) {
                 int index = tabbedPane.getSelectedIndex();
-                if(index<=3)
+                if(index<=3 && index >= 1)
                     tabbedPane.setSelectedIndex(-1);
                 switch (index) {
                 case 0:
-                   
+                	new StatisticsDialog(tabbedPane, 0);
                     break;
                 case 1:
                 	new CreateCityDialog();

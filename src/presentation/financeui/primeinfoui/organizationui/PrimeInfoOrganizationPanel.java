@@ -180,7 +180,7 @@ public class PrimeInfoOrganizationPanel extends JPanel{
         confirmButton.setBounds(425+90, 400, 130, 30);
         //set panel
         //改成470高的话 jtabbedpane 就不显示选项卡了 不知为什么！！！！
-        this.setBounds(0, 15, 560, 370);
+        this.setBounds(0, 15, 650, 370);
         this.setLayout(null);
         this.add(OrganizationScrollPane);
         this.add(createButton);

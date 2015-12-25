@@ -43,7 +43,7 @@ public class PrimeInfoEmployeePanel extends JPanel{
 	        employeeTable.setRowSorter(tableSorter);        
 	        //set scroll pane
 	        employeeScrollPane = new JScrollPane(employeeTable);
-	        employeeScrollPane.setBounds(0, 40, 650, 390);
+	        employeeScrollPane.setBounds(0, 0, 650, 390);
 	        
 	        
 	        tableModel.addTableModelListener(new TableModelListener() {
@@ -88,7 +88,7 @@ public class PrimeInfoEmployeePanel extends JPanel{
 	    employeeTable.setRowSorter(tableSorter);        
 	     //set scroll pane
 	    employeeScrollPane = new JScrollPane(employeeTable);
-	    employeeScrollPane.setBounds(0, 40, 650, 390);
+	    employeeScrollPane.setBounds(0, 0, 650, 390);
 	
         PresentationUtil.fitTableColumns(employeeTable);
         
