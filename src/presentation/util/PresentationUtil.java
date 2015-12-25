@@ -4,11 +4,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Enumeration;
 
+import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.TableColumnModelEvent;
 import javax.swing.event.TableColumnModelListener;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 
@@ -85,6 +87,11 @@ public class PresentationUtil {
             };
             myTable.getColumnModel().addColumnModelListener(tableColumnModelListener);
             tableColumnModelListener.columnAdded(null);
+            
+            DefaultTableCellRenderer r = new DefaultTableCellRenderer();   
+            r.setHorizontalAlignment(JLabel.LEFT);
+            myTable.setDefaultRenderer(Object.class,r);
+            
             myTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
 	   }
