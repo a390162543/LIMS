@@ -181,6 +181,7 @@ public class StoreoutPendingPanel extends JPanel {
 		this.setBounds(0, 0, 650, 470);
 		this.setLayout(null);
 		this.add(storeoutPendingScrollPane);
+		this.add(toggleButton);
 		this.add(pendingButton);
 		this.add(modifyButton);
 		this.add(queryButton);

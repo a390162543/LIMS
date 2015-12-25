@@ -12,6 +12,8 @@ import javax.swing.JTextField;
 import javax.swing.RowFilter;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
@@ -49,7 +51,7 @@ public class StorageQueryPanel extends JPanel{
     public StorageQueryPanel(List<StorageQueryResultVO> dataList){
         //build up truck table
     	getExcelButton = new JButton("导出Excel表格");
-    	getExcelButton.setBounds(360, 360, 160, 25);
+    	getExcelButton.setBounds(480, 440, 120, 30);
         tableModel = new StorageQueryTableModel(dataList);  
         tableSorter = new TableRowSorter<TableModel>(tableModel);
         storageQueryTable = new JTable(tableModel);
@@ -57,7 +59,17 @@ public class StorageQueryPanel extends JPanel{
         storageQueryTable.setRowSorter(tableSorter);        
         //set scroll pane
         storageQueryScrollPane = new JScrollPane(storageQueryTable);
-        storageQueryScrollPane.setBounds(0, 40, 540, 300);
+        storageQueryScrollPane.setBounds(0, 40, 645, 390);
+        
+        tableModel.addTableModelListener(new TableModelListener() {
+			
+			@Override
+			public void tableChanged(TableModelEvent e) {
+				// TODO Auto-generated method stub
+				PresentationUtil.fitTableColumns(storageQueryTable);
+			}
+		});
+        
         PresentationUtil.fitTableColumns(storageQueryTable);
         //set other components on panel
         filterTextField = new JTextField();
@@ -88,7 +100,7 @@ public class StorageQueryPanel extends JPanel{
             }
 
         });  
-        filterTextField.setBounds(300, 0, 235, 25);
+        filterTextField.setBounds(360, 0, 235, 25);
         
         getExcelButton.addActionListener(new ActionListener() {
 			@Override
@@ -100,7 +112,7 @@ public class StorageQueryPanel extends JPanel{
 		});
         
         //set panel
-        this.setBounds(0, 0, 540, 430);
+        this.setBounds(0, 0, 645, 430);
         this.setLayout(null);
         this.add(getExcelButton);
         this.add(storageQueryScrollPane);

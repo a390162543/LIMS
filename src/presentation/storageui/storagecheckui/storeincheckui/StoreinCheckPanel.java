@@ -10,6 +10,8 @@ import javax.swing.JTextField;
 import javax.swing.RowFilter;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
@@ -44,9 +46,9 @@ public class StoreinCheckPanel extends JPanel{
     public StoreinCheckPanel(List<InOrderCheckResultVO> dataList){
         //build up truck table
     	storeinTotalLabel = new JLabel("总入库数量");
-    	storeinTotalLabel.setBounds(350, 200, 120, 25);
+    	storeinTotalLabel.setBounds(440, 200, 120, 25);
     	storeinTotalTextField = new JTextField();
-    	storeinTotalTextField.setBounds(460, 200, 60, 25);
+    	storeinTotalTextField.setBounds(550, 200, 60, 25);
         tableModel = new StoreinCheckTableModel(dataList);  
         tableSorter = new TableRowSorter<TableModel>(tableModel);
         storeinTable = new JTable(tableModel);
@@ -54,9 +56,19 @@ public class StoreinCheckPanel extends JPanel{
         storeinTable.setRowSorter(tableSorter);        
         //set scroll pane
         storeinScrollPane = new JScrollPane(storeinTable);
-        storeinScrollPane.setBounds(0, 40, 560, 150);
+        storeinScrollPane.setBounds(0, 40, 650, 150);
        
+        tableModel.addTableModelListener(new TableModelListener() {
+			
+			@Override
+			public void tableChanged(TableModelEvent e) {
+				// TODO Auto-generated method stub
+				PresentationUtil.fitTableColumns(storeinTable);
+			}
+		});
+        
         PresentationUtil.fitTableColumns(storeinTable);
+        
         filterTextField = new JTextField();
         filterTextField.setToolTipText("请输入模糊查找字段");
         filterTextField.getDocument().addDocumentListener(new DocumentListener() {
@@ -86,10 +98,10 @@ public class StoreinCheckPanel extends JPanel{
 
         });
         
-        filterTextField.setBounds(320, 0, 235, 25);            
+        filterTextField.setBounds(360, 0, 235, 25);            
         storeinTotalTextField.setText(dataList.size()+"");
         //set panel
-        this.setBounds(0, 0, 560, 300);
+        this.setBounds(0, 0, 650, 300);
         this.setLayout(null);
         this.add(storeinScrollPane);
         this.add(filterTextField);

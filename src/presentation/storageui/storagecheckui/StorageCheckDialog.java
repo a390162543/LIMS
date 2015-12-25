@@ -77,11 +77,11 @@ public class StorageCheckDialog extends JDialog{
 					StoreoutCheckPanel storeoutCheckPanel = new StoreoutCheckPanel(
 							storageblService.storeoutCheck(storeinCheckVo));
 					//fatherPanel.setLayout(null);
-					storeinCheckPanel.setBounds(0, 0, 560, 250);
-					storeoutCheckPanel.setBounds(0, 250, 560, 250);
+					storeinCheckPanel.setBounds(0, 0, 645, 250);
+					storeoutCheckPanel.setBounds(0, 250, 645, 250);
 					JPanel combPanel = new JPanel();
 					combPanel.setLayout(null);
-					combPanel.setBounds(0, 0, 560, 500);
+					combPanel.setBounds(0, 0, 645, 500);
 					combPanel.add(storeinCheckPanel);
 					combPanel.add(storeoutCheckPanel);
 					fatherPanel.setComponentAt(3, combPanel);					
