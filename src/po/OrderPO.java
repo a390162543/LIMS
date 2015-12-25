@@ -1,6 +1,7 @@
 package po;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import systemenum.DeliveryWay;
@@ -368,7 +369,8 @@ public class OrderPO implements Serializable{
 	public OrderPO updateSignInfo(OrderSignVO vo){
 		setSignName(vo.getSignName());
 		setSignData(vo.getSignData());
-		deliverInfo = deliverInfo+"\n"+"已签收";
+		deliverInfo = deliverInfo+"\n"+new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss").format(vo.getSignData())
+		        +"\n"+"订单已签收,"+"签收人为："+vo.getSignName();
 		return this;
 	}
 	
@@ -413,7 +415,8 @@ public class OrderPO implements Serializable{
 		if (deliverInfo.equals("")) {
 			deliverInfo = deliverInfo + vo.getDeliverInfo();
 		}
-		deliverInfo = deliverInfo+"\n"+vo.getDeliverInfo();
+		else
+		    deliverInfo = deliverInfo+"\n"+vo.getDeliverInfo();
 		return this;
 	}
 	

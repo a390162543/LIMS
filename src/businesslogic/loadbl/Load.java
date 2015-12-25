@@ -118,7 +118,7 @@ public class Load implements LoadblService{
             Order orderbl = new Order();
             for(String orderId : orders){
                 String deliverInfo = BusinessLogicUtil.getTime(vo.getLoadingDate())+
-                        " 货物从"+vo.getDepart()+"出发";
+                        "\n"+"货物从"+vo.getDepart()+"出发";
                 OrderDeliverInfoVO orderDeliverInfoVO = new OrderDeliverInfoVO(orderId, vo.getDestination(), vo.getDestination(), deliverInfo);
                 orderbl.modifyDeliverInfo(orderDeliverInfoVO);
             }

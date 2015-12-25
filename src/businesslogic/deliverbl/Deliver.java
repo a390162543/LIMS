@@ -88,7 +88,7 @@ public class Deliver implements DeliverblService{
             //获取订单业务逻辑，并且更新订单状态
             Order orderbl = new Order();
             String deliverInfo = BusinessLogicUtil.getTime(vo.getDeliverDate())+
-                    " 货物正在由快递员"+courier+"派件";
+                    "\n"+"货物正在由快递员"+courier+"派件";
             OrderDeliverInfoVO orderDeliverInfoVO = new OrderDeliverInfoVO(vo.getOrderId(), LoginController.getOrganizationName(), "", deliverInfo);
             orderbl.modifyDeliverInfo(orderDeliverInfoVO);
                 

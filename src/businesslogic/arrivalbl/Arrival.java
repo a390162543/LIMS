@@ -94,7 +94,7 @@ public class Arrival implements ArrivalblService{
             Order orderbl = new Order();
             for(String orderId : orders){
                 String deliverInfo = BusinessLogicUtil.getTime(vo.getArrivalDate())+
-                        " 货物已到达"+vo.getDestination();   
+                        "\n"+"货物已到达"+vo.getDestination();   
                 OrderDeliverInfoVO orderDeliverInfoVO = new OrderDeliverInfoVO(orderId, vo.getDestination(), vo.getDestination(), deliverInfo);
                 orderbl.modifyDeliverInfo(orderDeliverInfoVO);
             }

@@ -6,7 +6,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import javax.lang.model.element.Modifier;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
