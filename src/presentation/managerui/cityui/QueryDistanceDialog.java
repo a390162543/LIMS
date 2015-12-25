@@ -43,21 +43,23 @@ public class QueryDistanceDialog extends JDialog{
 		String[] cityStr2 = cityStr1;
 		 
 		JLabel city1Label = new JLabel("城市");
-		city1Label.setBounds(80, 20, 80, 20);
+		city1Label.setBounds(25, 20, 80, 20);
 		JLabel city2Label = new JLabel("城市");
-		city2Label.setBounds(215, 20, 80, 20);	
+		city2Label.setBounds(135, 20, 80, 20);	
 		JLabel markLabel = new JLabel("---");
-		markLabel.setBounds(140, 50, 80, 20);
+		markLabel.setBounds(100, 50, 80, 20);
 		distanceField = new JTextField();
-		distanceField.setBounds(145, 95, 60, 20);
+		distanceField.setBounds(215, 50, 60, 20);
 		JLabel unitLabel = new JLabel("km");
-		unitLabel.setBounds(205, 95, 80, 20);
+		unitLabel.setBounds(280, 50, 50, 20);
 		JButton cancelButton = new JButton("取消");
-		cancelButton.setBounds(190, 140, 70, 30);
+		cancelButton.setBounds(130, 100, 70, 30);
 		JButton sureButton = new JButton("确认");
-		sureButton.setBounds(280, 140, 70, 30);
+		sureButton.setBounds(220, 100, 70, 30);
 		city1Box = new JComboBox<String>(cityStr1);
-		city1Box.setBounds(90, 50, 60, 20);
+		city1Box.setBounds(20, 50, 60, 20);
+		
+		
 		city1Box.addItemListener(new ItemListener() {			
 			@Override
 			public void itemStateChanged(ItemEvent e) {
@@ -67,7 +69,7 @@ public class QueryDistanceDialog extends JDialog{
 		});
 		
 		city2Box = new JComboBox<String>(cityStr2);
-		city2Box.setBounds(220, 50, 60, 20);
+		city2Box.setBounds(130, 50, 60, 20);
 		city2Box.addItemListener(new ItemListener() {
 			
 			@Override
@@ -76,7 +78,7 @@ public class QueryDistanceDialog extends JDialog{
 				showDistance();
 			}
 		});
-		
+		showDistance();
 		cancelButton.addActionListener(new ActionListener() {
 			
 			@Override
@@ -106,7 +108,7 @@ public class QueryDistanceDialog extends JDialog{
 		});
 		
 		
-		this.setBounds(300, 200, 380, 250);		 
+		this.setBounds(300, 200, 320, 180);		 
 		this.add(city1Label);
 		this.add(city2Label);
 		this.add(city1Box);
@@ -116,7 +118,8 @@ public class QueryDistanceDialog extends JDialog{
 		this.add(unitLabel);
 		this.add(cancelButton);
 		this.add(sureButton);
-		this.setModalityType(ModalityType.APPLICATION_MODAL);		
+		this.setModalityType(ModalityType.APPLICATION_MODAL);	
+		 this.setLocationRelativeTo(MainFrame.getMainFrame());
 		this.setLayout(null);
 		this.setVisible(true);
 		

@@ -59,7 +59,7 @@ public class CreateCityDialog extends JDialog{
 		 this.setModalityType(ModalityType.APPLICATION_MODAL);
 		 this.setLocationRelativeTo(MainFrame.getMainFrame());
 		 this.add(mainPanel);
-		 this.setBounds(400, 200, 400, 250);
+		 this.setBounds(400, 200, 250, 180);
 		 this.setResizable(false);
 		 this.setLayout(null);
 		 this.setVisible(true);
@@ -79,17 +79,17 @@ public class CreateCityDialog extends JDialog{
 		private static final long serialVersionUID = 3840173390122307371L;
 
 		public InputCityPanel(){
-			this.setBounds(0, 0, 400, 250);					 
+			this.setBounds(0, 0, 300, 150);					 
 			JLabel nameLabel = new JLabel("城市名称");
-			nameLabel.setBounds(50, 50, 100, 25);
+			nameLabel.setBounds(10, 10, 100, 25);
 			JTextField nameField = new JTextField();
-			nameField.setBounds(180, 50, 60, 20);		 
+			nameField.setBounds(100, 10, 60, 20);		 
 			JLabel idLabel = new JLabel("城市编号");
-			idLabel.setBounds(50, 100, 100, 25);
+			idLabel.setBounds(10, 50, 100, 25);
 			JTextField idField = new JTextField();
-			idField.setBounds(180, 100, 60, 20);		
+			idField.setBounds(100, 50, 60, 20);		
 			JButton cancelButton = new JButton("取消");
-			cancelButton.setBounds(190, 150, 70, 30);
+			cancelButton.setBounds(60, 90, 70, 30);
 			
 			//设置idField只能输入数字
 			idField.addKeyListener(new KeyAdapter() {
@@ -113,7 +113,7 @@ public class CreateCityDialog extends JDialog{
 			});
 			
 			JButton nextButton = new JButton("下一步");
-			nextButton.setBounds(280, 150, 70, 30);
+			nextButton.setBounds(150, 90, 70, 30);
 			nextButton.addActionListener(new ActionListener() {
 				
 				@Override

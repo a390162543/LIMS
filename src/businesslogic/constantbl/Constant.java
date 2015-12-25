@@ -48,8 +48,7 @@ public class Constant implements ConstantblService{
 			} catch (RemoteException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
-		
+			}		
 		return new ConstantVO(price);
 	}
 	

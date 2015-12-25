@@ -13,7 +13,9 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
  
 
+
 import presentation.util.ConfirmDialog;
+import presentation.util.PresentationUtil;
 import presentation.util.ScreenMessage;
 import vo.CityVO;
 import businesslogicservice.PrimeInfoblService;
@@ -25,7 +27,7 @@ public class PrimeInfoCityPanel extends JPanel{
 	 */
 	private static final long serialVersionUID = 4300686911538244505L;
 	private JScrollPane CityScrollPane;   
-    private JTable CityTable;
+    private JTable cityTable;
     private PrimeInfoCityTableModel tableModel;
     private TableRowSorter<TableModel> tableSorter;   
     private PrimeInfoblService primeInfoblService;
@@ -34,22 +36,26 @@ public class PrimeInfoCityPanel extends JPanel{
     	 //build up account table
         tableModel = new PrimeInfoCityTableModel(vos);  
         tableSorter = new TableRowSorter<TableModel>(tableModel);
-        CityTable = new JTable(tableModel);
-        CityTable.setSize(650, 390);
-        CityTable.setRowSorter(tableSorter);        
+        cityTable = new JTable(tableModel);
+        cityTable.setSize(650, 390);
+        cityTable.setRowSorter(tableSorter);        
         //set scroll pane
-        CityScrollPane = new JScrollPane(CityTable);
+        CityScrollPane = new JScrollPane(cityTable);
         CityScrollPane.setBounds(0, 0, 650,390);
+        
+        
+        PresentationUtil.fitTableColumns(cityTable);
+        
         
         JButton queryButton = new JButton("ÏêÇé");
         queryButton.addActionListener(new ActionListener() {
             
             @Override
             public void actionPerformed(ActionEvent e) {
-                int row = CityTable.getSelectedRow();
+                int row = cityTable.getSelectedRow();
                 if(row == -1)
                     return;
-                int modelRow = CityTable.convertRowIndexToModel(row);
+                int modelRow = cityTable.convertRowIndexToModel(row);
                 new PrimeInfoCityDialog(tableModel, modelRow, false);
                 
             }
@@ -68,12 +74,15 @@ public class PrimeInfoCityPanel extends JPanel{
     	primeInfoblService = pibs;
         tableModel = new  PrimeInfoCityTableModel(primeInfoblService);
         tableSorter = new TableRowSorter<TableModel>(tableModel);
-        CityTable = new JTable(tableModel);
-        CityTable.setSize(650,390);
-        CityTable.setRowSorter(tableSorter);        
+        cityTable = new JTable(tableModel);
+        cityTable.setSize(650,390);
+        cityTable.setRowSorter(tableSorter);        
         //set scroll pane
-        CityScrollPane = new JScrollPane(CityTable);
+        CityScrollPane = new JScrollPane(cityTable);
         CityScrollPane.setBounds(0, 0, 650,390);
+        
+        PresentationUtil.fitTableColumns(cityTable);
+        
         
         JButton createButton = new JButton("Ìí¼Ó");
         JButton deleteButton = new JButton("É¾³ý");
@@ -92,7 +101,7 @@ public class PrimeInfoCityPanel extends JPanel{
             
             @Override
             public void actionPerformed(ActionEvent e) {
-                int row = CityTable.getSelectedRow();
+                int row = cityTable.getSelectedRow();
                 if(row == -1)
                    	ScreenMessage.putOnScreen(ScreenMessage.NO_CHOOSE_IN_TABLE);         
                 else{
@@ -101,7 +110,7 @@ public class PrimeInfoCityPanel extends JPanel{
 						@Override
 						public void actionPerformed(ActionEvent e) {
 							// TODO Auto-generated method stub
-							 int modelRow = CityTable.convertRowIndexToModel(row);
+							 int modelRow = cityTable.convertRowIndexToModel(row);
 							 tableModel.delete(modelRow);	
 							 ScreenMessage.putOnScreen(ScreenMessage.SAVE_SUCCESS);
 						}
@@ -115,11 +124,11 @@ public class PrimeInfoCityPanel extends JPanel{
             
             @Override
             public void actionPerformed(ActionEvent e) {
-            	 int row = CityTable.getSelectedRow();
+            	 int row = cityTable.getSelectedRow();
                  if(row == -1)
                 		ScreenMessage.putOnScreen(ScreenMessage.NO_CHOOSE_IN_TABLE);  
                  else{
-                	 int modelRow = CityTable.convertRowIndexToModel(row);
+                	 int modelRow = cityTable.convertRowIndexToModel(row);
                 	 new PrimeInfoCityDialog(tableModel, modelRow, true);	
                  }
             }
@@ -130,11 +139,11 @@ public class PrimeInfoCityPanel extends JPanel{
             
             @Override
             public void actionPerformed(ActionEvent e) {
-                int row = CityTable.getSelectedRow();
+                int row = cityTable.getSelectedRow();
                 if(row == -1)
                 	ScreenMessage.putOnScreen(ScreenMessage.NO_CHOOSE_IN_TABLE);  
                 else{
-                	int modelRow = CityTable.convertRowIndexToModel(row);
+                	int modelRow = cityTable.convertRowIndexToModel(row);
                 	new PrimeInfoCityDialog(tableModel, modelRow, false);
                 }
             }

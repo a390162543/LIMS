@@ -62,14 +62,7 @@ public class EmployeePanel extends JPanel{
         employeeScrollPane = new JScrollPane(employeeTable);
         employeeScrollPane.setBounds(0, 40, 650, 390);
         
-        tableModel.addTableModelListener(new TableModelListener() {
-			
-			@Override
-			public void tableChanged(TableModelEvent e) {
-				// TODO Auto-generated method stub
-			       PresentationUtil.fitTableColumns(employeeTable);
-			}
-		});
+ 
         
         
         //set other components on panel

@@ -49,9 +49,9 @@ public class ManagerPanel  extends JPanel{
         tabbedPane.addTab("新增城市 ", null);
         tabbedPane.addTab("查询距离", null);
         tabbedPane.addTab("查询价格", null);
-        tabbedPane.addTab("审批单据", new ApprovalPanel());
-        tabbedPane.addTab("机构管理", new OrganizationPanel() );
-        tabbedPane.addTab("员工管理", new EmployeePanel());
+        tabbedPane.addTab("审批单据", null);
+        tabbedPane.addTab("机构管理", null );
+        tabbedPane.addTab("员工管理", null);
         tabbedPane.setBounds(0, 30, 800, 480);
         this.add(tabbedPane);
         tabbedPane.setSelectedIndex(-1);
@@ -75,6 +75,14 @@ public class ManagerPanel  extends JPanel{
                 case 3:
                    new PriceDialog();
                     break;
+                case 4:
+                	tabbedPane.setComponentAt(index, new ApprovalPanel());
+                	break;
+                case 5:
+                	tabbedPane.setComponentAt(index, new OrganizationPanel());
+                	break;
+                case 6:
+                	tabbedPane.setComponentAt(index, new EmployeePanel());
                 default:
                     break;
                 }

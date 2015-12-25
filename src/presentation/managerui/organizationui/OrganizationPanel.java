@@ -64,14 +64,7 @@ public class OrganizationPanel extends JPanel{
         OrganizationScrollPane = new JScrollPane(organizationTable);
         OrganizationScrollPane.setBounds(0, 40, 650, 390);
         
-        tableModel.addTableModelListener(new TableModelListener() {
-			
-			@Override
-			public void tableChanged(TableModelEvent e) {
-				// TODO Auto-generated method stub
-			       PresentationUtil.fitTableColumns(organizationTable);
-			}
-		});
+ 
         
         //set other components on panel
         filterTextField = new JTextField();
