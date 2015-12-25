@@ -25,7 +25,7 @@ public class PresentationUtil {
                 
                 @Override
                 public void columnRemoved(TableColumnModelEvent e) {
-                    columnAdded(e);
+                    // TODO Auto-generated method stub
                     
                 }
                 

@@ -140,10 +140,10 @@ public class TruckPanel extends JPanel{
                 new TruckDialog(tableModel, modelRow, false);
             }
         });
-        createButton.setBounds(320, 420, 70, 30);
-        deleteButton.setBounds(405, 420, 70, 30);
-        modifyButton.setBounds(490, 420, 70, 30);
-        queryButton.setBounds(575, 420, 70, 30);
+        createButton.setBounds(320, 440, 70, 30);
+        deleteButton.setBounds(405, 440, 70, 30);
+        modifyButton.setBounds(490, 440, 70, 30);
+        queryButton.setBounds(575, 440, 70, 30);
         //set panel
         this.setBounds(0, 0, 560, 450);
         this.setLayout(null);
