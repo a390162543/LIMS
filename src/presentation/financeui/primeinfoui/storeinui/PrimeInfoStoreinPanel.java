@@ -51,11 +51,11 @@ public class PrimeInfoStoreinPanel extends JPanel{
         tableModel = new PrimeInfoStoreinTableModel(vos);  
         tableSorter = new TableRowSorter<TableModel>(tableModel);
         storeinTable = new JTable(tableModel);
-        storeinTable.setSize(800, 500);
+        storeinTable.setSize(650, 390);
         storeinTable.setRowSorter(tableSorter);        
         //set scroll pane
         storeinScrollPane = new JScrollPane(storeinTable);
-        storeinScrollPane.setBounds(0, 10, 560, 370);
+        storeinScrollPane.setBounds(0, 0, 650, 390);
         PresentationUtil.fitTableColumns(storeinTable);
         queryButton = new JButton("ÏêÇé");
         queryButton.addActionListener(new ActionListener() {
@@ -73,9 +73,9 @@ public class PrimeInfoStoreinPanel extends JPanel{
             }
         });
   
-        queryButton.setBounds(485, 390, 70, 30);
+        queryButton.setBounds(485+90, 400, 70, 30);
         //set panel
-        this.setBounds(0, 15, 560, 470);
+        this.setBounds(0, 15, 650, 470);
         this.setLayout(null);
         this.add(storeinScrollPane);
         this.add(queryButton);
@@ -88,11 +88,11 @@ public class PrimeInfoStoreinPanel extends JPanel{
         tableModel = new PrimeInfoStoreinTableModel(primeInfoblService);  
         tableSorter = new TableRowSorter<TableModel>(tableModel);
         storeinTable = new JTable(tableModel);
-        storeinTable.setSize(800, 500);
+        storeinTable.setSize(650, 390);
         storeinTable.setRowSorter(tableSorter);        
         //set scroll pane
         storeinScrollPane = new JScrollPane(storeinTable);
-        storeinScrollPane.setBounds(0, 10, 560, 370);
+        storeinScrollPane.setBounds(0, 0, 650, 390);
         
         addButton = new JButton("Ìí¼Ó");
         deleteButton = new JButton("É¾³ý");
@@ -166,13 +166,13 @@ public class PrimeInfoStoreinPanel extends JPanel{
             	container.repaint();
             }
         });
-        addButton.setBounds(60, 390, 70, 30);
-        deleteButton.setBounds(145, 390, 70, 30);
-        modifyButton.setBounds(230, 390, 70, 30);
-        queryButton.setBounds(315, 390, 70, 30);          
-        createButton.setBounds(425, 390, 130, 30);
+        addButton.setBounds(60+90, 400, 70, 30);
+        deleteButton.setBounds(145+90, 400, 70, 30);
+        modifyButton.setBounds(230+90, 400, 70, 30);
+        queryButton.setBounds(315+90, 400, 70, 30);          
+        createButton.setBounds(425+90, 400, 130, 30);
         //set panel
-        this.setBounds(0, 15, 560, 470);
+        this.setBounds(0, 15, 650, 470);
         this.setLayout(null);
         this.add(storeinScrollPane);
         this.add(addButton);

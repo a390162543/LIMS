@@ -53,7 +53,7 @@ public class StoreinPendingPanel extends JPanel {
 		storeinPendingTable.setRowSorter(tableSorter);
 
 		storeinPendingScrollPane = new JScrollPane(storeinPendingTable);
-		storeinPendingScrollPane.setBounds(0, 0, 560, 370);
+		storeinPendingScrollPane.setBounds(0, 0, 650, 390);
 		PresentationUtil.fitTableColumns(storeinPendingTable);
 
 		toggleButton = new JToggleButton("≈˙¡ø…Û≈˙");
@@ -168,12 +168,12 @@ public class StoreinPendingPanel extends JPanel {
             }
         });
 		
-		toggleButton.setBounds(230, 390, 70, 30);	
-		pendingButton.setBounds(315, 390, 70, 30);
-		modifyButton.setBounds(400, 390, 70, 30);
-		queryButton.setBounds(485, 390, 70, 30);
+		toggleButton.setBounds(230+90, 400, 70, 30);	
+		pendingButton.setBounds(315+90, 400, 70, 30);
+		modifyButton.setBounds(400+90, 400, 70, 30);
+		queryButton.setBounds(485+90, 400, 70, 30);
 		// set panel
-		this.setBounds(0, 0, 560, 470);
+		this.setBounds(0, 0, 650, 470);
 		this.setLayout(null);
 		this.add(storeinPendingScrollPane);
 		this.add(pendingButton);
