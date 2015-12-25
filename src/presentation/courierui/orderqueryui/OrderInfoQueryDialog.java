@@ -92,10 +92,12 @@ public class OrderInfoQueryDialog extends JDialog{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				OrderInfoQueryDialog.this.dispose();
-				OrderDetailDialog  deliveryDialog = new OrderDetailDialog();
+				
 				OrderblService orderblService = BusinessLogicService.getOrderblService();
-				OrderQueryVO orderQueryVO = orderblService.returnOrderQueryVO(new String(orderInfoTextField.getText()));
-				deliveryDialog.setInfo(orderQueryVO);
+				OrderQueryVO orderQueryVO = orderblService.returnOrderQueryVO(orderInfoTextField.getText());
+
+				OrderDetailDialog  deliveryDialog = new OrderDetailDialog(orderQueryVO);
+				
 				deliveryDialog.repaint();
 			}
 		});

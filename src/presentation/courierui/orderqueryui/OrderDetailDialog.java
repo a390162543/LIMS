@@ -38,7 +38,7 @@ public class OrderDetailDialog extends JDialog{
 	
 	private JButton confirmButton;
 	
-	public OrderDetailDialog(){
+	public OrderDetailDialog(OrderQueryVO vo){
 		
 		this.setTitle("货物信息");	
 		this.setSize(380, 480);
@@ -69,7 +69,20 @@ public class OrderDetailDialog extends JDialog{
 		this.add(deliverLabel);	
 		this.add(confirmButton);
 		
-		
+		goodsStateTextField.setText(vo.getState().getName());
+		String info = vo.getDeliverInfo();
+		int length = 0;
+		for (int i = 0; i < info.length(); i++) {
+			if (info.charAt(i)=='\n') {
+				length++;
+			}
+		}
+		deliverLabel.setBounds(10, 100, 500, 30*length);
+		deliveryInfoTestTextArea.setBounds(10, 110, 480, 28*length);
+		orderIdTextField.setText(vo.getId());	
+		System.out.println(vo.getDeliverInfo());
+		deliverLabel.add(deliveryInfoTestTextArea);
+		deliveryInfoTestTextArea.setText(vo.getDeliverInfo());
 		
 		confirmButton.addActionListener(new ActionListener() {
 			@Override
@@ -85,20 +98,5 @@ public class OrderDetailDialog extends JDialog{
         this.setVisible(true);
 	}
 
-	public void setInfo(OrderQueryVO vo) {
-		goodsStateTextField.setText(vo.getState().getName());
-		String info = vo.getDeliverInfo();
-		int length = 0;
-		for (int i = 0; i < info.length(); i++) {
-			if (info.charAt(i)=='\n') {
-				length++;
-			}
-		}
-		deliverLabel.setBounds(10, 100, 500, 30*length);
-		deliveryInfoTestTextArea.setBounds(10, 110, 480, 28*length);
-		orderIdTextField.setText(vo.getId());	
-		System.out.println(vo.getDeliverInfo());
-		deliverLabel.add(deliveryInfoTestTextArea);
-		deliveryInfoTestTextArea.setText(vo.getDeliverInfo());
-	}
+	
 }
