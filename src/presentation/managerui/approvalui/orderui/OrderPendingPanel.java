@@ -11,8 +11,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JToggleButton;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
@@ -58,14 +56,6 @@ public class OrderPendingPanel extends JPanel{
 		orderPendingScrollPane = new JScrollPane(orderPendingTable);
 		orderPendingScrollPane.setBounds(0, 0, 660, 390);
 		
-		tableModel.addTableModelListener(new TableModelListener() {
-			
-			@Override
-			public void tableChanged(TableModelEvent e) {
-				// TODO Auto-generated method stub
-				PresentationUtil.fitTableColumns(orderPendingTable);
-			}
-		});
 		
 		PresentationUtil.fitTableColumns(orderPendingTable);
 

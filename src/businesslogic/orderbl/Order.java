@@ -14,6 +14,7 @@ import systemenum.StorageState;
 import systemenum.WrapWay;
 import dataservice.DataService;
 import dataservice.OrderDataService;
+import vo.ConstantVO;
 import vo.GoodsVO;
 import vo.OrderCreateVO;
 import vo.OrderDeliverInfoVO;
@@ -24,6 +25,7 @@ import vo.InOrderCheckResultVO;
 import vo.OutOrderCheckResultVO;
 import vo.StoreinOrderVO;
 import businesslogic.citybl.City;
+import businesslogic.constantbl.Constant;
 import businesslogic.idbl.OrderIdManager;
 import businesslogic.logbl.Log;
 import businesslogicservice.IdblService;
@@ -183,6 +185,9 @@ public class Order implements OrderblService{
 		double distance = getEximatedTime(vo.getSenderAddress(), vo.getReceiverAddress());
 		int wrapCost = 0;
 		double deliverCost = 0;
+		Constant constant = new Constant();
+		ConstantVO constantVO = constant.getPrice();
+		double rato = constantVO.getPrice();
 		switch (wrapWay) {
 		case CARTON:
 			wrapCost = 5;
@@ -196,13 +201,13 @@ public class Order implements OrderblService{
 		}
 		switch (deliveryWay) {
 		case ECONOMIC:
-			deliverCost = distance/1000*720*weight;
+			deliverCost = distance/1000*(rato/23*18)*weight;
 			break;
 		case STANDARD:
-			deliverCost = distance/1000*920*weight;
+			deliverCost = distance/1000*rato*weight;
 			break;
 		case FAST:
-			deliverCost = distance/1000*1000*weight;
+			deliverCost = distance/1000*(rato/23*25)*weight;
 			break;
 		}
 		BigDecimal bg = new BigDecimal(deliverCost+wrapCost);  
