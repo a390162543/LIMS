@@ -70,6 +70,7 @@ public class OrderDetailDialog extends JDialog{
 		this.add(confirmButton);
 		
 		goodsStateTextField.setText(vo.getState().getName());
+		
 		String info = vo.getDeliverInfo();
 		int length = 0;
 		for (int i = 0; i < info.length(); i++) {
@@ -77,11 +78,13 @@ public class OrderDetailDialog extends JDialog{
 				length++;
 			}
 		}
-		deliverLabel.setBounds(10, 100, 500, 30*length);
-		deliveryInfoTestTextArea.setBounds(10, 110, 480, 28*length);
+		deliverLabel.setBounds(10, 100, 500, 28*length+10);
+		deliverLabel.add(deliveryInfoTestTextArea);
+		deliverLabel.setLayout(null);
+		deliveryInfoTestTextArea.setBounds(0, 0, 480, 28*length);
 		orderIdTextField.setText(vo.getId());	
 		System.out.println(vo.getDeliverInfo());
-		deliverLabel.add(deliveryInfoTestTextArea);
+		
 		deliveryInfoTestTextArea.setText(vo.getDeliverInfo());
 		
 		confirmButton.addActionListener(new ActionListener() {

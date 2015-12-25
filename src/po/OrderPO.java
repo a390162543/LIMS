@@ -410,6 +410,9 @@ public class OrderPO implements Serializable{
 	public OrderPO updateOrderDeliverInfo(OrderDeliverInfoVO vo) {
 		setNowLocation(vo.getNowLocation());
 		setNextLocation(vo.getNextLocation());
+		if (deliverInfo.equals("")) {
+			deliverInfo = deliverInfo + vo.getDeliverInfo();
+		}
 		deliverInfo = deliverInfo+"\n"+vo.getDeliverInfo();
 		return this;
 	}
