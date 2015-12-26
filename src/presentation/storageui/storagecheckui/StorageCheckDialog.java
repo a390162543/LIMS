@@ -3,6 +3,10 @@ package presentation.storageui.storagecheckui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.Date;
 
 import javax.swing.JButton;
@@ -14,9 +18,14 @@ import javax.swing.JTabbedPane;
 import presentation.mainui.MainFrame;
 import presentation.storageui.storagecheckui.storeincheckui.StoreinCheckPanel;
 import presentation.storageui.storagecheckui.storeoutcheckui.StoreoutCheckPanel;
+import presentation.util.CheckInfoGetter;
+import presentation.util.Checker;
 import presentation.util.DatePickPanel;
 import presentation.util.RecentDatePickPanel;
 import vo.StoreinCheckVo;
+import businesslogic.checkbl.CheckInfo;
+import businesslogic.checkbl.storageinfo.FromDate;
+import businesslogic.checkbl.storageinfo.ToDate;
 import businesslogic.storagebl.Storage;
 import businesslogicservice.StorageblService;
 
@@ -59,17 +68,70 @@ public class StorageCheckDialog extends JDialog{
 
 		confirmButton = new JButton("È·¶¨");
 		confirmButton.setBounds(270, 150, 70, 30);
+		
+		this.add(confirmButton);
+		this.add(checkDateLabel);
+		this.add(fromDatePickPanel);
+		this.add(toDatePickPanel);
+		
+		
+		
+		Checker fromDateChecker = new Checker(fromDatePickPanel, new CheckInfoGetter() {
+			
+			@Override
+			public CheckInfo getCheckInfo() {
+				// TODO Auto-generated method stub
+				Date fromDate = fromDatePickPanel.getDate();
+				Date toDate = toDatePickPanel.getDate();
+				return new FromDate(fromDate, toDate);
+			}
+		});
+		
+		Checker toDateChecker = new Checker(toDatePickPanel, new CheckInfoGetter() {
+			
+			@Override
+			public CheckInfo getCheckInfo() {
+				// TODO Auto-generated method stub
+				Date froDate = fromDatePickPanel.getDate();
+				Date toDate = toDatePickPanel.getDate();
+				return new ToDate(froDate,toDate);
+			}
+		});
+		
+		fromDatePickPanel.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				
+				fromDateChecker.check();
+				toDateChecker.check();
+				
+			}
+		});
+		
+		
+		toDatePickPanel.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				fromDateChecker.check();
+				toDateChecker.check();
+				
+			}
+		});
+		
 		confirmButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				
+				if (fromDateChecker.isCorrect()&&toDateChecker.isCorrect()) {
 					StorageCheckDialog.this.dispose();
 					Date fromDate = fromDatePickPanel.getDate();
 					Date toDate = toDatePickPanel.getDate();
 					StoreinCheckVo storeinCheckVo = new StoreinCheckVo("date",
 							fromDate, toDate);
-
 					StorageblService storageblService = new Storage();
 					storageblService.storeoutCheck(storeinCheckVo);
 					storageblService.storeinCheck(storeinCheckVo);
@@ -77,7 +139,7 @@ public class StorageCheckDialog extends JDialog{
 							storageblService.storeinCheck(storeinCheckVo));
 					StoreoutCheckPanel storeoutCheckPanel = new StoreoutCheckPanel(
 							storageblService.storeoutCheck(storeinCheckVo));
-					//fatherPanel.setLayout(null);
+					// fatherPanel.setLayout(null);
 					storeinCheckPanel.setBounds(0, 0, 645, 250);
 					storeoutCheckPanel.setBounds(0, 250, 645, 250);
 					JPanel combPanel = new JPanel();
@@ -85,17 +147,15 @@ public class StorageCheckDialog extends JDialog{
 					combPanel.setBounds(0, 0, 645, 500);
 					combPanel.add(storeinCheckPanel);
 					combPanel.add(storeoutCheckPanel);
-					fatherPanel.setComponentAt(3, combPanel);					
+					fatherPanel.setComponentAt(3, combPanel);
 					fatherPanel.repaint();
+				}
 				
-				
+
 			}
 		});
 
-		this.add(confirmButton);
-		this.add(checkDateLabel);
-		this.add(fromDatePickPanel);
-		this.add(toDatePickPanel);
+		
 
 		this.setLocationRelativeTo(MainFrame.getMainFrame());
 		this.setModalityType(ModalityType.APPLICATION_MODAL);

@@ -34,13 +34,13 @@ public class PrimeStoreinOrderId implements CheckInfo{
 			return checkResultMessage;
 		}
 		if (orderId.length() == 10 && prime.contains(orderId)) {
-			
+			System.out.println("+++++++++++++++++");
+			System.out.println(prime.size());
 			checkResultMessage.addInfo(CheckResult.CORRECT,"正确");
 			return checkResultMessage;
 		}
 		if (orderId.length() == 10 && orderQueryVO == null) {
-			System.out.println(orderId);
-			System.out.println(prime.size());
+			
 			checkResultMessage.addInfo(CheckResult.FALSE, "该订单不存在，请确认输入");
 			return checkResultMessage;
 		}

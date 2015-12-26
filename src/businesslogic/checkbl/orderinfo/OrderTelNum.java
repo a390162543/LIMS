@@ -31,7 +31,7 @@ public class OrderTelNum implements CheckInfo {
 	
 
 	private boolean isPhoneNumber(String str){  		
-		Pattern p = Pattern.compile("1([\\d]{10})|((\\+[0-9]{2,4})?\\(?[0-9]+\\)?-?)?[0-9]{7,8}");  			  
+		Pattern p = Pattern.compile("(\\(\\d{3,4}\\)|\\d{3,4}-|\\s)?\\d{8}");  			  
 		Matcher m = p.matcher(str);  
 		return m.matches();
 	} 

@@ -92,6 +92,7 @@ public class StoreinPendingPanel extends JPanel {
                     int modelRow = storeinPendingTable.convertRowIndexToModel(firstSelectedRow);
     				tableModel.approve(modelRow);
 				}
+				 ScreenMessage.putOnScreen(ScreenMessage.SAVE_SUCCESS);
 				indexes.clear();
 				storeinPendingTable.clearSelection();
 			}

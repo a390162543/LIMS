@@ -105,4 +105,7 @@ public class PrimeInfoStoreinTableModel extends DefaultTableModel {
         return v;
     }
 
+    public PrimeInfoblService getPrimeInfoblService(){
+    	return primeInfoblService;
+    }
 }

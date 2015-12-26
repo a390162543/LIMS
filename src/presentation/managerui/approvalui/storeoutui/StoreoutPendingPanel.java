@@ -85,6 +85,7 @@ public class StoreoutPendingPanel extends JPanel {
                     int modelRow = storeoutPendingTable.convertRowIndexToModel(firstSelectedRow);
     				tableModel.approve(modelRow);
 				}
+				ScreenMessage.putOnScreen(ScreenMessage.SAVE_SUCCESS);
 				indexes.clear();
 				storeoutPendingTable.clearSelection();
 			}

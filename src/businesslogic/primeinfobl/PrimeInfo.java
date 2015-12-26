@@ -333,6 +333,15 @@ public class PrimeInfo implements PrimeInfoblService{
 		}
 		return id;
 	}
+	@Override
+	public List<String> getOrderList() {
+		// TODO Auto-generated method stub
+		List<String> orderList = new ArrayList<String>();
+		for (OrderCreateVO vo : primeInfoVO.getOrder()) {
+			orderList.add(vo.getId());
+		}
+		return orderList;
+	}
 
 
 }

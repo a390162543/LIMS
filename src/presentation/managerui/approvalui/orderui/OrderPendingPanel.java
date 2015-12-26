@@ -92,6 +92,7 @@ public class OrderPendingPanel extends JPanel{
                     int modelRow = orderPendingTable.convertRowIndexToModel(firstSelectedRow);
     				tableModel.approve(modelRow);
 				}
+				 ScreenMessage.putOnScreen(ScreenMessage.SAVE_SUCCESS);
 				indexes.clear();
 				orderPendingTable.clearSelection();
 			}

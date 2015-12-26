@@ -17,16 +17,14 @@ import presentation.util.Checker;
 import presentation.util.DialogLayoutManager;
 import systemenum.StorageState;
 import vo.StorageLocationVO;
-import businesslogic.BusinessLogicService;
 import businesslogic.checkbl.CheckInfo;
 import businesslogic.checkbl.storeininfo.AreaNum;
 import businesslogic.checkbl.storeininfo.FrameNum;
 import businesslogic.checkbl.storeininfo.Item;
 import businesslogic.checkbl.storeininfo.PrimeStoreinOrderId;
 import businesslogic.checkbl.storeininfo.RowNum;
-import businesslogic.primeinfobl.PrimeInfo;
 import businesslogic.storeinbl.Storein;
-import businesslogic.userbl.LoginController;
+import businesslogicservice.PrimeInfoblService;
 import businesslogicservice.StoreinblService;
 
 
@@ -59,22 +57,25 @@ public class PrimeInfoStoreinGoodsDialog extends JDialog {
 	private JButton cancleButton;
 	
 	@SuppressWarnings("unused")
+	private PrimeInfoblService primeInfobiService;
+	
+	@SuppressWarnings("unused")
 	private String storeinId;
 	
 	@SuppressWarnings("unused")
 	private DefaultTableModel tableModel;
 
-	public PrimeInfoStoreinGoodsDialog(DefaultTableModel tableModel, String storeinId){
+	public PrimeInfoStoreinGoodsDialog(DefaultTableModel tableModel, String storeinId, PrimeInfoblService primeInfoblService){
 		this.tableModel = tableModel;
 		this.storeinId = storeinId;
-		
+		this.primeInfobiService = primeInfoblService;
 		
 		this.setTitle("货物入库");	
 		this.setSize(380, 250);
 		
-		PrimeInfo primeInfo = (PrimeInfo) BusinessLogicService.getPrimeInfoblService();
-		List<String> orderId = primeInfo.getOrderId();
-		System.out.println(orderId.size());
+		
+		List<String> orderId = primeInfoblService.getOrderList();
+		System.out.println("+++++__++_+_+_+"+orderId.size());
 		
 		orderIdLabel = new JLabel("订单号");
 		orderIdLabel.setBounds(30, 60, 60, 22);
@@ -169,6 +170,7 @@ public class PrimeInfoStoreinGoodsDialog extends JDialog {
 
 					@Override
 					public CheckInfo getCheckInfo() {
+						
 						int areaNum = -1;
 						int rowNum = -1;
 						if (!areaNUmTextField.getText().equals("")
@@ -181,19 +183,26 @@ public class PrimeInfoStoreinGoodsDialog extends JDialog {
 							} catch (Exception e) {
 								// TODO: handle exception
 							}
-							return new RowNum(areaNum, rowNum);
+							RowNum row = new RowNum(areaNum, rowNum);
+							row.getStorageId(storeinId);
+							return row;
 						}
 						if (areaNUmTextField.getText().equals("")
 								&& !rowNumTextField.getText().equals("")) {
-							return new RowNum(-1, Integer.valueOf(rowNumTextField.getText()));
+							RowNum row = new RowNum(-1, Integer.valueOf(rowNumTextField.getText()));
+							row.getStorageId(storeinId);
+							return row;
 						}
 						
 						if (!areaNUmTextField.getText().equals("")
 								&& rowNumTextField.getText().equals("")) {
-							return new RowNum(Integer.valueOf(areaNUmTextField.getText()), -1);
+							RowNum row = new RowNum(Integer.valueOf(areaNUmTextField.getText()), -1);
+							row.getStorageId(storeinId);
+							return row;
 						}
-
-						return new RowNum(-1, -1);
+						RowNum row = new RowNum(-1, -1);
+						row.getStorageId(storeinId);
+						return row;
 					}
 				});
         
@@ -294,12 +303,12 @@ public class PrimeInfoStoreinGoodsDialog extends JDialog {
 				StorageLocationVO vo = null;
 				if (!areaNUmTextField.getText().equals("")&&!rowNumTextField.getText().equals("")
 						&&!frameNumTextField.getText().equals("")&&!itemTextField.getText().equals("")) {
-					vo = new StorageLocationVO(LoginController.getOrganizationId(),
+					vo = new StorageLocationVO(storeinId,
 							Integer.valueOf(areaNUmTextField.getText()), Integer.valueOf(rowNumTextField.getText()), 
 							Integer.valueOf(frameNumTextField.getText()), Integer.valueOf(itemTextField.getText()));
 					return new Item(vo);
 				}
-				vo = new StorageLocationVO(LoginController.getOrganizationId(), -1, -1, -1, -1);
+				vo = new StorageLocationVO(storeinId, -1, -1, -1, -1);
 				return new Item(vo) ;
 				
 			}
@@ -346,9 +355,7 @@ public class PrimeInfoStoreinGoodsDialog extends JDialog {
 		cancleButton.addActionListener(new ActionListener() {	
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
-				
-				
+				PrimeInfoStoreinGoodsDialog.this.dispose();
 			}
 		});
 		

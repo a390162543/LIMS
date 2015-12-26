@@ -165,7 +165,7 @@ public class PrimeInfoStoreinDialog extends JDialog{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					new PrimeInfoStoreinGoodsDialog(tableModel,storeinIdTextField.getText().substring(0, 4));
+					new PrimeInfoStoreinGoodsDialog(tableModel,storeinIdTextField.getText().substring(0, 4),primeInfoStoreinTableModel.getPrimeInfoblService());
 				} catch (Exception e2) {
 					System.out.println("«Î—°‘Ò»Îø‚µÿ");			
 				}

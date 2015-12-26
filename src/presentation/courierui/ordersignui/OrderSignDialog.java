@@ -56,7 +56,7 @@ public class OrderSignDialog extends JDialog{
 	public OrderSignDialog(){
 	
 		this.setTitle("订单签收");	
-		this.setSize(380, 360);
+		this.setSize(380, 300);
         	
         
         confirmButton = new JButton("确定");

@@ -19,7 +19,7 @@ public class RowNum implements CheckInfo{
 
 	private int areaNum;
 	private int rowNum;
-	
+	private String storageId;
 	
 	public RowNum(int areaNum, int rowNum) {
 		this.areaNum = areaNum;
@@ -30,6 +30,9 @@ public class RowNum implements CheckInfo{
 	public CheckResultMessage check() {
 		Storage storage = new Storage();
 		StorageSetAreaVO storageSetAreaVO = storage.getStorageData(LoginController.getOrganizationId());
+		if (storageSetAreaVO == null) {
+			storageSetAreaVO = storage.getStorageData(storageId);
+		}
 		int maxRow = -2;
 		CheckResultMessage checkResultMessage = new CheckResultMessage();
 		switch (areaNum) {
@@ -69,6 +72,8 @@ public class RowNum implements CheckInfo{
 		return checkResultMessage;
 	}
 	
-	
+	public void getStorageId(String id){
+		this.storageId = id;
+	}
 
 }
