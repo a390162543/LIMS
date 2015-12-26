@@ -89,7 +89,7 @@ public class Deliver implements DeliverblService{
             Order orderbl = new Order();
             String deliverInfo = BusinessLogicUtil.getTime(vo.getDeliverDate())+
                     "\n"+"货物正在由快递员"+courier+"派件";
-            OrderDeliverInfoVO orderDeliverInfoVO = new OrderDeliverInfoVO(vo.getOrderId(), LoginController.getOrganizationName(), "", deliverInfo);
+            OrderDeliverInfoVO orderDeliverInfoVO = new OrderDeliverInfoVO(vo.getOrderId(), employeeVO.getOrganization(), "", deliverInfo);
             orderbl.modifyDeliverInfo(orderDeliverInfoVO);
                 
             Log logbl = new Log();

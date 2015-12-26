@@ -22,6 +22,7 @@ import presentation.businesshallui.revenueui.OrderTableModel;
 import presentation.util.CheckInfoGetter;
 import presentation.util.Checker;
 import presentation.util.DialogLayoutManager;
+import presentation.util.JNumberTextField;
 import presentation.util.OrganizationComboBox;
 import presentation.util.PresentationUtil;
 import presentation.util.RecentDatePickPanel;
@@ -94,12 +95,12 @@ public class RevenueDialog extends JDialog{
         JTable orderTable = new JTable(tableModel);
         PresentationUtil.fitTableColumns(orderTable);
         orderTable.getTableHeader().setPreferredSize(new Dimension(180, 25));
-        orderTable.setSize(250, 100);
+        orderTable.setSize(250, 125);
         orderTable.setRowSorter(tableSorter);   
         
         
         JScrollPane OrderScrollPane = new JScrollPane(orderTable);
-        OrderScrollPane.setBounds(100, 10+35*4, 200 , 100);          
+        OrderScrollPane.setBounds(100, 10+35*4, 200 , 125);          
         JButton addOrderButton = new JButton("Ìí¼Ó¶©µ¥");
         addOrderButton.setBounds(160, 10+35*7, 70, 20);
         JButton deleteOrderButton = new JButton("É¾³ý¶©µ¥");
@@ -211,7 +212,7 @@ public class RevenueDialog extends JDialog{
             
             JLabel orderLabel = new JLabel("¶©µ¥ºÅ");
             orderLabel.setBounds(35, 85, 100, 24);
-            JTextField orderField = new JTextField();
+            JTextField orderField = new JNumberTextField();
             orderField.setBounds(145, 85, 180, 20);
             JButton cancelButton = new JButton("È¡Ïû");
             cancelButton.setBounds(190, 150, 70, 30);

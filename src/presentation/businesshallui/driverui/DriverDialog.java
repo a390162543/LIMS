@@ -26,6 +26,7 @@ import presentation.util.CheckInfoGetter;
 import presentation.util.Checker;
 import presentation.util.DatePickPanel;
 import presentation.util.DialogLayoutManager;
+import presentation.util.JNumberTextField;
 import presentation.util.OrganizationComboBox;
 import presentation.util.ScreenMessage;
 import systemenum.Position;
@@ -85,11 +86,11 @@ public class DriverDialog extends JDialog{
         organizationComboBox.setEnabled(false);
         this.add(organizationComboBox);
         
-        JTextField phoneTextField = new JTextField();
+        JTextField phoneTextField = new JNumberTextField();
         phoneTextField.setSize(150, 25);
         this.add(phoneTextField);
         
-        JTextField idcardNumberTextField = new JTextField();
+        JTextField idcardNumberTextField = new JNumberTextField();
         idcardNumberTextField.setSize(150, 25);
         this.add(idcardNumberTextField);
         
@@ -297,11 +298,11 @@ public class DriverDialog extends JDialog{
         organizationComboBox.setEnabled(false);
         this.add(organizationComboBox);
         
-        JTextField phoneTextField = new JTextField();
+        JTextField phoneTextField = new JNumberTextField();
         phoneTextField.setSize(150, 25);
         this.add(phoneTextField);
         
-        JTextField idcardNumberTextField = new JTextField();
+        JTextField idcardNumberTextField = new JNumberTextField();
         idcardNumberTextField.setSize(150, 25);
         this.add(idcardNumberTextField);
         

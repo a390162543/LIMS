@@ -16,6 +16,7 @@ import javax.swing.JTextField;
 import presentation.util.CheckInfoGetter;
 import presentation.util.Checker;
 import presentation.util.DialogLayoutManager;
+import presentation.util.JNumberTextField;
 import presentation.util.OrganizationComboBox;
 import presentation.util.RecentDatePickPanel;
 import presentation.util.ScreenMessage;
@@ -60,11 +61,13 @@ public class ArrivalDialog extends JDialog{
         }
         
         textFields = new JTextField[2];
-        for(int i=0;i<textFields.length;i++){
-            textFields[i] = new JTextField();
-            textFields[i].setBounds(100, 10+35*i, 150, 25);
-            this.add(textFields[i]);
-        }
+        textFields[0] = new JTextField();
+        textFields[0].setBounds(100, 10+35*0, 150, 25);
+        this.add(textFields[0]);
+        textFields[1] = new JNumberTextField();
+        textFields[1].setBounds(100, 10+35*1, 150, 25);
+        this.add(textFields[1]);
+        
         IdblService idblService = arrivalblService.getIdblService();
         textFields[0].setText(idblService.createNewId());
         textFields[0].setEnabled(false);

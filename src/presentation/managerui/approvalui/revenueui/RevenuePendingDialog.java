@@ -95,12 +95,12 @@ public class RevenuePendingDialog extends JDialog {
         JTable orderTable = new JTable(tableModel);
         PresentationUtil.fitTableColumns(orderTable);
         orderTable.getTableHeader().setPreferredSize(new Dimension(180, 25));
-        orderTable.setSize(250, 100);
+        orderTable.setSize(250, 125);
         orderTable.setRowSorter(tableSorter);   
         
         
         JScrollPane OrderScrollPane = new JScrollPane(orderTable);
-        OrderScrollPane.setBounds(100, 10+35*4, 150, 75);    
+        OrderScrollPane.setBounds(100, 10+35*4, 200, 125);    
         this.add(OrderScrollPane);
         
         
