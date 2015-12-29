@@ -92,6 +92,7 @@ public class TransferPendingDialog extends JDialog {
 		 		
 		JTextField idField = new JTextField();
 		idField.setBounds(105, 10, 180, 20);
+		idField.setEnabled(false);
 		JLabel idLabel = new JLabel("中转单编号");
 		idLabel.setBounds(20, 10, 80, 20);
 		JLabel dateLabel = new JLabel("装车日期");
@@ -173,7 +174,7 @@ public class TransferPendingDialog extends JDialog {
 		containerIdField.setText(vo.getContainerId());
 		loanManField.setText(vo.getLoadMan());
 		expensesField.setText(""+vo.getExpenses());		
-		orderTableModel = new OrderTableModel(transferblService);  
+		orderTableModel = new OrderTableModel(transferblService, vo.getOrderId());  
 		TableRowSorter<TableModel>  tableSorter = new TableRowSorter<TableModel>(orderTableModel);
 		JTable orderTable = new JTable(orderTableModel);
 	    orderTable.setSize(180, 60);
@@ -271,14 +272,14 @@ public class TransferPendingDialog extends JDialog {
 		
 		if(!isEditable){
 			 
-			flightNumField.setEnabled(true);
-			departBox.setEnabled(true);
-			destinationBox.setEnabled(true);
-			containerIdField.setEnabled(true);
-			loanManField.setEnabled(true);
-			addOrderButton.setEnabled(true);
-			deleteOrderButton.setEnabled(true);
-			expensesField.setEnabled(true);
+			flightNumField.setEnabled(false);
+			departBox.setEnabled(false);
+			destinationBox.setEnabled(false);
+			containerIdField.setEnabled(false);
+			loanManField.setEnabled(false);
+			addOrderButton.setEnabled(false);
+			deleteOrderButton.setEnabled(false);
+			expensesField.setEnabled(false);
 		}
 		
 		 
@@ -291,7 +292,7 @@ public class TransferPendingDialog extends JDialog {
 		this.add(trainButton);
 		this.add(flightButton);
 		this.add(truckButton);
-		DialogLayoutManager.fix(trainButton, flightButton, truckButton);
+		DialogLayoutManager.fix(flightButton,trainButton,  truckButton);
 		
 		this.add(dateLabel);		 	
 		this.add(datePickPanel);

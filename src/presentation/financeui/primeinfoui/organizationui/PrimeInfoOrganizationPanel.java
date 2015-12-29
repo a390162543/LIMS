@@ -154,11 +154,12 @@ public class PrimeInfoOrganizationPanel extends JPanel{
     		@Override
     		public void actionPerformed(ActionEvent e) {
     		// TODO Auto-generated method stub
+    			ScreenMessage.putOnScreen(ScreenMessage.SAVE_SUCCESS);
     			primeInfoblService.createPrimeInfoPO();
     			primeInfoblService.execute();   
     	        Container container = PrimeInfoOrganizationPanel.this.getParent().getParent();
     	        container.removeAll();
-    	        container.repaint();
+    	        container.repaint(); 
     		}
     	});
        

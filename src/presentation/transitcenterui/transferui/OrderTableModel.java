@@ -1,11 +1,10 @@
 package presentation.transitcenterui.transferui;
 
 import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Vector;
-
 import javax.swing.table.DefaultTableModel;
-
 import businesslogicservice.TransferblService;
 import vo.GoodsVO;
 
@@ -31,6 +30,15 @@ public class OrderTableModel extends DefaultTableModel{
        dataList = new ArrayList<GoodsVO>();
        setDataVector(convertToVectorData(dataList), getColumnNamesVector());
     }
+    
+    public OrderTableModel(TransferblService tbs, List<String> idList){
+    	transferblService = tbs;
+    	dataList = new ArrayList<GoodsVO>();
+    	for(String id : idList)
+    		dataList.add(transferblService.getGoodsVO(id));    	
+    	setDataVector(convertToVectorData(dataList), getColumnNamesVector());
+    }
+    
     
     public void add(String id){
     	GoodsVO vo = transferblService.getGoodsVO(id);

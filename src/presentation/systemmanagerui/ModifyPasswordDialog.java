@@ -74,6 +74,7 @@ public class ModifyPasswordDialog extends JDialog{
 				boolean isCorrect = passwordCheck.check() & newPasswordCheck.check()
 									& confirmPassword.check();
 				if(isCorrect){
+				 
 					userblService.modifyPassword(LoginController.getEmployeeId(),
 							new String(fields[1].getPassword()));
 					ModifyPasswordDialog.this.dispose();

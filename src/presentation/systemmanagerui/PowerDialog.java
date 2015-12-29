@@ -21,6 +21,7 @@ import presentation.mainui.MainFrame;
 import presentation.util.CheckInfoGetter;
 import presentation.util.Checker;
 import presentation.util.DialogLayoutManager;
+import presentation.util.ScreenMessage;
 import systemenum.Power;
 import vo.UserVO;
 import businesslogic.BusinessLogicService;
@@ -92,6 +93,7 @@ public class PowerDialog extends JDialog{
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				if(idChecker.check()){	
+					ScreenMessage.putOnScreen(ScreenMessage.SAVE_SUCCESS);
 					UserVO vo = userblService.find(idField.getText());
 					vo.setPower(Power.values()[powerBox.getSelectedIndex()]);
 					userblService.modifyPower(vo);

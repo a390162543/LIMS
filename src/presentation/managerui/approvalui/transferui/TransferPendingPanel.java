@@ -134,8 +134,8 @@ public class TransferPendingPanel extends JPanel {
 			}
 		});
 		
-		toggleButton.setBounds(235+90, 400, 70, 30);
-		approveButton.setBounds(315+90, 400, 70, 30);
+		toggleButton.setBounds(320, 400, 70, 30);
+		approveButton.setBounds(405, 400, 70, 30);
 		modifyButton.setBounds(400+90, 400, 70, 30);
 		queryButton.setBounds(485+90, 400, 70, 30);
 		// set panel

@@ -6,9 +6,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+ 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -16,6 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+
 import presentation.mainui.MainFrame;
 import presentation.util.CheckInfoGetter;
 import presentation.util.Checker;
@@ -26,6 +29,7 @@ import businesslogic.checkbl.cityinfo.CityId;
 import businesslogic.checkbl.cityinfo.CityName;
 import businesslogic.citybl.City;
 import businesslogicservice.CityblService;
+ 
 
 public class PrimeInfoCityDialog extends JDialog{
 
@@ -47,12 +51,13 @@ public class PrimeInfoCityDialog extends JDialog{
 		 mainPanel.setBounds(0, 0, 400, 300);
 		 mainPanel.add(new InputCityPanel());
 		 mainPanel.setLayout(null);
+
+		 this.add(mainPanel);
+		 this.setSize(250, 180);
+		 this.setLayout(null);
+		 this.setVisible(true);	
 		 this.setModalityType(ModalityType.APPLICATION_MODAL);
 		 this.setLocationRelativeTo(MainFrame.getMainFrame());
-		 this.add(mainPanel);
-		 this.setBounds(400, 200, 400, 250);
-		 this.setLayout(null);
-		 this.setVisible(true);
 	}
 	
 	public PrimeInfoCityDialog(PrimeInfoCityTableModel em, int modelRow, boolean isEdit) {
@@ -66,7 +71,7 @@ public class PrimeInfoCityDialog extends JDialog{
 		 this.setModalityType(ModalityType.APPLICATION_MODAL);
 		 this.setLocationRelativeTo(MainFrame.getMainFrame());
 		 this.add(mainPanel);
-		 this.setBounds(400, 200, 400, 250);
+		 this.setSize(250, 180);
 		 this.setLayout(null);
 		 this.setVisible(true);
 }
@@ -85,16 +90,19 @@ public class PrimeInfoCityDialog extends JDialog{
 		private static final long serialVersionUID = 3840173390122307371L;
 
 		public InputCityPanel(){
-			this.setBounds(0, 0, 400, 250);					 
+			this.setBounds(0, 0, 250, 150);					 
 			JLabel nameLabel = new JLabel("城市名称");
-			nameLabel.setBounds(50, 50, 100, 25);
+			nameLabel.setBounds(10, 10, 100, 25);
 			JTextField nameField = new JTextField();
-			nameField.setBounds(180, 50, 60, 20);		 
+			nameField.setBounds(100, 10, 65, 20);		 
 			JLabel idLabel = new JLabel("城市编号");
-			idLabel.setBounds(50, 100, 100, 25);
+			idLabel.setBounds(10, 50, 100, 25);
 			JTextField idField = new JTextField();
-			idField.setBounds(180, 100, 60, 20);		
+			idField.setBounds(100, 50, 60, 20);		
 			JButton cancelButton = new JButton("取消");
+			cancelButton.setBounds(60, 90, 70, 30);			
+			JButton nextButton = new JButton("下一步");
+			nextButton.setBounds(150, 90, 70, 30);
 			
 			//设置idField只能输入数字
 			idField.addKeyListener(new KeyAdapter() {
@@ -108,7 +116,7 @@ public class PrimeInfoCityDialog extends JDialog{
 		                }  
 		            }            
 			});
-			cancelButton.setBounds(190, 150, 70, 30);
+		 
 			cancelButton.addActionListener(new ActionListener() {
 				
 				@Override
@@ -118,8 +126,7 @@ public class PrimeInfoCityDialog extends JDialog{
 				}
 			});
 			
-			JButton nextButton = new JButton("下一步");
-			nextButton.setBounds(280, 150, 70, 30);
+ 
 			nextButton.addActionListener(new ActionListener() {
 				
 				@Override
@@ -383,10 +390,15 @@ public class PrimeInfoCityDialog extends JDialog{
 		private static final long serialVersionUID = 115690782502191733L;
 
 		public InputDistancePanel(String name, String id){
-			 
-			String[] citySrt =  {"",name};		 
+			List<String> names =   tableModel.getCityName();
+			List<String> names1 =   cityblService.getAllName();
+			for(int i = 0; i < names1.size(); i ++){
+				names.add(names1.get(i));
+			}
+			String[] citySrt =  {"",name};		
+		 
 			String cityName[] =(String[]) 
-					cityblService.getAllName().toArray(new String[cityblService.getAllName().size()]);
+					names.toArray(new String[names.size()]);
 			 
 			String[][] data = new String[cityName.length][2] ;
 			
@@ -406,7 +418,7 @@ public class PrimeInfoCityDialog extends JDialog{
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
 					mainPanel.removeAll();
-					PrimeInfoCityDialog.this.setSize(400, 250);
+					PrimeInfoCityDialog.this.setSize(250, 180);
 					mainPanel.add(new InputCityPanel());
 					mainPanel.repaint();
 				}
@@ -422,12 +434,17 @@ public class PrimeInfoCityDialog extends JDialog{
 					// TODO Auto-generated method stub
 					Map<String, Double> distance = new HashMap<String, Double>();
 					List<CityVO> vos = cityblService.getAll();
+					List<CityVO> vos1 = tableModel.getCityVO();
+					for(int i = 0; i < vos1.size(); i ++){
+						vos.add(vos1.get(i));
+					}
+					
 					for(int i = 0; i < cityName.length; i++){
 						distance.put(cityName[i], new Double ((String)cityTabel.getValueAt(i, 1)) );
 						for(CityVO vo:vos){
 							if(vo.getName().equals(cityName[i])){
 								vo.setDistance(name,new Double ((String)cityTabel.getValueAt(i, 1)) );
-								cityblService.modifyCityPO(vo);
+								tableModel.modify( vo);;
 							}
 						}
 					}

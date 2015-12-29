@@ -31,6 +31,13 @@ public class PrimeInfoCityTableModel extends DefaultTableModel{
  	    setDataVector(convertToVectorData(dataList), getColumnNamesVector());
     }
     
+    public List<String> getCityName(){
+    	return primeInfoblService.getCityName();
+    }
+    public List<CityVO> getCityVO(){
+    	return primeInfoblService.getCityVO();
+    }
+    
     public void create(CityVO vo){
         addRow(convertToVector(vo));
         dataList.add(vo);
@@ -49,6 +56,10 @@ public class PrimeInfoCityTableModel extends DefaultTableModel{
         insertRow(row, convertToVector(vo));
         dataList.remove(row);
         dataList.add(row, vo);
+        primeInfoblService.modifyCityVO(vo);
+    }
+    
+    public void modify(  CityVO vo){
         primeInfoblService.modifyCityVO(vo);
     }
     

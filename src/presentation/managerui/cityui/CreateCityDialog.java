@@ -56,13 +56,14 @@ public class CreateCityDialog extends JDialog{
 		 mainPanel.setBounds(0, 0, 400, 300);
 		 mainPanel.add(new InputCityPanel());
 		 mainPanel.setLayout(null);
-		 this.setModalityType(ModalityType.APPLICATION_MODAL);
-		 this.setLocationRelativeTo(MainFrame.getMainFrame());
+
 		 this.add(mainPanel);
-		 this.setBounds(400, 200, 250, 180);
+		 this.setSize(250, 180);
 		 this.setResizable(false);
 		 this.setLayout(null);
-		 this.setVisible(true);
+		 this.setVisible(true);	
+		 this.setModalityType(ModalityType.APPLICATION_MODAL);
+		 this.setLocationRelativeTo(MainFrame.getMainFrame());
 	}
 	
 	/**
@@ -79,17 +80,19 @@ public class CreateCityDialog extends JDialog{
 		private static final long serialVersionUID = 3840173390122307371L;
 
 		public InputCityPanel(){
-			this.setBounds(0, 0, 300, 150);					 
+			this.setBounds(0, 0, 250, 150);					 
 			JLabel nameLabel = new JLabel("城市名称");
 			nameLabel.setBounds(10, 10, 100, 25);
 			JTextField nameField = new JTextField();
-			nameField.setBounds(100, 10, 60, 20);		 
+			nameField.setBounds(100, 10, 65, 20);		 
 			JLabel idLabel = new JLabel("城市编号");
 			idLabel.setBounds(10, 50, 100, 25);
 			JTextField idField = new JTextField();
 			idField.setBounds(100, 50, 60, 20);		
 			JButton cancelButton = new JButton("取消");
-			cancelButton.setBounds(60, 90, 70, 30);
+			cancelButton.setBounds(60, 90, 70, 30);			
+			JButton nextButton = new JButton("下一步");
+			nextButton.setBounds(150, 90, 70, 30);
 			
 			//设置idField只能输入数字
 			idField.addKeyListener(new KeyAdapter() {
@@ -111,16 +114,14 @@ public class CreateCityDialog extends JDialog{
 					 CreateCityDialog.this.dispose();
 				}
 			});
-			
-			JButton nextButton = new JButton("下一步");
-			nextButton.setBounds(150, 90, 70, 30);
+
 			nextButton.addActionListener(new ActionListener() {
 				
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
 					 
-					 boolean isRight = idChecker.check() && nameChecker.check();
+					 boolean isRight = idChecker.check() & nameChecker.check();
 					 if(!isRight){
 						 return;
 					 }
@@ -260,7 +261,7 @@ public class CreateCityDialog extends JDialog{
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
 					mainPanel.removeAll();
-					CreateCityDialog.this.setSize(400, 250);
+					CreateCityDialog.this.setSize(250, 180);
 					 mainPanel.add(new InputCityPanel());
 					 mainPanel.repaint();
 				}
@@ -305,6 +306,6 @@ public class CreateCityDialog extends JDialog{
 			this.setVisible(true);
 			this.setLayout(null);
 		}	 
-		}
+	}
 	
 }

@@ -161,6 +161,7 @@ public class PrimeInfoEmployeePanel extends JPanel{
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
+					ScreenMessage.putOnScreen(ScreenMessage.SAVE_SUCCESS);
 					primeInfoblService.createPrimeInfoPO();
                 	primeInfoblService.execute();    
                 	Container container = PrimeInfoEmployeePanel.this.getParent().getParent();

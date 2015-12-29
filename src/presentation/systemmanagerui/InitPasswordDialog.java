@@ -18,6 +18,7 @@ import presentation.util.CheckInfoGetter;
 import presentation.util.Checker;
 import presentation.util.DialogLayoutManager;
  
+import presentation.util.ScreenMessage;
 import businesslogic.checkbl.CheckInfo;
 import businesslogic.checkbl.userinfo.UserId;
 import businesslogic.userbl.User;
@@ -76,6 +77,7 @@ public class InitPasswordDialog extends JDialog{
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				if(idChecker.check())	{
+					ScreenMessage.putOnScreen(ScreenMessage.SAVE_SUCCESS);
 					userblService.initialize(idField.getText());
 					InitPasswordDialog.this.dispose();
 				}
