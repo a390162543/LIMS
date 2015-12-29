@@ -208,5 +208,9 @@ public interface PrimeInfoblService {
      */
 	public String getCityId(String name) ;
 	
+	/**
+     * 获取所有订单编号信息
+     * @return {@code String}列表，如果没有订单编号信息或获取失败，则返回空列表
+     */
 	public List<String> getOrderList();
 }

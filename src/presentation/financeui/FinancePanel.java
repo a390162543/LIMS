@@ -5,6 +5,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import businesslogic.userbl.LoginController;
 import presentation.financeui.accountui.AccountPanel;
 import presentation.financeui.logui.LogDialog;
 import presentation.financeui.paymentui.PaymentDialog;
@@ -12,6 +13,8 @@ import presentation.financeui.primeinfoui.PrimeInfoDialog;
 import presentation.financeui.settlementui.RevenuePanel;
 import presentation.financeui.settlementui.SettlementDialog;
 import presentation.financeui.statisticsui.StatisticsDialog;
+import presentation.util.ScreenMessage;
+import systemenum.Position;
 /**
  * {@code FinancePanel}继承{@code JPanel}，是财务人员主界面的界面层面板展示
  * @author 刘德宽
@@ -26,10 +29,10 @@ public class FinancePanel extends JPanel {
 	public FinancePanel(){
 		 JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.LEFT);
 
-	        tabbedPane.addTab("  账户管理   ", new AccountPanel());
+	        tabbedPane.addTab("  账户管理   ",null);
 	        tabbedPane.addTab("成本管理", null);
 	        tabbedPane.addTab("结算管理", null);
-	        tabbedPane.addTab("设置收款账户", new RevenuePanel());
+	        tabbedPane.addTab("设置收款账户", null);
 	        tabbedPane.addTab("查看统计报表", null);
 	        tabbedPane.addTab("查看日志记录", null);
 	        tabbedPane.addTab("期初建账", null);
@@ -50,12 +53,24 @@ public class FinancePanel extends JPanel {
 	                if(index==1)
 	                    tabbedPane.setSelectedIndex(-1);
 	                switch (index) {
+	                case 0:
+	        	        if(LoginController.getPosition() == Position.SENIORFINANCIALSTAFF){
+	        	        	tabbedPane.setComponentAt(index, new AccountPanel());
+	        	        }
+	        	        else{
+	        	        	ScreenMessage.putOnScreen("您没有权限进行账户管理");
+	        	        }
+	        	        	
+	                	break;
 	                case 1:
 	                	new PaymentDialog();
 	                	break;
 	                case 2:
 	                    new SettlementDialog(tabbedPane);
 	                    break;
+	                case 3:
+	                	tabbedPane.setComponentAt(index, new RevenuePanel());
+	                	break;
 	                case 4:
 	                    new StatisticsDialog(tabbedPane);
 	                    break;

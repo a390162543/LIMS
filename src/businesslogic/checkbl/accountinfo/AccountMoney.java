@@ -21,9 +21,10 @@ public class AccountMoney implements CheckInfo{
 		if(!accountMoney.matches("^[0-9]+([.]{1}[0-9]+){0,1}$")){
 			checkResultMessage.addInfo(CheckResult.FALSE, "账户金额应是整数或者小数");
 			return checkResultMessage;
+
 		}
-			
-		return checkResultMessage;
+		else	
+			return checkResultMessage;
 	}
 
 }

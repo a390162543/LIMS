@@ -19,8 +19,9 @@ import presentation.util.RecentDatePickPanel;
 import presentation.util.ScreenMessage;
 import businesslogic.BusinessLogicService;
 import businesslogic.checkbl.CheckInfo;
+import businesslogic.checkbl.Name;
 import businesslogic.checkbl.paymentinfo.PayeeAccountId;
-import businesslogic.checkbl.paymentinfo.PayeeName;
+import businesslogic.checkbl.paymentinfo.PaymentMoney;
 import businesslogic.checkbl.paymentinfo.Remarks;
 import businesslogicservice.IdblService;
 import businesslogicservice.PaymentblService;
@@ -151,7 +152,7 @@ public class PaymentDialog extends JDialog{
 
 			@Override
 			public CheckInfo getCheckInfo() {
-				return new PayeeName(nameField.getText());
+				return new Name(nameField.getText());
 			}
         	
         });
@@ -203,6 +204,34 @@ public class PaymentDialog extends JDialog{
  			}
          	
          });
+        Checker paymentMoneyChecker = new Checker(moneyField , new CheckInfoGetter(){
+
+ 			@Override
+ 			public CheckInfo getCheckInfo() {
+ 				return new PaymentMoney(moneyField.getText(), payerAccountBox.getSelectedItem().toString());
+ 			}
+         	
+         });
+        moneyField.addKeyListener(new KeyListener(){
+
+ 			@Override
+ 			public void keyPressed(KeyEvent arg0) {
+ 				// TODO Auto-generated method stub
+ 				
+ 			}
+
+ 			@Override
+ 			public void keyReleased(KeyEvent arg0) {
+ 				 paymentMoneyChecker.check();
+ 			}
+
+ 			@Override
+ 			public void keyTyped(KeyEvent arg0) {
+ 				// TODO Auto-generated method stub
+ 				
+ 			}
+         	
+         });
          Checker remarksChecker = new Checker(remarksArea , new CheckInfoGetter(){
 
  			@Override
@@ -231,14 +260,22 @@ public class PaymentDialog extends JDialog{
  			}
          	
          });
+         payerAccountBox.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				paymentMoneyChecker.check();
+			}
+        	 
+         });
  		
  		JButton confirmButton=new JButton("х╥хо");
- 		confirmButton.setBounds(280,450, 70, 30);
+ 		confirmButton.setBounds(280,450, 70, 30); 
  		confirmButton.addActionListener(new ActionListener(){
 
  			@Override
  			public void actionPerformed(ActionEvent arg0) {			
- 				if(payeeNameChecker.check()&&payeeAccountIdChecker.check()&&remarksChecker.check()){
+ 				if(payeeNameChecker.check()&&payeeAccountIdChecker.check()&&remarksChecker.check()&& paymentMoneyChecker.check()){
  					double money = Double.parseDouble(moneyField.getText());
  					new java.text.DecimalFormat("#.00").format(money);
  					PaymentVO vo = new PaymentVO( paymentIdField.getText(), recentDatePickPanel.getDate() , money ,nameField.getText() , payeeAccountField.getText(), payerAccountBox.getSelectedItem().toString() , 	Entry.values()[entryBox.getSelectedIndex()] , remarksArea.getText());

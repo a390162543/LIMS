@@ -154,7 +154,7 @@ public class PrimeInfoAccountPanel extends JPanel{
                 public void actionPerformed(ActionEvent e) {
                 	primeInfoblService.createPrimeInfoPO();
                 	primeInfoblService.execute();
-     
+                	ScreenMessage.putOnScreen(ScreenMessage.SAVE_SUCCESS);
                 	Container container = PrimeInfoAccountPanel.this.getParent().getParent();
                 	container.removeAll();
                 	container.repaint();

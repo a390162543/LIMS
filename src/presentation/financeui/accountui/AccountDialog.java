@@ -112,6 +112,34 @@ public class AccountDialog extends JDialog{
 					}
 		        	
 		        });
+		        Checker accountMoneyChecker = new Checker(textFields[2] , new CheckInfoGetter(){
+
+						@Override
+						public CheckInfo getCheckInfo() {
+							return new AccountMoney(textFields[2].getText());
+						}
+			        	
+			        });
+			        textFields[1].addKeyListener(new KeyListener(){
+
+						@Override
+						public void keyPressed(KeyEvent arg0) {
+							// TODO Auto-generated method stub
+							
+						}
+
+						@Override
+						public void keyReleased(KeyEvent arg0) {
+							accountMoneyChecker.check();
+						}
+
+						@Override
+						public void keyTyped(KeyEvent arg0) {
+							// TODO Auto-generated method stub
+							
+						}
+			        	
+			        });
 	        
 	        JButton confirmButton = new JButton("х╥хо");
 	        confirmButton.setBounds(250, 170, 70, 30);
@@ -119,7 +147,7 @@ public class AccountDialog extends JDialog{
 	            
 	            @Override
 	            public void actionPerformed(ActionEvent e) {
-	            	boolean isCorrect = accountIdChecker.check()&&accountNameChecker.check();
+	            	boolean isCorrect = accountIdChecker.check()&&accountNameChecker.check()&&accountMoneyChecker.check();
 	            	if(isCorrect){
 		            	AccountVO vo = new AccountVO(textFields[0].getText(),textFields[1].getText(),Double.parseDouble(textFields[2].getText()));
 		                tableModel.create(vo);
@@ -279,7 +307,7 @@ public class AccountDialog extends JDialog{
 	                	AccountDialog.this.dispose();
 	                	return;
 	                }
-	            	boolean isCorrect = accountIdChecker.check()&&accountNameChecker.check();
+	            	boolean isCorrect = accountIdChecker.check()&&accountNameChecker.check()&&accountMoneyChecker.check();
 	            	if(isCorrect){
 		            	AccountVO vo = new AccountVO(textFields[0].getText(),textFields[1].getText(),Double.parseDouble(textFields[2].getText()));
 		                tableModel.create(vo);

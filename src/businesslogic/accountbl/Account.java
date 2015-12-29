@@ -130,4 +130,22 @@ public class Account implements AccountblService {
 		
 		return createAccountPO(vo);
 	}
+	
+    /**
+     * 根据账户编号找到账户对象
+     * @param id {@code String}
+     * @return 成功则返回{@code AccountVO}
+     */
+	public AccountVO getAccountVOById(String id){
+		AccountVO accountVO = null;
+        try {
+            AccountPO po = accountDataService.find(id);
+            AccountVO vo = po.getAccountVO();	
+            accountVO = vo;
+        } catch (RemoteException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return accountVO;
+	}
 }
