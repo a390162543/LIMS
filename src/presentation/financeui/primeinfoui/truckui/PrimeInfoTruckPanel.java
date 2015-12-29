@@ -12,6 +12,7 @@ import javax.swing.JTable;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
+import presentation.util.ScreenMessage;
 import vo.TruckVO;
 import businesslogicservice.PrimeInfoblService;
 
@@ -143,6 +144,7 @@ public class PrimeInfoTruckPanel extends JPanel{
                 	Container container = PrimeInfoTruckPanel.this.getParent().getParent();
                 	container.removeAll();
                 	container.repaint();
+                	ScreenMessage.putOnScreen(ScreenMessage.SAVE_SUCCESS);
                 }
             });
             addButton.setBounds(150, 400, 70, 30);
