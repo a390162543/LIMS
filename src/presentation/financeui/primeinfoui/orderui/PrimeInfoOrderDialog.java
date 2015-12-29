@@ -14,19 +14,17 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
 
-
-
-
-
-
 import presentation.util.CheckInfoGetter;
 import presentation.util.Checker;
 import presentation.util.DialogLayoutManager;
+import presentation.util.ScreenMessage;
 import businesslogic.checkbl.CheckInfo;
 import businesslogic.checkbl.Name;
 import businesslogic.checkbl.PhoneNumber;
 import businesslogic.checkbl.orderinfo.OrderAddress;
+import businesslogic.checkbl.orderinfo.OrderCost;
 import businesslogic.checkbl.orderinfo.OrderTelNum;
+import businesslogic.checkbl.orderinfo.OrderTime;
 import businesslogic.checkbl.orderinfo.OrderVolumn;
 import businesslogic.checkbl.orderinfo.OrderWeight;
 import businesslogic.orderbl.Order;
@@ -92,6 +90,7 @@ public class PrimeInfoOrderDialog extends JDialog{
 	
 	private JButton confirmButton;
 	private JButton cancleButton;
+
 	
 	public PrimeInfoOrderDialog(PrimeInfoOrderTableModel tm){
 		this.primeInfoOrderTableModel = tm;
@@ -205,18 +204,12 @@ public class PrimeInfoOrderDialog extends JDialog{
 		this.add(cancleButton);	
        		
 		
-		//暂时不使用	
-		weightUnitLabel = new JLabel("Kg");
-		weightUnitLabel.setBounds(170, 118, 30, 22);		
-		volumnUnitLabel = new JLabel("m^3");
-		volumnUnitLabel.setBounds(165, 153, 30, 22);
-		
-			
-		totalExpenseLabel = new JLabel("总费用");
+	
+		totalExpenseLabel = new JLabel("总费用(元)");
 		totalExpenseLabel.setBounds(235, 675, 60, 22);
 		totalExpenseTextField = new JTextField();
 		totalExpenseTextField.setBounds(300, 675, 60, 22);
-		totalTimeLabel = new JLabel("预估时间");
+		totalTimeLabel = new JLabel("预估时间(天)");
 		totalTimeLabel.setBounds(85, 675, 80, 22);
 		totalTimeTextField = new JTextField();
 		totalTimeTextField.setBounds(170, 675, 60, 22);
@@ -225,7 +218,7 @@ public class PrimeInfoOrderDialog extends JDialog{
 		this.add(totalTimeTextField);
 		this.add(totalExpenseTextField);
 		this.add(totalExpenseLabel);
-					
+
 		
 		Checker senderNameChecker = new Checker(senderInfoTextFields[0], new CheckInfoGetter() {		
 			@Override
@@ -233,6 +226,99 @@ public class PrimeInfoOrderDialog extends JDialog{
 				return new Name(senderInfoTextFields[0].getText());
 			}
 		});	
+		
+		Checker receiverNameChecker = new Checker(receiverInfoTextFields[0], new CheckInfoGetter() {			
+			@Override
+			public CheckInfo getCheckInfo() {
+				
+				return new Name(receiverInfoTextFields[0].getText());
+			}
+		});
+		
+		Checker senderAddressChecker = new Checker(senderInfoTextFields[3], new CheckInfoGetter() {
+			
+			@Override
+			public CheckInfo getCheckInfo() {
+				// TODO Auto-generated method stub
+				return new OrderAddress(senderInfoTextFields[3].getText());
+			}
+		});
+		
+		Checker receiverAddressChecker = new Checker(receiverInfoTextFields[3], new CheckInfoGetter() {
+			
+			@Override
+			public CheckInfo getCheckInfo() {
+				return new OrderAddress(receiverInfoTextFields[3].getText());
+			}
+		});
+		
+		Checker orderWeightChecker = new Checker( orderInfoTextFields[1], new CheckInfoGetter() {
+			
+			@Override
+			public CheckInfo getCheckInfo() {
+				if (!orderInfoTextFields[1].getText().equals("")&&!orderInfoTextFields[1].getText().contains("-")) {
+					return new OrderWeight(Double.valueOf(orderInfoTextFields[1].getText()));
+				}
+				return new OrderWeight(-1);
+			}
+		});
+		
+		Checker senderCellChecker = new Checker(senderInfoTextFields[2], new CheckInfoGetter() {
+			
+			@Override
+			public CheckInfo getCheckInfo() {
+				if (senderInfoTextFields[2].getText()==null) {
+					return new PhoneNumber("");
+				}
+				return new PhoneNumber(senderInfoTextFields[2].getText());
+			}
+		});
+		
+		Checker receiverCellChecker = new Checker(receiverInfoTextFields[2], new CheckInfoGetter() {
+			
+			@Override
+			public CheckInfo getCheckInfo() {
+				if (receiverInfoTextFields[2].getText()==null) {
+					return new PhoneNumber("");
+				}
+				return new PhoneNumber(receiverInfoTextFields[2].getText());
+			}
+		});
+		
+		Checker orderVolumnChecker = new Checker(orderInfoTextFields[2], new CheckInfoGetter() {
+			
+			@Override
+			public CheckInfo getCheckInfo() {
+				if (!orderInfoTextFields[2].getText().equals("")&&!orderInfoTextFields[2].getText().contains("-")) {
+					return new OrderVolumn(Double.valueOf(orderInfoTextFields[2].getText()));
+				}
+				return new OrderVolumn(-1);
+			}
+		});
+		
+		Checker senderTelChecker = new Checker(senderInfoTextFields[1], new CheckInfoGetter() {
+			
+			@Override
+			public CheckInfo getCheckInfo() {
+				if (senderInfoTextFields[1].getText()=="") {
+					return new OrderTelNum("");
+				}
+				return new OrderTelNum(senderInfoTextFields[1].getText());
+			}
+		});
+		
+		Checker receiverTelChecker = new Checker(receiverInfoTextFields[1], new CheckInfoGetter() {
+			
+			@Override
+			public CheckInfo getCheckInfo() {
+				if (receiverInfoTextFields[1].getText()==null) {
+					return new OrderTelNum("");
+				}
+				return new OrderTelNum(receiverInfoTextFields[1].getText());
+			}
+		});
+		
+		
 		
 		senderInfoTextFields[0].addKeyListener(new KeyListener() {
 			
@@ -256,14 +342,6 @@ public class PrimeInfoOrderDialog extends JDialog{
 		});
 		
 		
-		Checker receiverNameChecker = new Checker(receiverInfoTextFields[0], new CheckInfoGetter() {			
-			@Override
-			public CheckInfo getCheckInfo() {
-				
-				return new Name(receiverInfoTextFields[0].getText());
-			}
-		});
-		
 		receiverInfoTextFields[0].addKeyListener(new KeyListener() {
 			
 			@Override
@@ -284,16 +362,7 @@ public class PrimeInfoOrderDialog extends JDialog{
 				
 			}
 		});
-		
-		
-		Checker senderAddressChecker = new Checker(senderInfoTextFields[3], new CheckInfoGetter() {
-			
-			@Override
-			public CheckInfo getCheckInfo() {
-				// TODO Auto-generated method stub
-				return new OrderAddress(senderInfoTextFields[3].getText());
-			}
-		});
+				
 		
 		senderInfoTextFields[3].addKeyListener(new KeyListener() {
 			
@@ -315,15 +384,7 @@ public class PrimeInfoOrderDialog extends JDialog{
 				
 			}
 		});
-		
-		
-		Checker receiverAddressChecker = new Checker(receiverInfoTextFields[3], new CheckInfoGetter() {
 			
-			@Override
-			public CheckInfo getCheckInfo() {
-				return new OrderAddress(receiverInfoTextFields[3].getText());
-			}
-		});
 		
 		receiverInfoTextFields[3].addKeyListener(new KeyListener() {
 			
@@ -346,16 +407,7 @@ public class PrimeInfoOrderDialog extends JDialog{
 			}
 		});
 		
-		Checker orderWeightChecker = new Checker( orderInfoTextFields[1], new CheckInfoGetter() {
-			
-			@Override
-			public CheckInfo getCheckInfo() {
-				if (!orderInfoTextFields[1].getText().equals("")&&!orderInfoTextFields[1].getText().contains("-")) {
-					return new OrderWeight(Double.valueOf(orderInfoTextFields[1].getText()));
-				}
-				return new OrderWeight(-1);
-			}
-		});
+		
 		
 		orderInfoTextFields[1].addKeyListener(new KeyListener() {
 			
@@ -380,16 +432,7 @@ public class PrimeInfoOrderDialog extends JDialog{
 		
 		
 		
-		Checker orderVolumnChecker = new Checker(orderInfoTextFields[2], new CheckInfoGetter() {
-			
-			@Override
-			public CheckInfo getCheckInfo() {
-				if (!orderInfoTextFields[2].getText().equals("")&&!orderInfoTextFields[2].getText().contains("-")) {
-					return new OrderVolumn(Double.valueOf(orderInfoTextFields[2].getText()));
-				}
-				return new OrderVolumn(-1);
-			}
-		});
+		
 		
 		orderInfoTextFields[2].addKeyListener(new KeyListener() {
 			
@@ -413,16 +456,7 @@ public class PrimeInfoOrderDialog extends JDialog{
 		});
 		
 		
-		Checker senderCellChecker = new Checker(senderInfoTextFields[2], new CheckInfoGetter() {
-			
-			@Override
-			public CheckInfo getCheckInfo() {
-				if (senderInfoTextFields[2].getText()==null) {
-					return new PhoneNumber("");
-				}
-				return new PhoneNumber(senderInfoTextFields[2].getText());
-			}
-		});
+		
 		
 		senderInfoTextFields[2].addKeyListener(new KeyListener() {
 			
@@ -445,16 +479,7 @@ public class PrimeInfoOrderDialog extends JDialog{
 			}
 		});
 		
-		Checker receiverCellChecker = new Checker(receiverInfoTextFields[2], new CheckInfoGetter() {
-			
-			@Override
-			public CheckInfo getCheckInfo() {
-				if (receiverInfoTextFields[2].getText()==null) {
-					return new PhoneNumber("");
-				}
-				return new PhoneNumber(receiverInfoTextFields[2].getText());
-			}
-		});
+		
 		
 		receiverInfoTextFields[2].addKeyListener(new KeyListener() {
 			
@@ -477,16 +502,7 @@ public class PrimeInfoOrderDialog extends JDialog{
 			}
 		});
 		
-		Checker senderTelChecker = new Checker(senderInfoTextFields[1], new CheckInfoGetter() {
-			
-			@Override
-			public CheckInfo getCheckInfo() {
-				if (senderInfoTextFields[1].getText()=="") {
-					return new OrderTelNum("");
-				}
-				return new OrderTelNum(senderInfoTextFields[1].getText());
-			}
-		});
+		
 		
 		senderInfoTextFields[1].addKeyListener(new KeyListener() {
 			
@@ -508,16 +524,7 @@ public class PrimeInfoOrderDialog extends JDialog{
 			}
 		});
 		
-		Checker receiverTelChecker = new Checker(receiverInfoTextFields[1], new CheckInfoGetter() {
-			
-			@Override
-			public CheckInfo getCheckInfo() {
-				if (receiverInfoTextFields[1].getText()==null) {
-					return new OrderTelNum("");
-				}
-				return new OrderTelNum(receiverInfoTextFields[1].getText());
-			}
-		});
+		
 		
 		receiverInfoTextFields[1].addKeyListener(new KeyListener() {
 			
@@ -540,43 +547,116 @@ public class PrimeInfoOrderDialog extends JDialog{
 			}
 		});
 		
+		Checker dayChecker = new Checker(totalTimeTextField, new CheckInfoGetter() {
 			
+			@Override
+			public CheckInfo getCheckInfo() {
+				
+				return new OrderTime(totalTimeTextField.getText());
+			}
+		});
+		
+		totalTimeTextField.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				dayChecker.check();
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+			
+		Checker costChecker = new Checker(totalExpenseTextField, new CheckInfoGetter() {
+			
+			@Override
+			public CheckInfo getCheckInfo() {
+				// TODO Auto-generated method stub
+				return new OrderCost(totalExpenseTextField.getText());
+			}
+		});
+		
+		totalExpenseTextField.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+				costChecker.check();
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
 		confirmButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				double tempcost = Double.parseDouble(totalExpenseTextField.getText());
-				int temptme = Integer.parseInt(totalTimeTextField.getText());
+				if (dayChecker.isCorrect()&&costChecker.isCorrect()&&orderVolumnChecker.isCorrect()&&orderWeightChecker.isCorrect()
+						&&senderAddressChecker.isCorrect()&&senderNameChecker.isCorrect()&&senderCellChecker.isCorrect()&&
+						senderTelChecker.isCorrect()&&receiverAddressChecker.isCorrect()&&receiverCellChecker.isCorrect()
+						&&receiverTelChecker.isCorrect()&&receiverNameChecker.isCorrect()) {
+					double tempcost = Double.parseDouble(totalExpenseTextField.getText());
+					int temptme = Integer.parseInt(totalTimeTextField.getText());
+					
+					WrapWay wrapWay;
+					if(woodenWrapButton.isSelected())
+						wrapWay = WrapWay.WOODEN;
+					else if(cartonWrapButton.isSelected())
+						wrapWay = WrapWay.CARTON;
+					else 
+						wrapWay = WrapWay.BAG;
+					
+					DeliveryWay deliverWay;
+					if(economicDeliveryButton.isSelected())
+						deliverWay = DeliveryWay.ECONOMIC;
+					else if(standardDeliveryButton.isSelected())
+						deliverWay = DeliveryWay.STANDARD;
+					else
+						deliverWay = DeliveryWay.FAST;
+					
+					OrderCreateVO orderCreateVO = new OrderCreateVO(new String(orderInfoTextFields[0].getText()),
+							senderInfoTextFields[0].getText(),senderInfoTextFields[3].getText(), 
+							senderInfoTextFields[1].getText(), senderInfoTextFields[2].getText(), 
+							receiverInfoTextFields[0].getText(), receiverInfoTextFields[3].getText(), 
+							receiverInfoTextFields[1].getText(), receiverInfoTextFields[2].getText(), 
+							orderInfoTextFields[3].getText(), Double.parseDouble(orderInfoTextFields[1].getText()),
+							Double.parseDouble(orderInfoTextFields[2].getText()), tempcost, wrapWay,
+							deliverWay, temptme);
+					orderCreateVO.setGoodsState(GoodsState.COMPLETE);
+					primeInfoOrderTableModel.create(orderCreateVO);
+					PrimeInfoOrderDialog.this.dispose();
+					ScreenMessage.putOnScreen(ScreenMessage.SAVE_SUCCESS);
+				}
+				else {
+					ScreenMessage.putOnScreen(ScreenMessage.SAVE_FAILURE);
+				}
 				
-				WrapWay wrapWay;
-				if(woodenWrapButton.isSelected())
-					wrapWay = WrapWay.WOODEN;
-				else if(cartonWrapButton.isSelected())
-					wrapWay = WrapWay.CARTON;
-				else 
-					wrapWay = WrapWay.BAG;
-				
-				DeliveryWay deliverWay;
-				if(economicDeliveryButton.isSelected())
-					deliverWay = DeliveryWay.ECONOMIC;
-				else if(standardDeliveryButton.isSelected())
-					deliverWay = DeliveryWay.STANDARD;
-				else
-					deliverWay = DeliveryWay.FAST;
-				
-				OrderCreateVO orderCreateVO = new OrderCreateVO(new String(orderInfoTextFields[0].getText()),
-						senderInfoTextFields[0].getText(),senderInfoTextFields[3].getText(), 
-						senderInfoTextFields[1].getText(), senderInfoTextFields[2].getText(), 
-						receiverInfoTextFields[0].getText(), receiverInfoTextFields[3].getText(), 
-						receiverInfoTextFields[1].getText(), receiverInfoTextFields[2].getText(), 
-						orderInfoTextFields[3].getText(), Double.parseDouble(orderInfoTextFields[1].getText()),
-						Double.parseDouble(orderInfoTextFields[2].getText()), tempcost, wrapWay,
-						deliverWay, temptme);
-				orderCreateVO.setGoodsState(GoodsState.COMPLETE);
-				primeInfoOrderTableModel.create(orderCreateVO);
-				PrimeInfoOrderDialog.this.dispose();
 			}
 		});
+		
+		
 		
 		cancleButton.addActionListener(new ActionListener() {
 			@Override

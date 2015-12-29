@@ -79,7 +79,7 @@ public class PrimeInfoOrderPanel extends JPanel{
   
         queryButton.setBounds(485+90, 400, 70, 30);
         //set panel
-        this.setBounds(0, 15, 650, 470);
+        this.setBounds(0, 0, 650, 470);
         this.setLayout(null);
         this.add(orderScrollPane);
         this.add(queryButton);

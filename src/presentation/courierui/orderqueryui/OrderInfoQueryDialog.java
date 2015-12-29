@@ -46,7 +46,7 @@ public class OrderInfoQueryDialog extends JDialog{
 		
 		this.setTitle("订单查询");	
 		this.setSize(380, 210);
-		
+		this.setLayout(null);
 		
 		confirmButton = new JButton("确定");
 		confirmButton.setBounds(275, 140, 70, 22);
@@ -101,6 +101,7 @@ public class OrderInfoQueryDialog extends JDialog{
 				deliveryDialog.repaint();
 			}
 		});
+		
 		
 		this.setLocationRelativeTo(MainFrame.getMainFrame());
 		this.setModalityType(ModalityType.APPLICATION_MODAL);

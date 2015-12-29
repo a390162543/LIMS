@@ -338,9 +338,17 @@ public class StorageLocationData extends UnicastRemoteObject implements StorageL
 	@Override
 	public boolean changeLocationInfo(StoragePO orginalPO,StoragePO updatePO) throws RemoteException {
 		String path = "c:/LIMS/database/StorageLocationData/"+orginalPO.getStorageId()+".txt";
-		@SuppressWarnings("unused")
-		File file = new File(path);
 		
+		File file = new File(path);
+		if (!file.exists()) {
+			file.getParentFile().mkdirs();
+		}
+		try {
+            file.createNewFile();
+        } catch (IOException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
 		int orginalAirNum = orginalPO.getAirCapacity();
 		int orginalTrainNum = orginalPO.getTrainCapacity();
 		int orginalCarNum = orginalPO.getCarCapacity();
@@ -438,6 +446,15 @@ public class StorageLocationData extends UnicastRemoteObject implements StorageL
 		int maxRow = 0;
 		String path = "c:/LIMS/database/StorageLocationData/"+storageId+".txt";
 		File file = new File(path);
+		if (!file.exists()) {
+			file.getParentFile().mkdirs();
+		}
+		try {
+            file.createNewFile();
+        } catch (IOException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
 		InputStream in = null;
 		try {
 			in = new FileInputStream(file);
@@ -479,6 +496,15 @@ public class StorageLocationData extends UnicastRemoteObject implements StorageL
 		int maxRow = 0;
 		String path = "c:/LIMS/database/StorageLocationData/"+storageId+".txt";
 		File file = new File(path);
+		if (!file.exists()) {
+			file.getParentFile().mkdirs();
+		}
+		try {
+            file.createNewFile();
+        } catch (IOException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
 		InputStream in = null;
 		try {
 			in = new FileInputStream(file);
@@ -523,7 +549,15 @@ public class StorageLocationData extends UnicastRemoteObject implements StorageL
 		int maxRow = 0;
 		String path = "c:/LIMS/database/StorageLocationData/"+storageId+".txt";
 		File file = new File(path);
-		
+		if (!file.exists()) {
+			file.getParentFile().mkdirs();
+		}
+		try {
+            file.createNewFile();
+        } catch (IOException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
 		InputStream in = null;
 		try {
 			in = new FileInputStream(file);
@@ -568,7 +602,17 @@ public class StorageLocationData extends UnicastRemoteObject implements StorageL
 	public int getMaxFree(String storageId) throws RemoteException {
 		int maxRow = 0;
 		String path = "c:/LIMS/database/StorageLocationData/"+storageId+".txt";
+		
 		File file = new File(path);
+		if (!file.exists()) {
+			file.getParentFile().mkdirs();
+		}
+		try {
+            file.createNewFile();
+        } catch (IOException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
 		InputStream in = null;
 		try {
 			in = new FileInputStream(file);
