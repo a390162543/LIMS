@@ -342,6 +342,11 @@ public class PrimeInfo implements PrimeInfoblService{
 		}
 		return orderList;
 	}
+	@Override
+	public List<CityVO> getCityVO() {
+		// TODO Auto-generated method stub
+		return primeInfoVO.getCity();
+	}
 
 
 }
