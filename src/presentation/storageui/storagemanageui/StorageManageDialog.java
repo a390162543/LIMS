@@ -59,7 +59,7 @@ public class StorageManageDialog extends JDialog{
 	public StorageManageDialog(){
 		
 		this.setTitle("库存规划");	
-		this.setSize(380, 420);
+		this.setSize(380, 430);
 		
 		planeAreaLabel = new JLabel("航空区");
 		planeAreaLabel.setBounds(20, 40, 60, 22);
@@ -83,9 +83,9 @@ public class StorageManageDialog extends JDialog{
 		warnTextField.setBounds(100, 220, 60, 22);
 		
 		confirmButton = new JButton("确定");
-		confirmButton.setBounds(280, 280, 70, 22);
+		confirmButton.setBounds(280, 280, 70, 30);
 		cancleButton = new JButton("取消");
-		cancleButton.setBounds(190, 280, 70, 22);
+		cancleButton.setBounds(190, 280, 70, 30);
 		
 		this.add(planeAreaLabel);
 		this.add(planeAreaTextField);
@@ -97,6 +97,7 @@ public class StorageManageDialog extends JDialog{
 		this.add(freeAreaTextField);
 		this.add(warnLabel);
 		this.add(warnTextField);
+		
 		this.add(confirmButton);
 		this.add(cancleButton);
 		
@@ -316,6 +317,7 @@ public class StorageManageDialog extends JDialog{
 			freeAreaTextField.setText(vo.getMotorCapacity()+"");
 			warnTextField.setText(vo.getAlarm()+"");
 		}
+		
 		
 		this.setLayout(new DialogLayoutManager());
 		this.setModalityType(ModalityType.APPLICATION_MODAL);

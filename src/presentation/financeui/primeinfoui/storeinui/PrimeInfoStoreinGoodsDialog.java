@@ -75,7 +75,7 @@ public class PrimeInfoStoreinGoodsDialog extends JDialog {
 		
 		
 		List<String> orderId = primeInfoblService.getOrderList();
-		System.out.println("+++++__++_+_+_+"+orderId.size());
+		
 		
 		orderIdLabel = new JLabel("¶©µ¥ºÅ");
 		orderIdLabel.setBounds(30, 60, 60, 22);

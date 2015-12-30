@@ -1,5 +1,6 @@
 package presentation.storageui.storeoutui;
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -104,20 +105,20 @@ public class StoreoutDialogUI extends JDialog{
 		storeoutDateLabel = new JLabel("出库日期");
 		storeoutDateLabel.setBounds(20, 44, 80, 25);
 		datePickPanel = new RecentDatePickPanel();       
-        datePickPanel.setBounds(110, 44, 200, 22);
+        datePickPanel.setBounds(110, 44, 200, 25);
         destinationLabel = new JLabel("目的地");
         destinationLabel.setBounds(28, 70, 60, 22);
         destinationComboBox = new OrganizationComboBox();
         destinationComboBox.setBounds(110, 72, 180, 22);
         
         shipFormLabel = new JLabel("装运形式");
-        shipFormLabel.setBounds(28, 105, 80, 22);
+        shipFormLabel.setBounds(28, 105, 75, 22);
         airWayButton = new JRadioButton("空运");
-        airWayButton.setBounds(270, 105, 80, 22);
+        airWayButton.setBounds(250, 105, 75, 22);
         carWayButton = new JRadioButton("汽运");
-        carWayButton.setBounds(110, 105, 80, 22);
+        carWayButton.setBounds(110, 105, 75, 22);
         trainsWayButton = new JRadioButton("铁运");
-        trainsWayButton.setBounds(190, 105, 80, 22);
+        trainsWayButton.setBounds(178, 105, 75, 22);
         shipFormButtonGroup = new ButtonGroup();
         shipFormButtonGroup.add(airWayButton);
         shipFormButtonGroup.add(carWayButton);
@@ -142,6 +143,7 @@ public class StoreoutDialogUI extends JDialog{
         cancleButton = new JButton("取消");
         cancleButton.setBounds(210, 360, 70, 30);
         
+        goodsInfoTable.getTableHeader().setPreferredSize(new Dimension(180, 25));
         
         this.add(storeoutIdLabel);
         this.add(storeoutIdTextField);

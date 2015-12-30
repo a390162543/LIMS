@@ -110,8 +110,8 @@ public class OrderCreateDialog extends JDialog{
 		
 		confirmButton = new JButton("确定");
 		cancleButton = new JButton("取消");
-		confirmButton.setBounds(300, 725, 70, 22);
-		cancleButton.setBounds(220, 725, 70, 22);
+		confirmButton.setBounds(300, 725, 70, 30);
+		cancleButton.setBounds(220, 725, 70, 30);
 		this.add(confirmButton);
 		this.add(cancleButton);
 		
@@ -130,22 +130,20 @@ public class OrderCreateDialog extends JDialog{
 		OrderblService orderblService = new Order();
 		IdblService idblService = orderblService.getIdblService();
 		orderIdTextField.setText(idblService.createNewId());
-		orderIdTextField.setEditable(false);
+		orderIdTextField.setEnabled(false);;
 		
 		weightLabel = new JLabel("重量(kg)");
 		weightLabel.setBounds(54, 121, 40, 22);
 		weighTextField = new JTextField();
 		weighTextField.setBounds(105, 118, 60, 22);
 		weighTextField.setText("0");
-//		weightUnitLabel = new JLabel("Kg");
-//		weightUnitLabel.setBounds(170, 118, 30, 22);
+
 		volumeLabel = new JLabel("体积(m^3)");
 		volumeLabel.setBounds(54, 152, 40, 22);
 		volumeTextField = new JTextField();
 		volumeTextField.setBounds(105, 152, 60, 22);
 		volumeTextField.setText("0");
-//		volumnUnitLabel = new JLabel("m^3");
-//		volumnUnitLabel.setBounds(165, 153, 30, 22);
+
 		goodsInfoLabel = new JLabel("物品信息");
 		goodsInfoLabel.setBounds(35, 184, 80, 22);
 		goodsInfoTextField = new JTextField();
@@ -183,7 +181,10 @@ public class OrderCreateDialog extends JDialog{
 		totalTimeLabel.setBounds(85, 675, 140, 22);
 		totalTimeTextField = new JTextField();
 		totalTimeTextField.setBounds(170, 675, 60, 22);
-			
+		
+		totalTimeTextField.setEnabled(false);
+		totalExpenseTextField.setEnabled(false);
+		
 		this.add(orderinfoLabel);
 		this.add(orderinfoPanel);
 		//DialogLayoutManager.fix(orderinfoLabel);

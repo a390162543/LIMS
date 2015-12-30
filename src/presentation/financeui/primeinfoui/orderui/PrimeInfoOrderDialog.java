@@ -198,8 +198,8 @@ public class PrimeInfoOrderDialog extends JDialog{
 		
 		confirmButton = new JButton("确定");
 		cancleButton = new JButton("取消");
-		confirmButton.setBounds(300, 725, 70, 22);
-		cancleButton.setBounds(220, 725, 70, 22);
+		confirmButton.setBounds(300, 725, 70, 30);
+		cancleButton.setBounds(220, 725, 70, 30);
 		this.add(confirmButton);
 		this.add(cancleButton);	
        		

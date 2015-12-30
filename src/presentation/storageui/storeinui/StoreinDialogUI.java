@@ -91,7 +91,7 @@ public class StoreinDialogUI extends JDialog{
 		storeinDateLabel = new JLabel("入库日期");
 		storeinDateLabel.setBounds(20, 64, 80, 25);
 		datePickPanel = new RecentDatePickPanel();
-		datePickPanel.setBounds(110, 64, 200, 22);
+		datePickPanel.setBounds(110, 64, 200, 25);
         
         destinationLabel = new JLabel("目的地");
         destinationLabel.setBounds(28, 90, 60, 22);
@@ -110,9 +110,9 @@ public class StoreinDialogUI extends JDialog{
         PresentationUtil.fitTableColumns(goodsInfoTable);
         
         addButton = new JButton("新增");
-        addButton.setBounds(200, 325, 70, 30);
+        addButton.setBounds(190, 325, 70, 20);
         deleteButton = new JButton("删除");
-        deleteButton.setBounds(295, 325, 70, 30);
+        deleteButton.setBounds(295, 325, 70, 20);
         confirmButton = new JButton("确定");
         confirmButton.setBounds(295, 360, 70, 30);
         cancleButton = new JButton("取消");
@@ -248,7 +248,7 @@ public class StoreinDialogUI extends JDialog{
 			public void actionPerformed(ActionEvent e) {
 				int totalRow = goodsInfoTable.getRowCount(); //行
 				//int totalColumn = goodsInfoTable.getColumnCount();  //列
-				
+				StoreinDialogUI.this.dispose();
 				for(int i=0;i<totalRow;i++){
 					  String orderId = (String) tableModel.getValueAt(i, 0);
 		              int areaNum = Integer.parseInt((String)tableModel.getValueAt(i, 1));
@@ -260,8 +260,7 @@ public class StoreinDialogUI extends JDialog{
 		              StoreinblService storeinblService = BusinessLogicService.getStoreinblService();
 		              //改变库存的位置
 		              storeinblService.restoreLocationState(vo); 
-		              StoreinDialogUI.this.dispose();
-		              
+		            	              
 				}
 			
 			}

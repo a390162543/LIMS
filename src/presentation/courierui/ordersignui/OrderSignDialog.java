@@ -79,7 +79,7 @@ public class OrderSignDialog extends JDialog{
 		dateLabel = new JLabel("«© ’»’∆⁄");
         dateLabel.setBounds(30, 84, 60, 16);
         datePickPanel = new RecentDatePickPanel();
-        datePickPanel.setBounds(100, 84, 300, 25);
+        datePickPanel.setBounds(100, 84, 200, 25);
         this.add(dateLabel);
         this.add(datePickPanel);
 	

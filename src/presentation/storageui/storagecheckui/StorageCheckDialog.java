@@ -3,10 +3,6 @@ package presentation.storageui.storagecheckui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.Date;
 
 import javax.swing.JButton;
@@ -21,7 +17,6 @@ import presentation.storageui.storagecheckui.storeoutcheckui.StoreoutCheckPanel;
 import presentation.util.CheckInfoGetter;
 import presentation.util.Checker;
 import presentation.util.DatePickPanel;
-import presentation.util.RecentDatePickPanel;
 import vo.StoreinCheckVo;
 import businesslogic.checkbl.CheckInfo;
 import businesslogic.checkbl.storageinfo.FromDate;
@@ -48,6 +43,7 @@ public class StorageCheckDialog extends JDialog{
 	
 	
 	private JButton confirmButton;
+	private JButton cancleButton;
 	
 	private DatePickPanel fromDatePickPanel;
 	private DatePickPanel toDatePickPanel;
@@ -56,19 +52,23 @@ public class StorageCheckDialog extends JDialog{
 		fatherPanel = panel;
 
 		this.setTitle("库存查看");
-		this.setSize(380, 240);
+		this.setSize(340, 240);
 		this.setLayout(null);
 
 		checkDateLabel = new JLabel("请输入要查询的时间段：");
-		checkDateLabel.setBounds(80, 40, 220, 22);
+		checkDateLabel.setBounds(35, 30, 220, 22);
 		fromDatePickPanel = new DatePickPanel();
 		toDatePickPanel = new DatePickPanel();
-		fromDatePickPanel.setBounds(80, 80, 200, 25);
-		toDatePickPanel.setBounds(80, 112, 200, 25);
+		fromDatePickPanel.setBounds(60, 70, 200, 25);
+		toDatePickPanel.setBounds(60, 102, 200, 25);
 
 		confirmButton = new JButton("确定");
-		confirmButton.setBounds(270, 150, 70, 30);
+		confirmButton.setBounds(250, 150, 70, 30);
 		
+		cancleButton = new JButton("取消");
+		cancleButton.setBounds(160, 150, 70, 30);
+		
+		this.add(cancleButton);
 		this.add(confirmButton);
 		this.add(checkDateLabel);
 		this.add(fromDatePickPanel);
@@ -125,7 +125,8 @@ public class StorageCheckDialog extends JDialog{
 		confirmButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
+				fromDateChecker.check();
+				toDateChecker.check();
 				if (fromDateChecker.isCorrect()&&toDateChecker.isCorrect()) {
 					StorageCheckDialog.this.dispose();
 					Date fromDate = fromDatePickPanel.getDate();

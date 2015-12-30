@@ -18,8 +18,11 @@ import javax.swing.table.DefaultTableModel;
 
 
 
+
+import businesslogic.BusinessLogicService;
 import businesslogic.organizationbl.Organization;
 import businesslogic.storeinbl.Storein;
+import businesslogic.userbl.LoginController;
 import businesslogicservice.IdblService;
 import businesslogicservice.OrganizationblService;
 import businesslogicservice.StoreinblService;
@@ -27,6 +30,8 @@ import presentation.util.DialogLayoutManager;
 import presentation.util.OrganizationComboBox;
 import presentation.util.PresentationUtil;
 import presentation.util.RecentDatePickPanel;
+import systemenum.StorageState;
+import vo.StorageLocationVO;
 import vo.StoreinCreateVO;
 
 
@@ -86,9 +91,9 @@ public class PrimeInfoStoreinDialog extends JDialog{
 		storeinIdTextField.setBounds(110, 9, 180, 22);
 				
 		storeinDateLabel = new JLabel("入库日期");
-		storeinDateLabel.setBounds(20, 40, 80, 22);
+		storeinDateLabel.setBounds(20, 40, 80, 25);
 		datePickPanel = new RecentDatePickPanel();
-		datePickPanel.setBounds(110, 40, 200, 22);
+		datePickPanel.setBounds(110, 40, 200, 25);
         
 		organizationLabel = new JLabel("入库地");
 		organizationLabel.setBounds(28, 72, 60, 22);
@@ -110,9 +115,9 @@ public class PrimeInfoStoreinDialog extends JDialog{
         PresentationUtil.fitTableColumns(goodsInfoTable);
         
         addButton = new JButton("新增");
-        addButton.setBounds(210, 325, 70, 30);
+        addButton.setBounds(200, 325, 70, 20);
         deleteButton = new JButton("删除");
-        deleteButton.setBounds(295, 325, 70, 30);
+        deleteButton.setBounds(293, 325, 70, 20);
         confirmButton = new JButton("确定");
         confirmButton.setBounds(295, 360, 70, 30);
         cancleButton = new JButton("取消");
@@ -218,6 +223,20 @@ public class PrimeInfoStoreinDialog extends JDialog{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				PrimeInfoStoreinDialog.this.dispose();
+				int totalRow = goodsInfoTable.getRowCount();
+				for(int i=0;i<totalRow;i++){
+					  String orderId = (String) tableModel.getValueAt(i, 0);
+		              int areaNum = Integer.parseInt((String)tableModel.getValueAt(i, 1));
+		              int rowNum = Integer.parseInt((String)tableModel.getValueAt(i, 2));
+		              int frameNum = Integer.parseInt((String)tableModel.getValueAt(i, 3));
+		              int item = Integer.parseInt((String)tableModel.getValueAt(i, 4));
+		              //StoreinOrderVO vo = new StoreinOrderVO(orderId, areaNum, rowNum, frameNum, item);
+		              StorageLocationVO vo = new StorageLocationVO(LoginController.getOrganizationId(), areaNum, rowNum, frameNum, item, StorageState.ISAVAILABLE, orderId);
+		              StoreinblService storeinblService = BusinessLogicService.getStoreinblService();
+		              //改变库存的位置
+		              storeinblService.restoreLocationState(vo); 
+		            	              
+				}
 			}
 		});
 	}
