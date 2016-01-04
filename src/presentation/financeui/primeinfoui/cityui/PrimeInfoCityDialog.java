@@ -94,11 +94,11 @@ public class PrimeInfoCityDialog extends JDialog{
 			JLabel nameLabel = new JLabel("城市名称");
 			nameLabel.setBounds(10, 10, 100, 25);
 			JTextField nameField = new JTextField();
-			nameField.setBounds(100, 10, 65, 20);		 
+			nameField.setBounds(100, 10, 65, 25);		 
 			JLabel idLabel = new JLabel("城市编号");
 			idLabel.setBounds(10, 50, 100, 25);
 			JTextField idField = new JTextField();
-			idField.setBounds(100, 50, 60, 20);		
+			idField.setBounds(100, 50, 60, 25);		
 			JButton cancelButton = new JButton("取消");
 			cancelButton.setBounds(60, 90, 70, 30);			
 			JButton nextButton = new JButton("下一步");
@@ -243,11 +243,11 @@ public class PrimeInfoCityDialog extends JDialog{
 			JLabel nameLabel = new JLabel("城市名称");
 			nameLabel.setBounds(50, 50, 100, 25);
 			JTextField nameField = new JTextField();
-			nameField.setBounds(180, 50, 60, 20);		 
+			nameField.setBounds(180, 50, 60, 25);		 
 			JLabel idLabel = new JLabel("城市编号");
 			idLabel.setBounds(50, 100, 100, 25);
 			JTextField idField = new JTextField();
-			idField.setBounds(180, 100, 60, 20);	
+			idField.setBounds(180, 100, 60, 25);	
 			idField.setEnabled(false);
 			
 			
